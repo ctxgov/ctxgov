@@ -1,0 +1,44 @@
+{
+  "id": "ws_20260421_ctxvault_schema",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "title": "CtxVault schema design workstream",
+  "summary": "Durable project workstream for schema design across related sessions, episodes, and synthesized design notes.",
+  "status": "active",
+  "approval_state": "approved",
+  "source_refs": [
+    "session://sess_schema_design_001",
+    "session://sess_schema_design_002",
+    "episode://ep_schema_design_001_01_design",
+    "knowledge://know_schema_design_001",
+    "workstream-candidate://wsc_20260421_ctxvault_schema"
+  ],
+  "session_refs": [
+    "session://sess_schema_design_001",
+    "session://sess_schema_design_002"
+  ],
+  "episode_refs": [
+    "episode://ep_schema_design_001_01_design"
+  ],
+  "knowledge_refs": [
+    "knowledge://know_schema_design_001"
+  ],
+  "derived_from": [
+    "workstream-candidate://wsc_20260421_ctxvault_schema"
+  ],
+  "recurring_terms": ["schema", "vault", "deterministic", "migration"],
+  "task_labels": ["Design vault schema"],
+  "episode_kind_counts": {
+    "design": 2,
+    "review": 1
+  },
+  "notes": "Promoted from deterministic cross-session preview after human review.",
+  "sensitivity": "internal",
+  "redaction_state": "none",
+  "secret_refs": [],
+  "exportable": true,
+  "created_at": "2026-04-21T08:15:00Z",
+  "updated_at": "2026-04-21T08:15:00Z"
+}

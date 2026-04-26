@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Public Positioning
+    url: https://github.com/chrishohoho/ctxvault/discussions
+    about: Use Discussions for positioning, messaging, and public framing feedback.
+  - name: Plugin And Adapter Ideas
+    url: https://github.com/chrishohoho/ctxvault/discussions
+    about: Use Discussions for early plugin, projection, and adapter proposals.

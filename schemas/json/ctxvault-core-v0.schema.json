@@ -1,0 +1,685 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.ctxvault/schemas/ctxvault-core-v0.schema.json",
+  "title": "CtxVault Core Objects",
+  "description": "Consolidated schema for the deterministic core durable objects in ctxvault v0.",
+  "oneOf": [
+    { "$ref": "#/$defs/Session" },
+    { "$ref": "#/$defs/Episode" },
+    { "$ref": "#/$defs/Turn" },
+    { "$ref": "#/$defs/Workstream" },
+    { "$ref": "#/$defs/WorkstreamCandidate" },
+    { "$ref": "#/$defs/PromptAsset" },
+    { "$ref": "#/$defs/PromptRun" },
+    { "$ref": "#/$defs/PromptPatch" },
+    { "$ref": "#/$defs/MemoryCandidate" },
+    { "$ref": "#/$defs/Memory" },
+    { "$ref": "#/$defs/KnowledgeArtifact" },
+    { "$ref": "#/$defs/ContextBundle" },
+    { "$ref": "#/$defs/EvalRun" }
+  ],
+  "$defs": {
+    "ScopeKind": {
+      "type": "string",
+      "enum": [
+        "global",
+        "user",
+        "workspace",
+        "project",
+        "thread",
+        "task",
+        "turn"
+      ]
+    },
+    "Scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": { "$ref": "#/$defs/ScopeKind" },
+        "value": { "type": "string", "minLength": 1 }
+      }
+    },
+    "Reference": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*://.+"
+    },
+    "ReferenceArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Reference" },
+      "default": []
+    },
+    "StringArray": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "SensitivityLevel": {
+      "type": "string",
+      "enum": ["public", "internal", "sensitive", "restricted"]
+    },
+    "RedactionState": {
+      "type": "string",
+      "enum": ["none", "partial", "fully_redacted", "withheld"]
+    },
+    "FreeObject": {
+      "type": "object"
+    },
+    "SessionSignalSummary": {
+      "type": "object",
+      "properties": {
+        "user_corrections": { "type": "integer", "minimum": 0 },
+        "accepted_outputs": { "type": "integer", "minimum": 0 },
+        "tool_success_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "followup_count": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true,
+      "default": {}
+    },
+    "EpisodeQualitySignals": {
+      "type": "object",
+      "properties": {
+        "user_corrections": { "type": "integer", "minimum": 0 },
+        "assistant_revisions": { "type": "integer", "minimum": 0 },
+        "accepted_outputs": { "type": "integer", "minimum": 0 },
+        "tool_success_rate": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": true,
+      "default": {}
+    },
+    "ContextSectionItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "content"],
+      "properties": {
+        "ref": { "$ref": "#/$defs/Reference" },
+        "content": { "type": "string" }
+      }
+    },
+    "ContextBundleSections": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "core_rules",
+        "project_context",
+        "active_task_state",
+        "relevant_memories",
+        "relevant_knowledge",
+        "recent_conversation",
+        "source_pointers"
+      ],
+      "properties": {
+        "core_rules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContextSectionItem" }
+        },
+        "project_context": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContextSectionItem" }
+        },
+        "active_task_state": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContextSectionItem" }
+        },
+        "relevant_memories": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContextSectionItem" }
+        },
+        "relevant_knowledge": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContextSectionItem" }
+        },
+        "recent_conversation": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContextSectionItem" }
+        },
+        "source_pointers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Reference" }
+        }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "client",
+        "scope",
+        "started_at",
+        "status",
+        "active_prompt_ids",
+        "bundle_ids",
+        "derived_asset_refs",
+        "signal_summary",
+        "sensitivity",
+        "redaction_state",
+        "exportable"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^sess_" },
+        "client": { "type": "string", "minLength": 1 },
+        "source_app": { "type": ["string", "null"], "minLength": 1 },
+        "source_surface": { "type": ["string", "null"], "minLength": 1 },
+        "source_format": { "type": ["string", "null"], "minLength": 1 },
+        "capture_method": { "type": ["string", "null"], "minLength": 1 },
+        "imported_via": { "type": ["string", "null"], "minLength": 1 },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "title": { "type": ["string", "null"] },
+        "started_at": { "$ref": "#/$defs/Timestamp" },
+        "ended_at": { "anyOf": [{ "$ref": "#/$defs/Timestamp" }, { "type": "null" }] },
+        "status": {
+          "type": "string",
+          "enum": ["active", "completed", "abandoned", "errored"]
+        },
+        "task_label": { "type": ["string", "null"] },
+        "active_prompt_ids": { "$ref": "#/$defs/StringArray" },
+        "bundle_ids": { "$ref": "#/$defs/StringArray" },
+        "derived_asset_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "signal_summary": { "$ref": "#/$defs/SessionSignalSummary" },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "exportable": { "type": "boolean" }
+      }
+    },
+    "Episode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "session_id",
+        "kind",
+        "goal",
+        "start_turn_index",
+        "end_turn_index",
+        "start_at",
+        "end_at",
+        "input_refs",
+        "quality_signals",
+        "derived_refs"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^ep_" },
+        "session_id": { "type": "string", "pattern": "^sess_" },
+        "kind": {
+          "type": "string",
+          "enum": ["clarify", "plan", "execute", "debug", "review", "summarize", "design", "other"]
+        },
+        "goal": { "type": "string", "minLength": 1 },
+        "start_turn_index": { "type": "integer", "minimum": 0 },
+        "end_turn_index": { "type": "integer", "minimum": 0 },
+        "start_at": { "$ref": "#/$defs/Timestamp" },
+        "end_at": { "$ref": "#/$defs/Timestamp" },
+        "input_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "outcome": { "type": ["string", "null"] },
+        "quality_signals": { "$ref": "#/$defs/EpisodeQualitySignals" },
+        "derived_refs": { "$ref": "#/$defs/ReferenceArray" }
+      }
+    },
+    "Turn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "session_id",
+        "index",
+        "role",
+        "content",
+        "timestamp",
+        "source_refs",
+        "annotations"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^turn_" },
+        "session_id": { "type": "string", "pattern": "^sess_" },
+        "index": { "type": "integer", "minimum": 0 },
+        "role": { "type": "string", "enum": ["user", "assistant", "system", "tool"] },
+        "content": { "type": ["string", "object", "array"] },
+        "timestamp": { "$ref": "#/$defs/Timestamp" },
+        "prompt_asset_id": { "type": ["string", "null"] },
+        "context_bundle_id": { "type": ["string", "null"] },
+        "tool_call_id": { "type": ["string", "null"] },
+        "source_app": { "type": ["string", "null"], "minLength": 1 },
+        "source_surface": { "type": ["string", "null"], "minLength": 1 },
+        "source_format": { "type": ["string", "null"], "minLength": 1 },
+        "capture_method": { "type": ["string", "null"], "minLength": 1 },
+        "imported_via": { "type": ["string", "null"], "minLength": 1 },
+        "source_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "annotations": { "$ref": "#/$defs/FreeObject" }
+      }
+    },
+    "Workstream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scope",
+        "title",
+        "summary",
+        "status",
+        "approval_state",
+        "source_refs",
+        "session_refs",
+        "episode_refs",
+        "knowledge_refs",
+        "derived_from",
+        "recurring_terms",
+        "task_labels",
+        "episode_kind_counts",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^ws_" },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["active", "archived", "superseded"] },
+        "approval_state": { "type": "string", "enum": ["approved", "system_generated"] },
+        "source_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "session_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "episode_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "knowledge_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "derived_from": { "$ref": "#/$defs/ReferenceArray" },
+        "recurring_terms": { "$ref": "#/$defs/StringArray" },
+        "task_labels": { "$ref": "#/$defs/StringArray" },
+        "episode_kind_counts": { "$ref": "#/$defs/FreeObject" },
+        "notes": { "type": ["string", "null"] },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "exportable": { "type": "boolean" },
+        "created_at": { "$ref": "#/$defs/Timestamp" },
+        "updated_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "WorkstreamCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scope",
+        "title",
+        "summary",
+        "rationale",
+        "source_refs",
+        "session_refs",
+        "episode_refs",
+        "knowledge_refs",
+        "recurring_terms",
+        "task_labels",
+        "episode_kind_counts",
+        "confidence",
+        "proposal_state",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^wsc_" },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "source_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "session_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "episode_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "knowledge_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "recurring_terms": { "$ref": "#/$defs/StringArray" },
+        "task_labels": { "$ref": "#/$defs/StringArray" },
+        "episode_kind_counts": { "$ref": "#/$defs/FreeObject" },
+        "confidence": { "$ref": "#/$defs/Confidence" },
+        "proposal_state": {
+          "type": "string",
+          "enum": ["proposed", "approved", "rejected", "expired", "merged"]
+        },
+        "candidate_for": { "type": ["string", "null"], "pattern": "^ws_" },
+        "notes": { "type": ["string", "null"] },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "exportable": { "type": "boolean" },
+        "created_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "PromptAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "intent",
+        "scope",
+        "status",
+        "instruction",
+        "required_context_types",
+        "output_contract",
+        "model_preferences",
+        "derived_from",
+        "owner",
+        "eval_status",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^prompt_" },
+        "name": { "type": "string", "minLength": 1 },
+        "intent": { "type": "string", "minLength": 1 },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "status": { "type": "string", "enum": ["draft", "active", "deprecated", "archived"] },
+        "instruction": { "type": "string", "minLength": 1 },
+        "required_context_types": { "$ref": "#/$defs/StringArray" },
+        "output_contract": { "$ref": "#/$defs/FreeObject" },
+        "model_preferences": { "$ref": "#/$defs/FreeObject" },
+        "derived_from": { "$ref": "#/$defs/StringArray" },
+        "owner": { "type": "string", "enum": ["user", "system"] },
+        "eval_status": { "type": "string", "enum": ["unknown", "pending", "passed", "failed"] },
+        "known_failure_modes": { "$ref": "#/$defs/StringArray" },
+        "anti_patterns": { "$ref": "#/$defs/StringArray" },
+        "last_promoted_at": { "anyOf": [{ "$ref": "#/$defs/Timestamp" }, { "type": "null" }] },
+        "quality_metrics": { "$ref": "#/$defs/FreeObject" },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "exportable": { "type": "boolean" },
+        "created_at": { "$ref": "#/$defs/Timestamp" },
+        "updated_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "PromptRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "prompt_asset_id",
+        "session_id",
+        "model",
+        "input_refs",
+        "signals",
+        "feedback",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^prun_" },
+        "prompt_asset_id": { "type": "string", "pattern": "^prompt_" },
+        "session_id": { "type": "string", "pattern": "^sess_" },
+        "episode_id": { "type": ["string", "null"] },
+        "bundle_id": { "type": ["string", "null"] },
+        "model": { "type": "string", "minLength": 1 },
+        "input_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "output_ref": { "anyOf": [{ "$ref": "#/$defs/Reference" }, { "type": "null" }] },
+        "signals": { "$ref": "#/$defs/FreeObject" },
+        "feedback": { "$ref": "#/$defs/FreeObject" },
+        "created_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "PromptPatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "prompt_asset_id",
+        "scope",
+        "changes",
+        "rationale",
+        "source_refs",
+        "confidence",
+        "proposal_state",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^ppatch_" },
+        "prompt_asset_id": { "type": "string", "pattern": "^prompt_" },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "changes": { "$ref": "#/$defs/FreeObject" },
+        "rationale": { "type": "string", "minLength": 1 },
+        "source_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "confidence": { "$ref": "#/$defs/Confidence" },
+        "proposal_state": {
+          "type": "string",
+          "enum": ["proposed", "approved", "rejected", "expired", "merged"]
+        },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "exportable": { "type": "boolean" },
+        "created_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "MemoryCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "scope",
+        "statement",
+        "why_it_matters",
+        "source_refs",
+        "confidence",
+        "proposal_state",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^memc_" },
+        "type": {
+          "type": "string",
+          "enum": [
+            "preference",
+            "rule",
+            "workflow_pattern",
+            "tool_hint",
+            "project_fact",
+            "claim",
+            "exemplar",
+            "anti_pattern",
+            "task_state",
+            "user_profile",
+            "glossary_term"
+          ]
+        },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "statement": { "type": "string", "minLength": 1 },
+        "why_it_matters": { "type": "string", "minLength": 1 },
+        "source_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "confidence": { "$ref": "#/$defs/Confidence" },
+        "proposal_state": {
+          "type": "string",
+          "enum": ["proposed", "approved", "rejected", "expired", "merged"]
+        },
+        "candidate_for": { "type": ["string", "null"] },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "exportable": { "type": "boolean" },
+        "created_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "Memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "scope",
+        "status",
+        "approval_state",
+        "statement",
+        "source_refs",
+        "confidence",
+        "valid_from",
+        "supersedes",
+        "retracts",
+        "retrieval_policy",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^mem_" },
+        "type": {
+          "type": "string",
+          "enum": [
+            "preference",
+            "rule",
+            "workflow_pattern",
+            "tool_hint",
+            "project_fact",
+            "claim",
+            "exemplar",
+            "anti_pattern",
+            "task_state",
+            "user_profile",
+            "glossary_term"
+          ]
+        },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "status": { "type": "string", "enum": ["active", "superseded", "expired", "retracted"] },
+        "approval_state": { "type": "string", "enum": ["approved", "auto_accepted", "system_generated"] },
+        "statement": { "type": "string", "minLength": 1 },
+        "source_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "confidence": { "$ref": "#/$defs/Confidence" },
+        "valid_from": { "$ref": "#/$defs/Timestamp" },
+        "valid_to": { "anyOf": [{ "$ref": "#/$defs/Timestamp" }, { "type": "null" }] },
+        "supersedes": { "$ref": "#/$defs/StringArray" },
+        "retracts": { "$ref": "#/$defs/StringArray" },
+        "retrieval_policy": { "$ref": "#/$defs/FreeObject" },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "exportable": { "type": "boolean" },
+        "created_at": { "$ref": "#/$defs/Timestamp" },
+        "updated_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "KnowledgeArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "scope",
+        "source_refs",
+        "derived_from",
+        "status",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^know_" },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "timeline",
+            "synthesis",
+            "glossary_entry",
+            "project_profile",
+            "entity_summary",
+            "graph_projection"
+          ]
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "body": { "type": ["string", "object", "array", "null"] },
+        "source_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "derived_from": { "$ref": "#/$defs/ReferenceArray" },
+        "status": { "type": "string", "enum": ["draft", "active", "stale"] },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "exportable": { "type": "boolean" },
+        "created_at": { "$ref": "#/$defs/Timestamp" },
+        "updated_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "ContextBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scope",
+        "task_label",
+        "sections",
+        "input_refs",
+        "token_budget",
+        "token_estimate",
+        "assembly_policy",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^bundle_" },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "task_label": { "type": "string", "minLength": 1 },
+        "sections": { "$ref": "#/$defs/ContextBundleSections" },
+        "input_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "token_budget": { "type": "integer", "minimum": 0 },
+        "token_estimate": { "type": "integer", "minimum": 0 },
+        "assembly_policy": { "$ref": "#/$defs/FreeObject" },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "exportable": { "type": "boolean" },
+        "created_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "EvalRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "target_type",
+        "target_id",
+        "dataset_ref",
+        "metrics",
+        "result",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^eval_" },
+        "target_type": {
+          "type": "string",
+          "enum": ["prompt_asset", "prompt_patch", "bundle_policy", "extractor", "consolidator"]
+        },
+        "target_id": { "type": "string", "minLength": 1 },
+        "dataset_ref": { "$ref": "#/$defs/Reference" },
+        "metrics": { "$ref": "#/$defs/FreeObject" },
+        "result": { "type": "string", "enum": ["passed", "failed", "inconclusive"] },
+        "notes": { "type": ["string", "null"] },
+        "created_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "know_proj_ctxvault_profile_v1",
+  "kind": "project_profile",
+  "title": "CtxVault Project Profile",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "body": "CtxVault is a local-first context layer whose deterministic core remains useful without any model service.",
+  "source_refs": [
+    "memory://mem_20260419_ctxvault_rule_001",
+    "repo://ctxvault/docs/p0-scope.md"
+  ],
+  "derived_from": [
+    "memory://mem_20260419_ctxvault_rule_001"
+  ],
+  "status": "active",
+  "sensitivity": "internal",
+  "redaction_state": "none",
+  "secret_refs": [],
+  "exportable": true,
+  "created_at": "2026-04-19T12:30:00+08:00",
+  "updated_at": "2026-04-19T12:30:00+08:00"
+}

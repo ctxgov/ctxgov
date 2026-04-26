@@ -1,0 +1,6 @@
+apiVersion: Codex.local/v1
+kind: Library
+metadata:
+  name: ctxvault
+  description: Local-first context vault project scaffold for plan-ledger discovery
+spec: {}

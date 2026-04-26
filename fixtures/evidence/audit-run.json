@@ -1,0 +1,20 @@
+{
+  "id": "audit_20260419_ctxvault_001",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "subject_ref": "turn://sess_20260419_ctxvault_001/8",
+  "claim_refs": [
+    "claim://claim_20260419_ctxvault_001"
+  ],
+  "evidence_refs": [
+    "repo://ctxvault/docs/p0-scope.md",
+    "plan-ledger://plans/ctxvault-p0-foundation"
+  ],
+  "verdict": "supported_by_local_evidence",
+  "method": "deterministic_local_evidence",
+  "review_state": "approved",
+  "notes": "The scope memo and canonical plan both assert the no-local-LLM P0 contract.",
+  "created_at": "2026-04-19T13:05:00+08:00"
+}

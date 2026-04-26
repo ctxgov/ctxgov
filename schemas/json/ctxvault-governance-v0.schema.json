@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.ctxvault/schemas/ctxvault-governance-v0.schema.json",
+  "title": "CtxVault Governance Objects",
+  "description": "Schema for claim, evidence, audit, adapter-profile, and plugin objects in ctxvault v0.",
+  "oneOf": [
+    { "$ref": "#/$defs/ClaimRecord" },
+    { "$ref": "#/$defs/EvidenceLink" },
+    { "$ref": "#/$defs/AuditRun" },
+    { "$ref": "#/$defs/AdapterCapabilityProfile" },
+    { "$ref": "#/$defs/PluginManifest" }
+  ],
+  "$defs": {
+    "ScopeKind": {
+      "type": "string",
+      "enum": [
+        "global",
+        "user",
+        "workspace",
+        "project",
+        "thread",
+        "task",
+        "turn"
+      ]
+    },
+    "Scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": { "$ref": "#/$defs/ScopeKind" },
+        "value": { "type": "string", "minLength": 1 }
+      }
+    },
+    "Reference": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*://.+"
+    },
+    "ReferenceArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Reference" },
+      "default": []
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "SensitivityLevel": {
+      "type": "string",
+      "enum": ["public", "internal", "sensitive", "restricted"]
+    },
+    "RedactionState": {
+      "type": "string",
+      "enum": ["none", "partial", "fully_redacted", "withheld"]
+    },
+    "EvidenceVerdict": {
+      "type": "string",
+      "enum": [
+        "supported_by_local_evidence",
+        "contradicted_by_local_evidence",
+        "insufficient_local_evidence",
+        "needs_human_review"
+      ]
+    },
+    "AdapterMode": {
+      "type": "string",
+      "enum": ["disabled", "local", "remote"]
+    },
+    "PluginKind": {
+      "type": "string",
+      "enum": ["analyzer", "transformer", "projection", "ingest", "action"]
+    },
+    "PluginRuntime": {
+      "type": "string",
+      "enum": ["deterministic-local", "local-model", "external-tool"]
+    },
+    "PluginSideEffectLevel": {
+      "type": "string",
+      "enum": ["none", "local-files", "governed-candidates", "external-action"]
+    },
+    "PluginFallbackPolicy": {
+      "type": "string",
+      "enum": ["fail-closed", "deterministic-only", "skip-with-receipt", "human-review-only"]
+    },
+    "SurfaceName": {
+      "type": "string",
+      "enum": ["cli", "mcp", "workbench", "native-wrapper"]
+    },
+    "StringArray": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "SurfaceArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/SurfaceName" },
+      "default": []
+    },
+    "ProjectionTypeList": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "ClaimRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scope",
+        "subject_ref",
+        "claim_text",
+        "status",
+        "source_refs",
+        "sensitivity",
+        "redaction_state",
+        "exportable",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^claim_" },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "subject_ref": { "$ref": "#/$defs/Reference" },
+        "claim_text": { "type": "string", "minLength": 1 },
+        "status": {
+          "type": "string",
+          "enum": ["recorded", "under_review", "resolved", "retracted"]
+        },
+        "source_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "sensitivity": { "$ref": "#/$defs/SensitivityLevel" },
+        "redaction_state": { "$ref": "#/$defs/RedactionState" },
+        "secret_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "exportable": { "type": "boolean" },
+        "notes": { "type": ["string", "null"] },
+        "created_at": { "$ref": "#/$defs/Timestamp" },
+        "updated_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "EvidenceLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "claim_id",
+        "evidence_ref",
+        "relation",
+        "confidence",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^evid_" },
+        "claim_id": { "type": "string", "pattern": "^claim_" },
+        "evidence_ref": { "$ref": "#/$defs/Reference" },
+        "relation": {
+          "type": "string",
+          "enum": ["supports", "contradicts", "context_only"]
+        },
+        "excerpt": { "type": ["string", "null"] },
+        "confidence": { "$ref": "#/$defs/Confidence" },
+        "created_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "AuditRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scope",
+        "subject_ref",
+        "claim_refs",
+        "evidence_refs",
+        "verdict",
+        "method",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^audit_" },
+        "scope": { "$ref": "#/$defs/Scope" },
+        "subject_ref": { "$ref": "#/$defs/Reference" },
+        "claim_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "evidence_refs": { "$ref": "#/$defs/ReferenceArray" },
+        "verdict": { "$ref": "#/$defs/EvidenceVerdict" },
+        "method": {
+          "type": "string",
+          "enum": ["deterministic_local_evidence", "human_review", "model_assisted"]
+        },
+        "review_state": {
+          "type": "string",
+          "enum": ["open", "approved", "rejected", "escalated"]
+        },
+        "notes": { "type": ["string", "null"] },
+        "created_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "AdapterCapabilityProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "mode",
+        "harness_name",
+        "supported_projection_types",
+        "required_files",
+        "optional_files",
+        "hook_support",
+        "health_state",
+        "fallback_policy",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^adapter_" },
+        "mode": { "$ref": "#/$defs/AdapterMode" },
+        "harness_name": { "type": "string", "minLength": 1 },
+        "supported_projection_types": { "$ref": "#/$defs/ProjectionTypeList" },
+        "required_files": { "$ref": "#/$defs/StringArray" },
+        "optional_files": { "$ref": "#/$defs/StringArray" },
+        "hook_support": { "$ref": "#/$defs/StringArray" },
+        "health_state": {
+          "type": "string",
+          "enum": ["unknown", "healthy", "degraded", "offline"]
+        },
+        "fallback_policy": {
+          "type": "string",
+          "enum": ["fail_closed", "deterministic_only", "human_review_only"]
+        },
+        "last_checked_at": {
+          "anyOf": [
+            { "$ref": "#/$defs/Timestamp" },
+            { "type": "null" }
+          ]
+        },
+        "updated_at": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "PluginManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "id",
+        "version",
+        "display_name",
+        "description",
+        "kind",
+        "capabilities",
+        "runtime",
+        "accepted_inputs",
+        "produced_outputs",
+        "side_effect_level",
+        "requires_review",
+        "requires_network",
+        "fallback_policy",
+        "supported_surfaces",
+        "healthcheck"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "const": "ctxvault.plugin-manifest/v1"
+        },
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+        "version": { "type": "string", "minLength": 1 },
+        "display_name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "kind": { "$ref": "#/$defs/PluginKind" },
+        "capabilities": { "$ref": "#/$defs/StringArray" },
+        "runtime": { "$ref": "#/$defs/PluginRuntime" },
+        "accepted_inputs": { "$ref": "#/$defs/StringArray" },
+        "produced_outputs": { "$ref": "#/$defs/StringArray" },
+        "side_effect_level": { "$ref": "#/$defs/PluginSideEffectLevel" },
+        "requires_review": { "type": "boolean" },
+        "requires_network": { "type": "boolean" },
+        "fallback_policy": { "$ref": "#/$defs/PluginFallbackPolicy" },
+        "supported_surfaces": { "$ref": "#/$defs/SurfaceArray" },
+        "healthcheck": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

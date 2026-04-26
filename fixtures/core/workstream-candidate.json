@@ -1,0 +1,41 @@
+{
+  "id": "wsc_20260421_ctxvault_schema",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "title": "CtxVault schema design workstream",
+  "summary": "Cross-session schema design work covering object layout, migration notes, and deterministic storage rules.",
+  "rationale": "Related schema-design sessions share task labels, focus terms, and design episodes, so they should be promoted into one durable workstream candidate.",
+  "source_refs": [
+    "session://sess_schema_design_001",
+    "session://sess_schema_design_002",
+    "episode://ep_schema_design_001_01_design",
+    "knowledge://know_schema_design_001"
+  ],
+  "session_refs": [
+    "session://sess_schema_design_001",
+    "session://sess_schema_design_002"
+  ],
+  "episode_refs": [
+    "episode://ep_schema_design_001_01_design"
+  ],
+  "knowledge_refs": [
+    "knowledge://know_schema_design_001"
+  ],
+  "recurring_terms": ["schema", "vault", "deterministic", "migration"],
+  "task_labels": ["Design vault schema"],
+  "episode_kind_counts": {
+    "design": 2,
+    "review": 1
+  },
+  "confidence": 0.89,
+  "proposal_state": "proposed",
+  "candidate_for": null,
+  "notes": null,
+  "sensitivity": "internal",
+  "redaction_state": "none",
+  "secret_refs": [],
+  "exportable": true,
+  "created_at": "2026-04-21T08:10:00Z"
+}
