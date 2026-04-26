@@ -1,6 +1,11 @@
 # CtxVault
 
-`ctxvault` is an inspectable deterministic local context core for AI work.
+> A local, inspectable context vault for AI work.  
+> 中文：一个本地优先、可审计、可重建的 AI 工作上下文库。
+
+[Latest release](https://github.com/ctxvault/ctxvault/releases/tag/v0.1.0) ·
+[macOS download](https://github.com/ctxvault/ctxvault/releases/download/v0.1.0/CtxVault-notarized.zip) ·
+[SHA256SUMS](https://github.com/ctxvault/ctxvault/releases/download/v0.1.0/SHA256SUMS)
 
 This public repository exposes the correctness floor:
 
@@ -66,12 +71,9 @@ PYTHONPATH=src python3 -m ctxvault.cli serve-mcp
 
 ## Public Docs
 
-- `docs/p0-scope.md`
-- `docs/backup-policy-contract.md`
 - `docs/public-core-boundary.md`
 - `docs/public-release-checklist.md`
 - `docs/experimental-contract-evolution-policy.md`
-- `docs/workstream-lifecycle.md`
 - `docs/workstream-plan-ledger-contract.md`
 - `fixtures/README.md`
 - `schemas/README.md`
