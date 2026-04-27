@@ -557,6 +557,24 @@ class CtxVault:
                 for row in conn.execute("\n".join(sql), params).fetchall()
             ]
 
+    def preview_prompt_patch(self, patch_id: str) -> dict[str, Any]:
+        self.initialize()
+        patch_row_data, prompt_row_data, patch_payload, prompt_payload = self._prompt_patch_context(patch_id)
+        prompt_preview = self._prompt_payload_preview_from_patch(prompt_payload, patch_payload)
+        changed_fields = sorted(str(field) for field in patch_payload.get("changes", {}))
+        return {
+            "patch": deepcopy(patch_payload),
+            "patch_ref": patch_row_data["semantic_ref"],
+            "patch_storage_ref": patch_row_data["storage_ref"],
+            "prompt_ref": prompt_row_data["semantic_ref"],
+            "prompt_storage_ref": prompt_row_data["storage_ref"],
+            "prompt_content_sha256": prompt_row_data["content_sha256"],
+            "prompt_preview": prompt_preview,
+            "preview_content_sha256": _content_hash(prompt_preview),
+            "changed_fields": changed_fields,
+            "source_refs": list(patch_payload.get("source_refs", [])),
+        }
+
     def list_sessions(
         self,
         *,
@@ -1457,54 +1475,13 @@ class CtxVault:
         if not reviewer.strip():
             raise ValueError("reviewer must be a non-empty string")
 
-        with self._connection() as conn:
-            patch_row = conn.execute(
-                """
-                SELECT
-                  pp.object_id,
-                  pp.semantic_ref,
-                  pp.storage_ref,
-                  pp.storage_path,
-                  pp.proposal_state,
-                  pp.prompt_asset_id,
-                  oi.content_sha256
-                FROM prompt_patches AS pp
-                JOIN object_index AS oi ON oi.object_id = pp.object_id
-                WHERE pp.object_id = ?
-                """,
-                (patch_id,),
-            ).fetchone()
-            if patch_row is None:
-                raise KeyError(f"unknown prompt patch {patch_id}")
-            patch_row_data = dict(patch_row)
-
-        patch_payload = self._load_payload(Path(str(patch_row_data["storage_path"])))
+        patch_row_data, prompt_row_data, patch_payload, prompt_payload = self._prompt_patch_context(patch_id)
         if patch_payload.get("proposal_state") != "proposed":
             raise ValueError(f"prompt patch {patch_id} is not in proposed state")
 
-        with self._connection() as conn:
-            prompt_row = conn.execute(
-                """
-                SELECT
-                  pa.object_id,
-                  pa.semantic_ref,
-                  pa.storage_ref,
-                  pa.storage_path,
-                  oi.content_sha256
-                FROM prompt_assets AS pa
-                JOIN object_index AS oi ON oi.object_id = pa.object_id
-                WHERE pa.object_id = ?
-                """,
-                (patch_payload["prompt_asset_id"],),
-            ).fetchone()
-            if prompt_row is None:
-                raise KeyError(f"unknown prompt asset {patch_payload['prompt_asset_id']}")
-            prompt_row_data = dict(prompt_row)
-
-        prompt_payload = self._load_payload(Path(str(prompt_row_data["storage_path"])))
-
         policy_decision = None
         prompt_envelope: StoredObjectEnvelope | None = None
+        eval_refs = self._prompt_eval_refs("prompt_patch", patch_id)
         if decision == "approved":
             if policy_payload is None:
                 raise ValueError("policy payload is required to approve a prompt patch")
@@ -1516,6 +1493,8 @@ class CtxVault:
             if policy_decision.decision not in {"allow", "review_required"}:
                 reasons = "; ".join(policy_decision.reasons)
                 raise ValueError(f"prompt patch promotion blocked: {policy_decision.decision} ({reasons})")
+            if not self._prompt_has_passed_eval("prompt_patch", patch_id):
+                raise ValueError("prompt patch promotion requires a passed prompt_patch eval before approval")
             prompt_envelope = self.store_core_object("PromptAsset", self._prompt_payload_from_patch(prompt_payload, patch_payload))
 
         patch_payload["proposal_state"] = "merged" if decision == "approved" else "rejected"
@@ -1528,6 +1507,8 @@ class CtxVault:
             reviewer=reviewer,
             notes=notes,
             prompt_envelope=prompt_envelope,
+            preview_content_sha256=_content_hash(self._prompt_payload_preview_from_patch(prompt_payload, patch_payload)),
+            eval_refs=eval_refs,
             policy_decision=policy_decision.to_dict() if policy_decision is not None else None,
         )
         return {
@@ -3128,15 +3109,69 @@ class CtxVault:
         with self._connection() as conn:
             row = conn.execute(
                 """
-                SELECT object_id, semantic_ref, storage_ref, storage_path
-                FROM prompt_assets
-                WHERE object_id = ?
+                SELECT pa.object_id, pa.semantic_ref, pa.storage_ref, pa.storage_path, oi.content_sha256
+                FROM prompt_assets AS pa
+                JOIN object_index AS oi ON oi.object_id = pa.object_id
+                WHERE pa.object_id = ?
                 """,
                 (prompt_id,),
             ).fetchone()
             if row is None:
                 raise KeyError(f"unknown prompt asset {prompt_id}")
             return dict(row)
+
+    def _prompt_patch_context(self, patch_id: str) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+        with self._connection() as conn:
+            patch_row = conn.execute(
+                """
+                SELECT
+                  pp.object_id,
+                  pp.semantic_ref,
+                  pp.storage_ref,
+                  pp.storage_path,
+                  pp.proposal_state,
+                  pp.prompt_asset_id,
+                  oi.content_sha256
+                FROM prompt_patches AS pp
+                JOIN object_index AS oi ON oi.object_id = pp.object_id
+                WHERE pp.object_id = ?
+                """,
+                (patch_id,),
+            ).fetchone()
+            if patch_row is None:
+                raise KeyError(f"unknown prompt patch {patch_id}")
+            patch_row_data = dict(patch_row)
+
+        patch_payload = self._load_payload(Path(str(patch_row_data["storage_path"])))
+        prompt_row_data = self._prompt_row(str(patch_payload["prompt_asset_id"]))
+        prompt_payload = self._load_payload(Path(str(prompt_row_data["storage_path"])))
+        return patch_row_data, prompt_row_data, patch_payload, prompt_payload
+
+    def _prompt_eval_refs(self, target_type: str, target_id: str) -> list[str]:
+        with self._connection() as conn:
+            rows = conn.execute(
+                """
+                SELECT semantic_ref
+                FROM eval_runs
+                WHERE target_type = ? AND target_id = ?
+                ORDER BY created_at ASC, object_id ASC
+                """,
+                (target_type, target_id),
+            ).fetchall()
+        return [str(row["semantic_ref"]) for row in rows]
+
+    def _prompt_has_passed_eval(self, target_type: str, target_id: str) -> bool:
+        with self._connection() as conn:
+            row = conn.execute(
+                """
+                SELECT 1
+                FROM eval_runs
+                WHERE target_type = ? AND target_id = ? AND result = 'passed'
+                LIMIT 1
+                """,
+                (target_type, target_id),
+            ).fetchone()
+        return row is not None
 
     def _prompt_payload_preview_from_patch(self, prompt_payload: dict[str, Any], patch_payload: dict[str, Any]) -> dict[str, Any]:
         changes = patch_payload.get("changes")
@@ -3154,7 +3189,13 @@ class CtxVault:
     def _prompt_payload_from_patch(self, prompt_payload: dict[str, Any], patch_payload: dict[str, Any]) -> dict[str, Any]:
         now = _utc_now()
         updated_prompt = self._prompt_payload_preview_from_patch(prompt_payload, patch_payload)
-        updated_prompt["derived_from"] = _unique([*list(prompt_payload.get("derived_from", [])), _semantic_ref("prompt_patch", str(patch_payload["id"]))])
+        updated_prompt["derived_from"] = _unique(
+            [
+                *list(prompt_payload.get("derived_from", [])),
+                _semantic_ref("prompt_patch", str(patch_payload["id"])),
+                *list(patch_payload.get("source_refs", [])),
+            ]
+        )
         updated_prompt["eval_status"] = "pending"
         updated_prompt["last_promoted_at"] = now
         updated_prompt["updated_at"] = now
@@ -3243,10 +3284,13 @@ class CtxVault:
         reviewer: str,
         notes: str | None,
         prompt_envelope: StoredObjectEnvelope | None,
+        preview_content_sha256: str,
+        eval_refs: list[str],
         policy_decision: dict[str, Any] | None,
     ) -> dict[str, Any]:
         reviewed_at = _utc_now()
         stamp = _utc_compact_timestamp()
+        result_payload = prompt_envelope.payload if prompt_envelope is not None else None
         receipt = {
             "id": f"review_ppatch_{patch_envelope.object_id}_{stamp.lower()}",
             "review_kind": "prompt_patch",
@@ -3254,6 +3298,8 @@ class CtxVault:
             "target_prompt_ref_before": prompt_row["semantic_ref"],
             "target_prompt_storage_ref_before": prompt_row["storage_ref"],
             "target_prompt_content_sha256_before": prompt_row["content_sha256"],
+            "patch_preview_content_sha256": preview_content_sha256,
+            "eval_refs_before_review": list(eval_refs),
             "decision": decision,
             "reviewed_by": reviewer,
             "reviewed_at": reviewed_at,
@@ -3266,6 +3312,12 @@ class CtxVault:
             "result_ref": prompt_envelope.semantic_ref if prompt_envelope is not None else None,
             "result_storage_ref": prompt_envelope.storage_ref if prompt_envelope is not None else None,
             "result_content_sha256": prompt_envelope.content_sha256 if prompt_envelope is not None else None,
+            "lineage": {
+                "stable_prompt_ref": prompt_row["semantic_ref"],
+                "patch_ref": patch_envelope.semantic_ref,
+                "patch_source_refs": list(patch_envelope.payload.get("source_refs", [])),
+                "derived_from_after": list(result_payload.get("derived_from", [])) if result_payload is not None else None,
+            },
             "policy_decision": policy_decision,
         }
         review_dir = self.layout.reviews_dir / "prompt_patch"

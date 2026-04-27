@@ -17,6 +17,15 @@ from .surface import CtxVaultSurface
 from .versioning import apply_replica, apply_restore, apply_sync_manifest, create_snapshot, diff_snapshots, emit_sync_manifest, emit_sync_receipt, evaluate_replica_trust, import_replica, list_replica_trust_devices, list_snapshots, load_replica_trust_registry, plan_restore, set_replica_device_trust, snapshot_lineage, snapshot_provenance, sync_status, verify_replica
 
 try:
+    from .projection_lifecycle import canonical_projection_path, default_context_assembly_decisions, scan_projection_lifecycle
+except ModuleNotFoundError as exc:  # pragma: no cover - exercised in extracted public-core builds
+    if exc.name not in {"ctxvault.projection_lifecycle", f"{__name__}.projection_lifecycle"}:
+        raise
+    canonical_projection_path = None
+    default_context_assembly_decisions = None
+    scan_projection_lifecycle = None
+
+try:
     from .workbench import CtxVaultWorkbenchService, serve_workbench
 except ModuleNotFoundError as exc:  # pragma: no cover - exercised in extracted public-core builds
     if exc.name not in {"ctxvault.workbench", f"{__name__}.workbench"}:
@@ -78,6 +87,9 @@ __all__ = [
     "render_manual_note",
     "scan_privacy_text",
 ]
+
+if canonical_projection_path is not None and default_context_assembly_decisions is not None and scan_projection_lifecycle is not None:
+    __all__.extend(["canonical_projection_path", "default_context_assembly_decisions", "scan_projection_lifecycle"])
 
 if CtxVaultWorkbenchService is not None and serve_workbench is not None:
     __all__.extend(["CtxVaultWorkbenchService", "serve_workbench"])

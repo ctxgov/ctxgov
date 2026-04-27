@@ -1,0 +1,33 @@
+{
+  "id": "wsc_m1_context_injection_source_to_injection",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "title": "Context Injection M1 source-to-injection workstream",
+  "summary": "Organize project docs, session history, and knowledge notes into one reviewed workstream before emitting AGENTS.md, CLAUDE.md, and a workstream brief.",
+  "rationale": "The first-launch golden path must demonstrate gather, organize, review, inject, and verify without relying on model-dependent promotion.",
+  "source_refs": [],
+  "session_refs": [],
+  "episode_refs": [],
+  "knowledge_refs": [],
+  "recurring_terms": [
+    "context injection",
+    "workstream",
+    "reviewed context",
+    "projection receipts"
+  ],
+  "task_labels": [
+    "Implement Context Injection M1 golden path"
+  ],
+  "episode_kind_counts": {},
+  "confidence": 0.92,
+  "proposal_state": "proposed",
+  "candidate_for": "ws_m1_context_injection_source_to_injection",
+  "notes": "Fixture candidate promoted by the M1 golden path after explicit review.",
+  "sensitivity": "internal",
+  "redaction_state": "none",
+  "secret_refs": [],
+  "exportable": true,
+  "created_at": "2026-04-26T09:25:00Z"
+}

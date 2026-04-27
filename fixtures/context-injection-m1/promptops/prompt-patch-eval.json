@@ -1,0 +1,15 @@
+{
+  "schema_version": "ctxvault.prompt-eval-run/v1",
+  "status": "passed",
+  "target_ref": "prompt-patch://ppatch_20260420_schema_designer_instruction_refresh",
+  "dataset_ref": "eval://context-injection-m1/prompt-patch-preview",
+  "result": "passed",
+  "evaluated_preview_path": "fixtures/context-injection-m1/promptops/prompt-patch-preview.md",
+  "assert_contains": [
+    "migration notes",
+    "source-grounded rationale"
+  ],
+  "assert_not_contains": [
+    "requires remote llm"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "ctxvault.source-ingestion-evidence/v1",
+  "status": "passed",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "source_classes": [
+    {
+      "kind": "project_docs",
+      "source_refs": [
+        "repo://ctxvault/docs/first-public-launch-foundation.md",
+        "repo://ctxvault/docs/first-launch-golden-path.md"
+      ],
+      "artifact_count": 2
+    },
+    {
+      "kind": "session_history",
+      "source_refs": [
+        "session://sess_schema_design_001"
+      ],
+      "artifact_count": 1
+    },
+    {
+      "kind": "knowledge_archive",
+      "source_refs": [
+        "knowledge://know_schema_design_001"
+      ],
+      "artifact_count": 1
+    }
+  ],
+  "organized_workstream_ref": "workstream://ws_20260421_ctxvault_schema",
+  "notes": [
+    "Fixture evidence records source classes only; ingestion internals are out of scope for this launch gate."
+  ]
+}

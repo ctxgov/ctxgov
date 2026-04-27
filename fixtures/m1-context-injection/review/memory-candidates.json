@@ -1,0 +1,67 @@
+[
+  {
+    "id": "memc_m1_context_injection_approved",
+    "type": "workflow_pattern",
+    "scope": {
+      "kind": "project",
+      "value": "ctxvault"
+    },
+    "statement": "Context Injection M1 should inject only reviewed workstream context into AGENTS.md, CLAUDE.md, and the workstream brief.",
+    "why_it_matters": "The launch promise depends on reviewed context, not automatic memory writing from raw imports.",
+    "source_refs": [
+      "fixture://m1-context-injection/project-docs",
+      "fixture://m1-context-injection/sessions/context-injection-session.json",
+      "fixture://m1-context-injection/knowledge/launch-review-note.md"
+    ],
+    "confidence": 0.94,
+    "proposal_state": "proposed",
+    "candidate_for": null,
+    "sensitivity": "internal",
+    "redaction_state": "none",
+    "secret_refs": [],
+    "exportable": true,
+    "created_at": "2026-04-26T09:20:00Z"
+  },
+  {
+    "id": "memc_m1_context_injection_rejected",
+    "type": "workflow_pattern",
+    "scope": {
+      "kind": "project",
+      "value": "ctxvault"
+    },
+    "statement": "REJECTED_SENTINEL_M1_CONTEXT_INJECTION must never appear in injected context.",
+    "why_it_matters": "This candidate exists only to prove rejected material is excluded.",
+    "source_refs": [
+      "fixture://m1-context-injection/review/rejected"
+    ],
+    "confidence": 0.2,
+    "proposal_state": "proposed",
+    "candidate_for": null,
+    "sensitivity": "internal",
+    "redaction_state": "none",
+    "secret_refs": [],
+    "exportable": true,
+    "created_at": "2026-04-26T09:21:00Z"
+  },
+  {
+    "id": "memc_m1_context_injection_unreviewed",
+    "type": "workflow_pattern",
+    "scope": {
+      "kind": "project",
+      "value": "ctxvault"
+    },
+    "statement": "UNREVIEWED_SENTINEL_M1_CONTEXT_INJECTION must never appear in injected context.",
+    "why_it_matters": "This candidate exists only to prove proposed material is excluded until reviewed.",
+    "source_refs": [
+      "fixture://m1-context-injection/review/unreviewed"
+    ],
+    "confidence": 0.7,
+    "proposal_state": "proposed",
+    "candidate_for": null,
+    "sensitivity": "internal",
+    "redaction_state": "none",
+    "secret_refs": [],
+    "exportable": true,
+    "created_at": "2026-04-26T09:22:00Z"
+  }
+]

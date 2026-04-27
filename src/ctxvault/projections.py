@@ -272,7 +272,7 @@ def emit_agents_md_projection(
         "output_bytes": len(output_bytes),
         "output_status": "written",
         "policy_decision": "allow",
-        "review_state": "generated",
+        "review_state": _projection_review_state(workstream_payload),
         "warnings": [],
     }
     receipt = emit_projection_receipt(
@@ -331,7 +331,7 @@ def emit_claude_md_projection(
         "output_bytes": len(output_bytes),
         "output_status": "written",
         "policy_decision": "allow",
-        "review_state": "generated",
+        "review_state": _projection_review_state(workstream_payload),
         "warnings": [],
     }
     receipt = emit_projection_receipt(
@@ -390,7 +390,7 @@ def emit_wiki_workstream_md_projection(
         "output_bytes": len(output_bytes),
         "output_status": "written",
         "policy_decision": "allow",
-        "review_state": "generated",
+        "review_state": _projection_review_state(workstream_payload),
         "warnings": [],
     }
     receipt = emit_projection_receipt(
@@ -410,3 +410,7 @@ def emit_wiki_workstream_md_projection(
         "memory_count": len(memory_payloads),
         "source_refs": receipt_payload["source_refs"],
     }
+
+
+def _projection_review_state(workstream_payload: dict[str, Any]) -> str:
+    return str(workstream_payload.get("approval_state") or "generated")

@@ -1,0 +1,9 @@
+{
+  "schema_version": "ctxvault.review-receipt/v1",
+  "receipt_id": "review_prompt_patch_ppatch_20260420_schema_designer_instruction_refresh",
+  "target_ref": "prompt-patch://ppatch_20260420_schema_designer_instruction_refresh",
+  "decision": "approved",
+  "reviewer": "fixture_operator",
+  "result_ref": "prompt://prompt_schema_designer_v1",
+  "notes": "Approve the patch after preview and deterministic eval pass."
+}

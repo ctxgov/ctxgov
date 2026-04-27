@@ -1,8 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: M1 Quick Feedback
+    url: https://github.com/ctxvault/ctxvault/issues/new?template=m1-quick-feedback.yml
+    about: Use this for first-run Context Injection M1 feedback after trying the README, deterministic checks, or golden path.
   - name: Public Positioning
-    url: https://github.com/chrishohoho/ctxvault/discussions
+    url: https://github.com/ctxvault/ctxvault/discussions
     about: Use Discussions for positioning, messaging, and public framing feedback.
   - name: Plugin And Adapter Ideas
-    url: https://github.com/chrishohoho/ctxvault/discussions
+    url: https://github.com/ctxvault/ctxvault/discussions
     about: Use Discussions for early plugin, projection, and adapter proposals.

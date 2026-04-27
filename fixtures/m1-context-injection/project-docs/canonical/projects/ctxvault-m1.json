@@ -1,0 +1,10 @@
+{
+  "kind": "canonical_project",
+  "title": "CtxVault Context Injection M1",
+  "current_summary": "CtxVault must turn project docs, session history, and knowledge notes into reviewed workstream context before injecting AGENTS.md, CLAUDE.md, or a human-readable workstream projection.",
+  "claims": [
+    "Raw session or knowledge imports are evidence, not durable injected truth.",
+    "Approved workstream and memory objects are the only durable context inputs for the M1 harness projections.",
+    "Every injected output must have a projection receipt with source refs and output hashes."
+  ]
+}

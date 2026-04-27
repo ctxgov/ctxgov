@@ -46,6 +46,14 @@ class PromptPatchTests(unittest.TestCase):
         )
         self.assertEqual([patch.object_id for patch in patches], [self.patch["id"]])
 
+        eval_result = self.vault.run_prompt_eval(
+            "prompt_patch",
+            self.patch["id"],
+            dataset_ref="eval://unit/prompt-patch-review",
+            assert_contains=["migration notes", "source-grounded rationale"],
+            assert_not_contains=["requires remote llm"],
+        )
+
         result = self.vault.review_prompt_patch(
             self.patch["id"],
             decision="approved",
@@ -69,6 +77,8 @@ class PromptPatchTests(unittest.TestCase):
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         self.assertEqual(receipt["decision"], "approved")
         self.assertEqual(receipt["result_ref"], "prompt://prompt_schema_designer_v1")
+        self.assertIn(eval_result["eval_ref"], receipt["eval_refs_before_review"])
+        self.assertIn("prompt-patch://ppatch_20260420_schema_designer_instruction_refresh", receipt["lineage"]["derived_from_after"])
 
         connection = sqlite3.connect(self.repo_root / ".ctxvault" / "indexes" / "ctxvault.sqlite3")
         patch_row = connection.execute(
@@ -108,6 +118,19 @@ class PromptPatchTests(unittest.TestCase):
                 reviewer="unit_test",
                 policy_payload=self.policy,
                 backup_receipt=None,
+            )
+
+    def test_prompt_patch_approval_blocks_without_passed_eval(self) -> None:
+        self.vault.store_core_object("PromptAsset", self.prompt)
+        self.vault.store_core_object("PromptPatch", self.patch)
+
+        with self.assertRaisesRegex(ValueError, "requires a passed prompt_patch eval"):
+            self.vault.review_prompt_patch(
+                self.patch["id"],
+                decision="approved",
+                reviewer="unit_test",
+                policy_payload=self.policy,
+                backup_receipt=self.backup,
             )
 
 

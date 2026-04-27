@@ -1,0 +1,11 @@
+{
+  "schema_version": "ctxvault.prompt-patch-merge-receipt/v1",
+  "receipt_id": "merge_prompt_patch_ppatch_20260420_schema_designer_instruction_refresh",
+  "patch_ref": "prompt-patch://ppatch_20260420_schema_designer_instruction_refresh",
+  "prompt_ref": "prompt://prompt_schema_designer_v1",
+  "result": "merged",
+  "source_refs": [
+    "repo://ctxvault/docs/first-public-launch-foundation.md",
+    "archive://ctxvault/sessions/2026-04-19-audit/README.md"
+  ]
+}

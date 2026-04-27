@@ -1,0 +1,41 @@
+{
+  "schema_version": "ctxvault.m1-review-state/v1",
+  "status": "passed",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "memory": {
+    "approved_refs": [
+      "memory://mem_20260419_ctxvault_rule_001"
+    ],
+    "rejected_refs": [
+      "memory-candidate://memcand_20260421_rejected_noise"
+    ],
+    "unreviewed_refs": []
+  },
+  "prompt": {
+    "approved_refs": [
+      "prompt-patch://ppatch_20260420_schema_designer_instruction_refresh",
+      "prompt://prompt_schema_designer_v1"
+    ],
+    "rejected_refs": [
+      "prompt-patch://ppatch_20260420_rejected_style_only"
+    ],
+    "unreviewed_refs": []
+  },
+  "workstream": {
+    "approved_refs": [
+      "workstream://ws_20260421_ctxvault_schema"
+    ],
+    "rejected_refs": [
+      "workstream-candidate://wsc_20260421_rejected_unscoped"
+    ],
+    "unreviewed_refs": []
+  },
+  "blocked_refs": [
+    "memory-candidate://memcand_20260421_rejected_noise",
+    "prompt-patch://ppatch_20260420_rejected_style_only",
+    "workstream-candidate://wsc_20260421_rejected_unscoped"
+  ]
+}

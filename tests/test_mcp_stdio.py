@@ -523,6 +523,22 @@ class McpServerTests(unittest.TestCase):
         )
         self.assertEqual(len(patch_list["result"]["structuredContent"]), 1)
 
+        patch_eval = self._request(
+            110,
+            "tools/call",
+            {
+                "name": "prompt-eval.run",
+                "arguments": {
+                    "target_type": "prompt_patch",
+                    "target_id": self.prompt_patch_payload["id"],
+                    "dataset_ref": "eval://mcp/prompt-patch",
+                    "assert_contains": ["migration notes", "source-grounded rationale"],
+                    "assert_not_contains": ["requires remote llm"],
+                },
+            },
+        )
+        self.assertEqual(patch_eval["result"]["structuredContent"]["eval_run"]["result"], "passed")
+
         patch_reviewed = self._request(
             11,
             "tools/call",
