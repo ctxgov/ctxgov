@@ -671,6 +671,25 @@ class CtxVaultMcpServer:
                     handler=self._backup_emit,
                 ),
                 ToolSpec(
+                    name="local-backup.write",
+                    description="Create a snapshot, copy it to an explicit local backup target outside the workspace, and verify the replica.",
+                    input_schema={
+                        "type": "object",
+                        "properties": {
+                            "target": {"type": "string"},
+                            "scope_kind": {"type": "string"},
+                            "scope_value": {"type": "string"},
+                            "label": {"type": "string"},
+                            "transport": {"type": "string"},
+                            "device_id": {"type": "string"},
+                            "notes": {"type": "string"},
+                        },
+                        "required": ["target"],
+                        "additionalProperties": False,
+                    },
+                    handler=self._local_backup_write,
+                ),
+                ToolSpec(
                     name="snapshot.create",
                     description="Create a local snapshot manifest and append an operation-log entry.",
                     input_schema={
@@ -1333,6 +1352,17 @@ class CtxVaultMcpServer:
             notes=self._optional_string(arguments.get("notes")),
             plan_id=self._optional_string(arguments.get("plan_id")),
             target=self._optional_string(arguments.get("target")),
+        )
+
+    def _local_backup_write(self, arguments: JSONDict) -> JSONDict:
+        return self.surface.local_backup_write(
+            target=self._string(arguments.get("target"), field="target"),
+            scope_kind=self._optional_string(arguments.get("scope_kind")) or "project",
+            scope_value=self._optional_string(arguments.get("scope_value")) or "ctxvault",
+            label=self._optional_string(arguments.get("label")),
+            transport=self._optional_string(arguments.get("transport")) or "local_copy",
+            device_id=self._optional_string(arguments.get("device_id")),
+            notes=self._optional_string(arguments.get("notes")),
         )
 
     def _snapshot_create(self, arguments: JSONDict) -> JSONDict:

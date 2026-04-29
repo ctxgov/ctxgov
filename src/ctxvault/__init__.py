@@ -4,7 +4,7 @@ from .adapters import AdapterRegistry
 from .backup import emit_backup_bundle
 from .config import CtxVaultConfig, load_config
 from .core import ContextBuildRequest, ContextItemInput, CtxVault
-from .ingest import ImportReceipt, TranscriptImportReceipt, import_conversation_path, import_knowledge_path, import_prompt_path, import_transcript_path
+from .ingest import ImportReceipt, SourceConnectorReceipt, TranscriptImportReceipt, import_conversation_path, import_knowledge_path, import_prompt_path, import_transcript_path
 from .intelligence import build_episode_synthesis_payload, derive_episode_payloads, render_manual_note
 from .layout import VaultLayout, default_layout
 from .mcp_stdio import CtxVaultMcpServer
@@ -49,6 +49,7 @@ __all__ = [
     "PluginRegistryError",
     "PrivacyFinding",
     "PrivacyScanReport",
+    "SourceConnectorReceipt",
     "TranscriptImportReceipt",
     "VaultLayout",
     "default_layout",

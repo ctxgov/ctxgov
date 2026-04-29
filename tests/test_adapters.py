@@ -4,6 +4,7 @@ import copy
 import json
 from pathlib import Path
 import sys
+from tempfile import TemporaryDirectory
 import unittest
 
 
@@ -13,7 +14,16 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.adapters import AdapterRegistry
+from ctxvault.adapters import (
+    HARNESS_SURFACE_SCHEMA_VERSION,
+    PROJECTION_HEALTHCHECK_SCHEMA_VERSION,
+    RUNTIME_EVENT_RECEIPT_SCHEMA_VERSION,
+    AdapterRegistry,
+    agents_md_harness_surface_inventory,
+    agents_md_projection_healthcheck,
+    claude_md_projection_healthcheck,
+    workstream_brief_projection_healthcheck,
+)
 
 
 class AdapterTests(unittest.TestCase):
@@ -77,6 +87,92 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(listed[0]["harness_name"], "codex")
         self.assertEqual(listed[0]["supported_projection_types"], ["projection.harness.agents-md"])
         self.assertEqual(listed[0]["health_state"], "healthy")
+
+    def test_agents_md_harness_surface_inventory_is_private_experimental(self) -> None:
+        inventory = agents_md_harness_surface_inventory(generated_at="2026-04-27T00:00:00+00:00")
+
+        self.assertEqual(inventory["schema_id"], HARNESS_SURFACE_SCHEMA_VERSION)
+        self.assertEqual(inventory["surface_id"], "harness.agents-md.local")
+        self.assertEqual(inventory["trust_state"], "private_experimental")
+        self.assertEqual(inventory["projection_capabilities"][0]["path_pattern"], "AGENTS.md")
+        self.assertTrue(inventory["projection_capabilities"][0]["requires_reviewed_context"])
+
+    def test_agents_md_projection_healthcheck_is_read_only_and_passes_for_new_target(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            target = root / "AGENTS.md"
+
+            result = agents_md_projection_healthcheck(
+                root=root,
+                target_path=target,
+                checked_at="2026-04-27T00:00:00+00:00",
+            )
+
+            self.assertEqual(result["schema_id"], PROJECTION_HEALTHCHECK_SCHEMA_VERSION)
+            self.assertEqual(result["status"], "pass")
+            self.assertEqual(result["policy_decision"], "allow")
+            self.assertFalse(result["observed_state"]["target_exists"])
+            self.assertFalse(target.exists())
+            self.assertEqual(result["harness_surface"]["schema_id"], HARNESS_SURFACE_SCHEMA_VERSION)
+            self.assertEqual(result["runtime_event_receipt"]["schema_id"], RUNTIME_EVENT_RECEIPT_SCHEMA_VERSION)
+            self.assertEqual(result["runtime_event_receipt"]["event_kind"], "adapter_healthcheck")
+            self.assertFalse(result["write_plan"][0]["will_write"])
+
+    def test_agents_md_projection_healthcheck_warns_before_replacing_manual_target(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            target = root / "AGENTS.md"
+            target.write_text("# Manual agent rules\n", encoding="utf-8")
+
+            result = agents_md_projection_healthcheck(
+                root=root,
+                target_path=target,
+                checked_at="2026-04-27T00:00:00+00:00",
+            )
+
+            self.assertEqual(result["status"], "warn")
+            self.assertEqual(result["policy_decision"], "warn")
+            self.assertTrue(result["observed_state"]["untracked_private_sections"])
+            self.assertTrue(result["warnings"])
+
+    def test_projection_healthcheck_supports_claude_md(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            target = root / "CLAUDE.md"
+
+            result = claude_md_projection_healthcheck(
+                root=root,
+                target_path=target,
+                checked_at="2026-04-27T00:00:00+00:00",
+            )
+
+            self.assertEqual(result["adapter_id"], "projection.harness.claude-md")
+            self.assertEqual(result["target_surface_id"], "harness.claude-md.local")
+            self.assertEqual(result["harness_surface"]["target_kind"], "claude_md")
+            self.assertEqual(result["requested_outputs"], ["CLAUDE.md"])
+            self.assertEqual(result["status"], "pass")
+            self.assertFalse(result["write_plan"][0]["will_write"])
+            self.assertFalse(target.exists())
+
+    def test_projection_healthcheck_supports_workstream_brief(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            target = root / "workstreams" / "brief.md"
+
+            result = workstream_brief_projection_healthcheck(
+                root=root,
+                target_path=target,
+                checked_at="2026-04-27T00:00:00+00:00",
+            )
+
+            self.assertEqual(result["adapter_id"], "projection.wiki.markdown-workstream")
+            self.assertEqual(result["target_surface_id"], "brief.workstream-markdown.local")
+            self.assertEqual(result["harness_surface"]["target_kind"], "workstream_brief")
+            self.assertEqual(result["requested_outputs"], ["workstreams/<workstream-id>.md"])
+            self.assertEqual(result["status"], "fail")
+            self.assertEqual(result["policy_decision"], "deny")
+            self.assertFalse(result["write_plan"][0]["will_write"])
+            self.assertFalse(target.exists())
 
 
 if __name__ == "__main__":

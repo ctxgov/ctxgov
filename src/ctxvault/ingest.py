@@ -12,6 +12,7 @@ import zipfile
 from .core import CtxVault
 
 
+SOURCE_CONNECTOR_RECEIPT_SCHEMA_VERSION = "ctxvault.source-connector-receipt/v1"
 SUPPORTED_KNOWLEDGE_EXTENSIONS = {".json", ".md", ".txt"}
 CONVERSATION_EXPORT_FILE_NAMES = {"conversations.json", "conversation.json", "messages.json"}
 SKIP_DIR_NAMES = {".ctxvault", ".git", "__pycache__", "raw"}
@@ -35,14 +36,55 @@ class ImportReceipt:
 
 
 @dataclass(frozen=True)
+class SourceConnectorReceipt:
+    receipt_id: str
+    connector_id: str
+    source_app: str
+    source_surface: str
+    source_format: str
+    capture_method: str
+    imported_via: str
+    source_ref: str
+    imported_at: str
+    scope: dict[str, str]
+    object_refs: tuple[str, ...]
+    turn_count: int
+    normalization: dict[str, Any]
+    warnings: tuple[str, ...]
+    review_state: str = "not_required"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_id": SOURCE_CONNECTOR_RECEIPT_SCHEMA_VERSION,
+            "receipt_id": self.receipt_id,
+            "connector_id": self.connector_id,
+            "source_app": self.source_app,
+            "source_surface": self.source_surface,
+            "source_format": self.source_format,
+            "capture_method": self.capture_method,
+            "imported_via": self.imported_via,
+            "source_ref": self.source_ref,
+            "imported_at": self.imported_at,
+            "scope": dict(self.scope),
+            "object_refs": list(self.object_refs),
+            "turn_count": self.turn_count,
+            "normalization": dict(self.normalization),
+            "warnings": list(self.warnings),
+            "review_state": self.review_state,
+        }
+
+
+@dataclass(frozen=True)
 class TranscriptImportReceipt:
     session: ImportReceipt
     turns: tuple[ImportReceipt, ...]
+    source_connector: SourceConnectorReceipt
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "session": self.session.to_dict(),
             "turns": [turn.to_dict() for turn in self.turns],
+            "source_connector_receipt": self.source_connector.to_dict(),
         }
 
 
@@ -354,14 +396,23 @@ def _store_transcript_payload(
             )
         )
 
+    session_receipt = ImportReceipt(
+        source_path=source_path,
+        object_id=session_envelope.object_id,
+        model_name="Session",
+        object_kind=session_envelope.object_kind,
+    )
+    source_connector = _build_source_connector_receipt(
+        source_path=source_path,
+        session_payload=session_payload,
+        session_ref=f"session://{session_envelope.object_id}",
+        turn_refs=tuple(f"turn://{receipt.object_id}" for receipt in turn_receipts),
+    )
+
     return TranscriptImportReceipt(
-        session=ImportReceipt(
-            source_path=source_path,
-            object_id=session_envelope.object_id,
-            model_name="Session",
-            object_kind=session_envelope.object_kind,
-        ),
+        session=session_receipt,
         turns=tuple(turn_receipts),
+        source_connector=source_connector,
     )
 
 
@@ -414,6 +465,26 @@ def _normalized_conversation_payload(
     if isinstance(payload.get("mapping"), dict):
         return _normalize_export_conversation(
             _normalize_chatgpt_conversation,
+            path,
+            payload,
+            client=client,
+            ordinal=ordinal,
+            skip_empty=skip_empty,
+        )
+
+    if _is_deepseek_messages_export(path, payload, client):
+        return _normalize_export_conversation(
+            _normalize_deepseek_conversation,
+            path,
+            payload,
+            client=client,
+            ordinal=ordinal,
+            skip_empty=skip_empty,
+        )
+
+    if _is_ollama_ui_messages_export(path, payload, client):
+        return _normalize_export_conversation(
+            _normalize_ollama_ui_conversation,
             path,
             payload,
             client=client,
@@ -541,6 +612,86 @@ def _normalize_claude_conversation(
         "title": title,
         "started_at": _timestamp_from_value(payload.get("created_at")) or turns[0].get("created_at") or _timestamp_from_path(path),
         "ended_at": _timestamp_from_value(payload.get("updated_at")) or turns[-1].get("created_at"),
+        "status": "active",
+        "task_label": title,
+        "turns": turns,
+        "sensitivity": "internal",
+        "redaction_state": "none",
+        "secret_refs": [],
+        "exportable": True,
+    }
+
+
+def _normalize_deepseek_conversation(
+    path: Path,
+    payload: dict[str, Any],
+    *,
+    client: str,
+    ordinal: int | None = None,
+) -> dict[str, Any]:
+    messages = _source_hinted_messages(payload)
+    if not messages:
+        raise ValueError("deepseek export did not contain any importable messages")
+    session_object_id = (
+        _string_value(payload.get("conversation_id"))
+        or _string_value(payload.get("chat_id"))
+        or _string_value(payload.get("id"))
+        or _stable_child_id(path, "deepseek", ordinal)
+    )
+    title = _conversation_title(payload, path)
+    turns = _normalize_role_content_turns(messages, session_object_id=session_object_id, source_name="deepseek")
+    if not turns:
+        raise ValueError("deepseek export did not contain any importable messages")
+    return {
+        "id": session_object_id,
+        "client": _resolved_client_name(client, "deepseek_export"),
+        "source_app": "deepseek",
+        "source_surface": _string_value(payload.get("source_surface")) or "export",
+        "source_format": "deepseek_messages_export",
+        "capture_method": "file_import",
+        "title": title,
+        "started_at": _first_timestamp(payload, ["created_at", "create_time", "start_time"]) or turns[0].get("created_at") or _timestamp_from_path(path),
+        "ended_at": _first_timestamp(payload, ["updated_at", "update_time", "end_time"]) or turns[-1].get("created_at"),
+        "status": "active",
+        "task_label": title,
+        "turns": turns,
+        "sensitivity": "internal",
+        "redaction_state": "none",
+        "secret_refs": [],
+        "exportable": True,
+    }
+
+
+def _normalize_ollama_ui_conversation(
+    path: Path,
+    payload: dict[str, Any],
+    *,
+    client: str,
+    ordinal: int | None = None,
+) -> dict[str, Any]:
+    messages = _source_hinted_messages(payload)
+    if not messages:
+        raise ValueError("ollama ui export did not contain any importable messages")
+    session_object_id = (
+        _string_value(payload.get("conversation_id"))
+        or _string_value(payload.get("chat_id"))
+        or _string_value(payload.get("id"))
+        or _stable_child_id(path, "ollama", ordinal)
+    )
+    title = _conversation_title(payload, path)
+    turns = _normalize_role_content_turns(messages, session_object_id=session_object_id, source_name="ollama")
+    if not turns:
+        raise ValueError("ollama ui export did not contain any importable messages")
+    return {
+        "id": session_object_id,
+        "client": _resolved_client_name(client, "ollama_ui_export"),
+        "source_app": "ollama",
+        "source_surface": _string_value(payload.get("source_surface")) or "local_ui_export",
+        "source_format": "ollama_ui_messages_export",
+        "capture_method": "file_import",
+        "title": title,
+        "started_at": _first_timestamp(payload, ["created_at", "create_time", "start_time"]) or turns[0].get("created_at") or _timestamp_from_path(path),
+        "ended_at": _first_timestamp(payload, ["updated_at", "update_time", "end_time"]) or turns[-1].get("created_at"),
         "status": "active",
         "task_label": title,
         "turns": turns,
@@ -889,6 +1040,166 @@ def _is_canonical_project(payload: dict[str, Any], path: Path) -> bool:
 def _is_normalized_transcript(payload: dict[str, Any]) -> bool:
     turns = payload.get("turns")
     return isinstance(turns, list) and bool(turns)
+
+
+def _is_deepseek_messages_export(path: Path, payload: dict[str, Any], client: str) -> bool:
+    return "deepseek" in _source_hint(path, payload, client) and bool(_source_hinted_messages(payload))
+
+
+def _is_ollama_ui_messages_export(path: Path, payload: dict[str, Any], client: str) -> bool:
+    hint = _source_hint(path, payload, client)
+    return any(marker in hint for marker in ("ollama", "open-webui", "openwebui")) and bool(_source_hinted_messages(payload))
+
+
+def _source_hint(path: Path, payload: dict[str, Any], client: str) -> str:
+    values = [
+        client,
+        path.name,
+        _string_value(payload.get("source_app")) or "",
+        _string_value(payload.get("source_surface")) or "",
+        _string_value(payload.get("source_format")) or "",
+        _string_value(payload.get("provider")) or "",
+        _string_value(payload.get("model")) or "",
+    ]
+    return " ".join(value.lower() for value in values if value)
+
+
+def _source_hinted_messages(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    for container in (
+        payload.get("messages"),
+        _deep_value(payload, "chat", "messages"),
+        _deep_value(payload, "chat", "history", "messages"),
+        _deep_value(payload, "conversation", "messages"),
+        _deep_value(payload, "history", "messages"),
+    ):
+        if isinstance(container, list):
+            return [item for item in container if isinstance(item, dict)]
+    return []
+
+
+def _normalize_role_content_turns(
+    messages: list[dict[str, Any]],
+    *,
+    session_object_id: str,
+    source_name: str,
+) -> list[dict[str, Any]]:
+    turns: list[dict[str, Any]] = []
+    for index, item in enumerate(messages, start=1):
+        content = _message_content_text(item)
+        if not content:
+            continue
+        turns.append(
+            {
+                "id": _string_value(item.get("id")) or _string_value(item.get("message_id")) or _string_value(item.get("uuid")) or f"{session_object_id}_turn_{index:04d}",
+                "role": _normalize_role(_string_value(item.get("role")) or _string_value(item.get("speaker")) or _string_value(item.get("type")) or "unknown"),
+                "content": content,
+                "status": "recorded",
+                "created_at": _first_timestamp(item, ["created_at", "createdAt", "timestamp", "time", "date"]),
+                "source_app": source_name,
+            }
+        )
+    return turns
+
+
+def _message_content_text(item: dict[str, Any]) -> str | None:
+    content = item.get("content")
+    if isinstance(content, dict):
+        return _string_value(content.get("text")) or _string_value(content.get("content")) or _rich_text_to_string([content])
+    return _string_value(content) or _rich_text_to_string(content) or _string_value(item.get("text"))
+
+
+def _conversation_title(payload: dict[str, Any], path: Path) -> str:
+    return (
+        _string_value(payload.get("title"))
+        or _string_value(payload.get("name"))
+        or _deep_string(payload, "chat", "title")
+        or _deep_string(payload, "conversation", "title")
+        or _humanize_slug(path.stem)
+    )
+
+
+def _first_timestamp(payload: dict[str, Any], keys: list[str]) -> str | None:
+    for key in keys:
+        timestamp = _timestamp_from_value(payload.get(key))
+        if timestamp:
+            return timestamp
+    return None
+
+
+def _deep_value(payload: dict[str, Any], *path: str) -> Any:
+    current: Any = payload
+    for key in path:
+        if not isinstance(current, dict):
+            return None
+        current = current.get(key)
+    return current
+
+
+def _build_source_connector_receipt(
+    *,
+    source_path: Path,
+    session_payload: dict[str, Any],
+    session_ref: str,
+    turn_refs: tuple[str, ...],
+) -> SourceConnectorReceipt:
+    source_app = str(session_payload.get("source_app") or "unknown")
+    source_format = str(session_payload.get("source_format") or "unknown")
+    return SourceConnectorReceipt(
+        receipt_id=_source_connector_receipt_id(str(session_payload.get("id") or "session"), source_path),
+        connector_id=_connector_id(source_app, source_format),
+        source_app=source_app,
+        source_surface=str(session_payload.get("source_surface") or "local"),
+        source_format=source_format,
+        capture_method=str(session_payload.get("capture_method") or "file_import"),
+        imported_via=str(session_payload.get("imported_via") or "ctxvault_import"),
+        source_ref=f"file://{source_path}",
+        imported_at=_timestamp_from_value(session_payload.get("started_at")) or _timestamp_from_path(source_path),
+        scope={
+            "kind": str((session_payload.get("scope") or {}).get("kind") or "project"),
+            "value": str((session_payload.get("scope") or {}).get("value") or "ctxvault"),
+        },
+        object_refs=(session_ref, *turn_refs),
+        turn_count=len(turn_refs),
+        normalization={
+            "status": "normalized",
+            "input_shape": source_format,
+            "output_shape": "ctxvault.normalized-transcript",
+            "lossiness": _connector_lossiness(source_app, source_format),
+        },
+        warnings=tuple(_connector_warnings(source_app, source_format)),
+    )
+
+
+def _source_connector_receipt_id(session_id: str, source_path: Path) -> str:
+    slug = _slugify(session_id) or "session"
+    digest = hashlib.sha256(str(source_path.resolve()).encode("utf-8")).hexdigest()[:10]
+    return f"screc_{slug}_{digest}"
+
+
+def _connector_id(source_app: str, source_format: str) -> str:
+    if source_app == "deepseek" and source_format == "deepseek_messages_export":
+        return "connector.deepseek.experimental"
+    if source_app == "ollama" and source_format == "ollama_ui_messages_export":
+        return "connector.ollama-ui.experimental"
+    if source_format == "normalized_transcript":
+        return "connector.normalized-transcript"
+    return f"connector.{_slugify(source_app) or 'unknown'}"
+
+
+def _connector_lossiness(source_app: str, source_format: str) -> list[str]:
+    if source_app in {"deepseek", "ollama"} and source_format != "normalized_transcript":
+        return ["private experimental adapter preserves role, content, message ids, and timestamps but not all native UI metadata"]
+    if source_format == "normalized_transcript":
+        return ["native product metadata is not preserved unless mapped into explicit source fields"]
+    return ["native product metadata may be reduced to the canonical transcript fields"]
+
+
+def _connector_warnings(source_app: str, source_format: str) -> list[str]:
+    if source_app in {"deepseek", "ollama"} and source_format != "normalized_transcript":
+        return [f"{source_app} adapter is private experimental and source-shape gated"]
+    if source_app in {"deepseek", "ollama"}:
+        return [f"{source_app} coverage uses normalized transcript fallback unless a native adapter matches the source shape"]
+    return []
 
 
 def _stable_id(prefix: str, path: Path) -> str:

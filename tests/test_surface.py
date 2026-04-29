@@ -583,6 +583,41 @@ class SurfaceTests(unittest.TestCase):
         self.assertTrue((target_root / "snapshots" / Path(snapshot["manifest_path"]).name).exists())
         self.assertEqual(result["receipt"]["status"], "copied")
 
+    def test_surface_writes_verified_local_backup(self) -> None:
+        with TemporaryDirectory() as target_tmpdir:
+            target_root = Path(target_tmpdir) / "surface-local-backup"
+            readme = self.repo_root / "README.md"
+            readme.write_text("# CtxVault\n", encoding="utf-8")
+            self.surface.trace_record("PromptAsset", self._core_fixture("prompt-asset.json"))
+
+            result = self.surface.local_backup_write(
+                target=target_root.as_uri(),
+                scope_kind="project",
+                scope_value="ctxvault",
+                label="surface local backup",
+                device_id="surface-local-backup-device",
+            )
+
+            self.assertEqual(result["receipt"]["schema_version"], "ctxvault.local-backup-write-receipt/v1")
+            self.assertEqual(result["receipt"]["status"], "verified")
+            self.assertEqual(result["verification"]["status"], "verified")
+            self.assertTrue(Path(result["receipt_path"]).exists())
+            self.assertTrue((target_root / "snapshots" / Path(result["snapshot"]["manifest_path"]).name).exists())
+            self.assertTrue((target_root / "snapshot-bundles" / Path(result["snapshot"]["restore_bundle_path"]).name).exists())
+
+    def test_surface_rejects_local_backup_target_inside_workspace(self) -> None:
+        target_root = self.repo_root / "surface-local-backup"
+        readme = self.repo_root / "README.md"
+        readme.write_text("# CtxVault\n", encoding="utf-8")
+        self.surface.trace_record("PromptAsset", self._core_fixture("prompt-asset.json"))
+
+        with self.assertRaises(ValueError):
+            self.surface.local_backup_write(
+                target=target_root.as_uri(),
+                scope_kind="project",
+                scope_value="ctxvault",
+            )
+
     def test_surface_verifies_and_imports_replica(self) -> None:
         replica_root = self.repo_root / "surface-replica-verify"
         consumer_root = self.repo_root / "surface-consumer"
@@ -1118,6 +1153,11 @@ class SurfaceTests(unittest.TestCase):
             {item["queue_kind"] for item in dashboard["review_queue"]["items"]},
             {"memory_candidate", "workstream_candidate", "prompt_patch"},
         )
+        for item in dashboard["review_queue"]["items"]:
+            self.assertIn("ranking_inputs", item)
+            self.assertEqual(item["ranking_inputs"]["ranking_semantics"], "advisory_only_no_auto_promotion")
+            self.assertIn(item["recommended_bucket"], {"review_first", "normal", "batch_candidate"})
+            self.assertGreater(item["ranking_score"], 0.0)
 
     def test_surface_companion_sync_feed_and_pairing_accept(self) -> None:
         (self.repo_root / "README.md").write_text("# CtxVault\n", encoding="utf-8")

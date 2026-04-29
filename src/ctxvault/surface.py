@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-from .adapters import AdapterRegistry
+from .adapters import AdapterRegistry, projection_adapter_healthcheck
 from .backup import emit_backup_bundle
 from .core import ContextBuildRequest, ContextItemInput, CtxVault
 from .policy import CtxVaultPolicy
@@ -48,6 +48,7 @@ from .versioning import (
     snapshot_provenance,
     sync_status,
     verify_replica,
+    write_local_backup,
 )
 
 
@@ -1483,6 +1484,13 @@ class CtxVaultSurface:
         registry = AdapterRegistry(profiles)
         return registry.resolve_capability(capability).to_dict()
 
+    def adapter_healthcheck(self, *, target_kind: str = "agents-md", target_path: Path | None = None) -> dict[str, Any]:
+        return projection_adapter_healthcheck(
+            root=self.vault.layout.repo_root,
+            target_kind=target_kind,
+            target_path=target_path,
+        )
+
     def plugin_status(self, manifests: list[dict[str, Any]]) -> list[dict[str, Any]]:
         registry = PluginRegistry(manifests)
         return registry.list_manifests()
@@ -1798,6 +1806,30 @@ class CtxVaultSurface:
         return apply_sync_manifest(
             layout=self.vault.layout,
             sync_manifest_path=sync_manifest_path,
+        )
+
+    def local_backup_write(
+        self,
+        *,
+        target: str,
+        scope_kind: str = "project",
+        scope_value: str = "ctxvault",
+        label: str | None = None,
+        transport: str = "local_copy",
+        device_id: str | None = None,
+        notes: str | None = None,
+    ) -> dict[str, Any]:
+        self.vault.initialize()
+        return write_local_backup(
+            root=self.vault.layout.repo_root,
+            layout=self.vault.layout,
+            target=target,
+            scope_kind=scope_kind,
+            scope_value=scope_value,
+            label=label,
+            transport=transport,
+            device_id=device_id,
+            notes=notes,
         )
 
     def replica_verify(
@@ -2342,6 +2374,8 @@ def _companion_transport_event_headline(event: dict[str, Any]) -> str:
 
 def _companion_review_card(queue_kind: str, hit: Any) -> dict[str, Any]:
     payload = hit.payload
+    source_refs = list(payload.get("source_refs") or [])
+    secret_refs = list(payload.get("secret_refs") or [])
     if queue_kind == "memory_candidate":
         title = str(payload.get("type") or "memory_candidate").replace("_", " ").strip().title()
         summary = str(payload.get("statement") or "").strip()
@@ -2351,6 +2385,14 @@ def _companion_review_card(queue_kind: str, hit: Any) -> dict[str, Any]:
     else:
         title = str(payload.get("prompt_asset_id") or hit.object_id).strip()
         summary = str(payload.get("rationale") or "").strip()
+    ranking_inputs = _review_ranking_inputs(
+        queue_kind=queue_kind,
+        object_id=hit.object_id,
+        payload=payload,
+        source_refs=source_refs,
+        secret_refs=secret_refs,
+        summary=summary,
+    )
     return {
         "queue_kind": queue_kind,
         "object_id": hit.object_id,
@@ -2362,16 +2404,137 @@ def _companion_review_card(queue_kind: str, hit: Any) -> dict[str, Any]:
         "confidence": float(payload.get("confidence") or 0.0),
         "created_at": payload.get("created_at"),
         "candidate_for": str(payload.get("candidate_for") or "").strip() or None,
-        "source_ref_count": len(list(payload.get("source_refs") or [])),
+        "source_ref_count": len(source_refs),
+        "ranking_inputs": ranking_inputs,
+        "recommended_bucket": ranking_inputs["recommended_bucket"],
+        "ranking_score": ranking_inputs["ranking_score"],
     }
 
 
-def _companion_review_sort_key(item: dict[str, Any]) -> tuple[str, float, str]:
+def _companion_review_sort_key(item: dict[str, Any]) -> tuple[float, str, float, str]:
     return (
+        float(item.get("ranking_score") or 0.0),
         str(item.get("created_at") or ""),
         float(item.get("confidence") or 0.0),
         str(item.get("object_id") or ""),
     )
+
+
+def _review_ranking_inputs(
+    *,
+    queue_kind: str,
+    object_id: str,
+    payload: dict[str, Any],
+    source_refs: list[str],
+    secret_refs: list[str],
+    summary: str,
+) -> dict[str, Any]:
+    sensitivity = str(payload.get("sensitivity") or "internal").strip() or "internal"
+    candidate_for = str(payload.get("candidate_for") or "").strip()
+    evidence_strength = "direct" if source_refs else "missing"
+    source_freshness = "recent" if payload.get("created_at") else "unknown"
+    urgency = "active_workstream" if candidate_for or queue_kind == "prompt_patch" else "routine"
+    reuse_value = "high" if queue_kind in {"prompt_patch", "workstream_candidate"} or len(source_refs) >= 2 else "medium"
+    risk = _review_risk(queue_kind=queue_kind, sensitivity=sensitivity, secret_refs=secret_refs)
+    review_effort = "large" if len(summary) > 280 or len(source_refs) > 5 else "medium" if queue_kind == "prompt_patch" else "small"
+    harness_surface_risk = "medium" if queue_kind == "prompt_patch" else "low"
+    stale_projection_risk = queue_kind == "prompt_patch"
+    recommended_bucket = _review_bucket(
+        risk=risk,
+        evidence_strength=evidence_strength,
+        queue_kind=queue_kind,
+        stale_projection_risk=stale_projection_risk,
+    )
+    ranking_score = _review_ranking_score(
+        risk=risk,
+        reuse_value=reuse_value,
+        urgency=urgency,
+        evidence_strength=evidence_strength,
+        stale_projection_risk=stale_projection_risk,
+    )
+    return {
+        "candidate_ref": f"{_review_ref_prefix(queue_kind)}://{object_id}",
+        "candidate_kind": queue_kind,
+        "source_freshness": source_freshness,
+        "reuse_value": reuse_value,
+        "urgency": urgency,
+        "risk": risk,
+        "sensitivity": sensitivity,
+        "evidence_strength": evidence_strength,
+        "duplicate_score": 0.0,
+        "harness_surface_risk": harness_surface_risk,
+        "stale_projection_risk": stale_projection_risk,
+        "review_effort": review_effort,
+        "recommended_bucket": recommended_bucket,
+        "ranking_reasons": _review_ranking_reasons(
+            queue_kind=queue_kind,
+            risk=risk,
+            reuse_value=reuse_value,
+            evidence_strength=evidence_strength,
+            stale_projection_risk=stale_projection_risk,
+        ),
+        "ranking_score": ranking_score,
+        "ranking_semantics": "advisory_only_no_auto_promotion",
+    }
+
+
+def _review_ref_prefix(queue_kind: str) -> str:
+    return {
+        "memory_candidate": "memory-candidate",
+        "workstream_candidate": "workstream-candidate",
+        "prompt_patch": "prompt-patch",
+    }.get(queue_kind, queue_kind.replace("_", "-"))
+
+
+def _review_risk(*, queue_kind: str, sensitivity: str, secret_refs: list[str]) -> str:
+    if secret_refs or sensitivity in {"sensitive", "restricted"}:
+        return "high"
+    if queue_kind == "prompt_patch" or sensitivity == "internal":
+        return "medium"
+    return "low"
+
+
+def _review_bucket(*, risk: str, evidence_strength: str, queue_kind: str, stale_projection_risk: bool) -> str:
+    if risk == "high" or stale_projection_risk:
+        return "review_first"
+    if risk == "low" and evidence_strength == "direct" and queue_kind != "prompt_patch":
+        return "batch_candidate"
+    return "normal"
+
+
+def _review_ranking_score(
+    *,
+    risk: str,
+    reuse_value: str,
+    urgency: str,
+    evidence_strength: str,
+    stale_projection_risk: bool,
+) -> float:
+    score = 0.0
+    score += {"low": 1.0, "medium": 2.0, "high": 3.0}.get(risk, 1.0)
+    score += {"medium": 1.0, "high": 2.0}.get(reuse_value, 0.0)
+    score += 1.0 if urgency == "active_workstream" else 0.0
+    score += 1.0 if evidence_strength == "direct" else 0.0
+    score += 1.0 if stale_projection_risk else 0.0
+    return score
+
+
+def _review_ranking_reasons(
+    *,
+    queue_kind: str,
+    risk: str,
+    reuse_value: str,
+    evidence_strength: str,
+    stale_projection_risk: bool,
+) -> list[str]:
+    reasons = [
+        f"{queue_kind.replace('_', ' ')} candidate has {risk} review risk",
+        f"reuse value is {reuse_value}",
+        f"evidence strength is {evidence_strength}",
+    ]
+    if stale_projection_risk:
+        reasons.append("candidate may affect active projected harness instructions")
+    return reasons
 
 
 def _companion_now() -> str:

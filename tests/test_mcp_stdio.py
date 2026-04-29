@@ -99,6 +99,7 @@ class McpServerTests(unittest.TestCase):
                 "plugin.execute",
                 "projection.agents-md",
                 "backup.emit",
+                "local-backup.write",
                 "snapshot.create",
                 "snapshot.list",
                 "snapshot.diff",
@@ -169,6 +170,32 @@ class McpServerTests(unittest.TestCase):
         self.assertIn(memory["statement"], rendered)
         self.assertEqual(projected["result"]["structuredContent"]["receipt"]["target_kind"], "harness.agents-md")
         self.assertTrue(Path(projected["result"]["structuredContent"]["receipt_path"]).exists())
+
+    def test_tools_call_writes_verified_local_backup(self) -> None:
+        readme = self.repo_root / "README.md"
+        readme.write_text("# CtxVault\n", encoding="utf-8")
+
+        with TemporaryDirectory() as target_tmpdir:
+            target_root = Path(target_tmpdir) / "mcp-local-backup"
+            written = self._request(
+                6,
+                "tools/call",
+                {
+                    "name": "local-backup.write",
+                    "arguments": {
+                        "target": target_root.as_uri(),
+                        "label": "mcp local backup",
+                        "device_id": "mcp-local-backup-device",
+                    },
+                },
+            )
+
+            payload = written["result"]["structuredContent"]
+            self.assertEqual(payload["receipt"]["schema_version"], "ctxvault.local-backup-write-receipt/v1")
+            self.assertEqual(payload["receipt"]["status"], "verified")
+            self.assertEqual(payload["verification"]["status"], "verified")
+            self.assertTrue((target_root / "snapshots" / Path(payload["snapshot"]["manifest_path"]).name).exists())
+            self.assertTrue((target_root / "snapshot-bundles" / Path(payload["snapshot"]["restore_bundle_path"]).name).exists())
 
     def test_tools_call_executes_plugin_capability(self) -> None:
         workstream = json.loads((ROOT / "fixtures" / "core" / "workstream.json").read_text())

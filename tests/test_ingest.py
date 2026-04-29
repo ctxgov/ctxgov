@@ -368,6 +368,98 @@ class IngestTests(unittest.TestCase):
         self.assertEqual(gemini_session["capture_method"], "file_import")
         self.assertEqual(gemini_session["imported_via"], "ctxvault_import")
 
+    def test_import_conversation_path_supports_deepseek_and_ollama_experimental_adapters(self) -> None:
+        deepseek_path = self.repo_root / "transcripts" / "deepseek-export.json"
+        deepseek_path.parent.mkdir(parents=True, exist_ok=True)
+        deepseek_path.write_text(
+            json.dumps(
+                {
+                    "source_app": "deepseek",
+                    "conversation_id": "deepseek_conv_001",
+                    "title": "DeepSeek Demo",
+                    "created_at": "2026-04-28T10:00:00+08:00",
+                    "updated_at": "2026-04-28T10:05:00+08:00",
+                    "messages": [
+                        {
+                            "id": "deepseek_msg_001",
+                            "role": "user",
+                            "content": "How should v0.2 describe named source coverage?",
+                            "created_at": "2026-04-28T10:00:20+08:00",
+                        },
+                        {
+                            "id": "deepseek_msg_002",
+                            "role": "assistant",
+                            "content": {"text": "Use normalized fallback unless an experimental adapter matches the source shape."},
+                            "created_at": "2026-04-28T10:01:10+08:00",
+                        },
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+        ollama_path = self.repo_root / "transcripts" / "ollama-ui-export.json"
+        ollama_path.write_text(
+            json.dumps(
+                {
+                    "source_app": "ollama",
+                    "id": "ollama_chat_001",
+                    "chat": {
+                        "title": "Ollama UI Demo",
+                        "history": {
+                            "messages": [
+                                {
+                                    "id": "ollama_msg_001",
+                                    "role": "user",
+                                    "content": "Can a local UI transcript become a workstream candidate?",
+                                    "timestamp": "2026-04-28T10:10:00+08:00",
+                                },
+                                {
+                                    "id": "ollama_msg_002",
+                                    "role": "assistant",
+                                    "content": [{"text": "Yes, after source-shape gated normalization and review candidate creation."}],
+                                    "timestamp": "2026-04-28T10:11:00+08:00",
+                                },
+                            ]
+                        },
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        deepseek_receipts = import_conversation_path(
+            self.vault,
+            deepseek_path,
+            scope_kind="project",
+            scope_value="ctxvault",
+        )
+        ollama_receipts = import_conversation_path(
+            self.vault,
+            ollama_path,
+            scope_kind="project",
+            scope_value="ctxvault",
+        )
+
+        self.assertEqual(deepseek_receipts[0].session.object_id, "deepseek_conv_001")
+        self.assertEqual(ollama_receipts[0].session.object_id, "ollama_chat_001")
+        self.assertEqual(deepseek_receipts[0].source_connector.connector_id, "connector.deepseek.experimental")
+        self.assertEqual(ollama_receipts[0].source_connector.connector_id, "connector.ollama-ui.experimental")
+        self.assertIn("private experimental", deepseek_receipts[0].source_connector.warnings[0])
+        self.assertIn("private experimental", ollama_receipts[0].source_connector.warnings[0])
+
+        deepseek_session = json.loads(
+            (self.repo_root / ".ctxvault" / "objects" / "session" / "deepseek_conv_001.json").read_text(encoding="utf-8")
+        )["payload"]
+        ollama_session = json.loads(
+            (self.repo_root / ".ctxvault" / "objects" / "session" / "ollama_chat_001.json").read_text(encoding="utf-8")
+        )["payload"]
+
+        self.assertEqual(deepseek_session["source_app"], "deepseek")
+        self.assertEqual(deepseek_session["source_format"], "deepseek_messages_export")
+        self.assertEqual(ollama_session["source_app"], "ollama")
+        self.assertEqual(ollama_session["source_surface"], "local_ui_export")
+        self.assertEqual(ollama_session["source_format"], "ollama_ui_messages_export")
+
     def test_import_conversation_path_supports_claude_export_zip(self) -> None:
         archive_path = self.repo_root / "transcripts" / "claude-export.zip"
         archive_path.parent.mkdir(parents=True, exist_ok=True)

@@ -25,6 +25,8 @@ These public contracts are intentionally marked experimental:
 - `Workstream`
 - plugin manifest and projection receipt contracts
 - the first local plugin executor path
+- projection adapter healthchecks
+- runtime event receipts
 
 They are useful and inspectable today, but still expected to evolve.
 

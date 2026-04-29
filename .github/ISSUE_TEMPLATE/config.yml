@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: v0.2/M2 Developer Framework Feedback
+    url: https://github.com/ctxvault/ctxvault/issues/new?template=v0.2-m2-feedback.yml
+    about: Use this for projection healthchecks, runtime receipts, review ergonomics, local backup wording, and v0.2 developer-framework feedback.
   - name: M1 Quick Feedback
     url: https://github.com/ctxvault/ctxvault/issues/new?template=m1-quick-feedback.yml
     about: Use this for first-run Context Injection M1 feedback after trying the README, deterministic checks, or golden path.

@@ -430,6 +430,23 @@ def build_parser() -> argparse.ArgumentParser:
     adapter_resolve.add_argument("--profile-json-path", type=Path)
     adapter_resolve.add_argument("--capability", required=True)
 
+    adapter_healthcheck = subcommands.add_parser("adapter-healthcheck", help="Run a read-only projection adapter healthcheck")
+    adapter_healthcheck.add_argument("--root", type=Path, default=project_root())
+    adapter_healthcheck.add_argument(
+        "--target-kind",
+        default="agents-md",
+        choices=[
+            "agents-md",
+            "harness.agents-md",
+            "claude-md",
+            "harness.claude-md",
+            "workstream-brief",
+            "human-readable-brief",
+            "wiki.markdown-workstream",
+        ],
+    )
+    adapter_healthcheck.add_argument("--target-path", type=Path)
+
     plugin_status = subcommands.add_parser("plugin-status", help="List plugin manifests in deterministic priority order")
     plugin_status.add_argument("--root", type=Path, default=project_root())
     plugin_status.add_argument("--plugin-json-path", type=Path)
@@ -557,6 +574,16 @@ def build_parser() -> argparse.ArgumentParser:
     apply_sync_manifest = subcommands.add_parser("apply-sync-manifest", help="Copy the artifacts referenced by a sync manifest into its local target directory")
     apply_sync_manifest.add_argument("--root", type=Path, default=project_root())
     apply_sync_manifest.add_argument("--sync-manifest-path", type=Path, required=True)
+
+    local_backup_write = subcommands.add_parser("local-backup-write", help="Create a snapshot, copy it to a local backup target, and verify the replica")
+    local_backup_write.add_argument("--root", type=Path, default=project_root())
+    local_backup_write.add_argument("--target", required=True)
+    local_backup_write.add_argument("--scope-kind", default="project")
+    local_backup_write.add_argument("--scope-value", default="ctxvault")
+    local_backup_write.add_argument("--label")
+    local_backup_write.add_argument("--transport", default="local_copy")
+    local_backup_write.add_argument("--device-id")
+    local_backup_write.add_argument("--notes")
 
     replica_verify = subcommands.add_parser("replica-verify", help="Verify a copied local replica target contains a complete snapshot and restore bundle")
     replica_verify.add_argument("--root", type=Path, default=project_root())
@@ -1390,6 +1417,21 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(surface.adapter_resolve(profiles, args.capability), indent=2, sort_keys=True))
             return 0
 
+        if args.command == "adapter-healthcheck":
+            root = args.root.resolve()
+            target_path = None
+            if args.target_path is not None:
+                target_path = args.target_path.resolve() if args.target_path.is_absolute() else (root / args.target_path).resolve()
+            surface = CtxVaultSurface(CtxVault(default_layout(root)))
+            print(
+                json.dumps(
+                    surface.adapter_healthcheck(target_kind=args.target_kind, target_path=target_path),
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+            return 0
+
         if args.command == "plugin-status":
             root = args.root.resolve()
             plugin_path = args.plugin_json_path.resolve() if args.plugin_json_path else default_plugin_manifest_path(root)
@@ -1634,6 +1676,21 @@ def main(argv: list[str] | None = None) -> int:
             surface = CtxVaultSurface(CtxVault(default_layout(root)))
             sync_manifest_path = args.sync_manifest_path.resolve() if args.sync_manifest_path.is_absolute() else (root / args.sync_manifest_path).resolve()
             result = surface.sync_manifest_apply(sync_manifest_path=sync_manifest_path)
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+        if args.command == "local-backup-write":
+            root = args.root.resolve()
+            surface = CtxVaultSurface(CtxVault(default_layout(root)))
+            result = surface.local_backup_write(
+                target=args.target,
+                scope_kind=args.scope_kind,
+                scope_value=args.scope_value,
+                label=args.label,
+                transport=args.transport,
+                device_id=args.device_id,
+                notes=args.notes,
+            )
             print(json.dumps(result, indent=2, sort_keys=True))
             return 0
 

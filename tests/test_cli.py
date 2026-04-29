@@ -98,6 +98,55 @@ class CliBoundaryTests(unittest.TestCase):
             self.assertEqual(bundle["scope"]["value"], "ctxvault")
             self.assertIn("prompt://prompt_schema_designer_v1", bundle["input_refs"])
 
+    def test_adapter_healthcheck_cli_is_read_only_for_agents_md(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            target = root / "AGENTS.md"
+
+            code, stdout = self.run_cli(
+                "adapter-healthcheck",
+                "--root",
+                str(root),
+                "--target-kind",
+                "agents-md",
+                "--target-path",
+                "AGENTS.md",
+            )
+
+            self.assertEqual(code, 0)
+            result = json.loads(stdout)
+            self.assertEqual(result["schema_id"], "ctxvault.projection-healthcheck/v1")
+            self.assertEqual(result["adapter_id"], "projection.harness.agents-md")
+            self.assertEqual(result["status"], "pass")
+            self.assertFalse(result["write_plan"][0]["will_write"])
+            self.assertFalse(target.exists())
+
+    def test_adapter_healthcheck_cli_accepts_existing_projection_targets(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+
+            for target_kind, expected_adapter, output_name in [
+                ("claude-md", "projection.harness.claude-md", "CLAUDE.md"),
+                ("workstream-brief", "projection.wiki.markdown-workstream", "brief.md"),
+            ]:
+                with self.subTest(target_kind=target_kind):
+                    code, stdout = self.run_cli(
+                        "adapter-healthcheck",
+                        "--root",
+                        str(root),
+                        "--target-kind",
+                        target_kind,
+                        "--target-path",
+                        output_name,
+                    )
+
+                    self.assertEqual(code, 0)
+                    result = json.loads(stdout)
+                    self.assertEqual(result["adapter_id"], expected_adapter)
+                    self.assertEqual(result["status"], "pass")
+                    self.assertFalse(result["write_plan"][0]["will_write"])
+                    self.assertFalse((root / output_name).exists())
+
     def test_transport_dashboard_reports_aggregated_transport_state(self) -> None:
         with TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -170,6 +219,33 @@ class CliBoundaryTests(unittest.TestCase):
             self.assertEqual(payload["summary"]["open_pairing_offer_count"], 1)
             self.assertEqual(payload["sync_targets"][0]["state"], "in_sync")
             self.assertEqual(payload["open_pairing_offers"][0]["actions"], ["accept_pairing"])
+
+    def test_local_backup_write_cli_creates_verified_replica(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir) / "workspace"
+            root.mkdir()
+            target = Path(tmpdir) / "local-backup-target"
+            (root / "README.md").write_text("# CtxVault\n", encoding="utf-8")
+
+            code, stdout = self.run_cli(
+                "local-backup-write",
+                "--root",
+                str(root),
+                "--target",
+                target.as_uri(),
+                "--label",
+                "cli local backup",
+                "--device-id",
+                "cli-local-backup-device",
+            )
+
+            self.assertEqual(code, 0)
+            payload = json.loads(stdout)
+            self.assertEqual(payload["receipt"]["schema_version"], "ctxvault.local-backup-write-receipt/v1")
+            self.assertEqual(payload["receipt"]["status"], "verified")
+            self.assertEqual(payload["verification"]["status"], "verified")
+            self.assertTrue((target / "snapshots" / Path(payload["snapshot"]["manifest_path"]).name).exists())
+            self.assertTrue((target / "snapshot-bundles" / Path(payload["snapshot"]["restore_bundle_path"]).name).exists())
 
     def test_privacy_scan_files_reports_attachment_findings(self) -> None:
         with TemporaryDirectory() as tmpdir:

@@ -20,6 +20,7 @@ MUTATION_LEDGER_SCHEMA_VERSION = "ctxvault.mutation-ledger/v1"
 SYNC_RECEIPT_SCHEMA_VERSION = "ctxvault.sync-receipt/v1"
 SYNC_MANIFEST_SCHEMA_VERSION = "ctxvault.sync-manifest/v1"
 SYNC_COPY_RECEIPT_SCHEMA_VERSION = "ctxvault.sync-copy-receipt/v1"
+LOCAL_BACKUP_WRITE_RECEIPT_SCHEMA_VERSION = "ctxvault.local-backup-write-receipt/v1"
 REPLICA_VERIFY_SCHEMA_VERSION = "ctxvault.replica-verify/v1"
 REPLICA_TRUST_EVAL_SCHEMA_VERSION = "ctxvault.replica-trust-eval/v1"
 REPLICA_TRUST_REGISTRY_SCHEMA_VERSION = "ctxvault.replica-trust-registry/v1"
@@ -514,6 +515,102 @@ def apply_sync_manifest(
     return {
         "receipt_path": str(receipt_path.resolve()),
         "receipt": receipt,
+        "operation_log_path": str(operation_log_path.resolve()),
+        "operation": operation,
+    }
+
+
+def write_local_backup(
+    *,
+    root: Path,
+    layout: VaultLayout,
+    target: str,
+    scope_kind: str,
+    scope_value: str,
+    label: str | None = None,
+    transport: str = "local_copy",
+    device_id: str | None = None,
+    notes: str | None = None,
+) -> dict[str, Any]:
+    root = root.resolve()
+    target_root = _local_target_root(target)
+    if _is_relative_to(target_root, root):
+        raise ValueError("local backup target must be outside the workspace root")
+
+    snapshot = create_snapshot(
+        root=root,
+        layout=layout,
+        scope_kind=scope_kind,
+        scope_value=scope_value,
+        label=label,
+    )
+    sync_manifest = emit_sync_manifest(
+        layout=layout,
+        target=target,
+        transport=transport,
+        device_id=device_id,
+        snapshot_id=snapshot["snapshot_id"],
+        notes=notes,
+    )
+    copy_result = apply_sync_manifest(
+        layout=layout,
+        sync_manifest_path=Path(sync_manifest["sync_manifest_path"]),
+    )
+    verification = verify_replica(
+        replica_root=target_root,
+        snapshot_id=snapshot["snapshot_id"],
+    )
+
+    receipt_dir = layout.exports_dir / "local-backup-write-receipts"
+    receipt_dir.mkdir(parents=True, exist_ok=True)
+    operation_log_path = layout.exports_dir / "operation-log.jsonl"
+    operation_log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    written_at_dt = datetime.now(timezone.utc)
+    written_at = written_at_dt.isoformat()
+    timestamp_token = written_at_dt.strftime("%Y%m%dT%H%M%S%fZ").lower()
+    receipt_id = f"local_backup_{timestamp_token}_{str(snapshot['snapshot_id'])[-8:]}"
+    receipt_path = receipt_dir / f"{receipt_id}.json"
+    status = "verified" if verification["status"] == "verified" else "invalid"
+    receipt = {
+        "schema_version": LOCAL_BACKUP_WRITE_RECEIPT_SCHEMA_VERSION,
+        "id": receipt_id,
+        "written_at": written_at,
+        "snapshot_id": snapshot["snapshot_id"],
+        "target": target,
+        "target_root": str(target_root.resolve()),
+        "transport": transport,
+        "device_id": device_id,
+        "scope": {"kind": scope_kind, "value": scope_value},
+        "snapshot_manifest_path": snapshot["manifest_path"],
+        "restore_bundle_path": snapshot["restore_bundle_path"],
+        "sync_manifest_path": sync_manifest["sync_manifest_path"],
+        "sync_copy_receipt_path": copy_result["receipt_path"],
+        "replica_verification_status": verification["status"],
+        "status": status,
+        "notes": notes,
+    }
+    _write_json(receipt_path, receipt)
+
+    operation = {
+        "schema_version": OPERATION_LOG_SCHEMA_VERSION,
+        "timestamp": written_at,
+        "operation": "local-backup.write",
+        "snapshot_id": snapshot["snapshot_id"],
+        "receipt_id": receipt_id,
+        "receipt_path": str(receipt_path.resolve()),
+        "target_root": str(target_root.resolve()),
+        "status": status,
+    }
+    _append_jsonl(operation_log_path, operation)
+
+    return {
+        "receipt_path": str(receipt_path.resolve()),
+        "receipt": receipt,
+        "snapshot": snapshot,
+        "sync_manifest": sync_manifest,
+        "sync_copy": copy_result,
+        "verification": verification,
         "operation_log_path": str(operation_log_path.resolve()),
         "operation": operation,
     }
@@ -2146,6 +2243,14 @@ def _display_path(root: Path, path: Path) -> str:
         return str(resolved.relative_to(root))
     except ValueError:
         return str(resolved)
+
+
+def _is_relative_to(path: Path, other: Path) -> bool:
+    try:
+        path.resolve().relative_to(other.resolve())
+        return True
+    except ValueError:
+        return False
 
 
 def _entry_map(entries: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
