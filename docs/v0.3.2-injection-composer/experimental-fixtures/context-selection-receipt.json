@@ -1,0 +1,39 @@
+{
+  "schema_id": "ctxvault.context-selection-receipt/v1",
+  "contract_state": "experimental",
+  "selection_id": "ctxsel_20260430t000000z_4a8bbf21c901",
+  "selection_ref": "context-selection://ctxsel_20260430t000000z_4a8bbf21c901",
+  "target_kind": "harness.agents-md",
+  "query": "release plan and privacy-safe context picker",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "workstream_ref": "workstream://ws_20260421_ctxvault_schema",
+  "selected_slice_refs": [
+    "slice://knowledge/know_context_picker_fixture#markdown_heading_section/1-3ef5ca4d00c4"
+  ],
+  "candidate_slice_refs": [
+    "slice://knowledge/know_context_picker_fixture#markdown_heading_section/1-3ef5ca4d00c4",
+    "slice://compiled-state/ws_20260421_ctxvault_schema#workstream_decision/1-827bc1e0fd8a"
+  ],
+  "ranking_policy": "deterministic_bm25_v1",
+  "ranking_reasons": {
+    "slice://knowledge/know_context_picker_fixture#markdown_heading_section/1-3ef5ca4d00c4": {
+      "policy": "deterministic_bm25_v1",
+      "bm25_rank": -1.25,
+      "ranking_boost": 0.0,
+      "privacy_penalty_order": 0
+    }
+  },
+  "privacy_preflight_ref": "receipt://privacy-preflight/privacy_preflight_20260430t000000z_1d441f56",
+  "privacy_preflight_receipt_path": "exports/receipts/privacy_preflight_20260430t000000z_1d441f56.json",
+  "token_estimate": 214,
+  "token_budget": 1200,
+  "budget_status": "within_budget",
+  "source_group_count": 2,
+  "preference_actions": {
+    "slice://knowledge/know_context_picker_fixture#markdown_heading_section/1-3ef5ca4d00c4": "pin"
+  },
+  "created_at": "2026-04-30T00:00:00+00:00"
+}

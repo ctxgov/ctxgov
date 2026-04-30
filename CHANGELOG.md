@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.3.2 - 2026-05-01
+
+- Added deterministic source-grouped context selection composer over existing
+  local context slices.
+- Added `ctxvault.context-selection-receipt/v1` schema and fixture.
+- Added token budget preview and target-aware privacy preflight during
+  selection composition.
+- Linked projection receipts to the context selection receipt that produced
+  the selected slice set.
+- Added local pin, hide, archive, and clear preferences for slice suggestions.
+- Added CLI and MCP surfaces for context selection compose and slice
+  preferences.
+- Published v0.3.2 release notes and injection composer public docs without
+  adding model, vector, remote provider, official plugin, or live connector
+  promises.
+
 ## v0.3.1 - 2026-04-30
 
 - Added deterministic local context slices over governed sources.

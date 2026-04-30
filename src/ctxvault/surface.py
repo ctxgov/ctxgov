@@ -1252,6 +1252,64 @@ class CtxVaultSurface:
             write_receipt=write_receipt,
         )
 
+    def context_selection_compose(
+        self,
+        query: str,
+        *,
+        target_kind: str,
+        scope_kind: str | None = None,
+        scope_value: str | None = None,
+        workstream_ref: str | None = None,
+        selected_slice_refs: list[str] | None = None,
+        candidate_slice_refs: list[str] | None = None,
+        limit: int = 10,
+        token_budget: int = 4000,
+        include_blocked: bool = False,
+        write_receipt: bool = False,
+    ) -> dict[str, Any]:
+        scope = (scope_kind, scope_value) if scope_kind and scope_value else None
+        return self.vault.compose_context_selection(
+            query,
+            target_kind=target_kind,
+            scope=scope,
+            workstream_ref=workstream_ref,
+            selected_slice_refs=selected_slice_refs,
+            candidate_slice_refs=candidate_slice_refs,
+            limit=limit,
+            token_budget=token_budget,
+            include_blocked=include_blocked,
+            write_receipt=write_receipt,
+        )
+
+    def context_slice_preference_set(
+        self,
+        *,
+        slice_ref: str,
+        action: str,
+        target_kind: str | None = None,
+        scope_kind: str | None = None,
+        scope_value: str | None = None,
+        note: str | None = None,
+    ) -> dict[str, Any]:
+        scope = (scope_kind, scope_value) if scope_kind and scope_value else None
+        return self.vault.set_context_slice_preference(
+            slice_ref=slice_ref,
+            action=action,
+            target_kind=target_kind,
+            scope=scope,
+            note=note,
+        )
+
+    def context_slice_preference_list(
+        self,
+        *,
+        target_kind: str | None = None,
+        scope_kind: str | None = None,
+        scope_value: str | None = None,
+    ) -> list[dict[str, Any]]:
+        scope = (scope_kind, scope_value) if scope_kind and scope_value else None
+        return self.vault.list_context_slice_preferences(target_kind=target_kind, scope=scope)
+
     def logical_purge_plan(
         self,
         *,
@@ -1620,11 +1678,12 @@ class CtxVaultSurface:
             raise ValueError(f"workstream {workstream_id} must be approved before projection")
         memories = self._load_projection_memories(scope=workstream["scope"], limit=memory_limit)
         compiled_state = self.compiled_workstream_state(workstream_id, limit=memory_limit)
-        privacy_preflight = self._projection_privacy_preflight(
+        context_selection = self._projection_context_selection(
             selected_slice_refs=selected_slice_refs,
             target_kind="harness.agents-md",
             workstream_id=workstream_id,
         )
+        privacy_preflight = _privacy_preflight_from_context_selection(context_selection)
         return emit_agents_md_projection(
             root=self.vault.layout.repo_root,
             output_path=output_path,
@@ -1634,6 +1693,7 @@ class CtxVaultSurface:
             compiled_state_payload=compiled_state,
             selected_context_slices=_selected_slices_from_preflight(privacy_preflight),
             privacy_preflight=privacy_preflight,
+            context_selection_receipt=(context_selection or {}).get("receipt"),
         )
 
     def harness_claude_md_emit(
@@ -1650,11 +1710,12 @@ class CtxVaultSurface:
             raise ValueError(f"workstream {workstream_id} must be approved before projection")
         memories = self._load_projection_memories(scope=workstream["scope"], limit=memory_limit)
         compiled_state = self.compiled_workstream_state(workstream_id, limit=memory_limit)
-        privacy_preflight = self._projection_privacy_preflight(
+        context_selection = self._projection_context_selection(
             selected_slice_refs=selected_slice_refs,
             target_kind="harness.claude-md",
             workstream_id=workstream_id,
         )
+        privacy_preflight = _privacy_preflight_from_context_selection(context_selection)
         return emit_claude_md_projection(
             root=self.vault.layout.repo_root,
             output_path=output_path,
@@ -1664,6 +1725,7 @@ class CtxVaultSurface:
             compiled_state_payload=compiled_state,
             selected_context_slices=_selected_slices_from_preflight(privacy_preflight),
             privacy_preflight=privacy_preflight,
+            context_selection_receipt=(context_selection or {}).get("receipt"),
         )
 
     def wiki_workstream_markdown_emit(
@@ -1680,11 +1742,12 @@ class CtxVaultSurface:
             raise ValueError(f"workstream {workstream_id} must be approved before projection")
         memories = self._load_projection_memories(scope=workstream["scope"], limit=memory_limit)
         compiled_state = self.compiled_workstream_state(workstream_id, limit=memory_limit)
-        privacy_preflight = self._projection_privacy_preflight(
+        context_selection = self._projection_context_selection(
             selected_slice_refs=selected_slice_refs,
             target_kind="wiki.markdown-workstream",
             workstream_id=workstream_id,
         )
+        privacy_preflight = _privacy_preflight_from_context_selection(context_selection)
         return emit_wiki_workstream_md_projection(
             root=self.vault.layout.repo_root,
             output_path=output_path,
@@ -1694,9 +1757,10 @@ class CtxVaultSurface:
             compiled_state_payload=compiled_state,
             selected_context_slices=_selected_slices_from_preflight(privacy_preflight),
             privacy_preflight=privacy_preflight,
+            context_selection_receipt=(context_selection or {}).get("receipt"),
         )
 
-    def _projection_privacy_preflight(
+    def _projection_context_selection(
         self,
         *,
         selected_slice_refs: list[str] | None,
@@ -1706,17 +1770,20 @@ class CtxVaultSurface:
         refs = [str(ref).strip() for ref in selected_slice_refs or [] if str(ref).strip()]
         if not refs:
             return None
-        result = self.context_selection_preflight(
-            refs,
+        result = self.context_selection_compose(
+            "",
             target_kind=target_kind,
+            selected_slice_refs=refs,
+            candidate_slice_refs=refs,
             workstream_ref=f"workstream://{workstream_id}",
+            token_budget=0,
             write_receipt=True,
         )
-        receipt = result["receipt"]
-        if receipt["decision"] == "block":
-            reasons = "; ".join(str(reason) for reason in receipt.get("reasons", []))
+        preflight = _privacy_preflight_from_context_selection(result)
+        if preflight and preflight["decision"] == "block":
+            reasons = "; ".join(str(reason) for reason in preflight.get("reasons", []))
             raise ValueError(f"context selection preflight blocked projection: {reasons}")
-        return receipt
+        return result
 
     def doctor_report(self) -> dict[str, Any]:
         return build_doctor_report(self.vault.layout.repo_root)
@@ -2951,3 +3018,13 @@ def _optional_string_list(value: Any) -> list[str]:
     if not isinstance(value, list):
         raise ValueError("selected_slice_refs must be a list when provided")
     return [str(item).strip() for item in value if str(item).strip()]
+
+
+def _privacy_preflight_from_context_selection(context_selection: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not context_selection:
+        return None
+    preflight = context_selection.get("privacy_preflight")
+    if not isinstance(preflight, dict):
+        return None
+    receipt = preflight.get("receipt")
+    return receipt if isinstance(receipt, dict) else None

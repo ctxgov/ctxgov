@@ -204,6 +204,53 @@ class CliBoundaryTests(unittest.TestCase):
             self.assertIn(preflight["receipt"]["decision"], {"allow", "redact", "review", "block"})
             self.assertEqual(preflight["receipt"]["selected_slice_refs"], [hits[0]["slice_ref"]])
 
+            compose_code, compose_stdout = self.run_cli(
+                "context-selection-compose",
+                "--root",
+                str(root),
+                "--query",
+                "local-first context layer",
+                "--target-kind",
+                "harness.agents-md",
+                "--slice-ref",
+                hits[0]["slice_ref"],
+                "--candidate-slice-ref",
+                hits[0]["slice_ref"],
+                "--token-budget",
+                "1000",
+                "--write-receipt",
+            )
+            self.assertEqual(compose_code, 0)
+            composed = json.loads(compose_stdout)
+            self.assertEqual(composed["receipt"]["schema_id"], "ctxvault.context-selection-receipt/v1")
+            self.assertEqual(composed["selected_slice_refs"], [hits[0]["slice_ref"]])
+            self.assertTrue(Path(composed["receipt_path"]).exists())
+
+            preference_code, preference_stdout = self.run_cli(
+                "context-slice-preference-set",
+                "--root",
+                str(root),
+                "--slice-ref",
+                hits[0]["slice_ref"],
+                "--action",
+                "pin",
+                "--target-kind",
+                "harness.agents-md",
+            )
+            self.assertEqual(preference_code, 0)
+            preference = json.loads(preference_stdout)
+            self.assertEqual(preference["action"], "pin")
+
+            list_code, list_stdout = self.run_cli(
+                "context-slice-preference-list",
+                "--root",
+                str(root),
+                "--target-kind",
+                "harness.agents-md",
+            )
+            self.assertEqual(list_code, 0)
+            self.assertEqual(json.loads(list_stdout)[0]["slice_ref"], hits[0]["slice_ref"])
+
     def test_logical_purge_cli_requires_reviewed_apply(self) -> None:
         with TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

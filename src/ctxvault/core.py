@@ -194,6 +194,40 @@ def _unique(values: Iterable[str]) -> list[str]:
     return ordered
 
 
+def _privacy_preflight_ref(preflight: dict[str, Any] | None) -> str | None:
+    if not preflight:
+        return None
+    receipt = preflight.get("receipt") if isinstance(preflight.get("receipt"), dict) else {}
+    receipt_id = str(receipt.get("receipt_id") or "").strip()
+    if not receipt_id:
+        return None
+    return f"receipt://privacy-preflight/{receipt_id}"
+
+
+def _group_context_selection_sources(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    groups: dict[str, dict[str, Any]] = {}
+    order: list[str] = []
+    for item in items:
+        source_ref = str(item["source_ref"])
+        if source_ref not in groups:
+            groups[source_ref] = {
+                "source_ref": source_ref,
+                "title": str((item.get("payload") or {}).get("title") or item.get("title") or source_ref),
+                "slice_count": 0,
+                "selected_count": 0,
+                "token_estimate": 0,
+                "slices": [],
+            }
+            order.append(source_ref)
+        group = groups[source_ref]
+        group["slice_count"] += 1
+        if item["is_selected"]:
+            group["selected_count"] += 1
+            group["token_estimate"] += int(item["token_estimate"])
+        group["slices"].append(item)
+    return [groups[source_ref] for source_ref in order]
+
+
 def _first_reference(values: Any, prefix: str) -> str | None:
     if not isinstance(values, list):
         return None
@@ -626,6 +660,256 @@ class CtxVault:
             receipt_path.write_text(json.dumps(receipt, ensure_ascii=True, indent=2, sort_keys=True) + "\n")
             result["receipt_path"] = str(receipt_path)
         return result
+
+    def compose_context_selection(
+        self,
+        query: str,
+        *,
+        target_kind: str,
+        scope: tuple[str, str] | None = None,
+        workstream_ref: str | None = None,
+        selected_slice_refs: list[str] | None = None,
+        candidate_slice_refs: list[str] | None = None,
+        limit: int = 10,
+        token_budget: int = 4000,
+        include_blocked: bool = False,
+        write_receipt: bool = False,
+    ) -> dict[str, Any]:
+        self.initialize()
+        selected_refs = _unique(selected_slice_refs or [])
+        requested_candidate_refs = _unique(candidate_slice_refs or [])
+        candidate_hits = self.search_context_slices(
+            query,
+            scope=scope,
+            workstream_ref=workstream_ref,
+            limit=max(1, limit),
+            include_blocked=include_blocked,
+        ) if not requested_candidate_refs else []
+        candidate_refs = _unique([
+            *requested_candidate_refs,
+            *[hit.semantic_ref for hit in candidate_hits],
+            *selected_refs,
+        ])
+
+        with self._connection() as conn:
+            rows_by_ref = self._context_slice_rows_by_ref(conn, candidate_refs) if candidate_refs else {}
+            preferences = self._context_slice_preferences_by_ref(
+                conn,
+                candidate_refs,
+                target_kind=target_kind,
+                scope=scope,
+            )
+        missing_selected = [ref for ref in selected_refs if ref not in rows_by_ref]
+        if missing_selected:
+            raise KeyError(f"unknown selected context slice refs: {missing_selected}")
+
+        hits_by_ref = {hit.semantic_ref: hit for hit in candidate_hits}
+        candidate_items: list[dict[str, Any]] = []
+        for ref in candidate_refs:
+            row = rows_by_ref.get(ref)
+            if row is None:
+                continue
+            preference = preferences.get(ref)
+            if preference and preference["action"] in {"hide", "archive"} and ref not in selected_refs:
+                continue
+            if not include_blocked and str(row["privacy_class"]) == "withheld" and ref not in selected_refs:
+                continue
+            hit = hits_by_ref.get(ref)
+            payload = hit.payload if hit is not None else self._context_slice_hit_from_row({**row, "rank": 0.0}).payload
+            score = hit.score if hit is not None else float(privacy_sort_key(str(row["privacy_class"]))) - float(row.get("ranking_boost") or 0.0)
+            preference_action = preference["action"] if preference else None
+            if preference_action == "pin":
+                score -= 5.0
+                payload = deepcopy(payload)
+                payload["ranking_reasons"] = dict(payload.get("ranking_reasons") or {})
+                payload["ranking_reasons"]["local_preference"] = "pin"
+            candidate_items.append(
+                {
+                    "slice_ref": ref,
+                    "source_ref": str(row["source_ref"]),
+                    "title": str(row["title"]),
+                    "slice_kind": str(row["slice_kind"]),
+                    "heading_path": row.get("heading_path"),
+                    "privacy_class": str(row["privacy_class"]),
+                    "sensitivity": str(row["sensitivity"]),
+                    "token_estimate": int(row["token_estimate"]),
+                    "score": score,
+                    "is_selected": ref in selected_refs,
+                    "preference_action": preference_action,
+                    "payload": payload,
+                }
+            )
+        candidate_items.sort(key=lambda item: (0 if item["preference_action"] == "pin" else 1, item["score"], item["slice_ref"]))
+
+        selected_items = [item for item in candidate_items if item["is_selected"]]
+        token_estimate = sum(int(item["token_estimate"]) for item in selected_items)
+        budget_status = "empty"
+        if selected_items:
+            budget_status = "within_budget" if token_estimate <= max(0, int(token_budget)) else "over_budget"
+
+        privacy_preflight = None
+        if selected_refs:
+            privacy_preflight = self.preflight_context_selection(
+                selected_refs,
+                target_kind=target_kind,
+                query=query,
+                workstream_ref=workstream_ref,
+                write_receipt=write_receipt,
+            )
+
+        created_at = _utc_now()
+        selection_hash = hashlib.sha256(
+            _canonical_json(
+                {
+                    "query": query,
+                    "target_kind": target_kind,
+                    "workstream_ref": workstream_ref,
+                    "selected_slice_refs": selected_refs,
+                    "candidate_slice_refs": [item["slice_ref"] for item in candidate_items],
+                }
+            ).encode("utf-8")
+        ).hexdigest()[:12]
+        selection_id = f"ctxsel_{_utc_compact_timestamp().lower()}_{selection_hash}"
+        receipt = {
+            "schema_id": "ctxvault.context-selection-receipt/v1",
+            "contract_state": "experimental",
+            "selection_id": selection_id,
+            "selection_ref": f"context-selection://{selection_id}",
+            "target_kind": target_kind,
+            "query": query,
+            "scope": {"kind": scope[0], "value": scope[1]} if scope else None,
+            "workstream_ref": workstream_ref,
+            "selected_slice_refs": selected_refs,
+            "candidate_slice_refs": [item["slice_ref"] for item in candidate_items],
+            "ranking_policy": "deterministic_bm25_v1",
+            "ranking_reasons": {
+                item["slice_ref"]: item["payload"].get("ranking_reasons", {})
+                for item in candidate_items
+            },
+            "privacy_preflight_ref": _privacy_preflight_ref(privacy_preflight),
+            "privacy_preflight_receipt_path": privacy_preflight.get("receipt_path") if privacy_preflight else None,
+            "token_estimate": token_estimate,
+            "token_budget": int(token_budget),
+            "budget_status": budget_status,
+            "source_group_count": len(_group_context_selection_sources(candidate_items)),
+            "preference_actions": {
+                item["slice_ref"]: item["preference_action"]
+                for item in candidate_items
+                if item["preference_action"]
+            },
+            "created_at": created_at,
+        }
+        receipt_path = None
+        if write_receipt:
+            receipt_dir = self.layout.exports_dir / "receipts"
+            receipt_dir.mkdir(parents=True, exist_ok=True)
+            receipt_path = receipt_dir / f"{selection_id}.json"
+            receipt_path.write_text(json.dumps(receipt, ensure_ascii=True, indent=2, sort_keys=True) + "\n")
+
+        return {
+            "schema_id": "ctxvault.context-selection-composer/v1",
+            "query": query,
+            "target_kind": target_kind,
+            "workstream_ref": workstream_ref,
+            "selected_slice_refs": selected_refs,
+            "candidate_slice_refs": receipt["candidate_slice_refs"],
+            "source_groups": _group_context_selection_sources(candidate_items),
+            "selected_slices": selected_items,
+            "token_budget": int(token_budget),
+            "token_estimate": token_estimate,
+            "budget_status": budget_status,
+            "privacy_preflight": privacy_preflight,
+            "receipt": receipt,
+            "receipt_path": str(receipt_path) if receipt_path is not None else None,
+        }
+
+    def set_context_slice_preference(
+        self,
+        *,
+        slice_ref: str,
+        action: str,
+        target_kind: str | None = None,
+        scope: tuple[str, str] | None = None,
+        note: str | None = None,
+    ) -> dict[str, Any]:
+        self.initialize()
+        normalized_action = str(action).strip().lower()
+        if normalized_action not in {"pin", "hide", "archive", "clear"}:
+            raise ValueError("action must be pin, hide, archive, or clear")
+        normalized_ref = str(slice_ref).strip()
+        if not normalized_ref:
+            raise ValueError("slice_ref is required")
+        with self._connection() as conn:
+            rows_by_ref = self._context_slice_rows_by_ref(conn, [normalized_ref])
+            if normalized_ref not in rows_by_ref:
+                raise KeyError(f"unknown context slice ref: {normalized_ref}")
+            target_key = target_kind or ""
+            scope_kind = scope[0] if scope else ""
+            scope_value = scope[1] if scope else ""
+            if normalized_action == "clear":
+                conn.execute(
+                    """
+                    DELETE FROM context_slice_preferences
+                    WHERE slice_ref = ? AND target_kind = ? AND scope_kind = ? AND scope_value = ?
+                    """,
+                    (normalized_ref, target_key, scope_kind, scope_value),
+                )
+            else:
+                conn.execute(
+                    """
+                    INSERT OR REPLACE INTO context_slice_preferences (
+                      slice_ref, target_kind, scope_kind, scope_value, action, note, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (normalized_ref, target_key, scope_kind, scope_value, normalized_action, note or "", _utc_now()),
+                )
+            conn.commit()
+        return {
+            "schema_id": "ctxvault.context-slice-preference/v1",
+            "slice_ref": normalized_ref,
+            "target_kind": target_kind,
+            "scope": {"kind": scope[0], "value": scope[1]} if scope else None,
+            "action": normalized_action,
+            "note": note or "",
+        }
+
+    def list_context_slice_preferences(
+        self,
+        *,
+        target_kind: str | None = None,
+        scope: tuple[str, str] | None = None,
+    ) -> list[dict[str, Any]]:
+        self.initialize()
+        clauses = ["1 = 1"]
+        params: list[Any] = []
+        if target_kind is not None:
+            clauses.append("target_kind = ?")
+            params.append(target_kind)
+        if scope is not None:
+            clauses.append("scope_kind = ? AND scope_value = ?")
+            params.extend(scope)
+        with self._connection() as conn:
+            rows = conn.execute(
+                f"""
+                SELECT slice_ref, target_kind, scope_kind, scope_value, action, note, updated_at
+                FROM context_slice_preferences
+                WHERE {' AND '.join(clauses)}
+                ORDER BY updated_at DESC, slice_ref ASC
+                """,
+                params,
+            ).fetchall()
+        return [
+            {
+                "schema_id": "ctxvault.context-slice-preference/v1",
+                "slice_ref": str(row["slice_ref"]),
+                "target_kind": str(row["target_kind"] or "") or None,
+                "scope": {"kind": row["scope_kind"], "value": row["scope_value"]} if row["scope_kind"] and row["scope_value"] else None,
+                "action": str(row["action"]),
+                "note": str(row["note"] or ""),
+                "updated_at": str(row["updated_at"]),
+            }
+            for row in rows
+        ]
 
     def plan_logical_purge(
         self,
@@ -2542,6 +2826,17 @@ class CtxVault:
               PRIMARY KEY(from_slice_ref, to_ref, relation)
             );
 
+            CREATE TABLE IF NOT EXISTS context_slice_preferences (
+              slice_ref TEXT NOT NULL,
+              target_kind TEXT NOT NULL DEFAULT '',
+              scope_kind TEXT NOT NULL DEFAULT '',
+              scope_value TEXT NOT NULL DEFAULT '',
+              action TEXT NOT NULL,
+              note TEXT NOT NULL,
+              updated_at TEXT NOT NULL,
+              PRIMARY KEY(slice_ref, target_kind, scope_kind, scope_value)
+            );
+
             CREATE TABLE IF NOT EXISTS claims (
               object_id TEXT PRIMARY KEY,
               semantic_ref TEXT NOT NULL,
@@ -3419,6 +3714,8 @@ class CtxVault:
                 )
 
     def _context_slice_rows_by_ref(self, conn: sqlite3.Connection, slice_refs: list[str]) -> dict[str, dict[str, Any]]:
+        if not slice_refs:
+            return {}
         placeholders = ",".join("?" for _ in slice_refs)
         rows = conn.execute(
             f"""
@@ -3429,6 +3726,47 @@ class CtxVault:
             slice_refs,
         ).fetchall()
         return {str(row["slice_ref"]): dict(row) for row in rows}
+
+    def _context_slice_preferences_by_ref(
+        self,
+        conn: sqlite3.Connection,
+        slice_refs: list[str],
+        *,
+        target_kind: str,
+        scope: tuple[str, str] | None,
+    ) -> dict[str, dict[str, Any]]:
+        if not slice_refs or not self._has_table(conn, "context_slice_preferences"):
+            return {}
+        placeholders = ",".join("?" for _ in slice_refs)
+        rows = conn.execute(
+            f"""
+            SELECT slice_ref, target_kind, scope_kind, scope_value, action, note, updated_at
+            FROM context_slice_preferences
+            WHERE slice_ref IN ({placeholders})
+            ORDER BY
+              CASE WHEN target_kind = ? THEN 0 WHEN target_kind = '' THEN 1 ELSE 2 END ASC,
+              CASE WHEN scope_kind = ? AND scope_value = ? THEN 0 WHEN scope_kind = '' AND scope_value = '' THEN 1 ELSE 2 END ASC,
+              updated_at DESC
+            """,
+            [*slice_refs, target_kind, scope[0] if scope else "", scope[1] if scope else ""],
+        ).fetchall()
+        selected: dict[str, dict[str, Any]] = {}
+        for row in rows:
+            ref = str(row["slice_ref"])
+            if ref in selected:
+                continue
+            row_target = str(row["target_kind"] or "")
+            row_scope_kind = str(row["scope_kind"] or "")
+            row_scope_value = str(row["scope_value"] or "")
+            target_matches = row_target in ("", target_kind)
+            scope_matches = (
+                row_scope_kind == "" and row_scope_value == ""
+            ) or (
+                scope is not None and row_scope_kind == scope[0] and row_scope_value == scope[1]
+            )
+            if target_matches and scope_matches:
+                selected[ref] = dict(row)
+        return selected
 
     def _context_slice_candidate_text(self, row: dict[str, Any]) -> str:
         source_kind = str(row["source_object_kind"])

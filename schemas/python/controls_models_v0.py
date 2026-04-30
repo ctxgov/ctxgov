@@ -207,6 +207,8 @@ class ProjectionReceipt(CtxVaultControlsModel):
     warnings: list[str] = Field(default_factory=list)
     selected_slice_refs: list[str] = Field(default_factory=list)
     privacy_preflight: dict[str, Any] | None = None
+    context_selection_ref: str | None = None
+    context_selection_receipt_id: str | None = None
 
 
 MODEL_REGISTRY = {

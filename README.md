@@ -5,10 +5,11 @@ AI work needs a source of truth outside the chat window.
 CtxVault is a local context layer for preserving the decisions, constraints,
 and working state that AI tools need to carry across sessions and workflows.
 
-v0.3.1 is the local-safety and context-slicing milestone on top of compiled
-Context Injection. It takes reviewed project docs, sessions, and Markdown
-notes, compiles current workstream state, slices local context into rebuildable
-read models, and projects selected context into AI work surfaces with receipts.
+v0.3.2 is the deterministic injection composer milestone on top of local
+safety and compiled Context Injection. It takes reviewed project docs,
+sessions, and Markdown notes, compiles current workstream state, slices local
+context into rebuildable read models, lets users compose exact selected slices,
+and projects selected context into AI work surfaces with linked receipts.
 
 This public repository exposes the deterministic trust floor behind that loop:
 
@@ -22,6 +23,9 @@ This public repository exposes the deterministic trust floor behind that loop:
 - experimental projection healthchecks and runtime receipts
 - deterministic context slicing and local context search
 - selected-slice privacy preflight receipts
+- source-grouped context selection receipts
+- token budget previews before projection
+- projection receipts linked to the context selection that produced them
 - review-gated logical purge for derived slice, search, preview, embedding,
   and selected projection data
 - public schemas, fixtures, and deterministic tests
@@ -68,9 +72,26 @@ The public core currently marks these contracts as experimental:
 - the first local plugin executor paths for context injection targets
 - projection adapter healthchecks
 - runtime event receipts
+- context selection receipts
 
 Experimental means they are useful and inspectable, but not yet frozen as
 long-term public semantics.
+
+## v0.3.2 Injection Composer
+
+v0.3.2 is a fast-follow release after v0.3.1. It does not add model,
+embedding, vector, remote provider, official plugin, or live connector
+dependencies. It adds the deterministic composer layer needed to choose exact
+local slices before projection:
+
+- source-grouped local context candidate composition
+- explicit multi-slice selection
+- token budget preview
+- target-aware privacy preflight for selected slices
+- `ctxvault.context-selection-receipt/v1`
+- projection receipts linked to context selection receipts
+- local pin, hide, and archive preferences for slice suggestions
+- CLI and MCP tools over the same deterministic core
 
 ## v0.3.1 Local Safety And Context Slicing
 
@@ -150,6 +171,18 @@ Run selected-slice privacy preflight before injecting a slice into a target:
 PYTHONPATH=src python3 -m ctxvault.cli context-selection-preflight --root /tmp/ctxvault-clean-verify --slice-ref SLICE_REF --target-kind agents-md --write-receipt
 ```
 
+Compose selected local slices with a budget preview and a selection receipt:
+
+```bash
+PYTHONPATH=src python3 -m ctxvault.cli context-selection-compose --root /tmp/ctxvault-clean-verify --query "projection receipts" --target-kind harness.agents-md --slice-ref SLICE_REF --token-budget 1200 --write-receipt
+```
+
+Pin, hide, or archive local slice suggestions:
+
+```bash
+PYTHONPATH=src python3 -m ctxvault.cli context-slice-preference-set --root /tmp/ctxvault-clean-verify --slice-ref SLICE_REF --action pin --target-kind harness.agents-md
+```
+
 Plan a review-gated logical purge of derived data:
 
 ```bash
@@ -206,12 +239,16 @@ The checked-in M1 fixture evidence is in:
 - `fixtures/context-injection-m1/projections/workstream-brief-receipt.json`
 - `fixtures/m1-context-injection/README.md`
 
-## v0.3.1 Evidence
+## v0.3.2 Evidence
 
-The v0.3.1 local safety and compiled Context Injection evidence is described
+The v0.3.2 injection composer, v0.3.1 local safety, and compiled Context
+Injection evidence is described
 in:
 
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.3.2-release-notes.md`
+- `docs/v0.3.2-injection-composer/implementation-plan.md`
+- `docs/v0.3.2-injection-composer/experimental-schemas/ctxvault-context-selection-receipt-v1.schema.json`
 - `docs/v0.3.1-release-notes.md`
 - `docs/v0.3.1-local-safety/approved-boundary-decisions.md`
 - `docs/v0.3.1-local-safety/hardening-status.md`
@@ -233,6 +270,8 @@ replace a separate offsite backup strategy.
 - `docs/experimental-contract-evolution-policy.md`
 - `docs/workstream-plan-ledger-contract.md`
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.3.2-release-notes.md`
+- `docs/v0.3.2-injection-composer/implementation-plan.md`
 - `docs/v0.3.1-release-notes.md`
 - `docs/v0.3.1-local-safety/approved-boundary-decisions.md`
 - `docs/v0.3.1-local-safety/hardening-status.md`
@@ -253,6 +292,8 @@ The fastest useful feedback is a concrete first-run report:
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.3.1 local safety, privacy, or purge feedback:
   `.github/ISSUE_TEMPLATE/trust-or-privacy-concern.yml`
+- v0.3.2 injection composer or context selection feedback:
+  `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.2/M2 Developer Framework Feedback:
   `.github/ISSUE_TEMPLATE/v0.2-m2-feedback.yml`
 - M1 Quick Feedback:

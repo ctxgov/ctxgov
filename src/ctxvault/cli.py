@@ -372,6 +372,44 @@ def build_parser() -> argparse.ArgumentParser:
     context_selection_preflight.add_argument("--workstream-ref")
     context_selection_preflight.add_argument("--write-receipt", action="store_true")
 
+    context_selection_compose = subcommands.add_parser(
+        "context-selection-compose",
+        help="Compose source-grouped context slice candidates and optionally write a context-selection receipt",
+    )
+    context_selection_compose.add_argument("--root", type=Path, default=project_root())
+    context_selection_compose.add_argument("--query", default="")
+    context_selection_compose.add_argument("--target-kind", required=True)
+    context_selection_compose.add_argument("--scope-kind")
+    context_selection_compose.add_argument("--scope-value")
+    context_selection_compose.add_argument("--workstream-ref")
+    context_selection_compose.add_argument("--slice-ref", action="append", default=[])
+    context_selection_compose.add_argument("--candidate-slice-ref", action="append", default=[])
+    context_selection_compose.add_argument("--limit", type=int, default=10)
+    context_selection_compose.add_argument("--token-budget", type=int, default=4000)
+    context_selection_compose.add_argument("--include-blocked", action="store_true")
+    context_selection_compose.add_argument("--write-receipt", action="store_true")
+
+    context_slice_preference_set = subcommands.add_parser(
+        "context-slice-preference-set",
+        help="Pin, hide, archive, or clear one local context slice preference",
+    )
+    context_slice_preference_set.add_argument("--root", type=Path, default=project_root())
+    context_slice_preference_set.add_argument("--slice-ref", required=True)
+    context_slice_preference_set.add_argument("--action", required=True, choices=("pin", "hide", "archive", "clear"))
+    context_slice_preference_set.add_argument("--target-kind")
+    context_slice_preference_set.add_argument("--scope-kind")
+    context_slice_preference_set.add_argument("--scope-value")
+    context_slice_preference_set.add_argument("--note")
+
+    context_slice_preference_list = subcommands.add_parser(
+        "context-slice-preference-list",
+        help="List local context slice preferences",
+    )
+    context_slice_preference_list.add_argument("--root", type=Path, default=project_root())
+    context_slice_preference_list.add_argument("--target-kind")
+    context_slice_preference_list.add_argument("--scope-kind")
+    context_slice_preference_list.add_argument("--scope-value")
+
     logical_purge_plan = subcommands.add_parser(
         "logical-purge-plan",
         help="Plan a logical purge of derived privacy-sensitive context data",
@@ -1261,6 +1299,47 @@ def main(argv: list[str] | None = None) -> int:
                 query=args.query,
                 workstream_ref=args.workstream_ref,
                 write_receipt=args.write_receipt,
+            )
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+        if args.command == "context-selection-compose":
+            surface = CtxVaultSurface(CtxVault(default_layout(args.root.resolve())))
+            result = surface.context_selection_compose(
+                args.query,
+                target_kind=args.target_kind,
+                scope_kind=args.scope_kind,
+                scope_value=args.scope_value,
+                workstream_ref=args.workstream_ref,
+                selected_slice_refs=args.slice_ref,
+                candidate_slice_refs=args.candidate_slice_ref,
+                limit=args.limit,
+                token_budget=args.token_budget,
+                include_blocked=args.include_blocked,
+                write_receipt=args.write_receipt,
+            )
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+        if args.command == "context-slice-preference-set":
+            surface = CtxVaultSurface(CtxVault(default_layout(args.root.resolve())))
+            result = surface.context_slice_preference_set(
+                slice_ref=args.slice_ref,
+                action=args.action,
+                target_kind=args.target_kind,
+                scope_kind=args.scope_kind,
+                scope_value=args.scope_value,
+                note=args.note,
+            )
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+        if args.command == "context-slice-preference-list":
+            surface = CtxVaultSurface(CtxVault(default_layout(args.root.resolve())))
+            result = surface.context_slice_preference_list(
+                target_kind=args.target_kind,
+                scope_kind=args.scope_kind,
+                scope_value=args.scope_value,
             )
             print(json.dumps(result, indent=2, sort_keys=True))
             return 0

@@ -26,6 +26,8 @@ SCHEMA = ROOT / "docs" / "v0.3.1-local-safety" / "experimental-schemas" / "ctxva
 FIXTURE = ROOT / "docs" / "v0.3.1-local-safety" / "experimental-fixtures" / "context-slice.json"
 PREFLIGHT_SCHEMA = ROOT / "docs" / "v0.3.1-local-safety" / "experimental-schemas" / "ctxvault-privacy-preflight-receipt-v1.schema.json"
 PREFLIGHT_FIXTURE = ROOT / "docs" / "v0.3.1-local-safety" / "experimental-fixtures" / "privacy-preflight-receipt.json"
+SELECTION_SCHEMA = ROOT / "docs" / "v0.3.2-injection-composer" / "experimental-schemas" / "ctxvault-context-selection-receipt-v1.schema.json"
+SELECTION_FIXTURE = ROOT / "docs" / "v0.3.2-injection-composer" / "experimental-fixtures" / "context-selection-receipt.json"
 
 
 class ContextSliceTests(unittest.TestCase):
@@ -40,6 +42,12 @@ class ContextSliceTests(unittest.TestCase):
         fixture = json.loads(PREFLIGHT_FIXTURE.read_text(encoding="utf-8"))
 
         validate(fixture, schema, schema, PREFLIGHT_FIXTURE.name)
+
+    def test_context_selection_fixture_matches_experimental_schema(self) -> None:
+        schema = json.loads(SELECTION_SCHEMA.read_text(encoding="utf-8"))
+        fixture = json.loads(SELECTION_FIXTURE.read_text(encoding="utf-8"))
+
+        validate(fixture, schema, schema, SELECTION_FIXTURE.name)
 
     def test_rebuild_indexes_markdown_slices_and_searches_redacted_previews(self) -> None:
         with TemporaryDirectory() as tmpdir:
@@ -223,6 +231,123 @@ class ContextSliceTests(unittest.TestCase):
             self.assertEqual(receipt["selected_slice_refs"], [hit["slice_ref"]])
             self.assertEqual(receipt["privacy_preflight"]["schema_id"], "ctxvault.privacy-preflight-receipt/v1")
             self.assertTrue(receipt["privacy_preflight"]["projection_gate"]["allowed_to_write"])
+            self.assertTrue(receipt["context_selection_ref"].startswith("context-selection://ctxsel_"))
+            self.assertTrue(receipt["context_selection_receipt_id"].startswith("ctxsel_"))
+
+    def test_context_selection_composer_groups_sources_and_writes_receipt(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            vault = CtxVault(default_layout(root))
+            vault.import_core_fixtures(ROOT / "fixtures" / "core")
+            surface = CtxVaultSurface(vault)
+            for object_id, title, body in [
+                (
+                    "know_picker_file_a",
+                    "Picker file A",
+                    "# File A\n\nThe injection composer should choose exact local context slices for the release plan.",
+                ),
+                (
+                    "know_picker_file_b",
+                    "Picker file B",
+                    "# File B\n\nThe context picker should keep privacy preflight ahead of AGENTS projection.",
+                ),
+            ]:
+                vault.store_core_object(
+                    "KnowledgeArtifact",
+                    {
+                        "id": object_id,
+                        "kind": "project_note",
+                        "title": title,
+                        "scope": {"kind": "project", "value": "ctxvault"},
+                        "body": body,
+                        "source_refs": [],
+                        "derived_from": [],
+                        "status": "active",
+                        "sensitivity": "internal",
+                        "redaction_state": "none",
+                        "secret_refs": [],
+                        "exportable": True,
+                        "created_at": "2026-04-30T00:00:00Z",
+                        "updated_at": "2026-04-30T00:00:00Z",
+                    },
+                )
+            surface.context_slice_rebuild()
+            all_hits = surface.context_search("", scope_kind="project", scope_value="ctxvault", limit=100)
+            selected_refs = [
+                next(hit["slice_ref"] for hit in all_hits if hit["payload"]["source_ref"] == "knowledge://know_picker_file_a"),
+                next(hit["slice_ref"] for hit in all_hits if hit["payload"]["source_ref"] == "knowledge://know_picker_file_b"),
+                next(hit["slice_ref"] for hit in all_hits if hit["payload"]["source_object_kind"] == "compiled_workstream_state"),
+            ]
+
+            result = surface.context_selection_compose(
+                "release plan privacy projection",
+                target_kind="harness.agents-md",
+                scope_kind="project",
+                scope_value="ctxvault",
+                workstream_ref="workstream://ws_20260421_ctxvault_schema",
+                selected_slice_refs=selected_refs,
+                candidate_slice_refs=selected_refs,
+                token_budget=2,
+                write_receipt=True,
+            )
+
+            self.assertEqual(result["receipt"]["schema_id"], "ctxvault.context-selection-receipt/v1")
+            self.assertEqual(result["receipt"]["selected_slice_refs"], selected_refs)
+            self.assertEqual(result["budget_status"], "over_budget")
+            self.assertEqual(result["privacy_preflight"]["receipt"]["decision"], "allow")
+            self.assertTrue(result["receipt"]["privacy_preflight_ref"].startswith("receipt://privacy-preflight/"))
+            self.assertEqual(len(result["source_groups"]), 3)
+            self.assertTrue(Path(result["receipt_path"]).exists())
+
+    def test_context_selection_preferences_pin_and_hide_candidates(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            vault = CtxVault(default_layout(root))
+            surface = CtxVaultSurface(vault)
+            for object_id, title, body in [
+                ("know_preference_pin", "Preference pin", "Pin this context picker slice for projection."),
+                ("know_preference_hide", "Preference hide", "Hide this context picker slice from suggestions."),
+            ]:
+                vault.store_core_object(
+                    "KnowledgeArtifact",
+                    {
+                        "id": object_id,
+                        "kind": "project_note",
+                        "title": title,
+                        "scope": {"kind": "project", "value": "ctxvault"},
+                        "body": body,
+                        "source_refs": [],
+                        "derived_from": [],
+                        "status": "active",
+                        "sensitivity": "internal",
+                        "redaction_state": "none",
+                        "secret_refs": [],
+                        "exportable": True,
+                        "created_at": "2026-04-30T00:00:00Z",
+                        "updated_at": "2026-04-30T00:00:00Z",
+                    },
+                )
+            surface.context_slice_rebuild()
+            hits = surface.context_search("context picker slice", scope_kind="project", scope_value="ctxvault", limit=10)
+            pin_ref = next(hit["slice_ref"] for hit in hits if hit["payload"]["source_ref"] == "knowledge://know_preference_pin")
+            hide_ref = next(hit["slice_ref"] for hit in hits if hit["payload"]["source_ref"] == "knowledge://know_preference_hide")
+
+            surface.context_slice_preference_set(slice_ref=pin_ref, action="pin", target_kind="harness.agents-md")
+            surface.context_slice_preference_set(slice_ref=hide_ref, action="hide", target_kind="harness.agents-md")
+            result = surface.context_selection_compose(
+                "context picker slice",
+                target_kind="harness.agents-md",
+                scope_kind="project",
+                scope_value="ctxvault",
+                candidate_slice_refs=[hide_ref, pin_ref],
+            )
+
+            candidate_refs = result["candidate_slice_refs"]
+            self.assertEqual(candidate_refs, [pin_ref])
+            self.assertEqual(result["source_groups"][0]["slices"][0]["preference_action"], "pin")
+            actions = {item["slice_ref"]: item["action"] for item in surface.context_slice_preference_list(target_kind="harness.agents-md")}
+            self.assertEqual(actions[pin_ref], "pin")
+            self.assertEqual(actions[hide_ref], "hide")
 
     def test_selected_slice_projection_blocks_withheld_slice_before_write(self) -> None:
         with TemporaryDirectory() as tmpdir:

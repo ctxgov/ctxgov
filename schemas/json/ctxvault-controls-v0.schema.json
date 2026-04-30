@@ -324,7 +324,9 @@
         "review_state": { "$ref": "#/$defs/ProjectionReviewState" },
         "warnings": { "$ref": "#/$defs/StringArray" },
         "selected_slice_refs": { "$ref": "#/$defs/ReferenceArray" },
-        "privacy_preflight": { "type": ["object", "null"] }
+        "privacy_preflight": { "type": ["object", "null"] },
+        "context_selection_ref": { "type": ["string", "null"] },
+        "context_selection_receipt_id": { "type": ["string", "null"] }
       }
     }
   }

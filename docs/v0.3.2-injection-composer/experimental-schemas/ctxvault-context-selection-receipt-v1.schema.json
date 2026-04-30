@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ctxvault.local/schemas/ctxvault-context-selection-receipt-v1.schema.json",
+  "title": "CtxVault Context Selection Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_state",
+    "selection_id",
+    "selection_ref",
+    "target_kind",
+    "query",
+    "selected_slice_refs",
+    "candidate_slice_refs",
+    "ranking_policy",
+    "ranking_reasons",
+    "token_estimate",
+    "token_budget",
+    "budget_status",
+    "source_group_count",
+    "created_at"
+  ],
+  "properties": {
+    "schema_id": { "const": "ctxvault.context-selection-receipt/v1" },
+    "contract_state": { "const": "experimental" },
+    "selection_id": { "type": "string", "pattern": "^ctxsel_" },
+    "selection_ref": { "type": "string", "pattern": "^context-selection://ctxsel_" },
+    "target_kind": { "type": "string", "minLength": 1 },
+    "query": { "type": "string" },
+    "scope": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": { "type": "string", "minLength": 1 },
+        "value": { "type": "string", "minLength": 1 }
+      }
+    },
+    "workstream_ref": { "type": ["string", "null"] },
+    "selected_slice_refs": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^slice://" }
+    },
+    "candidate_slice_refs": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^slice://" }
+    },
+    "ranking_policy": { "const": "deterministic_bm25_v1" },
+    "ranking_reasons": {
+      "type": "object",
+      "additionalProperties": { "type": "object" }
+    },
+    "privacy_preflight_ref": { "type": ["string", "null"] },
+    "privacy_preflight_receipt_path": { "type": ["string", "null"] },
+    "token_estimate": { "type": "integer", "minimum": 0 },
+    "token_budget": { "type": "integer", "minimum": 0 },
+    "budget_status": { "enum": ["empty", "within_budget", "over_budget"] },
+    "source_group_count": { "type": "integer", "minimum": 0 },
+    "preference_actions": {
+      "type": "object",
+      "additionalProperties": { "enum": ["pin", "hide", "archive"] }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

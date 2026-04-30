@@ -432,6 +432,61 @@ class CtxVaultMcpServer:
                     handler=self._context_selection_preflight,
                 ),
                 ToolSpec(
+                    name="context.selection-compose",
+                    description="Compose source-grouped local context slice candidates and optionally write a context-selection receipt.",
+                    input_schema={
+                        "type": "object",
+                        "properties": {
+                            "query": {"type": "string"},
+                            "target_kind": {"type": "string"},
+                            "scope_kind": {"type": "string"},
+                            "scope_value": {"type": "string"},
+                            "workstream_ref": {"type": "string"},
+                            "selected_slice_refs": {"type": "array", "items": {"type": "string"}},
+                            "candidate_slice_refs": {"type": "array", "items": {"type": "string"}},
+                            "limit": {"type": "integer", "minimum": 1},
+                            "token_budget": {"type": "integer", "minimum": 0},
+                            "include_blocked": {"type": "boolean"},
+                            "write_receipt": {"type": "boolean"},
+                        },
+                        "required": ["target_kind"],
+                        "additionalProperties": False,
+                    },
+                    handler=self._context_selection_compose,
+                ),
+                ToolSpec(
+                    name="context.slice-preference-set",
+                    description="Pin, hide, archive, or clear a local context slice preference.",
+                    input_schema={
+                        "type": "object",
+                        "properties": {
+                            "slice_ref": {"type": "string"},
+                            "action": {"type": "string", "enum": ["pin", "hide", "archive", "clear"]},
+                            "target_kind": {"type": "string"},
+                            "scope_kind": {"type": "string"},
+                            "scope_value": {"type": "string"},
+                            "note": {"type": "string"},
+                        },
+                        "required": ["slice_ref", "action"],
+                        "additionalProperties": False,
+                    },
+                    handler=self._context_slice_preference_set,
+                ),
+                ToolSpec(
+                    name="context.slice-preference-list",
+                    description="List local context slice preferences.",
+                    input_schema={
+                        "type": "object",
+                        "properties": {
+                            "target_kind": {"type": "string"},
+                            "scope_kind": {"type": "string"},
+                            "scope_value": {"type": "string"},
+                        },
+                        "additionalProperties": False,
+                    },
+                    handler=self._context_slice_preference_list,
+                ),
+                ToolSpec(
                     name="logical-purge.plan",
                     description="Plan a logical purge of derived context indexes, previews, optional embeddings, and selected projections.",
                     input_schema={
@@ -1323,6 +1378,42 @@ class CtxVaultMcpServer:
             query=self._optional_string(arguments.get("query")),
             workstream_ref=self._optional_string(arguments.get("workstream_ref")),
             write_receipt=bool(arguments.get("write_receipt", False)),
+        )
+
+    def _context_selection_compose(self, arguments: JSONDict) -> JSONDict:
+        return self.surface.context_selection_compose(
+            self._optional_string(arguments.get("query")) or "",
+            target_kind=self._string(arguments.get("target_kind"), field="target_kind"),
+            scope_kind=self._optional_string(arguments.get("scope_kind")),
+            scope_value=self._optional_string(arguments.get("scope_value")),
+            workstream_ref=self._optional_string(arguments.get("workstream_ref")),
+            selected_slice_refs=self._string_list(arguments.get("selected_slice_refs"), field="selected_slice_refs")
+            if arguments.get("selected_slice_refs") is not None
+            else None,
+            candidate_slice_refs=self._string_list(arguments.get("candidate_slice_refs"), field="candidate_slice_refs")
+            if arguments.get("candidate_slice_refs") is not None
+            else None,
+            limit=int(arguments.get("limit", 10)),
+            token_budget=int(arguments.get("token_budget", 4000)),
+            include_blocked=bool(arguments.get("include_blocked", False)),
+            write_receipt=bool(arguments.get("write_receipt", False)),
+        )
+
+    def _context_slice_preference_set(self, arguments: JSONDict) -> JSONDict:
+        return self.surface.context_slice_preference_set(
+            slice_ref=self._string(arguments.get("slice_ref"), field="slice_ref"),
+            action=self._string(arguments.get("action"), field="action"),
+            target_kind=self._optional_string(arguments.get("target_kind")),
+            scope_kind=self._optional_string(arguments.get("scope_kind")),
+            scope_value=self._optional_string(arguments.get("scope_value")),
+            note=self._optional_string(arguments.get("note")),
+        )
+
+    def _context_slice_preference_list(self, arguments: JSONDict) -> list[JSONDict]:
+        return self.surface.context_slice_preference_list(
+            target_kind=self._optional_string(arguments.get("target_kind")),
+            scope_kind=self._optional_string(arguments.get("scope_kind")),
+            scope_value=self._optional_string(arguments.get("scope_value")),
         )
 
     def _logical_purge_plan(self, arguments: JSONDict) -> JSONDict:

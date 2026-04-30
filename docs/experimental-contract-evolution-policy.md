@@ -9,6 +9,7 @@ These public contracts are real but explicitly experimental:
 - doctor report
 - plugin manifest contract
 - projection receipt contract
+- context selection receipt contract
 - the first local plugin executor path
 
 Experimental means:

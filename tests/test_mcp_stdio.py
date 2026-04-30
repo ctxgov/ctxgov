@@ -86,6 +86,9 @@ class McpServerTests(unittest.TestCase):
                 "privacy.scan",
                 "context.search",
                 "context.selection-preflight",
+                "context.selection-compose",
+                "context.slice-preference-set",
+                "context.slice-preference-list",
                 "logical-purge.plan",
                 "logical-purge.apply",
                 "context.receipt",
@@ -167,6 +170,38 @@ class McpServerTests(unittest.TestCase):
         hits = searched["result"]["structuredContent"]
         self.assertTrue(hits)
         self.assertEqual(hits[0]["payload"]["schema_id"], "ctxvault.context-slice/v1")
+
+        composed = self._request(
+            6,
+            "tools/call",
+            {
+                "name": "context.selection-compose",
+                "arguments": {
+                    "query": "local-first context layer",
+                    "target_kind": "harness.agents-md",
+                    "selected_slice_refs": [hits[0]["slice_ref"]],
+                    "candidate_slice_refs": [hits[0]["slice_ref"]],
+                    "write_receipt": True,
+                },
+            },
+        )
+        selection = composed["result"]["structuredContent"]
+        self.assertEqual(selection["receipt"]["schema_id"], "ctxvault.context-selection-receipt/v1")
+        self.assertEqual(selection["selected_slice_refs"], [hits[0]["slice_ref"]])
+
+        pinned = self._request(
+            7,
+            "tools/call",
+            {
+                "name": "context.slice-preference-set",
+                "arguments": {
+                    "slice_ref": hits[0]["slice_ref"],
+                    "action": "pin",
+                    "target_kind": "harness.agents-md",
+                },
+            },
+        )
+        self.assertEqual(pinned["result"]["structuredContent"]["action"], "pin")
 
     def test_tools_call_emits_agents_md_projection(self) -> None:
         workstream = json.loads((ROOT / "fixtures" / "core" / "workstream.json").read_text())

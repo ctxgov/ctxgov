@@ -324,6 +324,7 @@ def emit_agents_md_projection(
     compiled_state_payload: dict[str, Any] | None = None,
     selected_context_slices: list[dict[str, Any]] | None = None,
     privacy_preflight: dict[str, Any] | None = None,
+    context_selection_receipt: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     rendered = render_agents_md(
         workstream_payload=workstream_payload,
@@ -361,6 +362,8 @@ def emit_agents_md_projection(
         "warnings": [],
         "selected_slice_refs": selected_slice_refs,
         "privacy_preflight": privacy_preflight,
+        "context_selection_ref": _context_selection_ref(context_selection_receipt),
+        "context_selection_receipt_id": _context_selection_receipt_id(context_selection_receipt),
     }
     receipt = emit_projection_receipt(
         root=root,
@@ -391,6 +394,7 @@ def emit_claude_md_projection(
     compiled_state_payload: dict[str, Any] | None = None,
     selected_context_slices: list[dict[str, Any]] | None = None,
     privacy_preflight: dict[str, Any] | None = None,
+    context_selection_receipt: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     rendered = render_claude_md(
         workstream_payload=workstream_payload,
@@ -428,6 +432,8 @@ def emit_claude_md_projection(
         "warnings": [],
         "selected_slice_refs": selected_slice_refs,
         "privacy_preflight": privacy_preflight,
+        "context_selection_ref": _context_selection_ref(context_selection_receipt),
+        "context_selection_receipt_id": _context_selection_receipt_id(context_selection_receipt),
     }
     receipt = emit_projection_receipt(
         root=root,
@@ -458,6 +464,7 @@ def emit_wiki_workstream_md_projection(
     compiled_state_payload: dict[str, Any] | None = None,
     selected_context_slices: list[dict[str, Any]] | None = None,
     privacy_preflight: dict[str, Any] | None = None,
+    context_selection_receipt: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     rendered = render_wiki_workstream_md(
         workstream_payload=workstream_payload,
@@ -495,6 +502,8 @@ def emit_wiki_workstream_md_projection(
         "warnings": [],
         "selected_slice_refs": selected_slice_refs,
         "privacy_preflight": privacy_preflight,
+        "context_selection_ref": _context_selection_ref(context_selection_receipt),
+        "context_selection_receipt_id": _context_selection_receipt_id(context_selection_receipt),
     }
     receipt = emit_projection_receipt(
         root=root,
@@ -525,3 +534,17 @@ def _selected_slice_refs(selected_context_slices: list[dict[str, Any]] | None) -
         for item in selected_context_slices or []
         if str(item.get("slice_ref") or "").strip()
     ]
+
+
+def _context_selection_ref(context_selection_receipt: dict[str, Any] | None) -> str | None:
+    if not context_selection_receipt:
+        return None
+    ref = str(context_selection_receipt.get("selection_ref") or "").strip()
+    return ref or None
+
+
+def _context_selection_receipt_id(context_selection_receipt: dict[str, Any] | None) -> str | None:
+    if not context_selection_receipt:
+        return None
+    receipt_id = str(context_selection_receipt.get("selection_id") or "").strip()
+    return receipt_id or None
