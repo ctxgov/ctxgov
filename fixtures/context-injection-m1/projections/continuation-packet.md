@@ -11,7 +11,7 @@ before treating the fixture or current golden-path evidence as launch-ready.
 
 ## Guardrails
 
-- Approved context may be injected.
+- Approved context may be projected.
 - Rejected or unreviewed candidates stay out of durable projections.
 - Historical receipts remain audit evidence; current projection paths remain
   stable.

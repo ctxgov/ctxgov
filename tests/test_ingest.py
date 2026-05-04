@@ -444,8 +444,8 @@ class IngestTests(unittest.TestCase):
         self.assertEqual(ollama_receipts[0].session.object_id, "ollama_chat_001")
         self.assertEqual(deepseek_receipts[0].source_connector.connector_id, "connector.deepseek.experimental")
         self.assertEqual(ollama_receipts[0].source_connector.connector_id, "connector.ollama-ui.experimental")
-        self.assertIn("private experimental", deepseek_receipts[0].source_connector.warnings[0])
-        self.assertIn("private experimental", ollama_receipts[0].source_connector.warnings[0])
+        self.assertIn("experimental", deepseek_receipts[0].source_connector.warnings[0])
+        self.assertIn("experimental", ollama_receipts[0].source_connector.warnings[0])
 
         deepseek_session = json.loads(
             (self.repo_root / ".ctxvault" / "objects" / "session" / "deepseek_conv_001.json").read_text(encoding="utf-8")

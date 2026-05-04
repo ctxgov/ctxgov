@@ -12,7 +12,7 @@
 - Added local pin, hide, archive, and clear preferences for slice suggestions.
 - Added CLI and MCP surfaces for context selection compose and slice
   preferences.
-- Published v0.3.2 release notes and injection composer public docs without
+- Published v0.3.2 release notes and context-selection public docs without
   adding model, vector, remote provider, official plugin, or live connector
   promises.
 
@@ -43,4 +43,5 @@
 
 ## v0.1.0 - 2026-04-27
 
-- Published the first public Context Injection M1 feedback preview.
+- Published the first public M1 source-to-context-to-projection feedback
+  preview.

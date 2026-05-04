@@ -1,0 +1,132 @@
+{
+  "contract_state": "experimental_read_model",
+  "current_truth": {
+    "active_constraints": [
+      {
+        "source_refs": [
+          "doc://ctxvault/post-m1-capability-roadmap-and-p05-research"
+        ],
+        "text": "Canonical truth remains governed local objects; read models, indexes, and projections must be rebuildable."
+      },
+      {
+        "source_refs": [
+          "doc://ctxvault/p3-density-first-promotion-contract"
+        ],
+        "text": "Promotion should preserve reusable judgment without expanding durable context into transcript-shaped summaries."
+      }
+    ],
+    "active_decisions": [
+      {
+        "source_refs": [
+          "review://ctxvault/v0.3-compiled-context-boundaries"
+        ],
+        "text": "Compiled workstream state starts as a read model and projection input, not a new canonical object."
+      }
+    ],
+    "next_actions": [
+      {
+        "source_refs": [
+          "doc://ctxvault/v0.3-compiled-context-execution-boundaries"
+        ],
+        "text": "Implement deterministic compiled-state rendering over approved workstream inputs."
+      },
+      {
+        "source_refs": [
+          "doc://ctxvault/v0.3-compiled-context-execution-boundaries"
+        ],
+        "text": "Add read-only doctor checks before adding auto-fix or model endpoint checks."
+      }
+    ],
+    "open_questions": [
+      {
+        "source_refs": [
+          "doc://ctxvault/v0.3-compiled-context-execution-boundaries"
+        ],
+        "text": "When should compiled workstream state graduate from read model to durable object, if ever?"
+      }
+    ],
+    "reusable_judgments": [
+      {
+        "source_refs": [
+          "doc://ctxvault/post-m1-capability-roadmap-and-p05-research"
+        ],
+        "text": "Model-assisted work may draft candidates, but high-impact durable mutations remain review-gated."
+      }
+    ],
+    "summary": {
+      "source_refs": [
+        "workstream://ws_m1_context_injection_source_to_injection",
+        "doc://ctxvault/post-m1-capability-roadmap-and-p05-research"
+      ],
+      "text": "CtxVault v0.3 should compile reviewed project, session, and note sources into current workstream state, then project it into AI work surfaces with receipts."
+    },
+    "title": "CtxVault v0.3 compiled Context Injection"
+  },
+  "density": {
+    "summary_budget": {
+      "hard_warning": 60,
+      "target_max": 48,
+      "target_min": 24
+    },
+    "summary_word_count": 24,
+    "warning_count": 0,
+    "warnings": []
+  },
+  "evidence_timeline": [
+    {
+      "event_kind": "owner_decision",
+      "event_ref": "doc://ctxvault/post-m1-capability-roadmap-and-p05-research#GBrain-Compiled-Brain-Signal",
+      "occurred_at": "2026-04-30T00:00:00Z",
+      "review_state": "not_required",
+      "source_refs": [
+        "https://github.com/garrytan/gbrain",
+        "https://github.com/garrytan/gbrain/blob/master/docs/GBRAIN_V0.md"
+      ],
+      "summary": "GBrain signal was accepted as support for compiled current state plus evidence timeline, but not for index-first canonical truth."
+    },
+    {
+      "event_kind": "owner_decision",
+      "event_ref": "doc://ctxvault/v0.3-compiled-context-execution-boundaries",
+      "occurred_at": "2026-04-30T00:00:00Z",
+      "review_state": "not_required",
+      "source_refs": [
+        "doc://ctxvault/p1-execution-boundaries"
+      ],
+      "summary": "v0.3 no-approval work was scoped to internal contracts, fixtures, read-only diagnostics, and deterministic tests."
+    }
+  ],
+  "generated_at": "2026-04-30T00:00:00Z",
+  "projection_targets": [
+    {
+      "receipt_ref": null,
+      "status": "not_projected",
+      "target_kind": "harness.agents-md"
+    },
+    {
+      "receipt_ref": null,
+      "status": "not_projected",
+      "target_kind": "harness.claude-md"
+    },
+    {
+      "receipt_ref": null,
+      "status": "not_projected",
+      "target_kind": "wiki.markdown-workstream"
+    }
+  ],
+  "review": {
+    "approval_state": "approved_inputs_only",
+    "receipt_refs": [
+      "receipt://ctxvault/v0.3-compiled-context-boundaries"
+    ],
+    "required_before_projection": false
+  },
+  "schema_id": "ctxvault.compiled-workstream-state/v1",
+  "source_refs": [
+    "workstream://ws_m1_context_injection_source_to_injection",
+    "doc://ctxvault/post-m1-capability-roadmap-and-p05-research",
+    "doc://ctxvault/v0.3-compiled-context-execution-boundaries"
+  ],
+  "state_id": "cws_20260430_ctxvault_v03_compiled_context",
+  "warnings": [],
+  "workstream_ref": "workstream://ws_m1_context_injection_source_to_injection"
+}

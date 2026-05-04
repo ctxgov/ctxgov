@@ -5,4 +5,4 @@ project docs and session notes become a reviewed workstream that can be carried
 into AGENTS.md, CLAUDE.md, and a stable markdown brief.
 
 The review gate is part of the value. Rejected and unreviewed statements remain
-evidence or candidates; they are not injected as durable operating rules.
+evidence or candidates; they are not projected as durable operating rules.

@@ -100,7 +100,7 @@ def run_golden_path(*, root: Path, fixture_root: Path) -> dict[str, Any]:
         REJECTED_MEMORY_CANDIDATE_ID,
         decision="rejected",
         reviewer="m1_golden_path",
-        notes="Rejected sentinel candidate must stay out of injected outputs.",
+        notes="Rejected sentinel candidate must stay out of projected outputs.",
     )
 
     workstream_candidate = _read_json(fixture_root / "review" / "workstream-candidate.json")
@@ -121,7 +121,7 @@ def run_golden_path(*, root: Path, fixture_root: Path) -> dict[str, Any]:
         WORKSTREAM_CANDIDATE_ID,
         decision="approved",
         reviewer="m1_golden_path",
-        notes="Approved M1 source-to-injection workstream after fixture review.",
+        notes="Approved M1 source-to-projection workstream after fixture review.",
         workstream_id=WORKSTREAM_ID,
         policy_payload=policy_payload,
         backup_receipt=backup_receipt,
@@ -131,7 +131,7 @@ def run_golden_path(*, root: Path, fixture_root: Path) -> dict[str, Any]:
         {
             "scope_kind": SCOPE_KIND,
             "scope_value": SCOPE_VALUE,
-            "task_label": "Context Injection M1 source-to-injection golden path",
+            "task_label": "Context Injection M1 source-to-projection golden path",
             "prompt_id": PROMPT_ID,
             "session_id": SESSION_ID,
             "memory_query": "Context Injection M1 reviewed workstream context AGENTS CLAUDE brief",
@@ -257,7 +257,7 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Run the deterministic Context Injection M1 source-to-injection golden path."
+        description="Run the deterministic Context Injection M1 source-to-projection golden path."
     )
     parser.add_argument(
         "--root",

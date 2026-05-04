@@ -1211,7 +1211,7 @@ def _connector_id(source_app: str, source_format: str) -> str:
 
 def _connector_lossiness(source_app: str, source_format: str) -> list[str]:
     if source_app in {"deepseek", "ollama"} and source_format != "normalized_transcript":
-        return ["private experimental adapter preserves role, content, message ids, and timestamps but not all native UI metadata"]
+        return ["experimental adapter preserves role, content, message ids, and timestamps but not all native UI metadata"]
     if source_format == "normalized_transcript":
         return ["native product metadata is not preserved unless mapped into explicit source fields"]
     return ["native product metadata may be reduced to the canonical transcript fields"]
@@ -1219,7 +1219,7 @@ def _connector_lossiness(source_app: str, source_format: str) -> list[str]:
 
 def _connector_warnings(source_app: str, source_format: str) -> list[str]:
     if source_app in {"deepseek", "ollama"} and source_format != "normalized_transcript":
-        return [f"{source_app} adapter is private experimental and source-shape gated"]
+        return [f"{source_app} adapter is experimental and source-shape gated"]
     if source_app in {"deepseek", "ollama"}:
         return [f"{source_app} coverage uses normalized transcript fallback unless a native adapter matches the source shape"]
     return []

@@ -1,0 +1,62 @@
+{
+  "schema_version": "ctxvault.context-injection-m1-launch-gate/v1",
+  "gate_id": "context-injection-m1-sanitized-launch-fixture",
+  "created_at": "2026-04-26T00:00:00Z",
+  "evidence_profile": "sanitized-launch-fixture",
+  "scope": {
+    "kind": "project",
+    "value": "ctxvault"
+  },
+  "source_ingestion": {
+    "status": "passed",
+    "report_path": "fixtures/context-injection-m1/sources/source-ingestion-report.json",
+    "organized_workstream_ref": "workstream://ws_20260421_ctxvault_schema"
+  },
+  "workstream_context": {
+    "workstream_ref": "workstream://ws_20260421_ctxvault_schema",
+    "approval_state": "approved",
+    "brief_path": "fixtures/context-injection-m1/projections/workstream-brief.md",
+    "continuation_packet_path": "fixtures/context-injection-m1/projections/continuation-packet.md",
+    "source_refs": [
+      "repo://ctxvault/docs/first-public-launch-foundation.md",
+      "session://sess_schema_design_001",
+      "knowledge://know_schema_design_001"
+    ]
+  },
+  "review_state": {
+    "status": "passed",
+    "report_path": "fixtures/context-injection-m1/reviews/review-state.json"
+  },
+  "promptops": {
+    "status": "passed",
+    "prompt_patch_ref": "prompt-patch://ppatch_20260420_schema_designer_instruction_refresh",
+    "merged_prompt_ref": "prompt://prompt_schema_designer_v1",
+    "preview_path": "fixtures/context-injection-m1/promptops/prompt-patch-preview.md",
+    "eval_result_path": "fixtures/context-injection-m1/promptops/prompt-patch-eval.json",
+    "review_receipt_path": "fixtures/context-injection-m1/promptops/prompt-patch-review-receipt.json",
+    "merge_receipt_path": "fixtures/context-injection-m1/promptops/prompt-patch-merge-receipt.json"
+  },
+  "projections": {
+    "items": [
+      {
+        "target_kind": "harness.agents-md",
+        "output_path": "fixtures/context-injection-m1/projections/AGENTS.md",
+        "receipt_path": "fixtures/context-injection-m1/projections/agents-md-receipt.json"
+      },
+      {
+        "target_kind": "harness.claude-md",
+        "output_path": "fixtures/context-injection-m1/projections/CLAUDE.md",
+        "receipt_path": "fixtures/context-injection-m1/projections/claude-md-receipt.json"
+      },
+      {
+        "target_kind": "wiki.markdown-workstream",
+        "output_path": "fixtures/context-injection-m1/projections/workstream-brief.md",
+        "receipt_path": "fixtures/context-injection-m1/projections/workstream-brief-receipt.json"
+      }
+    ]
+  },
+  "canonical_hygiene": {
+    "status": "passed",
+    "report_path": "fixtures/context-injection-m1/hygiene/canonical-file-hygiene-report.json"
+  }
+}

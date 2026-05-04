@@ -1,0 +1,33 @@
+name: Public positioning feedback
+description: Report confusion about the README, demo, release notes, or launch copy.
+title: "[Positioning]: "
+labels: ["narrative"]
+body:
+  - type: textarea
+    id: confusion
+    attributes:
+      label: What was unclear?
+      description: Quote the exact README, release note, post, or demo copy if possible.
+    validations:
+      required: true
+  - type: dropdown
+    id: confusion_type
+    attributes:
+      label: Confusion type
+      options:
+        - sounds like a memory plugin
+        - sounds like a model adapter
+        - sounds like vector search
+        - unclear Workstream model
+        - unclear receipt/trust model
+        - unclear trial path
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: Suggested correction
+      description: A sharper phrase, missing boundary, or better example is enough.
+    validations:
+      required: false

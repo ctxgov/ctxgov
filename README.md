@@ -2,58 +2,77 @@
 
 AI work needs a source of truth outside the chat window.
 
-CtxVault is a local context layer for preserving the decisions, constraints,
-and working state that AI tools need to carry across sessions and workflows.
+CtxVault is a local-first context layer for AI work. It preserves the
+decisions, constraints, and working state that should survive across chats,
+agents, editors, and command-line sessions.
 
-v0.3.2 is the deterministic injection composer milestone on top of local
-safety and compiled Context Injection. It takes reviewed project docs,
-sessions, and Markdown notes, compiles current workstream state, slices local
-context into rebuildable read models, lets users compose exact selected slices,
-and projects selected context into AI work surfaces with linked receipts.
+v0.3.2 is the deterministic context-selection milestone. It proves a narrow
+loop before context reaches AI tools:
 
-This public repository exposes the deterministic trust floor behind that loop:
+`local sources -> context slices -> source-grouped selection -> privacy preflight -> projection receipts`
 
-- file-backed local objects
-- deterministic policy, privacy, and receipt surfaces
-- CLI and MCP entry points over the same local core
+The baseline is intentionally constrained: no model call, no embedding service,
+no vector database, no remote provider. The value is that the operator can see
+which local context was selected, why it was allowed, how large it is, and
+which projection receipt links it to an AI work surface.
+
+The roadmap treats this as AI work quality infrastructure: specs define what
+"done" means, context receipts explain what was selected or blocked, and trace
+or runtime receipts can later inspect how AI work happened. v0.3.2 proves only
+the deterministic context-selection part of that system.
+
+This public repository exposes the deterministic trust floor behind that
+source-to-context-to-projection loop:
+
+- local file-backed objects and rebuildable indexes
+- CLI and MCP entry points over the same deterministic core
 - review-gated promotion and projection receipts
-- experimental compiled workstream state
-- read-only local diagnostics
-- Markdown-vault import bridge
-- experimental projection healthchecks and runtime receipts
+- experimental compiled workstream state with source refs
 - deterministic context slicing and local context search
-- selected-slice privacy preflight receipts
-- source-grouped context selection receipts
-- token budget previews before projection
-- projection receipts linked to the context selection that produced them
-- review-gated logical purge for derived slice, search, preview, embedding,
-  and selected projection data
+- source-grouped context selection with token budget previews
+- selected-slice privacy preflight before projection
+- projection receipts linked to context-selection receipts
+- read-only doctor diagnostics and projection healthchecks
+- Markdown-vault import as source material
+- review-gated logical purge for derived slice, search, preview, and selected
+  projection data
 - public schemas, fixtures, and deterministic tests
 
 ## Official Project
 
 This repository is the maintainer-controlled public core for `ctxvault`.
 
-Official releases, schemas, fixtures, compatibility checks, and any signed or
-notarized app artifacts, if provided, are published only through
-maintainer-controlled CtxVault channels. Forks and integrations are welcome
-under the Apache-2.0 core license, but unofficial builds should use distinct
-names and should not imply maintainer endorsement.
+Official releases, schemas, fixtures, and compatibility checks are published
+only through maintainer-controlled CtxVault channels. Forks and integrations
+are welcome under the Apache-2.0 core license, but unofficial builds should use
+distinct names and should not imply maintainer endorsement.
 
-This repository does not include the private first-party workbench, webapp,
-native wrapper source, signing operations, notarization operations, release
-operations, or brand assets. Those remain separate product layers.
+This repository contains the public deterministic core. Optional product
+surfaces and maintainer release operations remain outside this repo.
+
+## What To Inspect First
+
+If you are evaluating the project, start with:
+
+- the Quick Start below for a clean deterministic run;
+- `spaces/huggingface/v032-deterministic-demo/` for the toy-source demo;
+- `scripts/run_v032_deterministic_demo.py` for the offline demo loop;
+- `scripts/inspect_v032_demo_receipts.py` for receipt-chain inspection;
+- `scripts/run_v032_selection_scorecard.py` for lightweight selection quality
+  and safety checks.
 
 ## Scope
 
-The public core is for users who want to inspect or build on:
+The public core is for developers who want to inspect or build on:
 
 - reviewed context organization around workstreams
-- context injection into practical working surfaces
+- context projection into practical AI working surfaces
 - local context storage and rebuildable indexes
 - deterministic review-gated promotion flows
 - local privacy and policy gates
 - artifact and receipt surfaces
+- early source-of-truth and evidence semantics for future AI work quality
+  contracts
 - compiled current workstream state with source refs
 - local context slice rebuild, search, and selected-slice preflight
 - explicit logical purge of derived data without a secure-wipe claim
@@ -69,20 +88,21 @@ The public core currently marks these contracts as experimental:
 - compiled workstream state read model
 - `doctor` report
 - plugin manifest and projection receipt contracts
-- the first local plugin executor paths for context injection targets
+- the first local plugin executor paths for reviewed context projection targets
 - projection adapter healthchecks
 - runtime event receipts
 - context selection receipts
 
-Experimental means they are useful and inspectable, but not yet frozen as
-long-term public semantics.
+Experimental means useful and inspectable, but not yet frozen as long-term
+public semantics.
 
-## v0.3.2 Injection Composer
+## v0.3.2 Context Selection Composer
 
 v0.3.2 is a fast-follow release after v0.3.1. It does not add model,
 embedding, vector, remote provider, official plugin, or live connector
-dependencies. It adds the deterministic composer layer needed to choose exact
-local slices before projection:
+dependencies. It adds the deterministic step that should happen before context
+is projected into an AI work surface: choose exact local slices, inspect the
+budget, run privacy preflight, and keep the receipt chain.
 
 - source-grouped local context candidate composition
 - explicit multi-slice selection
@@ -95,8 +115,8 @@ local slices before projection:
 
 ## v0.3.1 Local Safety And Context Slicing
 
-v0.3.1 keeps the v0.3 compiled Context Injection path and adds the local safety
-substrate needed for safer context selection:
+v0.3.1 keeps the v0.3 source-to-context-to-projection path and adds the local
+safety substrate needed for safer context selection:
 
 - import project docs, sessions, and Markdown notes
 - organize them around reviewed `Workstream` state
@@ -104,7 +124,7 @@ substrate needed for safer context selection:
 - rebuild deterministic local context slices from governed sources
 - search slices locally without model, embedding, remote service, or hosted API
 - run privacy preflight before selected slices are projected
-- inject that state into `AGENTS.md`, `CLAUDE.md`, and a workstream brief
+- project that state into `AGENTS.md`, `CLAUDE.md`, and a workstream brief
 - inspect projection receipts, privacy preflight receipts, logical purge
   receipts, tombstones, and read-only diagnostics
 
@@ -130,6 +150,14 @@ Run the clean-user core validation flow:
 
 ```bash
 bash scripts/run_clean_user_core_validation.sh /tmp/ctxvault-clean-verify
+```
+
+Run the v0.3.2 deterministic demo:
+
+```bash
+python3 scripts/run_v032_deterministic_demo.py --root /tmp/ctxvault-v032-demo
+python3 scripts/inspect_v032_demo_receipts.py --root /tmp/ctxvault-v032-demo
+python3 scripts/run_v032_selection_scorecard.py --root /tmp/ctxvault-v032-scorecard
 ```
 
 Emit reviewed context projections:
@@ -165,7 +193,7 @@ PYTHONPATH=src python3 -m ctxvault.cli context-slice-rebuild --root /tmp/ctxvaul
 PYTHONPATH=src python3 -m ctxvault.cli context-search --root /tmp/ctxvault-clean-verify --query "projection receipts"
 ```
 
-Run selected-slice privacy preflight before injecting a slice into a target:
+Run selected-slice privacy preflight before projecting a slice into a target:
 
 ```bash
 PYTHONPATH=src python3 -m ctxvault.cli context-selection-preflight --root /tmp/ctxvault-clean-verify --slice-ref SLICE_REF --target-kind agents-md --write-receipt
@@ -221,9 +249,9 @@ Run the stdio MCP transport:
 PYTHONPATH=src python3 -m ctxvault.cli serve-mcp
 ```
 
-## Context Injection M1 Evidence
+## M1 Projection Evidence
 
-Run the source-to-injection golden path:
+Run the source-to-projection golden path:
 
 ```bash
 python3 scripts/run_context_injection_m1_golden_path.py --root /tmp/ctxvault-m1-context-injection
@@ -241,8 +269,8 @@ The checked-in M1 fixture evidence is in:
 
 ## v0.3.2 Evidence
 
-The v0.3.2 injection composer, v0.3.1 local safety, and compiled Context
-Injection evidence is described
+The v0.3.2 context-selection composer, v0.3.1 local safety, and compiled
+context projection evidence is described
 in:
 
 - `docs/v0.3-compiled-context.md`
@@ -286,13 +314,14 @@ replace a separate offsite backup strategy.
 
 ## Feedback
 
-The fastest useful feedback is a concrete first-run report:
+The most useful feedback is concrete: what you ran, what confused you, and
+which receipt, slice, projection, or workflow step was hard to trust.
 
 - v0.3 Compiled Context feedback:
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.3.1 local safety, privacy, or purge feedback:
   `.github/ISSUE_TEMPLATE/trust-or-privacy-concern.yml`
-- v0.3.2 injection composer or context selection feedback:
+- v0.3.2 context-selection composer feedback:
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.2/M2 Developer Framework Feedback:
   `.github/ISSUE_TEMPLATE/v0.2-m2-feedback.yml`

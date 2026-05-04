@@ -8,7 +8,7 @@ golden path:
 - `knowledge/`: local knowledge-source input
 - `review/`: deterministic workstream and memory review candidates
 
-Generate the injected outputs and projection receipts with:
+Generate the projected outputs and projection receipts with:
 
 ```bash
 python3 scripts/run_context_injection_m1_golden_path.py --root /tmp/ctxvault-m1-context-injection
@@ -22,4 +22,4 @@ The command writes:
 - `/tmp/ctxvault-m1-context-injection/artifacts/projection-receipts/*.json`
 
 Rejected and unreviewed fixture candidates are retained in the vault as
-review-state evidence, but they must not appear in injected outputs.
+review-state evidence, but they must not appear in projected outputs.

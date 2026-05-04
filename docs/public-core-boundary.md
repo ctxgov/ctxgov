@@ -11,9 +11,9 @@ This repository is the public deterministic core of `ctxvault`.
 
 ## What Stays Outside This Repo
 
-- the first-party workbench and web UI
-- native wrapper source, signing, notarization, and update channels
-- private product strategy and competitive reasoning
+- optional product surfaces
+- maintainer release operations
+- non-core planning material
 - machine-local state and sample personal data
 
 ## Experimental Public Contracts
@@ -38,5 +38,5 @@ The public trust promise is:
 
 - the deterministic correctness floor stays inspectable
 - policy and privacy gates remain visible
-- private product layers do not replace the source of truth
-- first-party convenience surfaces can evolve without weakening the public core
+- non-core product layers do not replace the source of truth
+- optional convenience surfaces can evolve without weakening the public core

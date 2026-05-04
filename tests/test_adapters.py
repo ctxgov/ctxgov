@@ -88,12 +88,12 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(listed[0]["supported_projection_types"], ["projection.harness.agents-md"])
         self.assertEqual(listed[0]["health_state"], "healthy")
 
-    def test_agents_md_harness_surface_inventory_is_private_experimental(self) -> None:
+    def test_agents_md_harness_surface_inventory_is_experimental_local(self) -> None:
         inventory = agents_md_harness_surface_inventory(generated_at="2026-04-27T00:00:00+00:00")
 
         self.assertEqual(inventory["schema_id"], HARNESS_SURFACE_SCHEMA_VERSION)
         self.assertEqual(inventory["surface_id"], "harness.agents-md.local")
-        self.assertEqual(inventory["trust_state"], "private_experimental")
+        self.assertEqual(inventory["trust_state"], "experimental_local")
         self.assertEqual(inventory["projection_capabilities"][0]["path_pattern"], "AGENTS.md")
         self.assertTrue(inventory["projection_capabilities"][0]["requires_reviewed_context"])
 

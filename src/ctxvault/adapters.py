@@ -269,7 +269,7 @@ def projection_harness_surface_inventory(
             "source_refs": list(spec["source_refs"]),
             "capture_method": "manual_static_inventory",
         },
-        "trust_state": "private_experimental",
+        "trust_state": "experimental_local",
         "projection_capabilities": [
             {
                 "output_kind": spec["output_kind"],
@@ -339,7 +339,7 @@ def projection_adapter_healthcheck(
         _healthcheck_row(
             "harness_surface_known",
             "pass",
-            "static private experimental inventory is available",
+            "static experimental inventory is available",
         ),
         _healthcheck_row(
             "target_parent_exists",
