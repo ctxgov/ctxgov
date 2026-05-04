@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.3.5 - 2026-05-05
+
+- Recorded the v0.3.5 first-run UX boundary around the private Workbench
+  extract/inject patch.
+- Updated public package metadata to v0.3.5 while keeping the public core on
+  the deterministic CLI/MCP context extraction and receipt path.
+- Clarified that Workbench target profiles do not imply runtime takeover,
+  session attach, runtime inventory, or an agent session manager.
+- Preserved the public no-Workbench, no-model, no-vector, no-live-connector,
+  and no-runtime-control boundaries.
+
 ## v0.3.4 - 2026-05-04
 
 - Added `context-extract` and MCP `context.extract` for deterministic local

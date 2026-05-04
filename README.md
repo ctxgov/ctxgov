@@ -6,9 +6,10 @@ CtxVault is a local-first context layer for AI work. It preserves the
 decisions, constraints, and working state that should survive across chats,
 agents, editors, and command-line sessions.
 
-v0.3.4 is the deterministic context handoff and extraction-quality milestone.
-It makes local source extraction, context selection, receipt inspection, and
-projection easier to run and easier to verify before context reaches AI tools:
+v0.3.5 is a first-run UX boundary patch over the deterministic context handoff
+and extraction-quality milestone. The public core still centers on local source
+extraction, context selection, receipt inspection, and projection before
+context reaches AI tools:
 
 `local sources -> context-extract -> context slices -> privacy and quality receipts -> gated projection -> receipt inspection`
 
@@ -20,8 +21,10 @@ surface.
 
 The roadmap treats this as AI work quality infrastructure: specs define what
 "done" means, context receipts explain what was selected or blocked, and trace
-or runtime receipts can later inspect how AI work happened. v0.3.4 proves only
-the deterministic local extraction and safe handoff part of that system.
+or runtime receipts can later inspect how AI work happened. v0.3.5 keeps the
+public package focused on the deterministic local extraction and safe handoff
+part of that system while documenting that optional Workbench UX remains
+outside the open-core package.
 
 This public repository exposes the deterministic trust floor behind that
 source-to-context-to-projection loop:
@@ -76,6 +79,8 @@ If you are evaluating the project, start with:
   stability checks;
 - `scripts/run_v034_context_quality_scorecards.py` for deterministic context
   quality checks.
+- `docs/v0.3.5-release-notes.md` for the first-run UX boundary and explicit
+  non-runtime-manager scope.
 
 ## Scope
 
@@ -115,6 +120,22 @@ The public core currently marks these contracts as experimental:
 
 Experimental means useful and inspectable, but not yet frozen as long-term
 public semantics.
+
+## v0.3.5 First-Run UX Boundary
+
+v0.3.5 records the private Workbench UX patch over v0.3.4. The Workbench can
+make first-run extract and inject easier for the maintainer-operated product
+surface, but the public open-core package does not ship that UI and does not
+claim runtime control.
+
+The public boundary for this release is:
+
+- CtxVault prepares receipt-backed handoff context
+- agent runtimes such as Codex or Claude Code remain user-controlled
+- no running session is attached, controlled, inspected, or impersonated
+- demo data is explicit fixture seeding, not automatic private-data import
+- Git worktree creation, SSE progress, and runtime inventory remain roadmap
+  items, not shipped public behavior
 
 ## v0.3.4 Context Extract And Quality Receipts
 
@@ -362,13 +383,14 @@ The checked-in M1 fixture evidence is in:
 - `fixtures/context-injection-m1/projections/workstream-brief-receipt.json`
 - `fixtures/m1-context-injection/README.md`
 
-## v0.3.4 Evidence
+## v0.3.5 Evidence
 
-The v0.3.4 context extraction path, v0.3.3 safe handoff path, v0.3.2
+The v0.3.5 first-run UX boundary, v0.3.4 context extraction path, v0.3.3 safe handoff path, v0.3.2
 context-selection composer, v0.3.1 local safety, and compiled context
 projection evidence is described in:
 
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.3.5-release-notes.md`
 - `docs/v0.3.4-release-notes.md`
 - `docs/v0.3.3-release-notes.md`
 - `fixtures/v0.3.4-context-extract/README.md`
@@ -397,6 +419,7 @@ replace a separate offsite backup strategy.
 - `docs/experimental-contract-evolution-policy.md`
 - `docs/workstream-plan-ledger-contract.md`
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.3.5-release-notes.md`
 - `docs/v0.3.4-release-notes.md`
 - `docs/v0.3.3-release-notes.md`
 - `docs/v0.3.2-release-notes.md`
@@ -427,6 +450,8 @@ which receipt, slice, projection, or workflow step was hard to trust.
 - v0.3.2 context-selection composer feedback:
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.3.3 safe context handoff feedback:
+  `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
+- v0.3.5 first-run UX boundary feedback:
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.2/M2 Developer Framework Feedback:
   `.github/ISSUE_TEMPLATE/v0.2-m2-feedback.yml`
