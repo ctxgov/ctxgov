@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.3.3 - 2026-05-04
+
+- Added owner-operated public review pack for v0.3.3 package approval using
+  reusable public-source scenarios, boundary checks, and a synthetic
+  blocked-selection check.
+- Added `scripts/run_v033_public_review_pack.py` and deterministic test
+  coverage for review summary, ready/empty/over-budget behavior, privacy
+  block, projection output, and receipt linkage.
+- Updated public README, release notes, changelog, and package metadata to
+  position v0.3.3 as safe context handoff hardening.
+- Preserved the deterministic baseline without adding model, vector, remote
+  provider, official connector, public Workbench, or app-surface claims.
+
 ## v0.3.2 - 2026-05-01
 
 - Added deterministic source-grouped context selection composer over existing

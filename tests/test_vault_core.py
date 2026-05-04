@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 import sys
@@ -429,7 +430,7 @@ class VaultCoreTests(unittest.TestCase):
         import_transcript_path(self.vault, transcript_path, scope_kind="project", scope_value="ctxvault")
 
         sqlite_path = self.repo_root / ".ctxvault" / "indexes" / "ctxvault.sqlite3"
-        with sqlite3.connect(sqlite_path) as connection:
+        with closing(sqlite3.connect(sqlite_path)) as connection:
             connection.executescript(
                 """
                 ALTER TABLE sessions RENAME TO sessions_v1;
@@ -473,7 +474,7 @@ class VaultCoreTests(unittest.TestCase):
         self.assertEqual(searched[0].payload["source_format"], "chatgpt_export")
         self.assertEqual(searched[0].payload["capture_method"], "share_sheet")
 
-        with sqlite3.connect(sqlite_path) as connection:
+        with closing(sqlite3.connect(sqlite_path)) as connection:
             row = connection.execute(
                 "SELECT source_app, source_surface, source_format, capture_method FROM sessions WHERE object_id = ?",
                 ("sess_legacy",),

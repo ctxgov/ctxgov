@@ -251,6 +251,59 @@ class CliBoundaryTests(unittest.TestCase):
             self.assertEqual(list_code, 0)
             self.assertEqual(json.loads(list_stdout)[0]["slice_ref"], hits[0]["slice_ref"])
 
+    def test_context_prepare_and_project_cli_run_safe_handoff_path(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            surface = CtxVaultSurface(CtxVault(default_layout(root)))
+            surface.vault.import_core_fixtures(ROOT / "fixtures" / "core")
+
+            prepare_code, prepare_stdout = self.run_cli(
+                "context-prepare",
+                "--root",
+                str(root),
+                "--query",
+                "local-first context layer",
+                "--target-kind",
+                "harness.agents-md",
+                "--workstream-ref",
+                "workstream://ws_20260421_ctxvault_schema",
+                "--limit",
+                "3",
+                "--token-budget",
+                "1000",
+            )
+            self.assertEqual(prepare_code, 0)
+            prepared = json.loads(prepare_stdout)
+            self.assertEqual(prepared["schema_id"], "ctxvault.context-prepare/v1")
+            self.assertEqual(prepared["operation"], "safe_context_handoff_prepare")
+            self.assertTrue(prepared["selected_slice_refs"])
+            self.assertTrue(Path(prepared["receipt_path"]).exists())
+            self.assertIn(prepared["privacy_decision"], {"allow", "redact", "review"})
+            self.assertTrue(any(action["kind"] == "project_context" for action in prepared["next_actions"]))
+
+            project_code, project_stdout = self.run_cli(
+                "context-project",
+                "--root",
+                str(root),
+                "--target",
+                "agents-md",
+                "--workstream-id",
+                "ws_20260421_ctxvault_schema",
+                "--output-path",
+                "exports/handoff/AGENTS.md",
+                "--receipt-output-path",
+                "exports/handoff/agents-receipt.json",
+                "--slice-ref",
+                prepared["selected_slice_refs"][0],
+            )
+            self.assertEqual(project_code, 0)
+            projected = json.loads(project_stdout)
+            self.assertEqual(projected["schema_id"], "ctxvault.context-project/v1")
+            self.assertEqual(projected["target_kind"], "harness.agents-md")
+            self.assertTrue(Path(projected["output_path"]).exists())
+            self.assertTrue(Path(projected["receipt_path"]).exists())
+            self.assertEqual(projected["selected_slice_refs"], [prepared["selected_slice_refs"][0]])
+
     def test_logical_purge_cli_requires_reviewed_apply(self) -> None:
         with TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

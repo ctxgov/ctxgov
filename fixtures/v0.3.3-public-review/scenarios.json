@@ -1,0 +1,204 @@
+{
+  "schema_id": "ctxvault.v0.3.3-public-review-scenarios/v1",
+  "purpose": "Reusable local scenario suite for owner-operated public package review.",
+  "scenarios": [
+    {
+      "id": "privacy-local-search-handoff",
+      "review_question": "Can the package prepare a small safe handoff that combines privacy preflight evidence with local search evidence?",
+      "query": "privacylocalhandoff",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_nist_privacy_framework",
+        "knowledge://public_review_sqlite_fts5"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 420,
+      "data_shape": "public-guidance",
+      "risk_axes": ["privacy", "local-search", "receipt"],
+      "tags": ["handoff", "privacy", "fts"]
+    },
+    {
+      "id": "secure-release-readiness",
+      "review_question": "Can the package select public release-readiness evidence without pulling in blocked secret material?",
+      "query": "securereleasereview",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_cisa_secure_by_design",
+        "knowledge://public_review_nist_privacy_framework"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 420,
+      "data_shape": "public-guidance",
+      "risk_axes": ["security", "release", "privacy"],
+      "tags": ["release-readiness", "secure-by-design"]
+    },
+    {
+      "id": "open-source-public-review",
+      "review_question": "Can the package select public open-source review evidence while keeping the handoff local and receipt-backed?",
+      "query": "opensourcepublicreview",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_nasa_open_source"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 420,
+      "data_shape": "public-guidance",
+      "risk_axes": ["open-source", "public-data", "receipt"],
+      "tags": ["open-source", "public-review"]
+    },
+    {
+      "id": "cli-onboarding-happy-path",
+      "review_question": "Can a first-time local CLI reviewer retrieve quickstart and README-oriented onboarding evidence?",
+      "query": "clionboardinghappy",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_cli_quickstart",
+        "knowledge://public_review_readme_onboarding"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 520,
+      "data_shape": "quickstart-readme",
+      "risk_axes": ["onboarding", "operator-review"],
+      "tags": ["cli", "readme", "first-run"]
+    },
+    {
+      "id": "receipt-audit-trail",
+      "review_question": "Can release evidence connect receipt-backed context selection with privacy review expectations?",
+      "query": "receiptaudittrail",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_release_notes_evidence",
+        "knowledge://public_review_nist_privacy_framework"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 520,
+      "data_shape": "release-note",
+      "risk_axes": ["receipt", "audit", "privacy"],
+      "tags": ["release-notes", "receipts"]
+    },
+    {
+      "id": "api-response-triage",
+      "review_question": "Can local search select API-shaped and log-shaped public evidence without needing a provider call?",
+      "query": "apiresponsefailuretriage",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_api_transcript",
+        "knowledge://public_review_error_log_triage"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 520,
+      "data_shape": "api-log",
+      "risk_axes": ["logs", "api-output", "local-only"],
+      "tags": ["api", "logs", "triage"]
+    },
+    {
+      "id": "connector-boundary-private-surface",
+      "review_question": "Can the review pack keep official connector and live provider claims out of the public v0.3.3 promise?",
+      "query": "connectorboundaryreview",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_connector_boundary"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 420,
+      "data_shape": "product-boundary",
+      "risk_axes": ["connector", "provider", "scope-control"],
+      "tags": ["boundary", "mcp", "provider"]
+    },
+    {
+      "id": "license-public-domain-review",
+      "review_question": "Can license-oriented review find public-domain and permissive-license evidence without drifting into unrelated open-source claims?",
+      "query": "licensepublicdomainreview",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_license_public_domain",
+        "knowledge://public_review_sqlite_fts5"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 520,
+      "data_shape": "license-note",
+      "risk_axes": ["license", "public-domain", "public-data"],
+      "tags": ["license", "sqlite"]
+    },
+    {
+      "id": "decoy-resistant-privacy-only",
+      "review_question": "Can a narrow privacy marker retrieve the privacy source without selecting noisy public decoys?",
+      "query": "privacyonlyreview",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_nist_privacy_framework"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_long_noise",
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 420,
+      "data_shape": "decoy-control",
+      "risk_axes": ["privacy", "decoy-resistance"],
+      "tags": ["privacy", "decoy"]
+    },
+    {
+      "id": "budget-first-source-trim",
+      "review_question": "Can auto-selection keep a small relevant CLI slice while skipping a larger noisy candidate under a tight budget?",
+      "query": "budgettrimreview",
+      "expected_behavior": "ready",
+      "expected_source_refs": [
+        "knowledge://public_review_cli_quickstart"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_long_noise",
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 100,
+      "data_shape": "budget-noise",
+      "risk_axes": ["token-budget", "decoy-resistance"],
+      "tags": ["budget", "selection"]
+    },
+    {
+      "id": "empty-query-boundary",
+      "review_question": "Does a no-match query fail closed with an empty selection and an auditable receipt instead of fabricating context?",
+      "query": "nomatchboundaryreview",
+      "expected_behavior": "empty",
+      "expected_source_refs": [],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 300,
+      "data_shape": "negative-control",
+      "risk_axes": ["empty-result", "audit"],
+      "tags": ["negative-control", "empty"]
+    },
+    {
+      "id": "budget-overrun-warning",
+      "review_question": "Does an intentionally tiny budget produce an over-budget warning instead of a ready handoff?",
+      "query": "budgetoverrunreview",
+      "expected_behavior": "over_budget",
+      "expected_source_refs": [
+        "knowledge://public_review_long_noise"
+      ],
+      "forbidden_source_refs": [
+        "knowledge://public_review_synthetic_secret_blocker"
+      ],
+      "token_budget": 10,
+      "data_shape": "budget-boundary",
+      "risk_axes": ["token-budget", "warning"],
+      "tags": ["budget", "boundary"]
+    }
+  ]
+}

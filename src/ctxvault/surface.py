@@ -1281,6 +1281,144 @@ class CtxVaultSurface:
             write_receipt=write_receipt,
         )
 
+    def context_prepare(
+        self,
+        query: str,
+        *,
+        target_kind: str = "harness.agents-md",
+        scope_kind: str | None = "project",
+        scope_value: str | None = "ctxvault",
+        workstream_ref: str | None = None,
+        selected_slice_refs: list[str] | None = None,
+        limit: int = 10,
+        token_budget: int = 4000,
+        include_blocked: bool = False,
+        rebuild: bool = True,
+        write_receipt: bool = True,
+    ) -> dict[str, Any]:
+        slice_rebuild = self.context_slice_rebuild() if rebuild else None
+        candidates = self.context_search(
+            query,
+            scope_kind=scope_kind,
+            scope_value=scope_value,
+            workstream_ref=workstream_ref,
+            limit=limit,
+            include_blocked=include_blocked,
+        )
+        candidate_refs = _context_handoff_candidate_refs(candidates)
+        selected_refs = _context_handoff_clean_refs(selected_slice_refs)
+        if not selected_refs:
+            selected_refs = _context_handoff_auto_select(candidates, token_budget=token_budget)
+
+        selection = self.context_selection_compose(
+            query,
+            target_kind=target_kind,
+            scope_kind=scope_kind,
+            scope_value=scope_value,
+            workstream_ref=workstream_ref,
+            selected_slice_refs=selected_refs,
+            candidate_slice_refs=candidate_refs,
+            limit=limit,
+            token_budget=token_budget,
+            include_blocked=include_blocked,
+            write_receipt=write_receipt,
+        )
+        diagnostics = _context_handoff_diagnostics(
+            candidate_count=len(candidate_refs),
+            selected_slice_refs=selection["selected_slice_refs"],
+            privacy_preflight=selection.get("privacy_preflight"),
+            token_budget=selection["token_budget"],
+            token_estimate=selection["token_estimate"],
+            budget_status=selection["budget_status"],
+        )
+        return {
+            "schema_id": "ctxvault.context-prepare/v1",
+            "contract_state": "experimental_private",
+            "operation": "safe_context_handoff_prepare",
+            "query": query,
+            "target_kind": target_kind,
+            "scope": {"kind": scope_kind, "value": scope_value} if scope_kind and scope_value else None,
+            "workstream_ref": workstream_ref,
+            "slice_rebuild": slice_rebuild,
+            "candidate_count": len(candidate_refs),
+            "selected_slice_refs": selection["selected_slice_refs"],
+            "selection_ref": selection["receipt"]["selection_ref"],
+            "receipt_path": selection["receipt_path"],
+            "privacy_decision": (
+                selection["privacy_preflight"]["receipt"]["decision"]
+                if isinstance(selection.get("privacy_preflight"), dict)
+                else None
+            ),
+            "token_budget": selection["token_budget"],
+            "token_estimate": selection["token_estimate"],
+            "budget_status": selection["budget_status"],
+            "selection_status": diagnostics["selection_status"],
+            "handoff_ready": diagnostics["handoff_ready"],
+            "warnings": diagnostics["warnings"],
+            "blocked_reasons": diagnostics["blocked_reasons"],
+            "empty_selection_reason": diagnostics["empty_selection_reason"],
+            "selection": selection,
+            "next_actions": _context_handoff_next_actions(
+                selected_slice_refs=selection["selected_slice_refs"],
+                workstream_ref=workstream_ref,
+            ),
+        }
+
+    def context_project(
+        self,
+        *,
+        target: str,
+        workstream_id: str,
+        output_path: Path | None = None,
+        receipt_output_path: Path | None = None,
+        memory_limit: int = 5,
+        selected_slice_refs: list[str] | None = None,
+    ) -> dict[str, Any]:
+        target_key = _context_project_target_key(target)
+        resolved_output_path = output_path or (self.vault.layout.exports_dir / _context_project_default_output_name(target_key))
+        resolved_receipt_path = receipt_output_path or (
+            self.vault.layout.exports_dir / "receipts" / _context_project_default_receipt_name(target_key)
+        )
+        if target_key == "agents-md":
+            projection = self.harness_agents_md_emit(
+                workstream_id=workstream_id,
+                output_path=resolved_output_path,
+                receipt_output_path=resolved_receipt_path,
+                memory_limit=memory_limit,
+                selected_slice_refs=selected_slice_refs,
+            )
+        elif target_key == "claude-md":
+            projection = self.harness_claude_md_emit(
+                workstream_id=workstream_id,
+                output_path=resolved_output_path,
+                receipt_output_path=resolved_receipt_path,
+                memory_limit=memory_limit,
+                selected_slice_refs=selected_slice_refs,
+            )
+        else:
+            projection = self.wiki_workstream_markdown_emit(
+                workstream_id=workstream_id,
+                output_path=resolved_output_path,
+                receipt_output_path=resolved_receipt_path,
+                memory_limit=memory_limit,
+                selected_slice_refs=selected_slice_refs,
+            )
+        receipt = projection["receipt"]
+        return {
+            "schema_id": "ctxvault.context-project/v1",
+            "contract_state": "experimental_private",
+            "operation": "safe_context_handoff_project",
+            "target": target_key,
+            "target_kind": receipt["target_kind"],
+            "workstream_id": workstream_id,
+            "selected_slice_refs": list(receipt.get("selected_slice_refs") or []),
+            "output_path": projection["output_path"],
+            "receipt_path": projection["receipt_path"],
+            "context_selection_ref": receipt.get("context_selection_ref"),
+            "privacy_decision": (receipt.get("privacy_preflight") or {}).get("decision"),
+            "projection": projection,
+        }
+
     def context_slice_preference_set(
         self,
         *,
@@ -3010,6 +3148,203 @@ def _selected_slices_from_preflight(privacy_preflight: dict[str, Any] | None) ->
         return []
     selected = privacy_preflight.get("selected_slices")
     return [dict(item) for item in selected if isinstance(item, dict)] if isinstance(selected, list) else []
+
+
+def _context_handoff_candidate_refs(candidates: list[dict[str, Any]]) -> list[str]:
+    refs: list[str] = []
+    for candidate in candidates:
+        ref = str(candidate.get("slice_ref") or "").strip()
+        if ref and ref not in refs:
+            refs.append(ref)
+    return refs
+
+
+def _context_handoff_clean_refs(refs: list[str] | None) -> list[str]:
+    cleaned: list[str] = []
+    for ref in refs or []:
+        text = str(ref).strip()
+        if text and text not in cleaned:
+            cleaned.append(text)
+    return cleaned
+
+
+def _context_handoff_auto_select(candidates: list[dict[str, Any]], *, token_budget: int) -> list[str]:
+    selected: list[str] = []
+    used_tokens = 0
+    for candidate in candidates:
+        payload = candidate.get("payload")
+        if not isinstance(payload, dict):
+            continue
+        if str(payload.get("privacy_class") or "") == "withheld":
+            continue
+        ref = str(candidate.get("slice_ref") or "").strip()
+        if not ref:
+            continue
+        token_estimate = int(payload.get("token_estimate") or 0)
+        if selected and used_tokens + token_estimate > max(0, token_budget):
+            continue
+        selected.append(ref)
+        used_tokens += token_estimate
+        if used_tokens >= max(0, token_budget):
+            break
+    return selected
+
+
+def _context_handoff_diagnostics(
+    *,
+    candidate_count: int,
+    selected_slice_refs: list[str],
+    privacy_preflight: dict[str, Any] | None,
+    token_budget: int,
+    token_estimate: int,
+    budget_status: str,
+) -> dict[str, Any]:
+    receipt = privacy_preflight.get("receipt") if isinstance(privacy_preflight, dict) else None
+    privacy_decision = str(receipt.get("decision") or "") if isinstance(receipt, dict) else None
+    privacy_reasons = list(receipt.get("reasons") or []) if isinstance(receipt, dict) else []
+    selected_count = len(selected_slice_refs)
+    warnings: list[dict[str, Any]] = []
+    empty_selection_reason = None
+    blocked_reasons: list[str] = []
+
+    if candidate_count == 0:
+        empty_selection_reason = "no_candidate_slices"
+        warnings.append(
+            {
+                "code": "no_candidate_slices",
+                "message": "No candidate context slices matched the query and scope.",
+                "suggested_fix": "Rerun with a broader query, scope, or workstream ref after rebuilding slices.",
+            }
+        )
+    elif selected_count == 0:
+        empty_selection_reason = "no_selectable_candidate_slices"
+        warnings.append(
+            {
+                "code": "empty_selection",
+                "message": "Candidate slices were found, but none were selected for handoff.",
+                "suggested_fix": "Choose explicit slice refs or include blocked candidates only for review.",
+            }
+        )
+
+    if budget_status == "over_budget":
+        warnings.append(
+            {
+                "code": "over_budget",
+                "message": f"Selected context estimates {token_estimate} tokens against a budget of {token_budget}.",
+                "suggested_fix": "Reduce selected slice refs or raise the token budget before projecting.",
+            }
+        )
+
+    if privacy_decision == "block":
+        blocked_reasons = [str(reason) for reason in privacy_reasons]
+        warnings.append(
+            {
+                "code": "privacy_blocked",
+                "message": "Privacy preflight blocked the selected context.",
+                "reasons": blocked_reasons,
+                "suggested_fix": "Remove withheld or sensitive slices, then rerun context-prepare.",
+            }
+        )
+    elif privacy_decision in {"review", "redact"}:
+        warnings.append(
+            {
+                "code": f"privacy_{privacy_decision}",
+                "message": f"Privacy preflight returned {privacy_decision}; review is needed before handoff.",
+                "reasons": [str(reason) for reason in privacy_reasons],
+                "suggested_fix": "Inspect the privacy-preflight receipt and adjust selected slices if needed.",
+            }
+        )
+
+    if selected_count == 0:
+        selection_status = "empty"
+    elif privacy_decision == "block":
+        selection_status = "privacy_blocked"
+    elif budget_status == "over_budget":
+        selection_status = "over_budget"
+    elif privacy_decision in {"review", "redact"}:
+        selection_status = "needs_review"
+    else:
+        selection_status = "ready"
+
+    return {
+        "selection_status": selection_status,
+        "handoff_ready": selection_status == "ready",
+        "warnings": warnings,
+        "blocked_reasons": blocked_reasons,
+        "empty_selection_reason": empty_selection_reason,
+    }
+
+
+def _context_handoff_next_actions(*, selected_slice_refs: list[str], workstream_ref: str | None) -> list[dict[str, Any]]:
+    if not selected_slice_refs:
+        return [
+            {
+                "kind": "select_context",
+                "description": "No slices were selected; rerun with a clearer query or explicit --slice-ref values.",
+            }
+        ]
+    actions = [
+        {
+            "kind": "inspect_receipts",
+            "description": "Inspect the context-selection and privacy-preflight receipts before sharing context.",
+        }
+    ]
+    workstream_id = _workstream_id_from_ref(workstream_ref)
+    if workstream_id:
+        slice_args = " ".join(f"--slice-ref {ref}" for ref in selected_slice_refs)
+        actions.append(
+            {
+                "kind": "project_context",
+                "description": "Project selected context into a reviewed work surface with a projection receipt.",
+                "example_command": f"ctxvault context-project --target agents-md --workstream-id {workstream_id} {slice_args}",
+            }
+        )
+    return actions
+
+
+def _workstream_id_from_ref(workstream_ref: str | None) -> str | None:
+    if not workstream_ref:
+        return None
+    text = str(workstream_ref).strip()
+    return text.replace("workstream://", "", 1) if text.startswith("workstream://") else text or None
+
+
+def _context_project_target_key(target: str) -> str:
+    normalized = str(target).strip().lower()
+    aliases = {
+        "agents": "agents-md",
+        "agents-md": "agents-md",
+        "agents.md": "agents-md",
+        "harness.agents-md": "agents-md",
+        "claude": "claude-md",
+        "claude-md": "claude-md",
+        "claude.md": "claude-md",
+        "harness.claude-md": "claude-md",
+        "brief": "workstream-brief",
+        "wiki": "workstream-brief",
+        "wiki.markdown-workstream": "workstream-brief",
+        "workstream": "workstream-brief",
+        "workstream-brief": "workstream-brief",
+    }
+    if normalized not in aliases:
+        raise ValueError(f"unsupported context projection target: {target}")
+    return aliases[normalized]
+
+
+def _context_project_default_output_name(target_key: str) -> str:
+    return {
+        "agents-md": "AGENTS.md",
+        "claude-md": "CLAUDE.md",
+        "workstream-brief": "workstream-brief.md",
+    }[target_key]
+
+
+def _context_project_default_receipt_name(target_key: str) -> str:
+    return {
+        "agents-md": "agents-md-projection.json",
+        "claude-md": "claude-md-projection.json",
+        "workstream-brief": "workstream-brief-projection.json",
+    }[target_key]
 
 
 def _optional_string_list(value: Any) -> list[str]:

@@ -389,6 +389,35 @@ def build_parser() -> argparse.ArgumentParser:
     context_selection_compose.add_argument("--include-blocked", action="store_true")
     context_selection_compose.add_argument("--write-receipt", action="store_true")
 
+    context_prepare = subcommands.add_parser(
+        "context-prepare",
+        help="Prepare a safe local context handoff with selection, privacy preflight, and receipts",
+    )
+    context_prepare.add_argument("--root", type=Path, default=project_root())
+    context_prepare.add_argument("--query", required=True)
+    context_prepare.add_argument("--target-kind", default="harness.agents-md")
+    context_prepare.add_argument("--scope-kind", default="project")
+    context_prepare.add_argument("--scope-value", default="ctxvault")
+    context_prepare.add_argument("--workstream-ref")
+    context_prepare.add_argument("--slice-ref", action="append", default=[])
+    context_prepare.add_argument("--limit", type=int, default=10)
+    context_prepare.add_argument("--token-budget", type=int, default=4000)
+    context_prepare.add_argument("--include-blocked", action="store_true")
+    context_prepare.add_argument("--rebuild", action=argparse.BooleanOptionalAction, default=True)
+    context_prepare.add_argument("--write-receipt", action=argparse.BooleanOptionalAction, default=True)
+
+    context_project = subcommands.add_parser(
+        "context-project",
+        help="Project selected reviewed context into a local work surface with a projection receipt",
+    )
+    context_project.add_argument("--root", type=Path, default=project_root())
+    context_project.add_argument("--target", required=True, choices=("agents-md", "claude-md", "workstream-brief"))
+    context_project.add_argument("--workstream-id", required=True)
+    context_project.add_argument("--output-path", type=Path)
+    context_project.add_argument("--receipt-output-path", type=Path)
+    context_project.add_argument("--memory-limit", type=int, default=5)
+    context_project.add_argument("--slice-ref", action="append", default=[])
+
     context_slice_preference_set = subcommands.add_parser(
         "context-slice-preference-set",
         help="Pin, hide, archive, or clear one local context slice preference",
@@ -1317,6 +1346,48 @@ def main(argv: list[str] | None = None) -> int:
                 token_budget=args.token_budget,
                 include_blocked=args.include_blocked,
                 write_receipt=args.write_receipt,
+            )
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+        if args.command == "context-prepare":
+            surface = CtxVaultSurface(CtxVault(default_layout(args.root.resolve())))
+            result = surface.context_prepare(
+                args.query,
+                target_kind=args.target_kind,
+                scope_kind=args.scope_kind,
+                scope_value=args.scope_value,
+                workstream_ref=args.workstream_ref,
+                selected_slice_refs=args.slice_ref,
+                limit=args.limit,
+                token_budget=args.token_budget,
+                include_blocked=args.include_blocked,
+                rebuild=args.rebuild,
+                write_receipt=args.write_receipt,
+            )
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+        if args.command == "context-project":
+            root = args.root.resolve()
+            surface = CtxVaultSurface(CtxVault(default_layout(root)))
+            output_path = None
+            if args.output_path is not None:
+                output_path = args.output_path.resolve() if args.output_path.is_absolute() else (root / args.output_path).resolve()
+            receipt_output_path = None
+            if args.receipt_output_path is not None:
+                receipt_output_path = (
+                    args.receipt_output_path.resolve()
+                    if args.receipt_output_path.is_absolute()
+                    else (root / args.receipt_output_path).resolve()
+                )
+            result = surface.context_project(
+                target=args.target,
+                workstream_id=args.workstream_id,
+                output_path=output_path,
+                receipt_output_path=receipt_output_path,
+                memory_limit=args.memory_limit,
+                selected_slice_refs=args.slice_ref,
             )
             print(json.dumps(result, indent=2, sort_keys=True))
             return 0

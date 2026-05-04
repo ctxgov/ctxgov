@@ -1,17 +1,19 @@
 # CtxVault Public Release Checklist
 
-This checklist describes the public release expectations for the v0.3 compiled
-context projection milestone.
+This checklist describes the public release expectations for the v0.3.3 safe
+context handoff milestone over the v0.3 compiled context projection foundation.
 
 ## Release Gates
 
 - Context Injection M1 remains complete and demonstrable as a historical
   source-to-context-to-projection milestone
+- the v0.3.3 public review pack passes from public-source fixtures and writes
+  inspectable summary, projection, and receipt artifacts
 - public schemas, fixtures, CLI, and MCP surfaces are present
 - deterministic tests pass in the extracted tree
 - experimental contracts are labeled clearly
-- the public README leads with compiled context projection, receipts, and the
-  local source-of-truth hook
+- the public README leads with safe context handoff, receipts, and the local
+  source-of-truth hook
 - policy, privacy, and receipt surfaces remain inspectable
 - projected outputs have projection receipts
 - projection adapter healthchecks are read-only and clearly experimental
@@ -25,8 +27,8 @@ context projection milestone.
 
 ## Public-Core Checklist
 
-1. Package the v0.3 compiled context projection public core as the public `ctxvault`
-   repository.
+1. Package the v0.3.3 safe context handoff public core as the public
+   `ctxvault` repository.
 2. Keep optional product surfaces outside this repository.
 3. Ship Apache-2.0 licensing with the public repo.
 4. Keep public docs limited to deterministic contracts, the M1 projection path,

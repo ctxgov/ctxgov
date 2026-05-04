@@ -6,10 +6,11 @@ CtxVault is a local-first context layer for AI work. It preserves the
 decisions, constraints, and working state that should survive across chats,
 agents, editors, and command-line sessions.
 
-v0.3.2 is the deterministic context-selection milestone. It proves a narrow
-loop before context reaches AI tools:
+v0.3.3 is the safe context handoff hardening milestone. It makes the
+deterministic selector easier to run, inspect, and approve before context
+reaches AI tools:
 
-`local sources -> context slices -> source-grouped selection -> privacy preflight -> projection receipts`
+`local sources -> context slices -> context-prepare -> privacy preflight -> context-project -> projection receipts`
 
 The baseline is intentionally constrained: no model call, no embedding service,
 no vector database, no remote provider. The value is that the operator can see
@@ -18,8 +19,8 @@ which projection receipt links it to an AI work surface.
 
 The roadmap treats this as AI work quality infrastructure: specs define what
 "done" means, context receipts explain what was selected or blocked, and trace
-or runtime receipts can later inspect how AI work happened. v0.3.2 proves only
-the deterministic context-selection part of that system.
+or runtime receipts can later inspect how AI work happened. v0.3.3 proves only
+the deterministic safe handoff part of that system.
 
 This public repository exposes the deterministic trust floor behind that
 source-to-context-to-projection loop:
@@ -32,6 +33,8 @@ source-to-context-to-projection loop:
 - source-grouped context selection with token budget previews
 - selected-slice privacy preflight before projection
 - projection receipts linked to context-selection receipts
+- owner-operated public review pack with reusable public-source scenarios,
+  boundary checks, and a synthetic blocked-selection check
 - read-only doctor diagnostics and projection healthchecks
 - Markdown-vault import as source material
 - review-gated logical purge for derived slice, search, preview, and selected
@@ -59,7 +62,9 @@ If you are evaluating the project, start with:
 - `scripts/run_v032_deterministic_demo.py` for the offline demo loop;
 - `scripts/inspect_v032_demo_receipts.py` for receipt-chain inspection;
 - `scripts/run_v032_selection_scorecard.py` for lightweight selection quality
-  and safety checks.
+  and safety checks;
+- `scripts/run_v033_public_review_pack.py` for owner-operated public package
+  review before publication.
 
 ## Scope
 
@@ -95,6 +100,21 @@ The public core currently marks these contracts as experimental:
 
 Experimental means useful and inspectable, but not yet frozen as long-term
 public semantics.
+
+## v0.3.3 Safe Context Handoff
+
+v0.3.3 is a hardening release over the v0.3.2 composer. It does not add model,
+embedding, vector, remote provider, official plugin, live connector, or public
+Workbench dependencies. It makes the public path easier to verify:
+
+- run the public review pack from reusable public-source scenario fixtures
+- prepare exact local slices with `context-prepare`
+- inspect `selection_status`, `handoff_ready`, budget state, warnings, blocked
+  reasons, and receipt paths
+- project approved selected slices with `context-project`
+- verify the projection receipt and linked context-selection receipt
+- confirm the synthetic secret fixture is withheld and blocks projection when
+  explicitly selected
 
 ## v0.3.2 Context Selection Composer
 
@@ -144,6 +164,19 @@ Run deterministic checks:
 
 ```bash
 python3 scripts/run_deterministic_checks.py
+```
+
+Run the v0.3.3 public package review pack:
+
+```bash
+python3 scripts/run_v033_public_review_pack.py --root /tmp/ctxvault-v033-public-review --force
+```
+
+Start with the generated human report:
+
+```text
+/tmp/ctxvault-v033-public-review/artifacts/v0.3.3-public-review/owner-review.md
+/tmp/ctxvault-v033-public-review/artifacts/v0.3.3-public-review/owner-review.html
 ```
 
 Run the clean-user core validation flow:
@@ -203,6 +236,13 @@ Compose selected local slices with a budget preview and a selection receipt:
 
 ```bash
 PYTHONPATH=src python3 -m ctxvault.cli context-selection-compose --root /tmp/ctxvault-clean-verify --query "projection receipts" --target-kind harness.agents-md --slice-ref SLICE_REF --token-budget 1200 --write-receipt
+```
+
+Prepare and project a safe context handoff:
+
+```bash
+PYTHONPATH=src python3 -m ctxvault.cli context-prepare --root /tmp/ctxvault-clean-verify --query "projection receipts" --target-kind harness.agents-md --token-budget 1200 --write-receipt
+PYTHONPATH=src python3 -m ctxvault.cli context-project --root /tmp/ctxvault-clean-verify --target workstream-brief --workstream-id ws_20260421_ctxvault_schema --slice-ref SLICE_REF --output-path exports/workstream.md --receipt-output-path artifacts/workstream-md-receipt.json
 ```
 
 Pin, hide, or archive local slice suggestions:
@@ -267,13 +307,14 @@ The checked-in M1 fixture evidence is in:
 - `fixtures/context-injection-m1/projections/workstream-brief-receipt.json`
 - `fixtures/m1-context-injection/README.md`
 
-## v0.3.2 Evidence
+## v0.3.3 Evidence
 
-The v0.3.2 context-selection composer, v0.3.1 local safety, and compiled
-context projection evidence is described
-in:
+The v0.3.3 safe handoff path, v0.3.2 context-selection composer, v0.3.1 local
+safety, and compiled context projection evidence is described in:
 
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.3.3-release-notes.md`
+- `fixtures/v0.3.3-public-review/README.md`
 - `docs/v0.3.2-release-notes.md`
 - `docs/v0.3.2-injection-composer/implementation-plan.md`
 - `docs/v0.3.2-injection-composer/experimental-schemas/ctxvault-context-selection-receipt-v1.schema.json`
@@ -298,6 +339,7 @@ replace a separate offsite backup strategy.
 - `docs/experimental-contract-evolution-policy.md`
 - `docs/workstream-plan-ledger-contract.md`
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.3.3-release-notes.md`
 - `docs/v0.3.2-release-notes.md`
 - `docs/v0.3.2-injection-composer/implementation-plan.md`
 - `docs/v0.3.1-release-notes.md`
@@ -307,6 +349,7 @@ replace a separate offsite backup strategy.
 - `docs/v0.2-m2-developer-framework.md`
 - `docs/v0.2-m2-compatibility-evidence.md`
 - `docs/v0.2-m2-release-notes.md`
+- `fixtures/v0.3.3-public-review/README.md`
 - `fixtures/README.md`
 - `schemas/README.md`
 - `CHANGELOG.md`
@@ -322,6 +365,8 @@ which receipt, slice, projection, or workflow step was hard to trust.
 - v0.3.1 local safety, privacy, or purge feedback:
   `.github/ISSUE_TEMPLATE/trust-or-privacy-concern.yml`
 - v0.3.2 context-selection composer feedback:
+  `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
+- v0.3.3 safe context handoff feedback:
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.2/M2 Developer Framework Feedback:
   `.github/ISSUE_TEMPLATE/v0.2-m2-feedback.yml`

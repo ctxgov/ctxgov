@@ -87,6 +87,7 @@ class McpServerTests(unittest.TestCase):
                 "context.search",
                 "context.selection-preflight",
                 "context.selection-compose",
+                "context.prepare",
                 "context.slice-preference-set",
                 "context.slice-preference-list",
                 "logical-purge.plan",
@@ -189,8 +190,117 @@ class McpServerTests(unittest.TestCase):
         self.assertEqual(selection["receipt"]["schema_id"], "ctxvault.context-selection-receipt/v1")
         self.assertEqual(selection["selected_slice_refs"], [hits[0]["slice_ref"]])
 
-        pinned = self._request(
+        prepared = self._request(
             7,
+            "tools/call",
+            {
+                "name": "context.prepare",
+                "arguments": {
+                    "query": "local-first context layer",
+                    "target_kind": "harness.agents-md",
+                    "workstream_ref": "workstream://ws_20260421_ctxvault_schema",
+                    "limit": 3,
+                    "token_budget": 1000,
+                    "rebuild": False,
+                },
+            },
+        )
+        handoff = prepared["result"]["structuredContent"]
+        self.assertEqual(handoff["schema_id"], "ctxvault.context-prepare/v1")
+        self.assertEqual(handoff["operation"], "safe_context_handoff_prepare")
+        self.assertTrue(handoff["selected_slice_refs"])
+        self.assertEqual(handoff["selection_status"], "ready")
+        self.assertTrue(handoff["handoff_ready"])
+        self.assertTrue(Path(handoff["receipt_path"]).exists())
+
+        preview = self._request(
+            8,
+            "tools/call",
+            {
+                "name": "context.prepare",
+                "arguments": {
+                    "query": "local-first context layer",
+                    "selected_slice_refs": [hits[0]["slice_ref"]],
+                    "rebuild": False,
+                    "write_receipt": False,
+                },
+            },
+        )
+        preview_handoff = preview["result"]["structuredContent"]
+        self.assertIsNone(preview_handoff["slice_rebuild"])
+        self.assertIsNone(preview_handoff["receipt_path"])
+
+        empty = self._request(
+            9,
+            "tools/call",
+            {
+                "name": "context.prepare",
+                "arguments": {
+                    "query": "zzzz-no-context-slice-match",
+                    "scope_kind": "project",
+                    "scope_value": "missing-project",
+                    "rebuild": False,
+                    "write_receipt": False,
+                },
+            },
+        )
+        empty_handoff = empty["result"]["structuredContent"]
+        self.assertEqual(empty_handoff["selection_status"], "empty")
+        self.assertFalse(empty_handoff["handoff_ready"])
+        self.assertEqual(empty_handoff["empty_selection_reason"], "no_candidate_slices")
+        self.assertEqual(empty_handoff["warnings"][0]["code"], "no_candidate_slices")
+
+        over_budget = self._request(
+            10,
+            "tools/call",
+            {
+                "name": "context.prepare",
+                "arguments": {
+                    "query": "local-first context layer",
+                    "selected_slice_refs": [hits[0]["slice_ref"]],
+                    "token_budget": 1,
+                    "rebuild": False,
+                    "write_receipt": False,
+                },
+            },
+        )
+        over_budget_handoff = over_budget["result"]["structuredContent"]
+        self.assertEqual(over_budget_handoff["selection_status"], "over_budget")
+        self.assertFalse(over_budget_handoff["handoff_ready"])
+        self.assertEqual(over_budget_handoff["warnings"][0]["code"], "over_budget")
+
+        invalid_bool = self._request(
+            11,
+            "tools/call",
+            {
+                "name": "context.prepare",
+                "arguments": {
+                    "query": "local-first context layer",
+                    "rebuild": "false",
+                },
+            },
+        )
+        self.assertTrue(invalid_bool["result"]["isError"])
+        self.assertIn("rebuild must be a boolean", invalid_bool["result"]["content"][0]["text"])
+        self.assertEqual(invalid_bool["result"]["structuredContent"]["error_code"], "invalid_boolean")
+
+        invalid_slice = self._request(
+            12,
+            "tools/call",
+            {
+                "name": "context.prepare",
+                "arguments": {
+                    "query": "local-first context layer",
+                    "selected_slice_refs": ["slice://missing"],
+                    "rebuild": False,
+                },
+            },
+        )
+        self.assertTrue(invalid_slice["result"]["isError"])
+        self.assertEqual(invalid_slice["result"]["structuredContent"]["error_code"], "unknown_slice_ref")
+
+        pinned = self._request(
+            13,
             "tools/call",
             {
                 "name": "context.slice-preference-set",

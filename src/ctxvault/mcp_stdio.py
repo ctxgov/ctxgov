@@ -455,6 +455,29 @@ class CtxVaultMcpServer:
                     handler=self._context_selection_compose,
                 ),
                 ToolSpec(
+                    name="context.prepare",
+                    description="Experimental/private safe context handoff: rebuild slices, select local context, run privacy preflight, and write receipts.",
+                    input_schema={
+                        "type": "object",
+                        "properties": {
+                            "query": {"type": "string"},
+                            "target_kind": {"type": "string"},
+                            "scope_kind": {"type": "string"},
+                            "scope_value": {"type": "string"},
+                            "workstream_ref": {"type": "string"},
+                            "selected_slice_refs": {"type": "array", "items": {"type": "string"}},
+                            "limit": {"type": "integer", "minimum": 1},
+                            "token_budget": {"type": "integer", "minimum": 0},
+                            "include_blocked": {"type": "boolean"},
+                            "rebuild": {"type": "boolean"},
+                            "write_receipt": {"type": "boolean"},
+                        },
+                        "required": ["query"],
+                        "additionalProperties": False,
+                    },
+                    handler=self._context_prepare,
+                ),
+                ToolSpec(
                     name="context.slice-preference-set",
                     description="Pin, hide, archive, or clear a local context slice preference.",
                     input_schema={
@@ -1122,10 +1145,12 @@ class CtxVaultMcpServer:
                 name = self._string(params.get("name"), field="name")
                 tool = self._tools.get(name)
                 if tool is None:
+                    error_payload = _tool_error_payload(ValueError(f"unknown tool {name}"))
                     return self._success(
                         request_id,
                         {
                             "content": [{"type": "text", "text": f"unknown tool {name}"}],
+                            "structuredContent": error_payload,
                             "isError": True,
                         },
                     )
@@ -1133,10 +1158,12 @@ class CtxVaultMcpServer:
                 try:
                     result = tool.handler(arguments)
                 except Exception as exc:
+                    error_payload = _tool_error_payload(exc)
                     return self._success(
                         request_id,
                         {
                             "content": [{"type": "text", "text": str(exc)}],
+                            "structuredContent": error_payload,
                             "isError": True,
                         },
                     )
@@ -1395,8 +1422,25 @@ class CtxVaultMcpServer:
             else None,
             limit=int(arguments.get("limit", 10)),
             token_budget=int(arguments.get("token_budget", 4000)),
-            include_blocked=bool(arguments.get("include_blocked", False)),
-            write_receipt=bool(arguments.get("write_receipt", False)),
+            include_blocked=self._optional_bool(arguments.get("include_blocked"), field="include_blocked", default=False),
+            write_receipt=self._optional_bool(arguments.get("write_receipt"), field="write_receipt", default=False),
+        )
+
+    def _context_prepare(self, arguments: JSONDict) -> JSONDict:
+        return self.surface.context_prepare(
+            self._string(arguments.get("query"), field="query"),
+            target_kind=self._optional_string(arguments.get("target_kind")) or "harness.agents-md",
+            scope_kind=self._optional_string(arguments.get("scope_kind")) or "project",
+            scope_value=self._optional_string(arguments.get("scope_value")) or "ctxvault",
+            workstream_ref=self._optional_string(arguments.get("workstream_ref")),
+            selected_slice_refs=self._string_list(arguments.get("selected_slice_refs"), field="selected_slice_refs")
+            if arguments.get("selected_slice_refs") is not None
+            else None,
+            limit=int(arguments.get("limit", 10)),
+            token_budget=int(arguments.get("token_budget", 4000)),
+            include_blocked=self._optional_bool(arguments.get("include_blocked"), field="include_blocked", default=False),
+            rebuild=self._optional_bool(arguments.get("rebuild"), field="rebuild", default=True),
+            write_receipt=self._optional_bool(arguments.get("write_receipt"), field="write_receipt", default=True),
         )
 
     def _context_slice_preference_set(self, arguments: JSONDict) -> JSONDict:
@@ -1820,6 +1864,11 @@ class CtxVaultMcpServer:
             raise ValueError(f"{field} must be a boolean")
         return value
 
+    def _optional_bool(self, value: Any, *, field: str, default: bool) -> bool:
+        if value is None:
+            return default
+        return self._bool(value, field=field)
+
 
 def read_message(input_stream: BinaryIO) -> JSONDict | None:
     content_length: int | None = None
@@ -1897,6 +1946,49 @@ def main(argv: list[str] | None = None) -> int:
 
 def _json_text(payload: Any) -> str:
     return json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True)
+
+
+def _tool_error_payload(exc: Exception) -> JSONDict:
+    message = str(exc)
+    lower = message.lower()
+    error_code = "tool_execution_failed"
+    retryable = False
+    suggested_fix = "Inspect the tool arguments and retry after correcting the input."
+
+    if "unknown tool" in lower:
+        error_code = "unknown_tool"
+        retryable = True
+        suggested_fix = "Call tools/list and use one of the returned tool names."
+    elif "must be a boolean" in lower:
+        error_code = "invalid_boolean"
+        retryable = True
+        suggested_fix = "Pass JSON booleans true or false, not strings."
+    elif "unknown" in lower and "context slice refs" in lower:
+        error_code = "unknown_slice_ref"
+        retryable = True
+        suggested_fix = "Rerun context.search or context.prepare, then use a returned slice_ref."
+    elif "at least one slice ref is required" in lower:
+        error_code = "empty_slice_selection"
+        retryable = True
+        suggested_fix = "Select at least one slice_ref or rerun context.prepare with a query that returns candidates."
+    elif "privacy" in lower and "blocked" in lower:
+        error_code = "privacy_blocked"
+        retryable = True
+        suggested_fix = "Remove blocked or withheld slices and rerun the preflight."
+    elif isinstance(exc, ValueError):
+        error_code = "invalid_argument"
+        retryable = True
+    elif isinstance(exc, KeyError):
+        error_code = "not_found"
+        retryable = True
+
+    return {
+        "schema_id": "ctxvault.mcp-tool-error/v1",
+        "error_code": error_code,
+        "message": message,
+        "retryable": retryable,
+        "suggested_fix": suggested_fix,
+    }
 
 
 if __name__ == "__main__":

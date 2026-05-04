@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 import sys
@@ -89,7 +90,7 @@ class ContextSliceTests(unittest.TestCase):
             self.assertEqual(hits[0]["payload"]["schema_id"], "ctxvault.context-slice/v1")
             self.assertIn("ranking_reasons", hits[0]["payload"])
 
-            with sqlite3.connect(vault.layout.sqlite_path) as conn:
+            with closing(sqlite3.connect(vault.layout.sqlite_path)) as conn:
                 rows = conn.execute("SELECT title, body_redacted FROM context_slice_fts").fetchall()
             indexed_text = "\n".join(" ".join(str(part or "") for part in row) for row in rows)
             self.assertNotIn("sk-abcdefghijklmnopqrstuvwxyz1234567890", indexed_text)

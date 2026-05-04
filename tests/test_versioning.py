@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 import sys
@@ -312,7 +313,7 @@ class VersioningTests(unittest.TestCase):
         self.assertEqual(result["receipt"]["summary"]["combined"]["delete"], 1)
         self.assertEqual(result["index_refresh"]["indexed_object_count"], 1)
 
-        with sqlite3.connect(self.layout.sqlite_path) as conn:
+        with closing(sqlite3.connect(self.layout.sqlite_path)) as conn:
             row = conn.execute(
                 "SELECT COUNT(*) FROM object_index WHERE object_kind = 'knowledge_artifact'"
             ).fetchone()
