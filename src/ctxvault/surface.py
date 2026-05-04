@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -10,10 +11,12 @@ from .adapters import AdapterRegistry, projection_adapter_healthcheck
 from .backup import emit_backup_bundle
 from .core import ContextBuildRequest, ContextItemInput, CtxVault
 from .doctor import build_doctor_report
+from .ingest import import_conversation_path, import_knowledge_path, import_prompt_path
 from .policy import CtxVaultPolicy
 from .plugins import LocalPluginExecutorRegistry, PluginRegistry
 from .privacy import scan_privacy_files, scan_privacy_text
 from .projections import emit_agents_md_projection, emit_claude_md_projection, emit_wiki_workstream_md_projection
+from .receipt_inspector import build_receipt_inspection
 from .receipts import emit_audit_receipt, emit_context_bundle_receipt, emit_workstream_candidate_receipt, emit_workstream_receipt
 from .share_handoff import (
     compose_share_handoff_capture,
@@ -1182,6 +1185,9 @@ class CtxVaultSurface:
             for hit in hits
         ]
 
+    def prompt_patch_density_check(self, patch_id: str) -> dict[str, Any]:
+        return self.vault.prompt_patch_density_check(patch_id)
+
     def knowledge_search(
         self,
         query: str,
@@ -1262,6 +1268,7 @@ class CtxVaultSurface:
         workstream_ref: str | None = None,
         selected_slice_refs: list[str] | None = None,
         candidate_slice_refs: list[str] | None = None,
+        required_slice_refs: list[str] | None = None,
         limit: int = 10,
         token_budget: int = 4000,
         include_blocked: bool = False,
@@ -1275,6 +1282,7 @@ class CtxVaultSurface:
             workstream_ref=workstream_ref,
             selected_slice_refs=selected_slice_refs,
             candidate_slice_refs=candidate_slice_refs,
+            required_slice_refs=required_slice_refs,
             limit=limit,
             token_budget=token_budget,
             include_blocked=include_blocked,
@@ -1290,6 +1298,7 @@ class CtxVaultSurface:
         scope_value: str | None = "ctxvault",
         workstream_ref: str | None = None,
         selected_slice_refs: list[str] | None = None,
+        required_slice_refs: list[str] | None = None,
         limit: int = 10,
         token_budget: int = 4000,
         include_blocked: bool = False,
@@ -1307,8 +1316,12 @@ class CtxVaultSurface:
         )
         candidate_refs = _context_handoff_candidate_refs(candidates)
         selected_refs = _context_handoff_clean_refs(selected_slice_refs)
+        required_refs = _context_handoff_clean_refs(required_slice_refs)
+        candidate_refs = _context_handoff_clean_refs([*candidate_refs, *required_refs])
         if not selected_refs:
             selected_refs = _context_handoff_auto_select(candidates, token_budget=token_budget)
+        selected_refs = _context_handoff_clean_refs([*required_refs, *selected_refs])
+        candidate_refs = _context_handoff_clean_refs([*candidate_refs, *selected_refs])
 
         selection = self.context_selection_compose(
             query,
@@ -1318,6 +1331,7 @@ class CtxVaultSurface:
             workstream_ref=workstream_ref,
             selected_slice_refs=selected_refs,
             candidate_slice_refs=candidate_refs,
+            required_slice_refs=required_refs,
             limit=limit,
             token_budget=token_budget,
             include_blocked=include_blocked,
@@ -1341,6 +1355,7 @@ class CtxVaultSurface:
             "workstream_ref": workstream_ref,
             "slice_rebuild": slice_rebuild,
             "candidate_count": len(candidate_refs),
+            "required_slice_refs": selection["required_slice_refs"],
             "selected_slice_refs": selection["selected_slice_refs"],
             "selection_ref": selection["receipt"]["selection_ref"],
             "receipt_path": selection["receipt_path"],
@@ -1352,6 +1367,11 @@ class CtxVaultSurface:
             "token_budget": selection["token_budget"],
             "token_estimate": selection["token_estimate"],
             "budget_status": selection["budget_status"],
+            "context_quality_receipt": selection["context_quality_receipt"],
+            "context_density_scorecard": selection["context_density_scorecard"],
+            "retrieval_gain_receipt": selection["retrieval_gain_receipt"],
+            "search_decision_trace": selection["search_decision_trace"],
+            "source_conflict_scorecard": selection["source_conflict_scorecard"],
             "selection_status": diagnostics["selection_status"],
             "handoff_ready": diagnostics["handoff_ready"],
             "warnings": diagnostics["warnings"],
@@ -1418,6 +1438,346 @@ class CtxVaultSurface:
             "privacy_decision": (receipt.get("privacy_preflight") or {}).get("decision"),
             "projection": projection,
         }
+
+    def context_extract(
+        self,
+        *,
+        source_paths: list[Path],
+        source_kind: str = "auto",
+        scope_kind: str = "project",
+        scope_value: str = "ctxvault",
+        recursive: bool = False,
+        kind: str | None = None,
+        title: str | None = None,
+        prompt_id: str | None = None,
+        prompt_name: str | None = None,
+        prompt_intent: str = "general",
+        prompt_owner: str = "local_import",
+        prompt_required_context_types: list[str] | None = None,
+        transcript_session_id: str | None = None,
+        transcript_title: str | None = None,
+        transcript_task_label: str | None = None,
+        transcript_client: str = "local_import",
+        prepare_query: str | None = None,
+        target_kind: str = "harness.agents-md",
+        workstream_ref: str | None = None,
+        selected_slice_refs: list[str] | None = None,
+        required_slice_refs: list[str] | None = None,
+        limit: int = 10,
+        token_budget: int = 4000,
+        include_blocked: bool = False,
+        project_targets: list[str] | None = None,
+        workstream_id: str | None = None,
+        dry_run: bool = False,
+        write_receipt: bool = True,
+    ) -> dict[str, Any]:
+        if not source_paths:
+            raise ValueError("at least one source path is required")
+        normalized_kind = str(source_kind or "auto").strip().lower()
+        if normalized_kind not in {"auto", "knowledge", "markdown-vault", "transcript", "prompt"}:
+            raise ValueError("source_kind must be auto, knowledge, markdown-vault, transcript, or prompt")
+
+        self.vault.initialize()
+        requested_paths = [Path(path).resolve() for path in source_paths]
+        source_fingerprints = [_context_extract_source_fingerprint(path) for path in requested_paths]
+        planned_imports = [
+            {
+                "source_path": str(source_path),
+                "source_kind": _context_extract_resolved_kind(source_path, normalized_kind),
+            }
+            for source_path in requested_paths
+        ]
+        if dry_run:
+            extract_id = _context_extract_id(
+                source_fingerprints=source_fingerprints,
+                scope_kind=scope_kind,
+                scope_value=scope_value,
+                prepare_query=prepare_query,
+                project_targets=_context_extract_clean_project_targets(project_targets),
+            )
+            extract_id = f"{extract_id}_dryrun"
+            receipt = {
+                "schema_id": "ctxvault.context-extract-receipt/v1",
+                "contract_state": "experimental_private",
+                "extract_id": extract_id,
+                "extract_ref": f"context-extract://{extract_id}",
+                "status": "dry_run",
+                "dry_run": True,
+                "scope": {"kind": scope_kind, "value": scope_value},
+                "source_kind": normalized_kind,
+                "source_paths": [str(path) for path in requested_paths],
+                "source_fingerprints": source_fingerprints,
+                "idempotency_key": _context_extract_idempotency_key(source_fingerprints),
+                "planned_imports": planned_imports,
+                "imports": [],
+                "object_refs": [],
+                "object_counts": {},
+                "slice_rebuild": None,
+                "prepare": None,
+                "projections": [],
+                "skipped_projections": [],
+                "created_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+            }
+            receipt_path = None
+            if write_receipt:
+                receipt_dir = self.vault.layout.exports_dir / "receipts"
+                receipt_dir.mkdir(parents=True, exist_ok=True)
+                receipt_path = receipt_dir / f"{extract_id}.json"
+                receipt_path.write_text(json.dumps(receipt, ensure_ascii=True, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            return {
+                "schema_id": "ctxvault.context-extract/v1",
+                "contract_state": "experimental_private",
+                "operation": "one_click_local_context_extract",
+                "status": "dry_run",
+                "extract_ref": receipt["extract_ref"],
+                "receipt": receipt,
+                "receipt_path": str(receipt_path) if receipt_path is not None else None,
+                "imports": [],
+                "slice_rebuild": None,
+                "prepare": None,
+                "projections": [],
+                "skipped_projections": [],
+                "next_actions": [
+                    {
+                        "kind": "run_context_extract",
+                        "description": "Rerun without dry_run to import sources, rebuild slices, and write extraction receipts.",
+                    }
+                ],
+            }
+
+        imports: list[dict[str, Any]] = []
+        for planned in planned_imports:
+            source_path = Path(str(planned["source_path"]))
+            resolved_kind = str(planned["source_kind"])
+            receipts = self._context_extract_import_path(
+                source_path,
+                source_kind=resolved_kind,
+                scope_kind=scope_kind,
+                scope_value=scope_value,
+                recursive=recursive,
+                kind=kind,
+                title=title,
+                prompt_id=prompt_id,
+                prompt_name=prompt_name,
+                prompt_intent=prompt_intent,
+                prompt_owner=prompt_owner,
+                prompt_required_context_types=prompt_required_context_types,
+                transcript_session_id=transcript_session_id,
+                transcript_title=transcript_title,
+                transcript_task_label=transcript_task_label,
+                transcript_client=transcript_client,
+            )
+            imports.append(
+                {
+                    "source_path": str(source_path),
+                    "source_kind": resolved_kind,
+                    "receipt_count": len(receipts),
+                    "receipts": receipts,
+                }
+            )
+
+        slice_rebuild = self.context_slice_rebuild()
+        prepare = None
+        if prepare_query is not None and str(prepare_query).strip():
+            effective_selected_refs = _context_handoff_clean_refs(selected_slice_refs)
+            if not effective_selected_refs:
+                effective_selected_refs = self._context_extract_selected_slice_refs(
+                    imports=imports,
+                    scope_kind=scope_kind,
+                    scope_value=scope_value,
+                    token_budget=token_budget,
+                )
+            prepare = self.context_prepare(
+                str(prepare_query).strip(),
+                target_kind=target_kind,
+                scope_kind=scope_kind,
+                scope_value=scope_value,
+                workstream_ref=workstream_ref,
+                selected_slice_refs=effective_selected_refs,
+                required_slice_refs=required_slice_refs,
+                limit=limit,
+                token_budget=token_budget,
+                include_blocked=include_blocked,
+                rebuild=False,
+                write_receipt=write_receipt,
+            )
+
+        projections: list[dict[str, Any]] = []
+        skipped_projections: list[dict[str, Any]] = []
+        cleaned_project_targets = _context_extract_clean_project_targets(project_targets)
+        if cleaned_project_targets:
+            if prepare is None:
+                raise ValueError("project_targets require prepare_query so selected slice refs are receipt-backed")
+            if not workstream_id:
+                raise ValueError("project_targets require workstream_id")
+            if not bool(prepare.get("handoff_ready")):
+                skipped_projections.append(
+                    {
+                        "reason": "handoff_not_ready",
+                        "selection_status": prepare.get("selection_status"),
+                        "warnings": prepare.get("warnings"),
+                    }
+                )
+            else:
+                for project_target in cleaned_project_targets:
+                    projections.append(
+                        self.context_project(
+                            target=project_target,
+                            workstream_id=workstream_id,
+                            selected_slice_refs=list(prepare.get("selected_slice_refs") or []),
+                        )
+                    )
+
+        extract_id = _context_extract_id(
+            source_fingerprints=source_fingerprints,
+            scope_kind=scope_kind,
+            scope_value=scope_value,
+            prepare_query=prepare_query,
+            project_targets=cleaned_project_targets,
+        )
+        status = "pass"
+        if skipped_projections:
+            status = "blocked"
+        receipt = {
+            "schema_id": "ctxvault.context-extract-receipt/v1",
+            "contract_state": "experimental_private",
+            "extract_id": extract_id,
+            "extract_ref": f"context-extract://{extract_id}",
+            "status": status,
+            "scope": {"kind": scope_kind, "value": scope_value},
+            "source_kind": normalized_kind,
+            "source_paths": [str(path) for path in requested_paths],
+            "source_fingerprints": source_fingerprints,
+            "idempotency_key": _context_extract_idempotency_key(source_fingerprints),
+            "imports": imports,
+            "object_refs": _context_extract_object_refs(imports),
+            "object_counts": _context_extract_object_counts(imports),
+            "slice_rebuild": slice_rebuild,
+            "prepare": prepare,
+            "projections": projections,
+            "skipped_projections": skipped_projections,
+            "created_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        }
+        receipt_path = None
+        if write_receipt:
+            receipt_dir = self.vault.layout.exports_dir / "receipts"
+            receipt_dir.mkdir(parents=True, exist_ok=True)
+            receipt_path = receipt_dir / f"{extract_id}.json"
+            receipt_path.write_text(json.dumps(receipt, ensure_ascii=True, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+        return {
+            "schema_id": "ctxvault.context-extract/v1",
+            "contract_state": "experimental_private",
+            "operation": "one_click_local_context_extract",
+            "status": status,
+            "extract_ref": receipt["extract_ref"],
+            "receipt": receipt,
+            "receipt_path": str(receipt_path) if receipt_path is not None else None,
+            "imports": imports,
+            "slice_rebuild": slice_rebuild,
+            "prepare": prepare,
+            "projections": projections,
+            "skipped_projections": skipped_projections,
+            "next_actions": _context_extract_next_actions(
+                prepare=prepare,
+                projections=projections,
+                skipped_projections=skipped_projections,
+                workstream_id=workstream_id,
+            ),
+        }
+
+    def _context_extract_import_path(
+        self,
+        source_path: Path,
+        *,
+        source_kind: str,
+        scope_kind: str,
+        scope_value: str,
+        recursive: bool,
+        kind: str | None,
+        title: str | None,
+        prompt_id: str | None,
+        prompt_name: str | None,
+        prompt_intent: str,
+        prompt_owner: str,
+        prompt_required_context_types: list[str] | None,
+        transcript_session_id: str | None,
+        transcript_title: str | None,
+        transcript_task_label: str | None,
+        transcript_client: str,
+    ) -> list[dict[str, Any]]:
+        if source_kind == "prompt":
+            receipt = import_prompt_path(
+                self.vault,
+                source_path,
+                scope_kind=scope_kind,
+                scope_value=scope_value,
+                prompt_id=prompt_id,
+                name=prompt_name,
+                intent=prompt_intent,
+                owner=prompt_owner,
+                required_context_types=prompt_required_context_types or [],
+            )
+            return [receipt.to_dict()]
+        if source_kind == "transcript":
+            receipts = import_conversation_path(
+                self.vault,
+                source_path,
+                scope_kind=scope_kind,
+                scope_value=scope_value,
+                session_id=transcript_session_id,
+                title=transcript_title,
+                task_label=transcript_task_label,
+                client=transcript_client,
+                imported_via="ctxvault_context_extract",
+            )
+            return [receipt.to_dict() for receipt in receipts]
+        if source_kind == "markdown-vault":
+            receipts = import_knowledge_path(
+                self.vault,
+                source_path,
+                scope_kind=scope_kind,
+                scope_value=scope_value,
+                recursive=recursive,
+                kind=kind,
+                title=title,
+                extensions=(".markdown", ".md"),
+            )
+            return [receipt.to_dict() for receipt in receipts]
+        receipts = import_knowledge_path(
+            self.vault,
+            source_path,
+            scope_kind=scope_kind,
+            scope_value=scope_value,
+            recursive=recursive,
+            kind=kind,
+            title=title,
+        )
+        return [receipt.to_dict() for receipt in receipts]
+
+    def _context_extract_selected_slice_refs(
+        self,
+        *,
+        imports: list[dict[str, Any]],
+        scope_kind: str,
+        scope_value: str,
+        token_budget: int,
+    ) -> list[str]:
+        source_refs = set(_context_extract_object_refs(imports))
+        if not source_refs:
+            return []
+        candidates = [
+            hit
+            for hit in self.context_search(
+                "",
+                scope_kind=scope_kind,
+                scope_value=scope_value,
+                limit=1000,
+                include_blocked=True,
+            )
+            if str((hit.get("payload") or {}).get("source_ref") or "") in source_refs
+        ]
+        return _context_handoff_auto_select(candidates, token_budget=token_budget)
 
     def context_slice_preference_set(
         self,
@@ -1914,7 +2274,7 @@ class CtxVaultSurface:
             selected_slice_refs=refs,
             candidate_slice_refs=refs,
             workstream_ref=f"workstream://{workstream_id}",
-            token_budget=0,
+            token_budget=4000,
             write_receipt=True,
         )
         preflight = _privacy_preflight_from_context_selection(result)
@@ -1925,6 +2285,22 @@ class CtxVaultSurface:
 
     def doctor_report(self) -> dict[str, Any]:
         return build_doctor_report(self.vault.layout.repo_root)
+
+    def receipt_inspect(
+        self,
+        *,
+        receipt_path: Path | None = None,
+        receipt_ref: str | None = None,
+        latest: bool = False,
+        include_payload: bool = False,
+    ) -> dict[str, Any]:
+        return build_receipt_inspection(
+            self.vault.layout.repo_root,
+            receipt_path=receipt_path,
+            receipt_ref=receipt_ref,
+            latest=latest,
+            include_payload=include_payload,
+        )
 
     def backup_emit(
         self,
@@ -3345,6 +3721,239 @@ def _context_project_default_receipt_name(target_key: str) -> str:
         "claude-md": "claude-md-projection.json",
         "workstream-brief": "workstream-brief-projection.json",
     }[target_key]
+
+
+def _context_extract_resolved_kind(source_path: Path, source_kind: str) -> str:
+    if source_kind != "auto":
+        return source_kind
+    if source_path.suffix.lower() == ".zip":
+        return "transcript"
+    if source_path.is_file() and source_path.suffix.lower() == ".json":
+        try:
+            payload = json.loads(source_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return "knowledge"
+        return "transcript" if _context_extract_payload_looks_like_conversation(payload) else "knowledge"
+    if source_path.is_dir():
+        shallow_json_names = {
+            path.name.lower()
+            for path in source_path.glob("*.json")
+            if path.is_file()
+        }
+        if shallow_json_names & {"conversations.json", "conversation.json", "messages.json"}:
+            return "transcript"
+    return "knowledge"
+
+
+def _context_extract_payload_looks_like_conversation(payload: Any) -> bool:
+    if isinstance(payload, dict):
+        if isinstance(payload.get("turns"), list):
+            return True
+        if isinstance(payload.get("chat_messages"), list) or isinstance(payload.get("mapping"), dict):
+            return True
+        if (
+            isinstance(_context_extract_deep_value(payload, "chat", "messages"), list)
+            or isinstance(_context_extract_deep_value(payload, "chat", "history", "messages"), list)
+            or isinstance(_context_extract_deep_value(payload, "conversation", "messages"), list)
+            or isinstance(_context_extract_deep_value(payload, "history", "messages"), list)
+        ):
+            return True
+        if isinstance(payload.get("messages"), list) and (
+            payload.get("conversation_id") is not None
+            or payload.get("chat_id") is not None
+            or payload.get("sessionId") is not None
+            or payload.get("source_app") is not None
+        ):
+            return True
+    if isinstance(payload, list) and payload:
+        return all(isinstance(item, dict) for item in payload) and any(
+            _context_extract_payload_looks_like_conversation(item)
+            for item in payload[:5]
+        )
+    return False
+
+
+def _context_extract_deep_value(payload: dict[str, Any], *keys: str) -> Any:
+    current: Any = payload
+    for key in keys:
+        if not isinstance(current, dict):
+            return None
+        current = current.get(key)
+    return current
+
+
+def _context_extract_source_fingerprint(path: Path) -> dict[str, Any]:
+    if path.is_file():
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        stat = path.stat()
+        return {
+            "path": str(path),
+            "kind": "file",
+            "size_bytes": stat.st_size,
+            "sha256": digest,
+        }
+    if path.is_dir():
+        files = []
+        for child in sorted(path.rglob("*")):
+            if not child.is_file():
+                continue
+            if any(part in {".ctxvault", ".git", "__pycache__"} for part in child.relative_to(path).parts):
+                continue
+            files.append(
+                {
+                    "relative_path": str(child.relative_to(path)),
+                    "size_bytes": child.stat().st_size,
+                    "sha256": hashlib.sha256(child.read_bytes()).hexdigest(),
+                }
+            )
+        combined = hashlib.sha256(
+            json.dumps(files, ensure_ascii=True, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
+        return {
+            "path": str(path),
+            "kind": "directory",
+            "file_count": len(files),
+            "sha256": combined,
+        }
+    raise FileNotFoundError(path)
+
+
+def _context_extract_idempotency_key(source_fingerprints: list[dict[str, Any]]) -> str:
+    payload = [
+        {
+            "path": item.get("path"),
+            "kind": item.get("kind"),
+            "sha256": item.get("sha256"),
+        }
+        for item in source_fingerprints
+    ]
+    return hashlib.sha256(
+        json.dumps(payload, ensure_ascii=True, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
+
+def _context_extract_id(
+    *,
+    source_fingerprints: list[dict[str, Any]],
+    scope_kind: str,
+    scope_value: str,
+    prepare_query: str | None,
+    project_targets: list[str],
+) -> str:
+    payload = {
+        "idempotency_key": _context_extract_idempotency_key(source_fingerprints),
+        "scope_kind": scope_kind,
+        "scope_value": scope_value,
+        "prepare_query": prepare_query,
+        "project_targets": project_targets,
+    }
+    digest = hashlib.sha256(
+        json.dumps(payload, ensure_ascii=True, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()[:12]
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ").lower()
+    return f"ctxextract_{stamp}_{digest}"
+
+
+def _context_extract_clean_project_targets(project_targets: list[str] | None) -> list[str]:
+    targets: list[str] = []
+    for target in project_targets or []:
+        normalized = _context_project_target_key(target)
+        if normalized not in targets:
+            targets.append(normalized)
+    return targets
+
+
+def _context_extract_object_refs(imports: list[dict[str, Any]]) -> list[str]:
+    refs: list[str] = []
+    for import_group in imports:
+        for receipt in import_group.get("receipts") or []:
+            if not isinstance(receipt, dict):
+                continue
+            _context_extract_add_object_ref(refs, receipt)
+    return refs
+
+
+def _context_extract_add_object_ref(refs: list[str], receipt: dict[str, Any]) -> None:
+    model_name = str(receipt.get("model_name") or "")
+    object_id = str(receipt.get("object_id") or "")
+    if model_name and object_id:
+        scheme = {
+            "KnowledgeArtifact": "knowledge",
+            "PromptAsset": "prompt",
+            "Session": "session",
+            "Turn": "turn",
+        }.get(model_name)
+        if scheme:
+            ref = f"{scheme}://{object_id}"
+            if ref not in refs:
+                refs.append(ref)
+    for nested_key in ("session",):
+        nested = receipt.get(nested_key)
+        if isinstance(nested, dict):
+            _context_extract_add_object_ref(refs, nested)
+    turns = receipt.get("turns")
+    if isinstance(turns, list):
+        for turn in turns:
+            if isinstance(turn, dict):
+                _context_extract_add_object_ref(refs, turn)
+    source_connector = receipt.get("source_connector_receipt")
+    if isinstance(source_connector, dict):
+        for ref in source_connector.get("object_refs") or []:
+            text = str(ref).strip()
+            if text and text not in refs:
+                refs.append(text)
+
+
+def _context_extract_object_counts(imports: list[dict[str, Any]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for ref in _context_extract_object_refs(imports):
+        scheme = ref.split("://", 1)[0]
+        counts[scheme] = counts.get(scheme, 0) + 1
+    return counts
+
+
+def _context_extract_next_actions(
+    *,
+    prepare: dict[str, Any] | None,
+    projections: list[dict[str, Any]],
+    skipped_projections: list[dict[str, Any]],
+    workstream_id: str | None,
+) -> list[dict[str, Any]]:
+    if prepare is None:
+        return [
+            {
+                "kind": "prepare_context",
+                "description": "Run context-prepare with a query to select extracted context and write privacy receipts.",
+            }
+        ]
+    if skipped_projections:
+        return [
+            {
+                "kind": "inspect_receipts",
+                "description": "Projection was skipped because the prepared handoff is not ready; inspect warnings and selection receipts.",
+            }
+        ]
+    if projections:
+        return [
+            {
+                "kind": "inspect_projections",
+                "description": "Inspect projection outputs and projection receipts before sharing them with an AI work surface.",
+            }
+        ]
+    actions = [
+        {
+            "kind": "inspect_receipts",
+            "description": "Inspect extraction, context-selection, and privacy-preflight receipts.",
+        }
+    ]
+    if bool(prepare.get("handoff_ready")) and workstream_id:
+        actions.append(
+            {
+                "kind": "project_context",
+                "description": "Run context-project or rerun context-extract with --project-target to write projection receipts.",
+            }
+        )
+    return actions
 
 
 def _optional_string_list(value: Any) -> list[str]:

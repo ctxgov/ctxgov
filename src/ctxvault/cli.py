@@ -258,6 +258,13 @@ def build_parser() -> argparse.ArgumentParser:
     prompt_patch_list.add_argument("--prompt-asset-id")
     prompt_patch_list.add_argument("--limit", type=int, default=20)
 
+    prompt_patch_density_check = subcommands.add_parser(
+        "prompt-patch-density-check",
+        help="Run a deterministic density check against a prompt patch preview without mutating the active prompt",
+    )
+    prompt_patch_density_check.add_argument("--root", type=Path, default=project_root())
+    prompt_patch_density_check.add_argument("--patch-id", required=True)
+
     review_prompt_patch = subcommands.add_parser("review-prompt-patch", help="Approve or reject a proposed prompt patch")
     review_prompt_patch.add_argument("--root", type=Path, default=project_root())
     review_prompt_patch.add_argument("--patch-id", required=True)
@@ -384,6 +391,7 @@ def build_parser() -> argparse.ArgumentParser:
     context_selection_compose.add_argument("--workstream-ref")
     context_selection_compose.add_argument("--slice-ref", action="append", default=[])
     context_selection_compose.add_argument("--candidate-slice-ref", action="append", default=[])
+    context_selection_compose.add_argument("--required-slice-ref", action="append", default=[])
     context_selection_compose.add_argument("--limit", type=int, default=10)
     context_selection_compose.add_argument("--token-budget", type=int, default=4000)
     context_selection_compose.add_argument("--include-blocked", action="store_true")
@@ -400,6 +408,7 @@ def build_parser() -> argparse.ArgumentParser:
     context_prepare.add_argument("--scope-value", default="ctxvault")
     context_prepare.add_argument("--workstream-ref")
     context_prepare.add_argument("--slice-ref", action="append", default=[])
+    context_prepare.add_argument("--required-slice-ref", action="append", default=[])
     context_prepare.add_argument("--limit", type=int, default=10)
     context_prepare.add_argument("--token-budget", type=int, default=4000)
     context_prepare.add_argument("--include-blocked", action="store_true")
@@ -417,6 +426,51 @@ def build_parser() -> argparse.ArgumentParser:
     context_project.add_argument("--receipt-output-path", type=Path)
     context_project.add_argument("--memory-limit", type=int, default=5)
     context_project.add_argument("--slice-ref", action="append", default=[])
+
+    context_extract = subcommands.add_parser(
+        "context-extract",
+        help="Import local sources, rebuild slices, optionally prepare and project context with receipts",
+    )
+    context_extract.add_argument("--root", type=Path, default=project_root())
+    context_extract.add_argument("--source-path", type=Path, action="append", required=True)
+    context_extract.add_argument("--source-kind", default="auto", choices=("auto", "knowledge", "markdown-vault", "transcript", "prompt"))
+    context_extract.add_argument("--scope-kind", default="project")
+    context_extract.add_argument("--scope-value", default="ctxvault")
+    context_extract.add_argument("--recursive", action="store_true")
+    context_extract.add_argument("--kind")
+    context_extract.add_argument("--title")
+    context_extract.add_argument("--prompt-id")
+    context_extract.add_argument("--prompt-name")
+    context_extract.add_argument("--prompt-intent", default="general")
+    context_extract.add_argument("--prompt-owner", default="local_import")
+    context_extract.add_argument("--prompt-required-context-type", action="append", default=[])
+    context_extract.add_argument("--transcript-session-id")
+    context_extract.add_argument("--transcript-title")
+    context_extract.add_argument("--transcript-task-label")
+    context_extract.add_argument("--transcript-client", default="local_import")
+    context_extract.add_argument("--prepare-query")
+    context_extract.add_argument("--target-kind", default="harness.agents-md")
+    context_extract.add_argument("--workstream-ref")
+    context_extract.add_argument("--slice-ref", action="append", default=[])
+    context_extract.add_argument("--required-slice-ref", action="append", default=[])
+    context_extract.add_argument("--limit", type=int, default=10)
+    context_extract.add_argument("--token-budget", type=int, default=4000)
+    context_extract.add_argument("--include-blocked", action="store_true")
+    context_extract.add_argument("--project-target", action="append", default=[])
+    context_extract.add_argument("--workstream-id")
+    context_extract.add_argument("--dry-run", action="store_true")
+    context_extract.add_argument("--write-receipt", action=argparse.BooleanOptionalAction, default=True)
+
+    receipt_inspect = subcommands.add_parser(
+        "receipt-inspect",
+        help="Inspect a local receipt chain for extraction, selection, privacy, quality, and projection receipts",
+    )
+    receipt_inspect.add_argument("--root", type=Path, default=project_root())
+    receipt_inspect.add_argument("--receipt-path", type=Path)
+    receipt_inspect.add_argument("--receipt-ref")
+    receipt_inspect.add_argument("--latest", action="store_true", help="Inspect the newest local receipt")
+    receipt_inspect.add_argument("--include-payload", action="store_true")
+    receipt_inspect.add_argument("--summary", action="store_true", help="Print a human-readable summary instead of JSON")
 
     context_slice_preference_set = subcommands.add_parser(
         "context-slice-preference-set",
@@ -1154,6 +1208,12 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(result, indent=2, sort_keys=True))
             return 0
 
+        if args.command == "prompt-patch-density-check":
+            surface = CtxVaultSurface(CtxVault(default_layout(args.root.resolve())))
+            result = surface.prompt_patch_density_check(args.patch_id)
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
         if args.command == "review-prompt-patch":
             root = args.root.resolve()
             surface = CtxVaultSurface(CtxVault(default_layout(root)))
@@ -1342,6 +1402,7 @@ def main(argv: list[str] | None = None) -> int:
                 workstream_ref=args.workstream_ref,
                 selected_slice_refs=args.slice_ref,
                 candidate_slice_refs=args.candidate_slice_ref,
+                required_slice_refs=args.required_slice_ref,
                 limit=args.limit,
                 token_budget=args.token_budget,
                 include_blocked=args.include_blocked,
@@ -1359,6 +1420,7 @@ def main(argv: list[str] | None = None) -> int:
                 scope_value=args.scope_value,
                 workstream_ref=args.workstream_ref,
                 selected_slice_refs=args.slice_ref,
+                required_slice_refs=args.required_slice_ref,
                 limit=args.limit,
                 token_budget=args.token_budget,
                 include_blocked=args.include_blocked,
@@ -1390,6 +1452,59 @@ def main(argv: list[str] | None = None) -> int:
                 selected_slice_refs=args.slice_ref,
             )
             print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+        if args.command == "context-extract":
+            surface = CtxVaultSurface(CtxVault(default_layout(args.root.resolve())))
+            result = surface.context_extract(
+                source_paths=[path.resolve() for path in args.source_path],
+                source_kind=args.source_kind,
+                scope_kind=args.scope_kind,
+                scope_value=args.scope_value,
+                recursive=args.recursive,
+                kind=args.kind,
+                title=args.title,
+                prompt_id=args.prompt_id,
+                prompt_name=args.prompt_name,
+                prompt_intent=args.prompt_intent,
+                prompt_owner=args.prompt_owner,
+                prompt_required_context_types=args.prompt_required_context_type,
+                transcript_session_id=args.transcript_session_id,
+                transcript_title=args.transcript_title,
+                transcript_task_label=args.transcript_task_label,
+                transcript_client=args.transcript_client,
+                prepare_query=args.prepare_query,
+                target_kind=args.target_kind,
+                workstream_ref=args.workstream_ref,
+                selected_slice_refs=args.slice_ref,
+                required_slice_refs=args.required_slice_ref,
+                limit=args.limit,
+                token_budget=args.token_budget,
+                include_blocked=args.include_blocked,
+                project_targets=args.project_target,
+                workstream_id=args.workstream_id,
+                dry_run=args.dry_run,
+                write_receipt=args.write_receipt,
+            )
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+        if args.command == "receipt-inspect":
+            root = args.root.resolve()
+            receipt_path = None
+            if args.receipt_path is not None:
+                receipt_path = args.receipt_path.resolve() if args.receipt_path.is_absolute() else (root / args.receipt_path).resolve()
+            surface = CtxVaultSurface(CtxVault(default_layout(root)))
+            result = surface.receipt_inspect(
+                receipt_path=receipt_path,
+                receipt_ref=args.receipt_ref,
+                latest=args.latest,
+                include_payload=args.include_payload,
+            )
+            if args.summary:
+                print(result["summary_text"])
+            else:
+                print(json.dumps(result, indent=2, sort_keys=True))
             return 0
 
         if args.command == "context-slice-preference-set":

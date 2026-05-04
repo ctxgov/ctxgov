@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ctxvault"
-version = "0.3.3"
-description = "Deterministic safe context handoff and receipts before AI tools"
+version = "0.3.4"
+description = "Deterministic context extraction, safe handoff, and receipts before AI tools"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Apache-2.0"}

@@ -10,6 +10,7 @@ from typing import Any
 
 from .adapters import projection_adapter_healthcheck
 from .layout import default_layout
+from .receipt_inspector import scan_receipt_records
 
 
 DOCTOR_SCHEMA_ID = "ctxvault.doctor-report/v1"
@@ -29,9 +30,11 @@ def build_doctor_report(root: Path, *, project_root: Path | None = None) -> dict
         _context_slice_contract_check(repo_root),
         _context_slice_index_check(layout.sqlite_path),
         _projection_slice_refs_check(layout.sqlite_path, resolved_root),
+        _context_extract_receipts_check(resolved_root),
+        _projection_selection_receipts_check(resolved_root),
         _adapter_check("agents-md", root=resolved_root),
         _adapter_check("claude-md", root=resolved_root),
-        _adapter_check("workstream-brief", root=resolved_root),
+        _adapter_check("workstream-brief", root=resolved_root, target_path=layout.exports_dir / "workstream-brief.md"),
     ]
     status = "pass"
     if any(check["status"] == "fail" for check in checks):
@@ -280,9 +283,9 @@ def _experimental_compiled_state_check(repo_root: Path) -> dict[str, Any]:
     }
 
 
-def _adapter_check(target_kind: str, *, root: Path) -> dict[str, Any]:
+def _adapter_check(target_kind: str, *, root: Path, target_path: Path | None = None) -> dict[str, Any]:
     try:
-        health = projection_adapter_healthcheck(root=root, target_kind=target_kind)
+        health = projection_adapter_healthcheck(root=root, target_kind=target_kind, target_path=target_path)
     except Exception as exc:  # pragma: no cover - defensive report path
         return {
             "name": f"adapter_healthcheck:{target_kind}",
@@ -323,6 +326,158 @@ def _projection_receipt_slice_refs(root: Path) -> list[dict[str, Any]]:
             if refs:
                 receipts.append({"receipt_path": str(path.resolve()), "selected_slice_refs": refs})
     return receipts
+
+
+def _context_extract_receipts_check(root: Path) -> dict[str, Any]:
+    records = [record for record in scan_receipt_records(root) if record["kind"] == "context_extract"]
+    if not records:
+        return {
+            "name": "context_extract_receipts",
+            "status": "pass",
+            "detail": "no context-extract receipts found",
+            "read_only": True,
+            "receipt_count": 0,
+            "stale_source_count": 0,
+            "missing_selection_receipt_count": 0,
+            "blocked_run_count": 0,
+        }
+
+    stale_sources: list[dict[str, str]] = []
+    missing_selection_receipts: list[dict[str, str]] = []
+    blocked_runs: list[dict[str, str]] = []
+    for record in records:
+        payload = record["payload"]
+        for fingerprint in payload.get("source_fingerprints") or []:
+            if not isinstance(fingerprint, dict):
+                continue
+            source_path = Path(str(fingerprint.get("path") or ""))
+            expected = str(fingerprint.get("sha256") or "")
+            current = _doctor_source_fingerprint_sha(source_path)
+            if current != expected:
+                stale_sources.append(
+                    {
+                        "receipt_path": record["path"],
+                        "source_path": str(source_path),
+                        "expected_sha256": expected,
+                        "current_sha256": current or "missing",
+                    }
+                )
+        prepare = payload.get("prepare") if isinstance(payload.get("prepare"), dict) else None
+        if prepare is not None:
+            receipt_path = _non_empty_string(prepare.get("receipt_path"))
+            if not receipt_path or not Path(receipt_path).exists():
+                missing_selection_receipts.append(
+                    {
+                        "receipt_path": record["path"],
+                        "selection_ref": str(prepare.get("selection_ref") or ""),
+                        "selection_receipt_path": receipt_path or "",
+                    }
+                )
+            selection_status = str(prepare.get("selection_status") or "")
+            if selection_status and selection_status != "ready":
+                blocked_runs.append(
+                    {
+                        "receipt_path": record["path"],
+                        "selection_status": selection_status,
+                        "reason": "selection_not_ready",
+                    }
+                )
+        if str(payload.get("status") or "") == "blocked":
+            blocked_runs.append(
+                {
+                    "receipt_path": record["path"],
+                    "selection_status": str((prepare or {}).get("selection_status") or ""),
+                    "reason": "extract_blocked",
+                }
+            )
+    status = "warn" if stale_sources or missing_selection_receipts or blocked_runs else "pass"
+    return {
+        "name": "context_extract_receipts",
+        "status": status,
+        "detail": (
+            "context-extract receipts need attention"
+            if status == "warn"
+            else "context-extract receipts have stable source fingerprints and linked selection receipts"
+        ),
+        "read_only": True,
+        "receipt_count": len(records),
+        "stale_source_count": len(stale_sources),
+        "missing_selection_receipt_count": len(missing_selection_receipts),
+        "blocked_run_count": len(blocked_runs),
+        "stale_sources": stale_sources,
+        "missing_selection_receipts": missing_selection_receipts,
+        "blocked_runs": blocked_runs,
+        "repair_hint": "rerun context-extract --dry-run to inspect changed sources, then rerun context-extract when ready"
+        if status == "warn"
+        else None,
+    }
+
+
+def _projection_selection_receipts_check(root: Path) -> dict[str, Any]:
+    records = scan_receipt_records(root)
+    projection_records = [record for record in records if record["kind"] == "projection"]
+    selection_refs = {
+        str(ref)
+        for record in records
+        if record["kind"] == "context_selection"
+        for ref in record.get("ids", [])
+    }
+    missing: list[dict[str, str]] = []
+    for record in projection_records:
+        payload = record["payload"]
+        context_selection_ref = _non_empty_string(payload.get("context_selection_ref"))
+        if context_selection_ref and context_selection_ref not in selection_refs:
+            missing.append(
+                {
+                    "receipt_path": record["path"],
+                    "context_selection_ref": context_selection_ref,
+                    "target_kind": str(payload.get("target_kind") or ""),
+                }
+            )
+    status = "warn" if missing else "pass"
+    return {
+        "name": "projection_selection_receipts",
+        "status": status,
+        "detail": (
+            f"{len(missing)} projection receipt(s) reference missing context-selection receipts"
+            if missing
+            else "projection receipts reference existing context-selection receipts or no selected context"
+        ),
+        "read_only": True,
+        "projection_receipt_count": len(projection_records),
+        "missing_context_selection_refs": missing,
+        "repair_hint": "rerun context-prepare and context-project so projection receipts link to existing selection receipts"
+        if missing
+        else None,
+    }
+
+
+def _doctor_source_fingerprint_sha(path: Path) -> str | None:
+    if path.is_file():
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    if path.is_dir():
+        files = []
+        for child in sorted(path.rglob("*")):
+            if not child.is_file():
+                continue
+            if any(part in {".ctxvault", ".git", "__pycache__"} for part in child.relative_to(path).parts):
+                continue
+            files.append(
+                {
+                    "relative_path": str(child.relative_to(path)),
+                    "size_bytes": child.stat().st_size,
+                    "sha256": hashlib.sha256(child.read_bytes()).hexdigest(),
+                }
+            )
+        return hashlib.sha256(
+            json.dumps(files, ensure_ascii=True, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
+    return None
+
+
+def _non_empty_string(value: Any) -> str | None:
+    text = str(value).strip() if value is not None else ""
+    return text or None
 
 
 def _utc_now() -> str:

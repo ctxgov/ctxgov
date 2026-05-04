@@ -36,6 +36,7 @@ from .compiled_state import build_compiled_workstream_state
 from .layout import VaultLayout
 from .policy import CtxVaultPolicy
 from .privacy import scan_privacy_text
+from .quality import build_context_quality_receipt, build_prompt_patch_density_check
 
 
 CORE_MODEL_TO_KIND = {
@@ -670,13 +671,15 @@ class CtxVault:
         workstream_ref: str | None = None,
         selected_slice_refs: list[str] | None = None,
         candidate_slice_refs: list[str] | None = None,
+        required_slice_refs: list[str] | None = None,
         limit: int = 10,
         token_budget: int = 4000,
         include_blocked: bool = False,
         write_receipt: bool = False,
     ) -> dict[str, Any]:
         self.initialize()
-        selected_refs = _unique(selected_slice_refs or [])
+        required_refs = _unique(required_slice_refs or [])
+        selected_refs = _unique([*required_refs, *(selected_slice_refs or [])])
         requested_candidate_refs = _unique(candidate_slice_refs or [])
         candidate_hits = self.search_context_slices(
             query,
@@ -688,6 +691,7 @@ class CtxVault:
         candidate_refs = _unique([
             *requested_candidate_refs,
             *[hit.semantic_ref for hit in candidate_hits],
+            *required_refs,
             *selected_refs,
         ])
 
@@ -758,12 +762,21 @@ class CtxVault:
             )
 
         created_at = _utc_now()
+        context_quality_receipt = build_context_quality_receipt(
+            query=query,
+            target_kind=target_kind,
+            candidate_items=candidate_items,
+            selected_items=selected_items,
+            token_budget=int(token_budget),
+            required_slice_refs=required_refs,
+        )
         selection_hash = hashlib.sha256(
             _canonical_json(
                 {
                     "query": query,
                     "target_kind": target_kind,
                     "workstream_ref": workstream_ref,
+                    "required_slice_refs": required_refs,
                     "selected_slice_refs": selected_refs,
                     "candidate_slice_refs": [item["slice_ref"] for item in candidate_items],
                 }
@@ -779,6 +792,7 @@ class CtxVault:
             "query": query,
             "scope": {"kind": scope[0], "value": scope[1]} if scope else None,
             "workstream_ref": workstream_ref,
+            "required_slice_refs": required_refs,
             "selected_slice_refs": selected_refs,
             "candidate_slice_refs": [item["slice_ref"] for item in candidate_items],
             "ranking_policy": "deterministic_bm25_v1",
@@ -788,9 +802,27 @@ class CtxVault:
             },
             "privacy_preflight_ref": _privacy_preflight_ref(privacy_preflight),
             "privacy_preflight_receipt_path": privacy_preflight.get("receipt_path") if privacy_preflight else None,
+            "context_quality_receipt": context_quality_receipt,
+            "context_density_scorecard": context_quality_receipt["density_scorecard"],
+            "retrieval_gain_receipt": context_quality_receipt["retrieval_gain_receipt"],
+            "search_decision_trace": context_quality_receipt["search_decision_trace"],
+            "source_conflict_scorecard": context_quality_receipt["source_conflict_scorecard"],
             "token_estimate": token_estimate,
             "token_budget": int(token_budget),
             "budget_status": budget_status,
+            "input_token_estimate": context_quality_receipt["input_token_estimate"],
+            "projected_token_estimate": context_quality_receipt["projected_token_estimate"],
+            "required_refs_retained": context_quality_receipt["required_refs_retained"],
+            "omitted_refs_with_reason": context_quality_receipt["omitted_refs_with_reason"],
+            "budget_pressure": context_quality_receipt["budget_pressure"],
+            "compression_ratio": context_quality_receipt["compression_ratio"],
+            "reviewer_override_notes": context_quality_receipt["reviewer_override_notes"],
+            "retrieval_gain_proxy": context_quality_receipt["retrieval_gain_proxy"],
+            "conflict_delta": context_quality_receipt["conflict_delta"],
+            "duplicate_context_ratio": context_quality_receipt["duplicate_context_ratio"],
+            "new_required_refs_resolved": context_quality_receipt["new_required_refs_resolved"],
+            "misleading_refs_rejected": context_quality_receipt["misleading_refs_rejected"],
+            "search_stop_reason": context_quality_receipt["search_stop_reason"],
             "source_group_count": len(_group_context_selection_sources(candidate_items)),
             "preference_actions": {
                 item["slice_ref"]: item["preference_action"]
@@ -811,6 +843,7 @@ class CtxVault:
             "query": query,
             "target_kind": target_kind,
             "workstream_ref": workstream_ref,
+            "required_slice_refs": required_refs,
             "selected_slice_refs": selected_refs,
             "candidate_slice_refs": receipt["candidate_slice_refs"],
             "source_groups": _group_context_selection_sources(candidate_items),
@@ -818,6 +851,11 @@ class CtxVault:
             "token_budget": int(token_budget),
             "token_estimate": token_estimate,
             "budget_status": budget_status,
+            "context_quality_receipt": context_quality_receipt,
+            "context_density_scorecard": context_quality_receipt["density_scorecard"],
+            "retrieval_gain_receipt": context_quality_receipt["retrieval_gain_receipt"],
+            "search_decision_trace": context_quality_receipt["search_decision_trace"],
+            "source_conflict_scorecard": context_quality_receipt["source_conflict_scorecard"],
             "privacy_preflight": privacy_preflight,
             "receipt": receipt,
             "receipt_path": str(receipt_path) if receipt_path is not None else None,
@@ -1318,6 +1356,19 @@ class CtxVault:
             "changed_fields": changed_fields,
             "source_refs": list(patch_payload.get("source_refs", [])),
         }
+
+    def prompt_patch_density_check(self, patch_id: str) -> dict[str, Any]:
+        self.initialize()
+        patch_row_data, prompt_row_data, patch_payload, prompt_payload = self._prompt_patch_context(patch_id)
+        prompt_preview = self._prompt_payload_preview_from_patch(prompt_payload, patch_payload)
+        changed_fields = sorted(str(field) for field in patch_payload.get("changes", {}))
+        return build_prompt_patch_density_check(
+            patch_ref=str(patch_row_data["semantic_ref"]),
+            prompt_ref=str(prompt_row_data["semantic_ref"]),
+            prompt_payload=prompt_payload,
+            prompt_preview=prompt_preview,
+            changed_fields=changed_fields,
+        )
 
     def list_sessions(
         self,

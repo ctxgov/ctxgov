@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.3.4 - 2026-05-04
+
+- Added `context-extract` and MCP `context.extract` for deterministic local
+  source extraction, source fingerprinting, idempotency keys, slice rebuild,
+  context prepare, and optional gated projection.
+- Added `context-extract --dry-run` for planned-import previews without writing
+  governed objects.
+- Added `receipt-inspect --latest --summary` and MCP `receipt.inspect`
+  `summary_text` for human-readable receipt-chain inspection.
+- Added deterministic context quality, density, retrieval gain, search trace,
+  source conflict, source retention, and prompt patch density checks.
+- Added read-only doctor checks for stale extraction source fingerprints,
+  missing selection receipts, stale projection selection links, and blocked
+  extraction runs.
+- Added static source-shape fixtures and v0.3.4 stability/quality scorecards.
+- Preserved the deterministic baseline without adding model, vector, remote
+  provider, official connector, public Workbench, app-surface, or quality-uplift
+  claims.
+
 ## v0.3.3 - 2026-05-04
 
 - Added owner-operated public review pack for v0.3.3 package approval using

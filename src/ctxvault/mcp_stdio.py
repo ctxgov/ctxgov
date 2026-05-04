@@ -346,6 +346,19 @@ class CtxVaultMcpServer:
                     handler=self._prompt_patch_list,
                 ),
                 ToolSpec(
+                    name="prompt-patch.density-check",
+                    description="Run a deterministic density check against a prompt patch preview without mutating the active prompt.",
+                    input_schema={
+                        "type": "object",
+                        "properties": {
+                            "patch_id": {"type": "string"},
+                        },
+                        "required": ["patch_id"],
+                        "additionalProperties": False,
+                    },
+                    handler=self._prompt_patch_density_check,
+                ),
+                ToolSpec(
                     name="prompt-patch.review",
                     description="Approve or reject a proposed prompt patch and emit a review receipt.",
                     input_schema={
@@ -444,6 +457,7 @@ class CtxVaultMcpServer:
                             "workstream_ref": {"type": "string"},
                             "selected_slice_refs": {"type": "array", "items": {"type": "string"}},
                             "candidate_slice_refs": {"type": "array", "items": {"type": "string"}},
+                            "required_slice_refs": {"type": "array", "items": {"type": "string"}},
                             "limit": {"type": "integer", "minimum": 1},
                             "token_budget": {"type": "integer", "minimum": 0},
                             "include_blocked": {"type": "boolean"},
@@ -466,6 +480,7 @@ class CtxVaultMcpServer:
                             "scope_value": {"type": "string"},
                             "workstream_ref": {"type": "string"},
                             "selected_slice_refs": {"type": "array", "items": {"type": "string"}},
+                            "required_slice_refs": {"type": "array", "items": {"type": "string"}},
                             "limit": {"type": "integer", "minimum": 1},
                             "token_budget": {"type": "integer", "minimum": 0},
                             "include_blocked": {"type": "boolean"},
@@ -476,6 +491,46 @@ class CtxVaultMcpServer:
                         "additionalProperties": False,
                     },
                     handler=self._context_prepare,
+                ),
+                ToolSpec(
+                    name="context.extract",
+                    description="One-click local extraction: import sources, rebuild slices, optionally prepare and project context with receipts.",
+                    input_schema={
+                        "type": "object",
+                        "properties": {
+                            "source_paths": {"type": "array", "items": {"type": "string"}},
+                            "source_kind": {"type": "string", "enum": ["auto", "knowledge", "markdown-vault", "transcript", "prompt"]},
+                            "scope_kind": {"type": "string"},
+                            "scope_value": {"type": "string"},
+                            "recursive": {"type": "boolean"},
+                            "kind": {"type": "string"},
+                            "title": {"type": "string"},
+                            "prompt_id": {"type": "string"},
+                            "prompt_name": {"type": "string"},
+                            "prompt_intent": {"type": "string"},
+                            "prompt_owner": {"type": "string"},
+                            "prompt_required_context_types": {"type": "array", "items": {"type": "string"}},
+                            "transcript_session_id": {"type": "string"},
+                            "transcript_title": {"type": "string"},
+                            "transcript_task_label": {"type": "string"},
+                            "transcript_client": {"type": "string"},
+                            "prepare_query": {"type": "string"},
+                            "target_kind": {"type": "string"},
+                            "workstream_ref": {"type": "string"},
+                            "selected_slice_refs": {"type": "array", "items": {"type": "string"}},
+                            "required_slice_refs": {"type": "array", "items": {"type": "string"}},
+                            "limit": {"type": "integer", "minimum": 1},
+                            "token_budget": {"type": "integer", "minimum": 0},
+                            "include_blocked": {"type": "boolean"},
+                            "project_targets": {"type": "array", "items": {"type": "string"}},
+                            "workstream_id": {"type": "string"},
+                            "dry_run": {"type": "boolean"},
+                            "write_receipt": {"type": "boolean"},
+                        },
+                        "required": ["source_paths"],
+                        "additionalProperties": False,
+                    },
+                    handler=self._context_extract,
                 ),
                 ToolSpec(
                     name="context.slice-preference-set",
@@ -747,6 +802,21 @@ class CtxVaultMcpServer:
                         "additionalProperties": False,
                     },
                     handler=self._doctor_report,
+                ),
+                ToolSpec(
+                    name="receipt.inspect",
+                    description="Inspect a local receipt chain for extraction, selection, privacy, quality, and projection receipts.",
+                    input_schema={
+                        "type": "object",
+                        "properties": {
+                            "receipt_path": {"type": "string"},
+                            "receipt_ref": {"type": "string"},
+                            "latest": {"type": "boolean"},
+                            "include_payload": {"type": "boolean"},
+                        },
+                        "additionalProperties": False,
+                    },
+                    handler=self._receipt_inspect,
                 ),
                 ToolSpec(
                     name="plugin.status",
@@ -1346,6 +1416,11 @@ class CtxVaultMcpServer:
             limit=int(arguments.get("limit", 20)),
         )
 
+    def _prompt_patch_density_check(self, arguments: JSONDict) -> JSONDict:
+        return self.surface.prompt_patch_density_check(
+            self._string(arguments.get("patch_id"), field="patch_id")
+        )
+
     def _prompt_patch_review(self, arguments: JSONDict) -> JSONDict:
         decision = self._string(arguments.get("decision"), field="decision")
         policy_payload = None
@@ -1420,6 +1495,9 @@ class CtxVaultMcpServer:
             candidate_slice_refs=self._string_list(arguments.get("candidate_slice_refs"), field="candidate_slice_refs")
             if arguments.get("candidate_slice_refs") is not None
             else None,
+            required_slice_refs=self._string_list(arguments.get("required_slice_refs"), field="required_slice_refs")
+            if arguments.get("required_slice_refs") is not None
+            else None,
             limit=int(arguments.get("limit", 10)),
             token_budget=int(arguments.get("token_budget", 4000)),
             include_blocked=self._optional_bool(arguments.get("include_blocked"), field="include_blocked", default=False),
@@ -1436,10 +1514,59 @@ class CtxVaultMcpServer:
             selected_slice_refs=self._string_list(arguments.get("selected_slice_refs"), field="selected_slice_refs")
             if arguments.get("selected_slice_refs") is not None
             else None,
+            required_slice_refs=self._string_list(arguments.get("required_slice_refs"), field="required_slice_refs")
+            if arguments.get("required_slice_refs") is not None
+            else None,
             limit=int(arguments.get("limit", 10)),
             token_budget=int(arguments.get("token_budget", 4000)),
             include_blocked=self._optional_bool(arguments.get("include_blocked"), field="include_blocked", default=False),
             rebuild=self._optional_bool(arguments.get("rebuild"), field="rebuild", default=True),
+            write_receipt=self._optional_bool(arguments.get("write_receipt"), field="write_receipt", default=True),
+        )
+
+    def _context_extract(self, arguments: JSONDict) -> JSONDict:
+        raw_paths = arguments.get("source_paths")
+        if not isinstance(raw_paths, list) or not raw_paths:
+            raise ValueError("source_paths must be a non-empty array")
+        return self.surface.context_extract(
+            source_paths=[Path(str(path)) for path in raw_paths],
+            source_kind=self._optional_string(arguments.get("source_kind")) or "auto",
+            scope_kind=self._optional_string(arguments.get("scope_kind")) or "project",
+            scope_value=self._optional_string(arguments.get("scope_value")) or "ctxvault",
+            recursive=self._optional_bool(arguments.get("recursive"), field="recursive", default=False),
+            kind=self._optional_string(arguments.get("kind")),
+            title=self._optional_string(arguments.get("title")),
+            prompt_id=self._optional_string(arguments.get("prompt_id")),
+            prompt_name=self._optional_string(arguments.get("prompt_name")),
+            prompt_intent=self._optional_string(arguments.get("prompt_intent")) or "general",
+            prompt_owner=self._optional_string(arguments.get("prompt_owner")) or "local_import",
+            prompt_required_context_types=self._string_list(
+                arguments.get("prompt_required_context_types"),
+                field="prompt_required_context_types",
+            )
+            if arguments.get("prompt_required_context_types") is not None
+            else None,
+            transcript_session_id=self._optional_string(arguments.get("transcript_session_id")),
+            transcript_title=self._optional_string(arguments.get("transcript_title")),
+            transcript_task_label=self._optional_string(arguments.get("transcript_task_label")),
+            transcript_client=self._optional_string(arguments.get("transcript_client")) or "local_import",
+            prepare_query=self._optional_string(arguments.get("prepare_query")),
+            target_kind=self._optional_string(arguments.get("target_kind")) or "harness.agents-md",
+            workstream_ref=self._optional_string(arguments.get("workstream_ref")),
+            selected_slice_refs=self._string_list(arguments.get("selected_slice_refs"), field="selected_slice_refs")
+            if arguments.get("selected_slice_refs") is not None
+            else None,
+            required_slice_refs=self._string_list(arguments.get("required_slice_refs"), field="required_slice_refs")
+            if arguments.get("required_slice_refs") is not None
+            else None,
+            limit=int(arguments.get("limit", 10)),
+            token_budget=int(arguments.get("token_budget", 4000)),
+            include_blocked=self._optional_bool(arguments.get("include_blocked"), field="include_blocked", default=False),
+            project_targets=self._string_list(arguments.get("project_targets"), field="project_targets")
+            if arguments.get("project_targets") is not None
+            else None,
+            workstream_id=self._optional_string(arguments.get("workstream_id")),
+            dry_run=self._optional_bool(arguments.get("dry_run"), field="dry_run", default=False),
             write_receipt=self._optional_bool(arguments.get("write_receipt"), field="write_receipt", default=True),
         )
 
@@ -1596,6 +1723,21 @@ class CtxVaultMcpServer:
 
     def _doctor_report(self, arguments: JSONDict) -> JSONDict:
         return self.surface.doctor_report()
+
+    def _receipt_inspect(self, arguments: JSONDict) -> JSONDict:
+        receipt_path = None
+        if arguments.get("receipt_path") is not None:
+            raw_path = Path(self._string(arguments.get("receipt_path"), field="receipt_path"))
+            receipt_path = raw_path if raw_path.is_absolute() else (self.root / raw_path).resolve()
+        receipt_ref = None
+        if arguments.get("receipt_ref") is not None:
+            receipt_ref = self._string(arguments.get("receipt_ref"), field="receipt_ref")
+        return self.surface.receipt_inspect(
+            receipt_path=receipt_path,
+            receipt_ref=receipt_ref,
+            latest=self._optional_bool(arguments.get("latest"), field="latest", default=False),
+            include_payload=self._optional_bool(arguments.get("include_payload"), field="include_payload", default=False),
+        )
 
     def _plugin_status(self, arguments: JSONDict) -> list[JSONDict]:
         return self.surface.plugin_status(self._manifests(arguments.get("manifests")))

@@ -38,6 +38,10 @@
       }
     },
     "workstream_ref": { "type": ["string", "null"] },
+    "required_slice_refs": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^slice://" }
+    },
     "selected_slice_refs": {
       "type": "array",
       "items": { "type": "string", "pattern": "^slice://" }
@@ -53,14 +57,129 @@
     },
     "privacy_preflight_ref": { "type": ["string", "null"] },
     "privacy_preflight_receipt_path": { "type": ["string", "null"] },
+    "context_quality_receipt": { "$ref": "#/$defs/ContextQualityReceipt" },
+    "context_density_scorecard": { "$ref": "#/$defs/ContextDensityScorecard" },
+    "retrieval_gain_receipt": { "$ref": "#/$defs/RetrievalGainReceipt" },
+    "search_decision_trace": { "$ref": "#/$defs/SearchDecisionTrace" },
+    "source_conflict_scorecard": { "$ref": "#/$defs/SourceConflictScorecard" },
     "token_estimate": { "type": "integer", "minimum": 0 },
+    "input_token_estimate": { "type": "integer", "minimum": 0 },
+    "projected_token_estimate": { "type": "integer", "minimum": 0 },
     "token_budget": { "type": "integer", "minimum": 0 },
     "budget_status": { "enum": ["empty", "within_budget", "over_budget"] },
+    "required_refs_retained": { "type": "boolean" },
+    "omitted_refs_with_reason": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/OmittedRef" }
+    },
+    "budget_pressure": { "type": "number", "minimum": 0 },
+    "compression_ratio": { "type": "number", "minimum": 0 },
+    "reviewer_override_notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "retrieval_gain_proxy": { "type": "number" },
+    "conflict_delta": { "type": "integer" },
+    "duplicate_context_ratio": { "type": "number", "minimum": 0 },
+    "new_required_refs_resolved": { "type": "integer", "minimum": 0 },
+    "misleading_refs_rejected": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^slice://" }
+    },
+    "search_stop_reason": { "type": "string", "minLength": 1 },
     "source_group_count": { "type": "integer", "minimum": 0 },
     "preference_actions": {
       "type": "object",
       "additionalProperties": { "enum": ["pin", "hide", "archive"] }
     },
     "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "OmittedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slice_ref", "source_ref", "reason", "token_estimate"],
+      "properties": {
+        "slice_ref": { "type": "string", "pattern": "^slice://" },
+        "source_ref": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 1 },
+        "token_estimate": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "ContextQualityReceipt": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema_id", "contract_state", "input_token_estimate", "projected_token_estimate", "required_refs_retained", "retrieval_gain_proxy", "search_stop_reason"],
+      "properties": {
+        "schema_id": { "const": "ctxvault.context-quality-receipt/v1" },
+        "contract_state": { "const": "experimental" },
+        "input_token_estimate": { "type": "integer", "minimum": 0 },
+        "projected_token_estimate": { "type": "integer", "minimum": 0 },
+        "required_refs_retained": { "type": "boolean" },
+        "retrieval_gain_proxy": { "type": "number" },
+        "search_stop_reason": { "type": "string" }
+      }
+    },
+    "ContextDensityScorecard": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema_id", "contract_state", "input_token_estimate", "projected_token_estimate", "required_refs_retained", "omitted_refs_with_reason"],
+      "properties": {
+        "schema_id": { "const": "ctxvault.context-density-scorecard/v1" },
+        "contract_state": { "const": "experimental" },
+        "input_token_estimate": { "type": "integer", "minimum": 0 },
+        "projected_token_estimate": { "type": "integer", "minimum": 0 },
+        "required_refs_retained": { "type": "boolean" },
+        "omitted_refs_with_reason": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/OmittedRef" }
+        }
+      }
+    },
+    "RetrievalGainReceipt": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema_id", "contract_state", "retrieval_gain_proxy", "duplicate_context_ratio", "new_required_refs_resolved", "misleading_refs_rejected", "search_stop_reason"],
+      "properties": {
+        "schema_id": { "const": "ctxvault.retrieval-gain-receipt/v1" },
+        "contract_state": { "const": "experimental" },
+        "retrieval_gain_proxy": { "type": "number" },
+        "duplicate_context_ratio": { "type": "number", "minimum": 0 },
+        "new_required_refs_resolved": { "type": "integer", "minimum": 0 },
+        "misleading_refs_rejected": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "search_stop_reason": { "type": "string" }
+      }
+    },
+    "SearchDecisionTrace": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema_id", "contract_state", "query", "candidate_slice_refs", "selected_slice_refs", "stop_reason", "per_candidate"],
+      "properties": {
+        "schema_id": { "const": "ctxvault.search-decision-trace/v1" },
+        "contract_state": { "const": "experimental" },
+        "query": { "type": "string" },
+        "candidate_slice_refs": { "type": "array", "items": { "type": "string" } },
+        "selected_slice_refs": { "type": "array", "items": { "type": "string" } },
+        "stop_reason": { "type": "string" },
+        "per_candidate": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "SourceConflictScorecard": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema_id", "contract_state", "status", "stale_refs", "conflict_refs", "selected_stale_refs", "selected_conflict_refs"],
+      "properties": {
+        "schema_id": { "const": "ctxvault.source-conflict-scorecard/v1" },
+        "contract_state": { "const": "experimental" },
+        "status": { "enum": ["pass", "needs_review"] },
+        "stale_refs": { "type": "array", "items": { "type": "string" } },
+        "conflict_refs": { "type": "array", "items": { "type": "string" } },
+        "selected_stale_refs": { "type": "array", "items": { "type": "string" } },
+        "selected_conflict_refs": { "type": "array", "items": { "type": "string" } }
+      }
+    }
   }
 }

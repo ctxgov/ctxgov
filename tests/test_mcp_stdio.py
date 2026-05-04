@@ -81,6 +81,7 @@ class McpServerTests(unittest.TestCase):
                 "memory-candidate.list",
                 "memory-candidate.review",
                 "prompt-patch.list",
+                "prompt-patch.density-check",
                 "prompt-patch.review",
                 "prompt-eval.run",
                 "privacy.scan",
@@ -88,6 +89,7 @@ class McpServerTests(unittest.TestCase):
                 "context.selection-preflight",
                 "context.selection-compose",
                 "context.prepare",
+                "context.extract",
                 "context.slice-preference-set",
                 "context.slice-preference-list",
                 "logical-purge.plan",
@@ -104,6 +106,7 @@ class McpServerTests(unittest.TestCase):
                 "adapter.status",
                 "adapter.resolve",
                 "doctor.report",
+                "receipt.inspect",
                 "plugin.status",
                 "plugin.resolve",
                 "plugin.execute",
@@ -269,8 +272,64 @@ class McpServerTests(unittest.TestCase):
         self.assertFalse(over_budget_handoff["handoff_ready"])
         self.assertEqual(over_budget_handoff["warnings"][0]["code"], "over_budget")
 
-        invalid_bool = self._request(
+        source_note = self.repo_root / "mcp-one-click.md"
+        source_note.write_text(
+            "# MCP one click\n\nExtract source material and prepare a stable handoff from one MCP call.",
+            encoding="utf-8",
+        )
+        extracted = self._request(
             11,
+            "tools/call",
+            {
+                "name": "context.extract",
+                "arguments": {
+                    "source_paths": [str(source_note)],
+                    "prepare_query": "mcp one click stable handoff",
+                    "workstream_ref": "workstream://ws_20260421_ctxvault_schema",
+                    "workstream_id": "ws_20260421_ctxvault_schema",
+                    "project_targets": ["workstream-brief"],
+                },
+            },
+        )
+        extraction = extracted["result"]["structuredContent"]
+        self.assertEqual(extraction["schema_id"], "ctxvault.context-extract/v1")
+        self.assertEqual(extraction["status"], "pass")
+        self.assertTrue(Path(extraction["receipt_path"]).exists())
+        self.assertEqual(extraction["imports"][0]["source_kind"], "knowledge")
+        self.assertEqual(len(extraction["projections"]), 1)
+
+        inspected = self._request(
+            12,
+            "tools/call",
+            {
+                "name": "receipt.inspect",
+                "arguments": {
+                    "receipt_path": extraction["receipt_path"],
+                },
+            },
+        )
+        inspection = inspected["result"]["structuredContent"]
+        self.assertEqual(inspection["schema_id"], "ctxvault.receipt-inspection/v1")
+        self.assertEqual(inspection["status"], "pass")
+        self.assertEqual(inspection["chains"][0]["missing_links"], [])
+        self.assertIn("CtxVault receipt inspection", inspection["summary_text"])
+
+        inspected_latest = self._request(
+            13,
+            "tools/call",
+            {
+                "name": "receipt.inspect",
+                "arguments": {
+                    "latest": True,
+                },
+            },
+        )
+        latest_inspection = inspected_latest["result"]["structuredContent"]
+        self.assertEqual(latest_inspection["status"], "pass")
+        self.assertEqual(latest_inspection["target"]["kind"], "context_extract")
+
+        invalid_bool = self._request(
+            14,
             "tools/call",
             {
                 "name": "context.prepare",
@@ -285,7 +344,7 @@ class McpServerTests(unittest.TestCase):
         self.assertEqual(invalid_bool["result"]["structuredContent"]["error_code"], "invalid_boolean")
 
         invalid_slice = self._request(
-            12,
+            15,
             "tools/call",
             {
                 "name": "context.prepare",
@@ -300,7 +359,7 @@ class McpServerTests(unittest.TestCase):
         self.assertEqual(invalid_slice["result"]["structuredContent"]["error_code"], "unknown_slice_ref")
 
         pinned = self._request(
-            13,
+            16,
             "tools/call",
             {
                 "name": "context.slice-preference-set",

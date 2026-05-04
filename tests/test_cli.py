@@ -304,6 +304,80 @@ class CliBoundaryTests(unittest.TestCase):
             self.assertTrue(Path(projected["receipt_path"]).exists())
             self.assertEqual(projected["selected_slice_refs"], [prepared["selected_slice_refs"][0]])
 
+    def test_context_extract_cli_runs_one_click_local_handoff(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            note = root / "one-click-note.md"
+            note.write_text(
+                "# One click CLI\n\n"
+                "The CLI should extract local source material, rebuild slices, prepare context, and project when ready.",
+                encoding="utf-8",
+            )
+            surface = CtxVaultSurface(CtxVault(default_layout(root)))
+            surface.vault.import_core_fixtures(ROOT / "fixtures" / "core")
+
+            code, stdout = self.run_cli(
+                "context-extract",
+                "--root",
+                str(root),
+                "--source-path",
+                str(note),
+                "--prepare-query",
+                "one click cli extract project",
+                "--workstream-ref",
+                "workstream://ws_20260421_ctxvault_schema",
+                "--workstream-id",
+                "ws_20260421_ctxvault_schema",
+                "--project-target",
+                "workstream-brief",
+            )
+
+            self.assertEqual(code, 0)
+            payload = json.loads(stdout)
+            self.assertEqual(payload["schema_id"], "ctxvault.context-extract/v1")
+            self.assertEqual(payload["status"], "pass")
+            self.assertTrue(Path(payload["receipt_path"]).exists())
+            self.assertEqual(payload["imports"][0]["source_kind"], "knowledge")
+            self.assertEqual(payload["prepare"]["selection_status"], "ready")
+            self.assertEqual(len(payload["projections"]), 1)
+            self.assertTrue(Path(payload["projections"][0]["output_path"]).exists())
+
+            inspect_code, inspect_stdout = self.run_cli(
+                "receipt-inspect",
+                "--root",
+                str(root),
+                "--receipt-path",
+                payload["receipt_path"],
+            )
+            self.assertEqual(inspect_code, 0)
+            inspection = json.loads(inspect_stdout)
+            self.assertEqual(inspection["schema_id"], "ctxvault.receipt-inspection/v1")
+            self.assertEqual(inspection["status"], "pass")
+            self.assertEqual(inspection["chains"][0]["missing_links"], [])
+
+            summary_code, summary_stdout = self.run_cli(
+                "receipt-inspect",
+                "--root",
+                str(root),
+                "--receipt-path",
+                payload["receipt_path"],
+                "--summary",
+            )
+            self.assertEqual(summary_code, 0)
+            self.assertIn("CtxVault receipt inspection", summary_stdout)
+            self.assertIn("Selected slices: 1", summary_stdout)
+            self.assertIn("Receipt chain:", summary_stdout)
+
+            latest_code, latest_stdout = self.run_cli(
+                "receipt-inspect",
+                "--root",
+                str(root),
+                "--latest",
+                "--summary",
+            )
+            self.assertEqual(latest_code, 0)
+            self.assertIn("Target: context extract", latest_stdout)
+
     def test_logical_purge_cli_requires_reviewed_apply(self) -> None:
         with TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

@@ -6,21 +6,22 @@ CtxVault is a local-first context layer for AI work. It preserves the
 decisions, constraints, and working state that should survive across chats,
 agents, editors, and command-line sessions.
 
-v0.3.3 is the safe context handoff hardening milestone. It makes the
-deterministic selector easier to run, inspect, and approve before context
-reaches AI tools:
+v0.3.4 is the deterministic context handoff and extraction-quality milestone.
+It makes local source extraction, context selection, receipt inspection, and
+projection easier to run and easier to verify before context reaches AI tools:
 
-`local sources -> context slices -> context-prepare -> privacy preflight -> context-project -> projection receipts`
+`local sources -> context-extract -> context slices -> privacy and quality receipts -> gated projection -> receipt inspection`
 
 The baseline is intentionally constrained: no model call, no embedding service,
 no vector database, no remote provider. The value is that the operator can see
-which local context was selected, why it was allowed, how large it is, and
-which projection receipt links it to an AI work surface.
+which sources were imported, which local context was selected, why it was
+allowed or blocked, how large it is, and which receipt links it to an AI work
+surface.
 
 The roadmap treats this as AI work quality infrastructure: specs define what
 "done" means, context receipts explain what was selected or blocked, and trace
-or runtime receipts can later inspect how AI work happened. v0.3.3 proves only
-the deterministic safe handoff part of that system.
+or runtime receipts can later inspect how AI work happened. v0.3.4 proves only
+the deterministic local extraction and safe handoff part of that system.
 
 This public repository exposes the deterministic trust floor behind that
 source-to-context-to-projection loop:
@@ -31,8 +32,14 @@ source-to-context-to-projection loop:
 - experimental compiled workstream state with source refs
 - deterministic context slicing and local context search
 - source-grouped context selection with token budget previews
+- one-command local extraction from static source exports and Markdown vaults
+- stable source fingerprints and idempotency keys for extraction runs
+- deterministic context-quality, density, retrieval-gain, source-retention,
+  search-trace, and source-conflict receipts
 - selected-slice privacy preflight before projection
 - projection receipts linked to context-selection receipts
+- human-readable receipt inspection for extract, selection, privacy, quality,
+  and projection chains
 - owner-operated public review pack with reusable public-source scenarios,
   boundary checks, and a synthetic blocked-selection check
 - read-only doctor diagnostics and projection healthchecks
@@ -64,7 +71,11 @@ If you are evaluating the project, start with:
 - `scripts/run_v032_selection_scorecard.py` for lightweight selection quality
   and safety checks;
 - `scripts/run_v033_public_review_pack.py` for owner-operated public package
-  review before publication.
+  review before publication;
+- `scripts/run_v034_context_extract_stability.py` for one-click extraction
+  stability checks;
+- `scripts/run_v034_context_quality_scorecards.py` for deterministic context
+  quality checks.
 
 ## Scope
 
@@ -84,6 +95,8 @@ The public core is for developers who want to inspect or build on:
 - Markdown-vault import as source material
 - read-only projection adapter healthchecks
 - optional local snapshot/replica backup writes
+- deterministic context extraction from static local exports
+- receipt inspection for human review before sharing context
 
 The public core currently marks these contracts as experimental:
 
@@ -97,9 +110,29 @@ The public core currently marks these contracts as experimental:
 - projection adapter healthchecks
 - runtime event receipts
 - context selection receipts
+- context extraction receipts
+- context quality and scorecard receipts
 
 Experimental means useful and inspectable, but not yet frozen as long-term
 public semantics.
+
+## v0.3.4 Context Extract And Quality Receipts
+
+v0.3.4 is a release-experience cut over the safe handoff path. It does not add
+model, embedding, vector, remote provider, official plugin, live connector, or
+public Workbench dependencies. It makes the first useful trial shorter:
+
+- run `context-extract --dry-run` to fingerprint sources and preview imports
+  without writing governed objects
+- run `context-extract` to import static local sources, rebuild slices, prepare
+  context, and optionally project when the handoff is ready
+- inspect the newest receipt chain with `receipt-inspect --latest --summary`
+- verify stale source fingerprints, missing selection receipts, projection
+  links, and blocked extraction runs with read-only `doctor`
+- run deterministic quality and stability scorecards before making public
+  quality claims
+- keep projection gated by `handoff_ready`, privacy preflight, and token-budget
+  checks
 
 ## v0.3.3 Safe Context Handoff
 
@@ -164,6 +197,28 @@ Run deterministic checks:
 
 ```bash
 python3 scripts/run_deterministic_checks.py
+```
+
+Run the v0.3.4 one-click context handoff trial:
+
+```bash
+export PYTHONPATH=src
+export CTXVAULT_TRIAL=/tmp/ctxvault-v034-trial
+
+python3 -m ctxvault.cli init-vault --root "$CTXVAULT_TRIAL"
+python3 -m ctxvault.cli seed-fixtures --root "$CTXVAULT_TRIAL"
+
+python3 -m ctxvault.cli context-extract   --root "$CTXVAULT_TRIAL"   --source-path fixtures/v0.3.4-context-extract/markdown-vault   --source-kind markdown-vault   --recursive   --prepare-query "stable one click extraction privacy projection receipts"   --workstream-ref workstream://ws_20260421_ctxvault_schema   --workstream-id ws_20260421_ctxvault_schema   --project-target workstream-brief
+
+python3 -m ctxvault.cli receipt-inspect --root "$CTXVAULT_TRIAL" --latest --summary
+python3 -m ctxvault.cli doctor --root "$CTXVAULT_TRIAL"
+```
+
+Run the v0.3.4 deterministic quality and stability scorecards:
+
+```bash
+python3 scripts/run_v034_context_extract_stability.py --root /tmp/ctxvault-v034-stability
+python3 scripts/run_v034_context_quality_scorecards.py --root /tmp/ctxvault-v034-quality
 ```
 
 Run the v0.3.3 public package review pack:
@@ -307,13 +362,16 @@ The checked-in M1 fixture evidence is in:
 - `fixtures/context-injection-m1/projections/workstream-brief-receipt.json`
 - `fixtures/m1-context-injection/README.md`
 
-## v0.3.3 Evidence
+## v0.3.4 Evidence
 
-The v0.3.3 safe handoff path, v0.3.2 context-selection composer, v0.3.1 local
-safety, and compiled context projection evidence is described in:
+The v0.3.4 context extraction path, v0.3.3 safe handoff path, v0.3.2
+context-selection composer, v0.3.1 local safety, and compiled context
+projection evidence is described in:
 
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.3.4-release-notes.md`
 - `docs/v0.3.3-release-notes.md`
+- `fixtures/v0.3.4-context-extract/README.md`
 - `fixtures/v0.3.3-public-review/README.md`
 - `docs/v0.3.2-release-notes.md`
 - `docs/v0.3.2-injection-composer/implementation-plan.md`
@@ -339,6 +397,7 @@ replace a separate offsite backup strategy.
 - `docs/experimental-contract-evolution-policy.md`
 - `docs/workstream-plan-ledger-contract.md`
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.3.4-release-notes.md`
 - `docs/v0.3.3-release-notes.md`
 - `docs/v0.3.2-release-notes.md`
 - `docs/v0.3.2-injection-composer/implementation-plan.md`
@@ -349,6 +408,7 @@ replace a separate offsite backup strategy.
 - `docs/v0.2-m2-developer-framework.md`
 - `docs/v0.2-m2-compatibility-evidence.md`
 - `docs/v0.2-m2-release-notes.md`
+- `fixtures/v0.3.4-context-extract/README.md`
 - `fixtures/v0.3.3-public-review/README.md`
 - `fixtures/README.md`
 - `schemas/README.md`
