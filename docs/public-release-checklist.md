@@ -1,8 +1,8 @@
 # CtxVault Public Release Checklist
 
-This checklist describes the public release expectations for the v0.3.5
-first-run UX boundary patch over the v0.3.4 deterministic context extraction
-and quality-receipt milestone.
+This checklist describes the public release expectations for the v0.4.0 local
+trust-and-handoff package over the v0.3.5 first-run UX boundary and v0.3.4
+deterministic context extraction milestone.
 
 ## Release Gates
 
@@ -15,8 +15,9 @@ and quality-receipt milestone.
 - experimental contracts are labeled clearly
 - the public README leads with safe context handoff, receipts, and the local
   source-of-truth hook
-- v0.3.5 wording keeps private Workbench UX outside the public core and does
-  not claim runtime control
+- v0.4.0 wording keeps private Workbench UX and native wrapper source outside
+  the public core and does not claim runtime control
+- the static Receipt/Trust Gallery is present and uses sanitized evidence
 - policy, privacy, and receipt surfaces remain inspectable
 - projected outputs have projection receipts
 - projection adapter healthchecks are read-only and clearly experimental
@@ -30,7 +31,7 @@ and quality-receipt milestone.
 
 ## Public-Core Checklist
 
-1. Package the v0.3.5 deterministic public core as the public
+1. Package the v0.4.0 deterministic public core as the public
    `ctxvault` repository.
 2. Keep optional product surfaces outside this repository.
 3. Ship Apache-2.0 licensing with the public repo.

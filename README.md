@@ -1,13 +1,15 @@
 # CtxVault
 
-AI work needs a source of truth outside the chat window.
+Know what your AI tools see.
 
-CtxVault is a local-first context layer for AI work. It preserves the
-decisions, constraints, and working state that should survive across chats,
-agents, editors, and command-line sessions.
+CtxVault is the local trust layer for AI work. It turns local project sources
+into safe, receipt-backed handoffs for AI tools, agents, coding workflows, and
+future API surfaces. It preserves the decisions, constraints, and working state
+that should survive across agents, editors, command-line sessions, and other
+AI work surfaces.
 
-v0.3.5 is a first-run UX boundary patch over the deterministic context handoff
-and extraction-quality milestone. The public core still centers on local source
+v0.4.0 packages the deterministic context handoff path as a complete local
+trust-and-handoff release. The public core still centers on local source
 extraction, context selection, receipt inspection, and projection before
 context reaches AI tools:
 
@@ -21,10 +23,9 @@ surface.
 
 The roadmap treats this as AI work quality infrastructure: specs define what
 "done" means, context receipts explain what was selected or blocked, and trace
-or runtime receipts can later inspect how AI work happened. v0.3.5 keeps the
-public package focused on the deterministic local extraction and safe handoff
-part of that system while documenting that optional Workbench UX remains
-outside the open-core package.
+or runtime receipts can later inspect how AI work happened. v0.4.0 adds a
+static Receipt/Trust Gallery and clearer demo/review materials while keeping
+optional Workbench UX and native wrapper source outside the open-core package.
 
 This public repository exposes the deterministic trust floor behind that
 source-to-context-to-projection loop:
@@ -79,8 +80,10 @@ If you are evaluating the project, start with:
   stability checks;
 - `scripts/run_v034_context_quality_scorecards.py` for deterministic context
   quality checks.
-- `docs/v0.3.5-release-notes.md` for the first-run UX boundary and explicit
-  non-runtime-manager scope.
+- `release/v0.4.0/receipt-trust-gallery/` for static selected, omitted,
+  blocked, privacy, projection, and proof receipt examples;
+- `docs/v0.4.0-release-notes.md` for the complete local trust-and-handoff
+  release scope.
 
 ## Scope
 
@@ -383,13 +386,17 @@ The checked-in M1 fixture evidence is in:
 - `fixtures/context-injection-m1/projections/workstream-brief-receipt.json`
 - `fixtures/m1-context-injection/README.md`
 
-## v0.3.5 Evidence
+## v0.4.0 Evidence
 
-The v0.3.5 first-run UX boundary, v0.3.4 context extraction path, v0.3.3 safe handoff path, v0.3.2
+The v0.4.0 local trust-and-handoff release, v0.3.5 first-run UX boundary,
+v0.3.4 context extraction path, v0.3.3 safe handoff path, v0.3.2
 context-selection composer, v0.3.1 local safety, and compiled context
-projection evidence is described in:
+projection evidence are described in:
 
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.4.0-release-notes.md`
+- `release/v0.4.0/receipt-trust-gallery/README.md`
+- `release/v0.4.0/receipt-trust-gallery/manifest.json`
 - `docs/v0.3.5-release-notes.md`
 - `docs/v0.3.4-release-notes.md`
 - `docs/v0.3.3-release-notes.md`
@@ -419,6 +426,9 @@ replace a separate offsite backup strategy.
 - `docs/experimental-contract-evolution-policy.md`
 - `docs/workstream-plan-ledger-contract.md`
 - `docs/v0.3-compiled-context.md`
+- `docs/v0.4.0-release-notes.md`
+- `release/v0.4.0/receipt-trust-gallery/README.md`
+- `release/v0.4.0/receipt-trust-gallery/manifest.json`
 - `docs/v0.3.5-release-notes.md`
 - `docs/v0.3.4-release-notes.md`
 - `docs/v0.3.3-release-notes.md`
@@ -453,6 +463,8 @@ which receipt, slice, projection, or workflow step was hard to trust.
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.3.5 first-run UX boundary feedback:
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
+- v0.4.0 Receipt/Trust Gallery or demo feedback:
+  `.github/ISSUE_TEMPLATE/m1-quick-feedback.yml`
 - v0.2/M2 Developer Framework Feedback:
   `.github/ISSUE_TEMPLATE/v0.2-m2-feedback.yml`
 - M1 Quick Feedback:

@@ -1,0 +1,230 @@
+{
+  "boundary": {
+    "contract_state": "experimental_read_model",
+    "design_rule": "CtxVault may write reviewed local handoff artifacts and receipts; users control external tools.",
+    "local_first": true,
+    "mode": "boundary_reference",
+    "provider_execution_allowed": false,
+    "runtime_control_allowed": false,
+    "schema_id": "ctxvault.project-context-boundary-map/v1",
+    "surfaces": [
+      {
+        "context_scope": "repository_or_worktree_file_projection",
+        "ctxvault_does_not_do": [
+          "launch Codex",
+          "resume sessions",
+          "inspect terminal buffers",
+          "scan default agent homes",
+          "send prompts to providers"
+        ],
+        "ctxvault_writes": [
+          "AGENTS.md projection",
+          "projection receipt",
+          "context extract receipt"
+        ],
+        "label": "Codex / AGENTS.md",
+        "risk_to_explain": "projected file may be read by the target tool when the user runs that tool",
+        "surface_id": "codex_agents_md",
+        "user_controls": [
+          "choose source paths",
+          "preview",
+          "create handoff",
+          "inspect receipt"
+        ]
+      },
+      {
+        "context_scope": "Claude Code project memory file projection",
+        "ctxvault_does_not_do": [
+          "launch Claude Code",
+          "edit user memory",
+          "inspect accounts",
+          "read running sessions",
+          "call Anthropic APIs"
+        ],
+        "ctxvault_writes": [
+          "CLAUDE.md projection",
+          "projection receipt",
+          "context extract receipt"
+        ],
+        "label": "Claude Code / CLAUDE.md",
+        "risk_to_explain": "CLAUDE.md can be loaded by Claude Code according to Claude Code memory behavior",
+        "surface_id": "claude_code_claude_md",
+        "user_controls": [
+          "choose target card",
+          "preview safety gates",
+          "inspect receipt"
+        ]
+      },
+      {
+        "context_scope": "portable packet with no runtime assumption",
+        "ctxvault_does_not_do": [
+          "write AGENTS.md",
+          "write CLAUDE.md",
+          "control a runtime",
+          "send context over a network"
+        ],
+        "ctxvault_writes": [
+          "context extract receipt"
+        ],
+        "label": "Generic Packet",
+        "risk_to_explain": "user chooses the final destination manually",
+        "surface_id": "generic_packet",
+        "user_controls": [
+          "copy packet or receipt path",
+          "decide where to paste or attach"
+        ]
+      },
+      {
+        "context_scope": "external project workspace controlled by ChatGPT",
+        "ctxvault_does_not_do": [
+          "create ChatGPT projects",
+          "upload files",
+          "manage ChatGPT memory",
+          "delete ChatGPT memories",
+          "read ChatGPT account state"
+        ],
+        "ctxvault_writes": [],
+        "label": "ChatGPT Project",
+        "risk_to_explain": "project memory and uploaded files are controlled outside CtxVault",
+        "surface_id": "chatgpt_project",
+        "user_controls": [
+          "manually copy or upload reviewed packet if desired"
+        ]
+      }
+    ]
+  },
+  "commit": "9b13dbf4facb0db1ed0c998467bf556d1404fbdb",
+  "context_program_trace": {
+    "branch_decisions": [
+      {
+        "branch_id": "dry_run",
+        "reason": "preview writes no governed source imports or projections",
+        "selected": false
+      },
+      {
+        "branch_id": "packet_only",
+        "reason": "packet-only handoff has no projection output path",
+        "selected": false
+      },
+      {
+        "branch_id": "projection_blocked",
+        "reason": "projection is blocked when selection or privacy gates do not pass",
+        "selected": false
+      },
+      {
+        "branch_id": "receipt_written",
+        "reason": "receipt path is the audit proof for this handoff",
+        "selected": true
+      }
+    ],
+    "node_count": 10
+  },
+  "evidence_files": {
+    "blocked_over_budget": "blocked-over-budget.json",
+    "context_legibility_summary": "context-legibility-summary.json",
+    "demo_scorecard": "demo-scorecard.json"
+  },
+  "generated_at": "2026-05-06T07:46:50+00:00",
+  "no_account": true,
+  "no_cloud_service": true,
+  "no_hidden_session_scanning": true,
+  "no_llm_key": true,
+  "no_provider_call": true,
+  "no_runtime_control": true,
+  "omitted_or_blocked_slices": [
+    {
+      "count": 0,
+      "items": [],
+      "kind": "omitted_refs"
+    },
+    {
+      "budget_status": "over_budget",
+      "kind": "blocked_over_budget_projection",
+      "projections_written": 0,
+      "receipt_path": "<blocked-root>/.ctxvault/exports/receipts/ctxextract_20260506t074650z_8bcc6805d5fb.json",
+      "selection_status": "over_budget",
+      "token_budget": 1,
+      "token_estimate": 34,
+      "warnings": [
+        {
+          "code": "over_budget",
+          "message": "Selected context estimates 34 tokens against a budget of 1.",
+          "suggested_fix": "Reduce selected slice refs or raise the token budget before projecting."
+        }
+      ]
+    }
+  ],
+  "privacy_preflight": {
+    "decision": {
+      "external_state_mutation": false,
+      "model_execution": false,
+      "provider_execution": false,
+      "runtime_control": false,
+      "session_attach": false
+    },
+    "no_external_state_mutation": true,
+    "no_model_execution": true,
+    "no_provider_execution": true,
+    "no_runtime_control": true,
+    "selected_slice_count": 5
+  },
+  "projection_drift_summary": {
+    "current_projection_count": 1,
+    "diverged_projection_count": 0,
+    "missing_projection_count": 0,
+    "stale_projection_count": 0
+  },
+  "projection_output_path": "<legibility-root>/.ctxvault/exports/AGENTS.md",
+  "receipt_path": "<legibility-root>/.ctxvault/exports/receipts/ctxextract_20260506t074650z_87e439ff5838.json",
+  "release_id": "v0.4.0",
+  "release_surface": "Core + conditional notarized Mac App Alpha + Demo Vault + Receipt/Trust Gallery",
+  "schema_id": "ctxvault.v0.4.0-receipt-trust-gallery/v1",
+  "selected_slices": [
+    {
+      "preview": "Conflicting note: auto-promote every extracted claim into durable memory without review. This contradicts the governed memory review rule.",
+      "privacy_class": "searchable_plain",
+      "sensitivity": "internal",
+      "slice_ref": "slice://knowledge/know_conflicting_memory_note_e2cff43fc4#markdown_paragraph/539139-2538c9a43413",
+      "source_ref": "knowledge://know_conflicting_memory_note_e2cff43fc4",
+      "title": "Conflicting memory note (paragraph)",
+      "token_estimate": 34
+    },
+    {
+      "preview": "Current decision: CtxVault is a governed local context substrate. It must preserve provenance, privacy preflight, receipts, and projection boundaries.",
+      "privacy_class": "searchable_plain",
+      "sensitivity": "internal",
+      "slice_ref": "slice://knowledge/know_current_architecture_84839a0a48#markdown_paragraph/417353-40967dcbd9f9",
+      "source_ref": "knowledge://know_current_architecture_84839a0a48",
+      "title": "Current architecture decision (paragraph)",
+      "token_estimate": 37
+    },
+    {
+      "preview": "Current target: write AGENTS.md or CLAUDE.md only after selection, privacy preflight, context quality, and receipt generation pass.",
+      "privacy_class": "searchable_plain",
+      "sensitivity": "internal",
+      "slice_ref": "slice://knowledge/know_current_projection_target_3acbf7bcb0#markdown_paragraph/675321-28f2129f799d",
+      "source_ref": "knowledge://know_current_projection_target_3acbf7bcb0",
+      "title": "Current projection target (paragraph)",
+      "token_estimate": 32
+    },
+    {
+      "preview": "meeting filler unrelated context meeting filler unrelated context meeting filler unrelated context meeting filler unrelated context meeting filler unrelated context meeting filler unrelated context meeting filler unrelated context meeting filler unrelated c...",
+      "privacy_class": "searchable_plain",
+      "sensitivity": "internal",
+      "slice_ref": "slice://knowledge/know_long_noisy_meeting_notes_32f10ea779#markdown_paragraph/282668-ea11f682ef6b",
+      "source_ref": "knowledge://know_long_noisy_meeting_notes_32f10ea779",
+      "title": "Long noisy meeting notes (paragraph)",
+      "token_estimate": 1319
+    },
+    {
+      "preview": "STALE plan: automatically launch agents, inspect terminals, and resume sessions after context extraction. This plan is obsolete and conflicts with current boundaries.",
+      "privacy_class": "searchable_plain",
+      "sensitivity": "internal",
+      "slice_ref": "slice://knowledge/know_stale_agent_runtime_plan_5f49388b4d#markdown_paragraph/402861-79c438efde46",
+      "source_ref": "knowledge://know_stale_agent_runtime_plan_5f49388b4d",
+      "title": "Stale runtime automation plan (paragraph)",
+      "token_estimate": 41
+    }
+  ],
+  "status": "ready"
+}

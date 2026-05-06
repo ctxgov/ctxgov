@@ -1,0 +1,29 @@
+{
+  "doctor_status": "pass",
+  "pass_checks": {
+    "doctor_extract_checks_pass": true,
+    "dry_run_writes_plan_without_imports": true,
+    "no_duplicate_context_bloat": true,
+    "projection_gated_by_handoff_ready": true,
+    "receipt_chain_inspects": true,
+    "stable_idempotency_key": true,
+    "stable_object_refs": true,
+    "stable_selected_slice_refs": true,
+    "stable_source_fingerprint": true
+  },
+  "receipt_inspection_status": "pass",
+  "schema_id": "ctxvault.v0.3.4-context-extract-stability-scorecard/v1",
+  "scorecard_path": "<demo-root>/artifacts/v0.3.4-context-extract-stability-scorecard.json",
+  "selected_slice_refs": [
+    "slice://knowledge/know_v034_context_extract_stability_a9705d56ca#markdown_paragraph/673185-17f41c34bbc0"
+  ],
+  "source_fingerprints": [
+    {
+      "kind": "file",
+      "path": "<demo-root>/sources/v034-context-extract-stability.md",
+      "sha256": "05cbe96b4a576ab84a5ff1f7db3220db9e8364f86ad3029872b75ff4c7282c37",
+      "size_bytes": 200
+    }
+  ],
+  "status": "pass"
+}

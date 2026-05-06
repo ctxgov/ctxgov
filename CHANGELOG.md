@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.4.0 - 2026-05-06
+
+- Packaged the local trust-and-handoff path as the v0.4.0 Day 0 release.
+- Added the static Receipt/Trust Gallery under
+  `release/v0.4.0/receipt-trust-gallery/`.
+- Updated public package metadata to v0.4.0.
+- Preserved the no-model, no-vector, no-hidden-session-scan,
+  no-runtime-control, and no-public-Workbench-beta boundaries.
+
 ## v0.3.5 - 2026-05-05
 
 - Recorded the v0.3.5 first-run UX boundary around the private Workbench
