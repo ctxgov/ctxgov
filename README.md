@@ -84,6 +84,8 @@ If you are evaluating the project, start with:
   blocked, privacy, projection, and proof receipt examples;
 - `release/v0.4.0/receipt-trust-gallery/index.html` for the static
   Receipt/Trust Gallery page;
+- `release/v0.4.0/trials/controlled-trial-record.template.md` for
+  non-author controlled trial records;
 - `docs/v0.4.0-release-notes.md` for the complete local trust-and-handoff
   release scope.
 
@@ -400,6 +402,7 @@ projection evidence are described in:
 - `release/v0.4.0/receipt-trust-gallery/index.html`
 - `release/v0.4.0/receipt-trust-gallery/README.md`
 - `release/v0.4.0/receipt-trust-gallery/manifest.json`
+- `release/v0.4.0/trials/controlled-trial-record.template.md`
 - `docs/v0.3.5-release-notes.md`
 - `docs/v0.3.4-release-notes.md`
 - `docs/v0.3.3-release-notes.md`
@@ -433,6 +436,7 @@ replace a separate offsite backup strategy.
 - `release/v0.4.0/receipt-trust-gallery/index.html`
 - `release/v0.4.0/receipt-trust-gallery/README.md`
 - `release/v0.4.0/receipt-trust-gallery/manifest.json`
+- `release/v0.4.0/trials/controlled-trial-record.template.md`
 - `docs/v0.3.5-release-notes.md`
 - `docs/v0.3.4-release-notes.md`
 - `docs/v0.3.3-release-notes.md`
@@ -457,6 +461,16 @@ replace a separate offsite backup strategy.
 The most useful feedback is concrete: what you ran, what confused you, and
 which receipt, slice, projection, or workflow step was hard to trust.
 
+Feedback is separated by evidence level:
+
+- ordinary issues are for bugs, wording gaps, install friction, and general
+  trust questions;
+- first 10 minutes trial reports capture the first activation path and the
+  first blocker, but may be self-reported;
+- non-author controlled trial evidence uses
+  `release/v0.4.0/trials/controlled-trial-record.template.md` and is the only
+  feedback category that can support later public beta readiness claims.
+
 - v0.3 Compiled Context feedback:
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.3.1 local safety, privacy, or purge feedback:
@@ -469,6 +483,10 @@ which receipt, slice, projection, or workflow step was hard to trust.
   `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
 - v0.4.0 First-Run Feedback:
   `.github/ISSUE_TEMPLATE/v0.4.0-first-run-feedback.yml`
+- v0.4.0 First 10 Minutes Trial Report:
+  `.github/ISSUE_TEMPLATE/v0.4.0-first-10-minutes-trial.yml`
+- v0.4.0 Non-Author Controlled Trial Record:
+  `release/v0.4.0/trials/controlled-trial-record.template.md`
 - Mac App Alpha feedback:
   `.github/ISSUE_TEMPLATE/mac-app-alpha-feedback.yml`
 - v0.2/M2 Developer Framework Feedback:
