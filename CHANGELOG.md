@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.5.0 - 2026-05-11
+
+- Added public release artifacts for governed context projection for AI work.
+- Added aggregate-only OSS dry-run evidence and a sanitized example under
+  `examples/v0.5.0-governed-context-projection/`.
+- Added a release wording gate for local path leaks and overclaim boundaries;
+  the gate was run before publication and is not shipped with local dry-run
+  identifiers.
+- Preserved the no-target-write, no-provider/model-execution, no-runtime,
+  no-adapter, no-benchmark, no-hardware/cost, no-security-certification, and
+  no-stable-MGP claim boundaries.
+
 ## v0.4.1 - 2026-05-08
 
 - Added the experimental, non-normative Projection Governance Kernel design

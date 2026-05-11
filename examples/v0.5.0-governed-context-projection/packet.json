@@ -1,0 +1,39 @@
+{
+  "schema_id": "ctxvault.example.governed-context-packet/v0.5.0-alpha1",
+  "packet_id": "example_v050_governed_context_projection",
+  "status": "published_sanitized_public_example",
+  "claim": "Governed context projection for AI work.",
+  "boundary": {
+    "target_repository_writes": false,
+    "provider_model_execution": false,
+    "adapter_execution": false,
+    "runtime_execution": false,
+    "benchmark_claim": false,
+    "public_release_action": false
+  },
+  "source_refs": [
+    {
+      "ref": "synthetic://project/README.md#overview",
+      "role": "candidate_context",
+      "raw_private_material_included": false
+    },
+    {
+      "ref": "synthetic://project/docs/design.md#context-boundary",
+      "role": "candidate_context",
+      "raw_private_material_included": false
+    }
+  ],
+  "decisions": [
+    {
+      "candidate_id": "ctx-001",
+      "decision": "caveated",
+      "reason": "useful project goal, but keep scope caveat visible"
+    },
+    {
+      "candidate_id": "ctx-002",
+      "decision": "blocked",
+      "reason": "unreviewed operational detail should not be projected"
+    }
+  ],
+  "rollback": "Delete examples/v0.5.0-governed-context-projection/projection-preview; no source repository rollback is required."
+}
