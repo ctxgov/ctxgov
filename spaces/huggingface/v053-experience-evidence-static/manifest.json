@@ -1,0 +1,22 @@
+{
+  "schema_id": "ctxvault.huggingface-static-space-manifest/v0.5.3-alpha1",
+  "status": "static_space_source_prepared",
+  "sdk": "static",
+  "app_file": "index.html",
+  "source": "spaces/huggingface/v053-experience-evidence-static",
+  "claim": "Governed context projection for AI work.",
+  "boundary": {
+    "user_uploads": false,
+    "credentials": false,
+    "network_calls": false,
+    "provider_model_calls": false,
+    "target_repository_writes": false,
+    "persistence": false,
+    "hosted_runtime_claim": false
+  },
+  "public_examples": [
+    "examples/v0.5.3-experience-evidence/receipt-viewer/receipt-inspection.json",
+    "examples/v0.5.3-experience-evidence/future-context-review/future-context-review-queue.json"
+  ],
+  "rollback": "Delete or supersede the Space repository or remove this folder from the public release branch."
+}

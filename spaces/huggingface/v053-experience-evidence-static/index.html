@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CtxVault v0.5.3 Experience Evidence</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #17202a;
+        --muted: #5f6b78;
+        --line: #d6dde5;
+        --panel: #ffffff;
+        --back: #f5f7f9;
+        --green: #0f766e;
+        --amber: #b7791f;
+        --red: #b42318;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--back);
+        color: var(--ink);
+      }
+
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+      }
+
+      header {
+        display: grid;
+        gap: 12px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.1;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        letter-spacing: 0;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .status {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px 10px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        gap: 18px;
+        margin-top: 24px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+      }
+
+      .receipt {
+        display: grid;
+        gap: 10px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 12px;
+        background: #fbfcfd;
+      }
+
+      .label {
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .value {
+        color: var(--muted);
+      }
+
+      .queue {
+        display: grid;
+        gap: 12px;
+      }
+
+      .queue-item {
+        border-left: 4px solid var(--amber);
+        padding: 12px;
+        background: #fffaf0;
+        border-radius: 6px;
+      }
+
+      .queue-item:first-child {
+        border-left-color: var(--red);
+        background: #fff5f5;
+      }
+
+      .side-effects {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .flag {
+        border: 1px solid #c7ddd8;
+        border-radius: 6px;
+        padding: 10px;
+        color: var(--green);
+        background: #f0fdfa;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 13px;
+      }
+
+      @media (max-width: 760px) {
+        main {
+          padding: 24px 14px 36px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+
+        .grid,
+        .side-effects,
+        .row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="status">
+          <span class="chip">Status: v0.5.3 public release artifact.</span>
+          <span class="chip">Governed context projection for AI work.</span>
+          <span class="chip">No target repository writes</span>
+          <span class="chip">No provider/model execution</span>
+        </div>
+        <h1>CtxVault v0.5.3 Experience Evidence</h1>
+        <p>
+          Inspect what context is selected, caveated, blocked, omitted, and
+          rollbackable before it becomes agent-visible.
+        </p>
+      </header>
+
+      <section class="grid" aria-label="Experience evidence">
+        <article class="panel">
+          <h2>Redacted Receipt Viewer</h2>
+          <div class="receipt">
+            <div class="row">
+              <div class="label">Selected</div>
+              <div class="value"><code>slice://example/accepted-boundary</code></div>
+            </div>
+            <div class="row">
+              <div class="label">Omitted</div>
+              <div class="value"><code>slice://example/private-detail</code></div>
+            </div>
+            <div class="row">
+              <div class="label">Blocked</div>
+              <div class="value"><code>slice://example/unsupported-claim</code></div>
+            </div>
+            <div class="row">
+              <div class="label">Warning</div>
+              <div class="value">caveat required before reuse</div>
+            </div>
+            <div class="row">
+              <div class="label">Rollback</div>
+              <div class="value">Hide the viewer entrypoint or remove this public example.</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Future Context Review</h2>
+          <div class="queue">
+            <div class="queue-item">
+              <strong>1. source support gap</strong>
+              <p>Claim could become future context but has weak source support.</p>
+            </div>
+            <div class="queue-item">
+              <strong>2. status truth drift</strong>
+              <p>Status claim cites planning text but no execution evidence.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid" aria-label="Boundaries">
+        <article class="panel">
+          <h2>Side Effects</h2>
+          <div class="side-effects">
+            <div class="flag">provider_model_called: false</div>
+            <div class="flag">target_file_written: false</div>
+            <div class="flag">projection_written: false</div>
+            <div class="flag">memory_promoted: false</div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Not Claimed</h2>
+          <p>
+            No benchmark result, reliability improvement, adapter support,
+            runtime support, provider/model compatibility, hardware/cost
+            benefit, automatic repository optimization, stable Memory
+            Governance Protocol, Memory OS behavior, RAG replacement,
+            hallucination prevention, or security certification.
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

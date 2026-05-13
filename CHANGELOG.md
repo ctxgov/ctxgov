@@ -1,16 +1,22 @@
 # Changelog
 
+## v0.5.3 - 2026-05-13
+
+- Published the v0.5.3 Experience Evidence Pack.
+- Added public sanitized receipt-viewer and Future Context Review examples.
+- Added static Hugging Face Space source for a no-runtime comprehension demo.
+- Preserved the no-target-write, no-provider/model-execution, no-hosted-runtime,
+  no-benchmark, no-stable-MGP, and no-hallucination-prevention boundaries.
+
 ## v0.5.0 - 2026-05-11
 
-- Added public release artifacts for governed context projection for AI work.
-- Added aggregate-only OSS dry-run evidence and a sanitized example under
-  `examples/v0.5.0-governed-context-projection/`.
-- Added a release wording gate for local path leaks and overclaim boundaries;
-  the gate was run before publication and is not shipped with local dry-run
-  identifiers.
+- Published governed context projection for AI work.
+- Added public-safe aggregate OSS dry-run evidence and a sanitized governed
+  context projection example.
+- Added bilingual mechanism notes for governed context projection.
 - Preserved the no-target-write, no-provider/model-execution, no-runtime,
-  no-adapter, no-benchmark, no-hardware/cost, no-security-certification, and
-  no-stable-MGP claim boundaries.
+  no-adapter-compatibility, no-benchmark, no-hardware-cost, and no-stable-MGP
+  boundaries.
 
 ## v0.4.1 - 2026-05-08
 

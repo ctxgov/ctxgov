@@ -1,0 +1,45 @@
+{
+  "schema_id": "ctxvault.future-context-review-queue/v0.5.3-alpha1",
+  "status": "public_sanitized_example",
+  "mode": "derived_read_model",
+  "queue": [
+    {
+      "priority_rank": 1,
+      "candidate_ref": "candidate://example/source-gap",
+      "priority_bucket": "source_support_gap",
+      "why_first": "Claim could become future context but has weak source support.",
+      "risk_vector": [
+        "source_support_gap",
+        "receipt_binding_required"
+      ],
+      "recommended_next_action": "repair source support or reject the claim",
+      "audit_refs": [
+        "receipt://example/source-gap-review"
+      ],
+      "rollback": "Ignore this derived queue item and fall back to the underlying review card."
+    },
+    {
+      "priority_rank": 2,
+      "candidate_ref": "candidate://example/status-truth",
+      "priority_bucket": "status_truth_drift_project_evidence",
+      "why_first": "Status claim cites planning text but no execution evidence.",
+      "risk_vector": [
+        "status_truth_drift_project_evidence"
+      ],
+      "recommended_next_action": "attach execution evidence or caveat the claim",
+      "audit_refs": [
+        "receipt://example/status-truth-review"
+      ],
+      "rollback": "Supersede the review card after execution evidence is attached."
+    }
+  ],
+  "side_effects": {
+    "owner_decision_receipt_written": false,
+    "group_receipt_written": false,
+    "projection_written": false,
+    "target_file_written": false,
+    "memory_promoted": false,
+    "provider_model_called": false,
+    "public_claim_made": false
+  }
+}

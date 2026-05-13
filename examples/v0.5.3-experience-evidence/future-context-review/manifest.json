@@ -1,0 +1,30 @@
+{
+  "schema_id": "ctxvault.example.v053-future-context-review-manifest/v0.5.3-alpha1",
+  "example_id": "v053-future-context-review-sanitized-example",
+  "status": "published_public_sanitized_example",
+  "source_template": "synthetic Future Context Review queue over example candidate cards",
+  "surface": "Future Context Review risk-ranked queue",
+  "sanitization_boundary": {
+    "private_paths": false,
+    "raw_private_receipts": false,
+    "raw_source_excerpts": false,
+    "provider_model_outputs": false,
+    "target_writes": false
+  },
+  "omitted_refs": [
+    {
+      "ref": "private://dogfood-queue/raw",
+      "reason": "private dogfood queue omitted from public-safe example"
+    },
+    {
+      "ref": "private://owner-decision-notes/raw",
+      "reason": "owner notes replaced with synthetic review reasons"
+    }
+  ],
+  "publication": {
+    "publication_status": "approved_for_v053_public_release",
+    "remote_publication_intended": true,
+    "public_release": "v0.5.3"
+  },
+  "rollback": "Remove examples/v0.5.3-experience-evidence/future-context-review from the public release branch or supersede the v0.5.3 release receipt."
+}

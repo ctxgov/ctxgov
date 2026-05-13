@@ -1,0 +1,33 @@
+{
+  "schema_id": "ctxvault.receipt-inspection/v1",
+  "status": "pass",
+  "mode": "read_only",
+  "redaction_mode": "summary_only_raw_payload_hidden",
+  "target": {
+    "kind": "context_extract",
+    "path": "example://receipts/context-extract.json",
+    "primary_ref": "receipt://example/context-extract"
+  },
+  "summary": {
+    "selected_refs": [
+      "slice://example/accepted-boundary"
+    ],
+    "omitted_refs": [
+      "slice://example/private-detail"
+    ],
+    "blocked_refs": [
+      "slice://example/unsupported-claim"
+    ],
+    "warnings": [
+      "caveat required before reuse"
+    ],
+    "rollback": "Hide the viewer entrypoint or remove this public example; source receipts remain unchanged."
+  },
+  "side_effects": {
+    "provider_model_called": false,
+    "target_file_written": false,
+    "projection_written": false,
+    "memory_promoted": false,
+    "public_claim_made": false
+  }
+}

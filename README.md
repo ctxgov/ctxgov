@@ -1,35 +1,44 @@
 # CtxVault
 
-Status: v0.5.0 public release artifact.
+Status: v0.5.3 public release artifact.
 
 Know what your AI tools see.
 
 Governed context projection for AI work.
 
-CtxVault v0.4.0 is a local, reviewable, receipt-backed AI work context handoff
-package. It turns local project sources into safe, receipt-backed handoffs for AI tools, agents, and coding workflows while keeping source evidence, scope, review state, and receipts inspectable.
+CtxVault is a local trust layer for AI work. It turns reviewed evidence,
+decisions, caveats, and receipts into portable context packets for AI tools,
+agents, and coding workflows while keeping source evidence, scope, review
+state, and rollback inspectable.
 
 Category: the local trust layer for AI work.
 
 It preserves decisions, constraints, and working state as local evidence that
 must be reviewed before it influences an AI work surface.
 
+v0.5.3 publishes the Experience Evidence Pack. It shows how reviewers can
+inspect selected, caveated, blocked, omitted, warning, side-effect, and rollback
+fields before context becomes agent-visible.
+
+Boundary phrase for publication review: no target repository writes and no provider/model execution.
+
+The v0.5.3 examples are synthetic and sanitized. They do not include private
+paths, raw private receipts, raw source excerpts, provider/model outputs,
+target repository writes, or benchmark evidence.
+
+The v0.5.3 static Hugging Face Space source is a comprehension surface: no user
+uploads, no credentials, no network calls, no provider/model execution, no
+target writes, and no persistence.
+
 v0.5.0 adds a public, receipt-bound proof scene for governed context
 projection. Reviewed evidence, decisions, caveats, and receipts can be rendered
 into portable context packets for AI tools, agents, and coding workflows.
 
-Boundary phrase for publication review: no target repository writes and no provider/model execution.
-
-The v0.5.0 proof scene is deterministic and local: one private dogfood path
-plus three owner-selected OSS dry-runs. The public release exposes aggregate
-metrics and a sanitized example, not raw private receipts, repo-local paths,
-specific source excerpts, or target repository writes.
-
-Across the three OSS dry-runs, CtxVault produced 121 candidates, caveated 20,
-blocked 101, verified manifests, passed target-profile dry-runs, and kept
-target writes disabled. These dry-runs do not claim benchmark, leaderboard,
-reliability, runtime, adapter, provider/model, hardware, cost, security, or
-automatic repository optimization results.
+Across the v0.5.0 owner-selected OSS dry-runs, CtxVault produced aggregate
+candidate, caveated, and blocked counts while keeping target writes disabled.
+Those dry-runs do not claim benchmark, leaderboard, reliability, runtime,
+adapter, provider/model, hardware, cost, security, or automatic repository
+optimization results.
 
 v0.4.0 packages the deterministic context handoff path as a complete local
 trust-and-handoff release. The public core still centers on local source
@@ -83,8 +92,8 @@ source-to-context-to-projection loop:
 - public schemas, fixtures, and deterministic tests
 - experimental v0.4.1 Projection Governance Kernel design-preview docs,
   schema, fixtures, and focused tests
-- v0.5.0 public release artifacts, aggregate local OSS dry-run evidence, and a
-  sanitized governed context projection example
+- v0.5.0 governed context projection artifacts and sanitized example
+- v0.5.3 Experience Evidence Pack and static Hugging Face Space source
 
 ## Official Project
 
@@ -103,14 +112,18 @@ surfaces and maintainer release operations remain outside this repo.
 If you are evaluating the project, start with:
 
 - the Quick Start below for a clean deterministic run;
+- `release/v0.5.3/RELEASE_NOTES.md` for the v0.5.3 release boundary;
+- `release/v0.5.3/experience-evidence-pack.md` for the Experience Evidence
+  Pack;
+- `examples/v0.5.3-experience-evidence/` for receipt-viewer and Future Context
+  Review sanitized examples;
+- `spaces/huggingface/v053-experience-evidence-static/` for the static no-runtime
+  demo source;
 - `release/v0.5.0/RELEASE_NOTES.md` for the v0.5.0 release boundary;
 - `docs/mechanism/governed-context-projection.md` for the v0.5.0 mechanism
   note;
-- `docs/mechanism/governed-context-projection.zh.md` for the Chinese
-  mechanism note;
-- `release/v0.5.0/v0.5.0-public-evidence-page-draft.md` for the public-safe
-  aggregate OSS dry-run evidence;
-- `release/v0.5.0/v0.5.0-public-demo-script-draft.md` for a static walkthrough;
+- `docs/mechanism/governed-context-projection.zh.md` for the Chinese mechanism
+  note;
 - `examples/v0.5.0-governed-context-projection/` for the sanitized
   evidence-to-decision-to-projection example;
 - `spaces/huggingface/v032-deterministic-demo/` for the toy-source demo;
@@ -180,9 +193,28 @@ The public core currently marks these contracts as experimental:
 - context extraction receipts
 - context quality and scorecard receipts
 - v0.4.1 Projection Governance Kernel design-preview schema and fixtures
+- v0.5.3 public examples and static demo source
 
 Experimental means useful and inspectable, but not yet frozen as long-term
 public semantics.
+
+## v0.5.3 Experience Evidence Pack
+
+v0.5.3 narrows the public claim to context inspection before context becomes
+agent-visible:
+
+`candidate context -> review state -> receipt boundary -> portable packet`
+
+The release includes:
+
+- `examples/v0.5.3-experience-evidence/receipt-viewer/`
+- `examples/v0.5.3-experience-evidence/future-context-review/`
+- `spaces/huggingface/v053-experience-evidence-static/`
+- `release/v0.5.3/experience-evidence-pack.md`
+
+It does not ship a hosted runtime, Gradio app, provider-backed demo, target
+write path, adapter execution, external memory adapter, benchmark result, or
+provider/model execution.
 
 ## v0.5.0 Governed Context Projection
 
@@ -319,7 +351,7 @@ This is the same source-to-context-to-projection loop from M1, now made denser
 with compiled current state and explicit health visibility.
 
 CtxVault remains a local context layer for AI work, not a single-harness memory
-plugin. ChatGPT, Claude.ai, DeepSeek, local model UIs, Claude Code,
+plugin. ChatGPT, Claude.ai, DeepSeek, local chat UIs, Claude Code,
 Codex, Cursor, shell traces, project notes, and rules files can all be source
 or target surfaces over time. Current named-source support is explicit:
 normalized transcript import where stable, and experimental adapters only where
@@ -464,7 +496,7 @@ PYTHONPATH=src python3 -m ctxvault.cli adapter-healthcheck --root /tmp/ctxvault-
 Write an optional local snapshot/replica backup to an explicit local target:
 
 ```bash
-PYTHONPATH=src python3 -m ctxvault.cli local-backup-write --root /tmp/ctxvault-clean-verify --target /tmp/ctxvault-clean-verify-backup --label "local backup rehearsal" --device-id local-target
+PYTHONPATH=src python3 -m ctxvault.cli local-backup-write --root /tmp/ctxvault-clean-verify --target <local-file-target> --label "local backup rehearsal" --device-id local-target
 ```
 
 Inspect the default runtime layout:
