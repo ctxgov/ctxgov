@@ -1,231 +1,144 @@
 # CtxVault
 
-Status: v0.5.3 public release artifact.
-
-Know what your AI tools see.
+Status: v0.5.3 public release artifact. Public core and evidence surface.
 
 Governed context projection for AI work.
 
-CtxVault is a local trust layer for AI work. It turns reviewed evidence,
-decisions, caveats, and receipts into portable context packets for AI tools,
-agents, and coding workflows while keeping source evidence, scope, review
-state, and rollback inspectable.
+Know what your AI tools see.
 
-Category: the local trust layer for AI work.
+CtxVault is the local trust layer for AI work. It helps you decide which
+evidence is allowed to influence the next AI work surface, with visible review
+decisions, omissions, caveats, and rollback receipts.
 
-It preserves decisions, constraints, and working state as local evidence that
-must be reviewed before it influences an AI work surface.
+It is not another memory platform, RAG runtime, provider SDK, benchmark runner,
+or agent harness. The control point is narrower and more inspectable:
 
-v0.5.3 publishes the Experience Evidence Pack. It shows how reviewers can
-inspect selected, caveated, blocked, omitted, warning, side-effect, and rollback
-fields before context becomes agent-visible.
+```text
+source evidence -> review decision -> portable context packet -> receipt
+```
 
 Boundary phrase for publication review: no target repository writes and no provider/model execution.
 
-The v0.5.3 examples are synthetic and sanitized. They do not include private
-paths, raw private receipts, raw source excerpts, provider/model outputs,
-target repository writes, or benchmark evidence.
+## Why This Exists
 
-The v0.5.3 static Hugging Face Space source is a comprehension surface: no user
-uploads, no credentials, no network calls, no provider/model execution, no
-target writes, and no persistence.
+AI tools are getting better at using context, but teams still lack a clean way
+to answer:
 
-v0.5.0 adds a public, receipt-bound proof scene for governed context
-projection. Reviewed evidence, decisions, caveats, and receipts can be rendered
-into portable context packets for AI tools, agents, and coding workflows.
+- Which source evidence was allowed into this AI-facing packet?
+- What was omitted, caveated, or blocked?
+- Which target surface was previewed?
+- How do we roll back or audit the packet later?
 
-Across the v0.5.0 owner-selected OSS dry-runs, CtxVault produced aggregate
-candidate, caveated, and blocked counts while keeping target writes disabled.
-Those dry-runs do not claim benchmark, leaderboard, reliability, runtime,
-adapter, provider/model, hardware, cost, security, or automatic repository
-optimization results.
+CtxVault makes that path explicit. Reviewed evidence becomes a portable packet
+for tools like `AGENTS.md`, `CLAUDE.md`, Cursor rules, or a workstream brief.
+Receipts keep the source refs, decision state, omitted evidence, blocked refs,
+hashes, target-profile dry-runs, and rollback path visible.
 
-v0.4.0 packages the deterministic context handoff path as a complete local
-trust-and-handoff release. The public core still centers on local source
-extraction, context selection, receipt inspection, and projection before
-context reaches AI tools:
+## Start Here
 
-`local sources -> context-extract -> context slices -> privacy and quality receipts -> gated projection -> receipt inspection`
+Run the deterministic public checks:
 
-The baseline is intentionally constrained: no model call, no embedding service,
-no vector database, no remote provider. The value is that the operator can see
-which sources were imported, which local context was selected, why it was
-allowed or blocked, how large it is, and which receipt links it to an AI work
-surface.
+```bash
+python3 scripts/check_v050_public_drafts.py
+PYTHONPATH=src python3 -m unittest tests.test_v05_pull_context_governance_planning
+```
 
-The core control question is not how much an agent remembers. It is which past
-context is allowed to influence the next AI work surface, with what source
-evidence, scope, review state, and receipt. v0.4.0 adds a static Receipt/Trust
-Gallery and clearer demo/review materials while keeping optional Workbench UX
-and native wrapper source outside the open-core package.
+Inspect the public-safe evidence and examples:
+
+- `release/v0.5.3/RELEASE_NOTES.md`
+- `release/v0.5.3/experience-evidence-pack.md`
+- `examples/v0.5.3-experience-evidence/README.md`
+- `docs/mechanism/governed-context-projection.md`
+- `docs/mechanism/governed-context-projection.zh.md`
+
+The examples are synthetic and sanitized. They show the evidence -> decision ->
+projection -> receipt shape without exposing private local paths, private
+receipts, raw OSS source excerpts, target repository writes, provider/model
+outputs, or hosted runtime behavior.
+
+## What The Public Core Shows
+
+- Evidence is treated as candidate context until review or policy decisions
+  caveat, block, or withhold it.
+- Directory projection previews render reviewed material into portable,
+  agent-facing files.
+- Receipts record source refs, hashes, selected/omitted/blocked material,
+  target-profile dry-runs, quality checks, and rollback paths.
+- Public-safe evidence is available as aggregate OSS dry-run metrics and
+  sanitized examples, not raw private receipts.
+
+## Proof Scene: Public Evidence
+
+The current proof scene is CtxVault dogfood plus three owner-selected local OSS
+dry-runs. These are deterministic local dry-runs only. Public evidence is
+intentionally aggregate-only:
+
+| Evidence Set | Runs | Candidates | Caveated | Blocked | Status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Owner-selected OSS dry-runs | 3 | 121 | 20 | 101 | passed |
+
+Across the three OSS dry-runs, CtxVault produced 121 candidates, caveated 20,
+blocked 101, verified manifests, passed target-profile dry-runs, and kept
+target writes disabled.
+
+Additional v0.6.0 external OSS governance evaluation work is being prepared as
+private pre-publication evidence. It is not a public benchmark, compatibility
+claim, runtime claim, or stable protocol claim.
+
+## Compatibility Notes
+
+The v0.4.0 public product floor remains available as a deterministic local
+trial: CtxVault v0.4.0 is a local, reviewable, receipt-backed AI work context
+handoff package. Its baseline keeps the same trust floor:
+
+- no local LLM is required
+- no remote LLM is required
+- no account, cloud service, provider call, hidden session scan, or runtime
+  control is required for the demo path
+
+Run the v0.4.0 one-click context handoff trial:
+
+```bash
+python3 scripts/run_v040_context_handoff_trial.py --root /tmp/ctxvault-v040-trial --reset
+```
+
+Start with the generated `v0.4.0-first-run-report.md`.
+
+To try the same handoff path on your own local repo without writing back into
+that repo:
+
+```bash
+python3 scripts/run_v040_real_repo_trial.py --repo /path/to/your/repo --root /tmp/ctxvault-v040-real-repo-trial --reset
+```
+
+Repeatability evidence can be regenerated under `/tmp/ctxvault-v040-repeatability`.
 
 v0.4.1 is an experimental, non-normative Projection Governance Kernel design
-preview. It explains the object model behind reviewed context handoff: source
-evidence becomes candidate context, review decisions govern projection rights,
-and receipts record selected, omitted, blocked, written, and not-done states.
-It is not shipped v0.4.0 behavior, not a stable external API, and not runtime
-behavior.
+preview. It is not a stable external API and not runtime behavior.
 
-This public repository exposes the deterministic trust floor behind that
-source-to-context-to-projection loop:
+## Reviewer Path
 
-- local file-backed objects and rebuildable indexes
-- CLI and MCP entry points over the same deterministic core
-- review-gated promotion and projection receipts
-- experimental compiled workstream state with source refs
-- deterministic context slicing and local context search
-- source-grouped context selection with token budget previews
-- one-command local extraction from static source exports and Markdown vaults
-- stable source fingerprints and idempotency keys for extraction runs
-- deterministic context-quality, density, retrieval-gain, source-retention,
-  search-trace, and source-conflict receipts
-- selected-slice privacy preflight before projection
-- projection receipts linked to context-selection receipts
-- human-readable receipt inspection for extract, selection, privacy, quality,
-  and projection chains
-- owner-operated public review pack with reusable public-source scenarios,
-  boundary checks, and a synthetic blocked-selection check
-- read-only doctor diagnostics and projection healthchecks
-- Markdown-vault import as source material
-- review-gated logical purge for derived slice, search, preview, and selected
-  projection data
-- public schemas, fixtures, and deterministic tests
-- experimental v0.4.1 Projection Governance Kernel design-preview docs,
-  schema, fixtures, and focused tests
-- v0.5.0 governed context projection artifacts and sanitized example
-- v0.5.3 Experience Evidence Pack and static Hugging Face Space source
+Inspect the public-safe evidence and demo material:
 
-## Official Project
+```bash
+python3 scripts/check_v050_public_drafts.py
+PYTHONPATH=src python3 -m unittest tests.test_v05_pull_context_governance_planning
+```
 
-This repository is the maintainer-controlled public core for `ctxvault`.
+Then read:
 
-Official releases, schemas, fixtures, and compatibility checks are published
-only through maintainer-controlled CtxVault channels. Forks and integrations
-are welcome under the Apache-2.0 core license, but unofficial builds should use
-distinct names and should not imply maintainer endorsement.
+- `release/v0.5.0/RELEASE_NOTES.md`
+- `docs/mechanism/governed-context-projection.md`
+- `docs/mechanism/governed-context-projection.zh.md`
+- `release/v0.5.0/v0.5.0-public-evidence-page-draft.md`
+- `release/v0.5.0/v0.5.0-public-demo-script-draft.md`
+- `examples/v0.5.0-governed-context-projection/README.md`
 
-This repository contains the public deterministic core. Optional product
-surfaces and maintainer release operations remain outside this repo.
+The example is synthetic and sanitized. It is meant to show the evidence ->
+decision -> projection -> receipt shape without exposing private local paths,
+private receipts, or raw OSS source excerpts.
 
-## What To Inspect First
-
-If you are evaluating the project, start with:
-
-- the Quick Start below for a clean deterministic run;
-- `release/v0.5.3/RELEASE_NOTES.md` for the v0.5.3 release boundary;
-- `release/v0.5.3/experience-evidence-pack.md` for the Experience Evidence
-  Pack;
-- `examples/v0.5.3-experience-evidence/` for receipt-viewer and Future Context
-  Review sanitized examples;
-- `spaces/huggingface/v053-experience-evidence-static/` for the static no-runtime
-  demo source;
-- `release/v0.5.0/RELEASE_NOTES.md` for the v0.5.0 release boundary;
-- `docs/mechanism/governed-context-projection.md` for the v0.5.0 mechanism
-  note;
-- `docs/mechanism/governed-context-projection.zh.md` for the Chinese mechanism
-  note;
-- `examples/v0.5.0-governed-context-projection/` for the sanitized
-  evidence-to-decision-to-projection example;
-- `spaces/huggingface/v032-deterministic-demo/` for the toy-source demo;
-- `scripts/run_v032_deterministic_demo.py` for the offline demo loop;
-- `scripts/inspect_v032_demo_receipts.py` for receipt-chain inspection;
-- `scripts/run_v032_selection_scorecard.py` for lightweight selection quality
-  and safety checks;
-- `scripts/run_v033_public_review_pack.py` for owner-operated public package
-  review before publication;
-- `scripts/run_v040_context_handoff_trial.py` for the v0.4.0 local source to
-  reviewed context to receipt-backed handoff trial;
-- `scripts/run_v040_real_repo_trial.py` for a bounded real-repo trial that
-  writes source packets and projections under the trial root, not into the
-  tested repo;
-- `scripts/run_v034_context_extract_stability.py` for one-click extraction
-  stability checks;
-- `scripts/run_v034_context_quality_scorecards.py` for deterministic context
-  quality checks.
-- `release/v0.4.0/receipt-trust-gallery/` for static selected, omitted,
-  blocked, privacy, projection, and proof receipt examples;
-- `release/v0.4.0/receipt-trust-gallery/index.html` for the static
-  Receipt/Trust Gallery page;
-- `release/v0.4.0/trials/controlled-trial-record.template.md` for
-  non-author controlled trial records;
-- `docs/v0.4.0-release-notes.md` for the complete local trust-and-handoff
-  release scope.
-- `docs/v0.4.1-release-notes.md` for the experimental design-preview boundary;
-- `docs/v0.4.1-projection-governance-kernel.md` for the v0.4.1 object model;
-- `docs/v0.4.1-projection-rights-schema-explanation.md` for the permission
-  boundary behind candidate context;
-- `docs/v0.4.1-execution-approval-matrix.md` for the no-runtime, no-adapter,
-  no-stable-API release posture.
-
-## Scope
-
-The public core is for developers who want to inspect or build on:
-
-- reviewed context organization around workstreams
-- context projection into practical AI working surfaces
-- local context storage and rebuildable indexes
-- deterministic review-gated promotion flows
-- local privacy and policy gates
-- artifact and receipt surfaces
-- early source-of-truth and evidence semantics for future AI work quality
-  contracts
-- compiled current workstream state with source refs
-- local context slice rebuild, search, and selected-slice preflight
-- explicit logical purge of derived data without a secure-wipe claim
-- Markdown-vault import as source material
-- read-only projection adapter healthchecks
-- optional local snapshot/replica backup writes
-- deterministic context extraction from static local exports
-- receipt inspection for human review before sharing context
-
-The public core currently marks these contracts as experimental:
-
-- `src/ctxvault/intelligence.py`
-- `Episode`
-- `Workstream`
-- compiled workstream state read model
-- `doctor` report
-- plugin manifest and projection receipt contracts
-- the first local plugin executor paths for reviewed context projection targets
-- projection adapter healthchecks
-- runtime event receipts
-- context selection receipts
-- context extraction receipts
-- context quality and scorecard receipts
-- v0.4.1 Projection Governance Kernel design-preview schema and fixtures
-- v0.5.3 public examples and static demo source
-
-Experimental means useful and inspectable, but not yet frozen as long-term
-public semantics.
-
-## v0.5.3 Experience Evidence Pack
-
-v0.5.3 narrows the public claim to context inspection before context becomes
-agent-visible:
-
-`candidate context -> review state -> receipt boundary -> portable packet`
-
-The release includes:
-
-- `examples/v0.5.3-experience-evidence/receipt-viewer/`
-- `examples/v0.5.3-experience-evidence/future-context-review/`
-- `spaces/huggingface/v053-experience-evidence-static/`
-- `release/v0.5.3/experience-evidence-pack.md`
-
-It does not ship a hosted runtime, Gradio app, provider-backed demo, target
-write path, adapter execution, external memory adapter, benchmark result, or
-provider/model execution.
-
-## v0.5.0 Governed Context Projection
-
-v0.5.0 narrows the public claim to governed context projection for AI work:
-
-`reviewed evidence -> decisions and caveats -> portable context packets -> receipts`
-
-This release demonstrates the shape with public-safe aggregate evidence and a
-sanitized example. It does not publish private dogfood receipts, private local
-paths, raw source excerpts, provider/model outputs, or target repository
-writes.
+## Claim Boundary
 
 Mechanism notes:
 
@@ -236,14 +149,14 @@ Mechanism notes:
 
 Allowed wording:
 
-- reviewed evidence, decisions, caveats, and receipts can become portable
-  context packets for AI tools, agents, and coding workflows
-- the proof scene includes CtxVault dogfood plus owner-selected local OSS
-  dry-runs
-- the dry-runs performed no hidden scan, no provider/model call, no adapter
-  execution, no runtime execution, no memory promotion, and no target writes
+- CtxVault turns reviewed evidence, decisions, caveats, and receipts into
+  portable context packets for AI tools, agents, and coding workflows.
+- The v0.5.0 proof scene includes CtxVault dogfood plus owner-selected local
+  OSS dry-runs.
+- The dry-runs perform no hidden scan, no provider/model call, no adapter
+  execution, no runtime execution, no memory promotion, and no target writes.
 
-Not claimed:
+Do not claim:
 
 - benchmark or leaderboard results
 - reliability, accuracy, or coding-performance improvement
@@ -253,407 +166,9 @@ Not claimed:
 - Memory OS, RAG replacement, hallucination prevention, or security
   certification
 
-## v0.4.1 Projection Governance Kernel Design Preview
-
-v0.4.1 is a docs/schema/fixture/test design preview. It makes the projection
-control point explicit:
-
-`source evidence -> candidate context -> review decision -> projection -> receipt`
-
-The design preview is experimental and non-normative. It does not ship runtime
-gate wiring, Workbench review UX, provider or model execution, live package or
-registry checks, external memory adapters, durable memory consolidation,
-stable external APIs, public beta readiness, benchmark claims, hallucination
-prevention, Memory OS, or unified agent memory.
-
-## v0.3.5 First-Run UX Boundary
-
-v0.3.5 records the private Workbench UX patch over v0.3.4. The Workbench can
-make first-run extract and inject easier for the maintainer-operated product
-surface, but the public open-core package does not ship that UI and does not
-claim runtime control.
-
-The public boundary for this release is:
-
-- CtxVault prepares receipt-backed handoff context
-- agent runtimes such as Codex or Claude Code remain user-controlled
-- no running session is attached, controlled, inspected, or impersonated
-- demo data is explicit fixture seeding, not automatic private-data import
-- Git worktree creation, SSE progress, and runtime inventory remain roadmap
-  items, not shipped public behavior
-
-## v0.3.4 Context Extract And Quality Receipts
-
-v0.3.4 is a release-experience cut over the safe handoff path. It does not add
-model, embedding, vector, remote provider, official plugin, live connector, or
-public Workbench dependencies. It makes the first useful trial shorter:
-
-- run `context-extract --dry-run` to fingerprint sources and preview imports
-  without writing governed objects
-- run `context-extract` to import static local sources, rebuild slices, prepare
-  context, and optionally project when the handoff is ready
-- inspect the newest receipt chain with `receipt-inspect --latest --summary`
-- verify stale source fingerprints, missing selection receipts, projection
-  links, and blocked extraction runs with read-only `doctor`
-- run deterministic quality and stability scorecards before making public
-  quality claims
-- keep projection gated by `handoff_ready`, privacy preflight, and token-budget
-  checks
-
-## v0.3.3 Safe Context Handoff
-
-v0.3.3 is a hardening release over the v0.3.2 composer. It does not add model,
-embedding, vector, remote provider, official plugin, live connector, or public
-Workbench dependencies. It makes the public path easier to verify:
-
-- run the public review pack from reusable public-source scenario fixtures
-- prepare exact local slices with `context-prepare`
-- inspect `selection_status`, `handoff_ready`, budget state, warnings, blocked
-  reasons, and receipt paths
-- project approved selected slices with `context-project`
-- verify the projection receipt and linked context-selection receipt
-- confirm the synthetic secret fixture is withheld and blocks projection when
-  explicitly selected
-
-## v0.3.2 Context Selection Composer
-
-v0.3.2 is a fast-follow release after v0.3.1. It does not add model,
-embedding, vector, remote provider, official plugin, or live connector
-dependencies. It adds the deterministic step that should happen before context
-is projected into an AI work surface: choose exact local slices, inspect the
-budget, run privacy preflight, and keep the receipt chain.
-
-- source-grouped local context candidate composition
-- explicit multi-slice selection
-- token budget preview
-- target-aware privacy preflight for selected slices
-- `ctxvault.context-selection-receipt/v1`
-- projection receipts linked to context selection receipts
-- local pin, hide, and archive preferences for slice suggestions
-- CLI and MCP tools over the same deterministic core
-
-## v0.3.1 Local Safety And Context Slicing
-
-v0.3.1 keeps the v0.3 source-to-context-to-projection path and adds the local
-safety substrate needed for safer context selection:
-
-- import project docs, sessions, and Markdown notes
-- organize them around reviewed `Workstream` state
-- compile current truth, open questions, decisions, warnings, and source refs
-- rebuild deterministic local context slices from governed sources
-- search slices locally without model, embedding, remote service, or hosted API
-- run privacy preflight before selected slices are projected
-- project that state into `AGENTS.md`, `CLAUDE.md`, and a workstream brief
-- inspect projection receipts, privacy preflight receipts, logical purge
-  receipts, tombstones, and read-only diagnostics
-
-This is the same source-to-context-to-projection loop from M1, now made denser
-with compiled current state and explicit health visibility.
-
-CtxVault remains a local context layer for AI work, not a single-harness memory
-plugin. ChatGPT, Claude.ai, DeepSeek, local chat UIs, Claude Code,
-Codex, Cursor, shell traces, project notes, and rules files can all be source
-or target surfaces over time. Current named-source support is explicit:
-normalized transcript import where stable, and experimental adapters only where
-marked as such.
-
-## Quick Start
-
-Run deterministic checks:
-
-```bash
-python3 scripts/run_deterministic_checks.py
-```
-
-Run the v0.4.0 local context handoff trial:
-
-```bash
-export PYTHONPATH=src
-python3 scripts/run_v040_context_handoff_trial.py --root /tmp/ctxvault-v040-trial --reset
-```
-
-Start with the generated human report:
-
-```text
-/tmp/ctxvault-v040-trial/artifacts/v0.4.0-first-run-report.md
-```
-
-Try the same handoff path on your own local repo without writing projections
-back into that repo:
-
-```bash
-python3 scripts/run_v040_real_repo_trial.py --repo /path/to/your/repo --root /tmp/ctxvault-v040-real-repo-trial --reset
-```
-
-Run the repeatability check through the same v0.4.0 public entrypoint:
-
-```bash
-python3 scripts/run_v040_context_handoff_trial.py --root /tmp/ctxvault-v040-repeatability --reset
-```
-
-Lower-level v0.3.4 scorecard scripts remain available for regression evidence,
-but the public v0.4.0 trial entrypoint above is the default path to run first.
-
-Run the v0.3.3 public package review pack:
-
-```bash
-python3 scripts/run_v033_public_review_pack.py --root /tmp/ctxvault-v033-public-review --force
-```
-
-Start with the generated human report:
-
-```text
-/tmp/ctxvault-v033-public-review/artifacts/v0.3.3-public-review/owner-review.md
-/tmp/ctxvault-v033-public-review/artifacts/v0.3.3-public-review/owner-review.html
-```
-
-Run the clean-user core validation flow:
-
-```bash
-bash scripts/run_clean_user_core_validation.sh /tmp/ctxvault-clean-verify
-```
-
-Run the v0.3.2 deterministic demo:
-
-```bash
-python3 scripts/run_v032_deterministic_demo.py --root /tmp/ctxvault-v032-demo
-python3 scripts/inspect_v032_demo_receipts.py --root /tmp/ctxvault-v032-demo
-python3 scripts/run_v032_selection_scorecard.py --root /tmp/ctxvault-v032-scorecard
-```
-
-Emit reviewed context projections:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli emit-agents-projection --root /tmp/ctxvault-clean-verify --workstream-id ws_20260421_ctxvault_schema --output-path exports/AGENTS.md --receipt-output-path artifacts/agents-md-receipt.json
-PYTHONPATH=src python3 -m ctxvault.cli emit-claude-projection --root /tmp/ctxvault-clean-verify --workstream-id ws_20260421_ctxvault_schema --output-path exports/CLAUDE.md --receipt-output-path artifacts/claude-md-receipt.json
-PYTHONPATH=src python3 -m ctxvault.cli emit-wiki-projection --root /tmp/ctxvault-clean-verify --workstream-id ws_20260421_ctxvault_schema --output-path exports/workstream.md --receipt-output-path artifacts/workstream-md-receipt.json
-```
-
-Build compiled workstream state:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli compiled-workstream-state --root /tmp/ctxvault-clean-verify --workstream-id ws_20260421_ctxvault_schema
-```
-
-Import a Markdown vault as source material:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli markdown-vault-import --root /tmp/ctxvault-clean-verify --vault-path /path/to/notes --scope-kind project --scope-value ctxvault
-```
-
-Run read-only diagnostics:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli doctor --root /tmp/ctxvault-clean-verify
-```
-
-Rebuild and search deterministic local context slices:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli context-slice-rebuild --root /tmp/ctxvault-clean-verify
-PYTHONPATH=src python3 -m ctxvault.cli context-search --root /tmp/ctxvault-clean-verify --query "projection receipts"
-```
-
-Run selected-slice privacy preflight before projecting a slice into a target:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli context-selection-preflight --root /tmp/ctxvault-clean-verify --slice-ref SLICE_REF --target-kind agents-md --write-receipt
-```
-
-Compose selected local slices with a budget preview and a selection receipt:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli context-selection-compose --root /tmp/ctxvault-clean-verify --query "projection receipts" --target-kind harness.agents-md --slice-ref SLICE_REF --token-budget 1200 --write-receipt
-```
-
-Prepare and project a safe context handoff:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli context-prepare --root /tmp/ctxvault-clean-verify --query "projection receipts" --target-kind harness.agents-md --token-budget 1200 --write-receipt
-PYTHONPATH=src python3 -m ctxvault.cli context-project --root /tmp/ctxvault-clean-verify --target workstream-brief --workstream-id ws_20260421_ctxvault_schema --slice-ref SLICE_REF --output-path exports/workstream.md --receipt-output-path artifacts/workstream-md-receipt.json
-```
-
-Pin, hide, or archive local slice suggestions:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli context-slice-preference-set --root /tmp/ctxvault-clean-verify --slice-ref SLICE_REF --action pin --target-kind harness.agents-md
-```
-
-Plan a review-gated logical purge of derived data:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli logical-purge-plan --root /tmp/ctxvault-clean-verify --slice-ref SLICE_REF --include-projections
-```
-
-Run read-only projection adapter healthchecks:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli adapter-healthcheck --root /tmp/ctxvault-clean-verify --target-kind agents-md --target-path exports/AGENTS.md
-PYTHONPATH=src python3 -m ctxvault.cli adapter-healthcheck --root /tmp/ctxvault-clean-verify --target-kind claude-md --target-path exports/CLAUDE.md
-PYTHONPATH=src python3 -m ctxvault.cli adapter-healthcheck --root /tmp/ctxvault-clean-verify --target-kind workstream-brief --target-path exports/workstream.md
-```
-
-Write an optional local snapshot/replica backup to an explicit local target:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli local-backup-write --root /tmp/ctxvault-clean-verify --target <local-file-target> --label "local backup rehearsal" --device-id local-target
-```
-
-Inspect the default runtime layout:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli print-layout
-```
-
-Initialize a local vault:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli init-vault
-```
-
-Run the stdio MCP transport:
-
-```bash
-PYTHONPATH=src python3 -m ctxvault.cli serve-mcp
-```
-
-## M1 Projection Evidence
-
-Run the source-to-projection golden path:
-
-```bash
-python3 scripts/run_context_injection_m1_golden_path.py --root /tmp/ctxvault-m1-context-injection
-```
-
-The checked-in M1 fixture evidence is in:
-
-- `fixtures/context-injection-m1/projections/AGENTS.md`
-- `fixtures/context-injection-m1/projections/CLAUDE.md`
-- `fixtures/context-injection-m1/projections/workstream-brief.md`
-- `fixtures/context-injection-m1/projections/agents-md-receipt.json`
-- `fixtures/context-injection-m1/projections/claude-md-receipt.json`
-- `fixtures/context-injection-m1/projections/workstream-brief-receipt.json`
-- `fixtures/m1-context-injection/README.md`
-
-## v0.4.0 Evidence
-
-The v0.4.1 Projection Governance Kernel design preview, v0.4.0 local
-trust-and-handoff release, v0.3.5 first-run UX boundary, v0.3.4 context
-extraction path, v0.3.3 safe handoff path, v0.3.2 context-selection composer,
-v0.3.1 local safety, and compiled context projection evidence are described in:
-
-- `docs/v0.4.1-release-notes.md`
-- `docs/v0.4.1-projection-governance-kernel.md`
-- `docs/v0.4.1-projection-rights-schema-explanation.md`
-- `docs/v0.4.1-execution-approval-matrix.md`
-- `docs/v0.3-compiled-context.md`
-- `docs/v0.4.0-release-notes.md`
-- `release/v0.4.0/receipt-trust-gallery/index.html`
-- `release/v0.4.0/receipt-trust-gallery/README.md`
-- `release/v0.4.0/receipt-trust-gallery/manifest.json`
-- `release/v0.4.0/trials/controlled-trial-record.template.md`
-- `docs/v0.3.5-release-notes.md`
-- `docs/v0.3.4-release-notes.md`
-- `docs/v0.3.3-release-notes.md`
-- `fixtures/v0.3.4-context-extract/README.md`
-- `fixtures/v0.3.3-public-review/README.md`
-- `docs/v0.3.2-release-notes.md`
-- `docs/v0.3.2-injection-composer/implementation-plan.md`
-- `docs/v0.3.2-injection-composer/experimental-schemas/ctxvault-context-selection-receipt-v1.schema.json`
-- `docs/v0.3.1-release-notes.md`
-- `docs/v0.3.1-local-safety/approved-boundary-decisions.md`
-- `docs/v0.3.1-local-safety/hardening-status.md`
-- `docs/v0.3-release-notes.md`
-- `docs/v0.2-m2-developer-framework.md`
-- `docs/v0.2-m2-compatibility-evidence.md`
-- `docs/v0.2-m2-release-notes.md`
-
-The local backup write path is optional local durability. It creates a governed
-snapshot, copies the snapshot manifest, restore bundle, and sync manifest into
-an explicit local target, and verifies the target as a replica before reporting
-success. It does not make a hosted service the source of truth and does not
-replace a separate offsite backup strategy.
-
-## Public Docs
-
-- `docs/public-core-boundary.md`
-- `docs/public-release-checklist.md`
-- `docs/experimental-contract-evolution-policy.md`
-- `docs/workstream-plan-ledger-contract.md`
-- `docs/v0.3-compiled-context.md`
-- `docs/v0.4.1-release-notes.md`
-- `docs/v0.4.1-projection-governance-kernel.md`
-- `docs/v0.4.1-projection-rights-schema-explanation.md`
-- `docs/v0.4.1-execution-approval-matrix.md`
-- `docs/v0.4.0-release-notes.md`
-- `release/v0.4.0/receipt-trust-gallery/index.html`
-- `release/v0.4.0/receipt-trust-gallery/README.md`
-- `release/v0.4.0/receipt-trust-gallery/manifest.json`
-- `release/v0.4.0/trials/controlled-trial-record.template.md`
-- `docs/v0.3.5-release-notes.md`
-- `docs/v0.3.4-release-notes.md`
-- `docs/v0.3.3-release-notes.md`
-- `docs/v0.3.2-release-notes.md`
-- `docs/v0.3.2-injection-composer/implementation-plan.md`
-- `docs/v0.3.1-release-notes.md`
-- `docs/v0.3.1-local-safety/approved-boundary-decisions.md`
-- `docs/v0.3.1-local-safety/hardening-status.md`
-- `docs/v0.3-release-notes.md`
-- `docs/v0.2-m2-developer-framework.md`
-- `docs/v0.2-m2-compatibility-evidence.md`
-- `docs/v0.2-m2-release-notes.md`
-- `fixtures/v0.3.4-context-extract/README.md`
-- `fixtures/v0.3.3-public-review/README.md`
-- `fixtures/README.md`
-- `schemas/README.md`
-- `CHANGELOG.md`
-- `TRADEMARK.md`
-
-## Feedback
-
-The most useful feedback is concrete: what you ran, what confused you, and
-which receipt, slice, projection, or workflow step was hard to trust.
-
-Feedback is separated by evidence level:
-
-- ordinary issues are for bugs, wording gaps, install friction, and general
-  trust questions;
-- first 10 minutes trial reports capture the first activation path and the
-  first blocker, but may be self-reported;
-- non-author controlled trial evidence uses
-  `release/v0.4.0/trials/controlled-trial-record.template.md` and is the only
-  feedback category that can support later public beta readiness claims.
-
-- v0.3 Compiled Context feedback:
-  `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
-- v0.3.1 local safety, privacy, or purge feedback:
-  `.github/ISSUE_TEMPLATE/trust-or-privacy-concern.yml`
-- v0.3.2 context-selection composer feedback:
-  `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
-- v0.3.3 safe context handoff feedback:
-  `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
-- v0.3.5 first-run UX boundary feedback:
-  `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
-- v0.4.0 First-Run Feedback:
-  `.github/ISSUE_TEMPLATE/v0.4.0-first-run-feedback.yml`
-- v0.4.0 First 10 Minutes Trial Report:
-  `.github/ISSUE_TEMPLATE/v0.4.0-first-10-minutes-trial.yml`
-- v0.4.0 Non-Author Controlled Trial Record:
-  `release/v0.4.0/trials/controlled-trial-record.template.md`
-- Mac App Alpha feedback:
-  `.github/ISSUE_TEMPLATE/mac-app-alpha-feedback.yml`
-- v0.2/M2 Developer Framework Feedback:
-  `.github/ISSUE_TEMPLATE/v0.2-m2-feedback.yml`
-- M1 Quick Feedback:
-  `.github/ISSUE_TEMPLATE/m1-quick-feedback.yml`
-- workflow friction:
-  `.github/ISSUE_TEMPLATE/workflow-pain-point.yml`
-- trust or privacy concerns:
-  `.github/ISSUE_TEMPLATE/trust-or-privacy-concern.yml`
-- broader positioning or adapter discussion: GitHub Discussions
-
-## License
-
-Apache-2.0. See `LICENSE`.
-
-Trademark and official-project usage guidelines are in `TRADEMARK.md`.
+## Current Release Status
+
+The latest public release is v0.5.3. It exposes sanitized experience evidence
+and aggregate OSS dry-run metrics, not private dogfood receipts, private local
+paths, repo-local source excerpts, target repository writes, provider/model
+outputs, or hosted runtime evidence.

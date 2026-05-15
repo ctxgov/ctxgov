@@ -1,0 +1,157 @@
+{
+  "schema_id": "ctxvault.public-oss-case-study-extract/v1",
+  "case_id": "mem0-read-only-governance-20260515",
+  "status": "public_owner_approved_data_extract",
+  "case_subject": {
+    "repo_name": "mem0",
+    "public_repo_url": "https://github.com/mem0ai/mem0",
+    "official_description_checked": "Universal memory layer for AI Agents",
+    "license_checked": "Apache-2.0",
+    "default_branch_checked": "main",
+    "stars_checked": 55780,
+    "forks_checked": 6345,
+    "checked_at_utc": "2026-05-15T11:57:53Z"
+  },
+  "pinned_evidence": {
+    "commit": "70bc9e51d57fe005d02b7b6d81b56476bade3cb3",
+    "commit_url": "https://github.com/mem0ai/mem0/commit/70bc9e51d57fe005d02b7b6d81b56476bade3cb3",
+    "commit_date": "2026-05-13T09:01:15Z",
+    "source_receipt": "fixtures/v0.5-pull-context-governance/oss-evaluation/v054-external-oss-evaluation-alpha2/repos/mem0-read-only-evaluation-receipt.json",
+    "source_receipt_publication_status": "raw_receipt_not_published"
+  },
+  "evaluation_boundary": {
+    "evaluation_type": "read_only_governance_evaluation",
+    "target_code_execution": false,
+    "target_files_written": false,
+    "provider_or_model_call": false,
+    "runtime_or_adapter_execution": false,
+    "benchmark_or_leaderboard_claim": false,
+    "target_project_quality_judgment": false,
+    "endorsement_claim": false
+  },
+  "aggregate_metrics": {
+    "candidate_context_count": 2056,
+    "surfaced_candidate_count": 839,
+    "selected_count": 478,
+    "caveated_count": 263,
+    "blocked_count": 98,
+    "omitted_count": 1217,
+    "unsupported_count": 93,
+    "evidence_precision": 0.57,
+    "omitted_raw_visibility": 0.025,
+    "omitted_sample_cap_compliance": 1.0,
+    "projection_portability": 1.0,
+    "ctxvault_evaluation_rollback_confidence": 1.0
+  },
+  "sample_distribution": {
+    "sample_cap": 30,
+    "selected_sample_count": 30,
+    "selected_sample_surface_counts": {
+      "memory_like_state": 1,
+      "other": 4,
+      "permission_policy": 2,
+      "protocol_or_schema": 18,
+      "skill_like_procedure": 5
+    },
+    "caveated_sample_count": 30,
+    "caveated_sample_surface_counts": {
+      "other": 19,
+      "protocol_or_schema": 1,
+      "skill_like_procedure": 5,
+      "storage_projection_substrate": 5
+    },
+    "blocked_sample_count": 30,
+    "blocked_sample_surface_counts": {
+      "memory_like_state": 6,
+      "observability_trace": 1,
+      "other": 12,
+      "protocol_or_schema": 4,
+      "retrieval_surface": 2,
+      "skill_like_procedure": 5
+    },
+    "omitted_sample_count": 30,
+    "omitted_sample_surface_counts": {
+      "other": 10,
+      "skill_like_procedure": 20
+    },
+    "omitted_distribution_limitation": "The source receipt records 30 omitted samples and total omitted_count=1217; it does not expose the full omitted-ref list. Therefore only sample distribution, not full omitted distribution, is public data extract evidence."
+  },
+  "credential_boundary": {
+    "credential_shaped_public_path_refs": [
+      {
+        "path": "docs/images/platform/api-key.png",
+        "decision": "blocked",
+        "reason": "secret_or_credential_path_marker",
+        "surface": "protocol_or_schema"
+      },
+      {
+        "path": "examples/mem0-demo/.env.example",
+        "decision": "caveated",
+        "reason": "public_but_requires_scope_or_generated_artifact_caveat",
+        "surface": "other"
+      }
+    ],
+    "raw_secret_values_recorded": false,
+    "credential_boundary_status": "public_data_extract_passes_path_only_boundary"
+  },
+  "surface_coverage": {
+    "context_budget_mechanism": 7,
+    "control_limit": 9,
+    "memory_like_state": 186,
+    "observability_trace": 64,
+    "permission_policy": 14,
+    "protocol_or_schema": 159,
+    "retrieval_surface": 64,
+    "skill_like_procedure": 206,
+    "storage_projection_substrate": 171,
+    "other": 1176,
+    "named_surface_coverage": 1.0
+  },
+  "claim_lint": {
+    "allowed_claims": [
+      "CtxVault evaluated an existing pinned public OSS receipt as a read-only governance case.",
+      "The public candidate extract contains aggregate counts, path-only public refs, decision categories, side-effect boundaries, and rollback confidence.",
+      "The case illustrates evidence selection, caveats, blocks, omissions, credential-shaped path handling, and publication gates."
+    ],
+    "prohibited_claims_absent": [
+      "benchmark_or_leaderboard_result",
+      "target_project_quality_judgment",
+      "target_project_security_judgment",
+      "runtime_or_adapter_compatibility",
+      "provider_or_model_execution",
+      "target_write_support",
+      "stable_protocol_or_mgp",
+      "endorsement_by_mem0"
+    ]
+  },
+  "leak_scan": {
+    "public_data_extract_files": [
+      "release/v0.6.0/public-influence/mem0-public-case-study-extract.json",
+      "release/v0.6.0/public-influence/mem0-public-case-study-deep-dive.md"
+    ],
+    "private_local_paths_found": 0,
+    "private_remote_or_tailnet_markers_found": 0,
+    "raw_secret_value_markers_found": 0,
+    "raw_source_excerpt_blocks_found": 0,
+    "unrelated_private_repo_refs_found": 0,
+    "result": "pass_for_public_data_extract"
+  },
+  "publishability_judgment": {
+    "raw_source_receipt_publishable_as_is": false,
+    "raw_source_receipt_blockers": [
+      "contains_local_output_path",
+      "contains_private_tmp_target_path",
+      "contains_local_rollback_path"
+    ],
+    "sanitized_extract_owner_approved_for_publication": true,
+    "completed_pre_publication_gates": [
+      "owner_publication_approval",
+      "exact_public_target",
+      "final_public_copy_review",
+      "pre_publication_leak_scan",
+      "credential_boundary_review"
+    ],
+    "post_publication_verification": "verify GitHub main commit, public file URLs, and leak-scan after push",
+    "rollback_verification": "previous main commit is recorded before publication; rollback is restore previous main or revert publication commit"
+  }
+}
