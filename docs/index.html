@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CtxVault - Governed Context Projection</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #111827;
+      --muted: #4b5563;
+      --line: #d1d5db;
+      --panel: #f8fafc;
+      --accent: #0f766e;
+      --warn: #92400e;
+      --block: #991b1b;
+      --bg: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    header, main, footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+    header {
+      padding-top: 48px;
+      border-bottom: 1px solid var(--line);
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 4rem;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+    p { max-width: 760px; }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0;
+    }
+    .lede {
+      font-size: 1.2rem;
+      color: var(--muted);
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .step, .metric, .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 16px;
+      border-radius: 8px;
+    }
+    .step strong, .metric strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+    .step span, .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0 30px;
+    }
+    .metric b {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1.1;
+    }
+    .decisions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+    li { margin: 6px 0; }
+    code {
+      background: #eef2f7;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    a { color: #075985; }
+    .selected { border-top: 4px solid var(--accent); }
+    .caveated { border-top: 4px solid var(--warn); }
+    .blocked { border-top: 4px solid var(--block); }
+    .omitted { border-top: 4px solid #475569; }
+    footer {
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-bottom: 48px;
+    }
+    @media (max-width: 860px) {
+      .flow, .metrics, .decisions { grid-template-columns: 1fr; }
+      header { padding-top: 32px; }
+      h1 { font-size: 2.35rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="eyebrow">CtxVault public evidence surface</p>
+    <h1>Stop shipping mystery context to AI tools.</h1>
+    <p class="lede">CtxVault is not another agent memory store. It is a receipt layer for governed context projection: what evidence was allowed in, what was caveated, what was blocked, what was omitted, and how the packet can be audited or rolled back.</p>
+  </header>
+  <main>
+    <section>
+      <h2>Then what?</h2>
+      <div class="decisions" aria-label="CtxVault user outcomes">
+        <div class="panel selected"><strong>Before</strong><ul><li>Agents pull from memory, docs, tickets, and local files.</li><li>Reviewers cannot tell what actually shaped the next answer.</li></ul></div>
+        <div class="panel caveated"><strong>With CtxVault</strong><ul><li>The AI-facing packet carries selected, caveated, blocked, and omitted evidence.</li><li>The team can inspect the receipt before trusting the output.</li></ul></div>
+        <div class="panel blocked"><strong>After</strong><ul><li>Unsafe or unsupported context has a visible reason.</li><li>Bad projections have a rollback target instead of a blame trail.</li></ul></div>
+      </div>
+    </section>
+    <section>
+      <h2>The control point</h2>
+      <div class="flow" aria-label="governed context projection flow">
+        <div class="step"><strong>Source refs</strong><span>Public or local evidence starts as candidate context.</span></div>
+        <div class="step"><strong>Review decision</strong><span>Refs are selected, caveated, blocked, omitted, or marked unsupported.</span></div>
+        <div class="step"><strong>Context packet</strong><span>Reviewed material can become an AI-facing packet such as AGENTS.md or CLAUDE.md.</span></div>
+        <div class="step"><strong>Receipt</strong><span>Hashes, side effects, omissions, and rollback path stay inspectable.</span></div>
+      </div>
+    </section>
+    <section>
+      <h2>mem0 read-only governance case study</h2>
+      <p>The case study makes the pain visible: from 2056 candidate refs, only 478 were selected, 263 were caveated, 98 were blocked, and 1217 were omitted from the projected context. This is about governing influence, not storing more memory.</p>
+      <div class="metrics">
+        <div class="metric"><b>2056</b><span>candidate refs</span></div>
+        <div class="metric"><b>839</b><span>surfaced refs</span></div>
+        <div class="metric"><b>478</b><span>selected refs</span></div>
+        <div class="metric"><b>263</b><span>caveated refs</span></div>
+        <div class="metric"><b>98</b><span>blocked refs</span></div>
+      </div>
+      <div class="decisions">
+        <div class="panel selected"><strong>Selected</strong><ul><li>Public docs and protocol refs.</li><li>Evidence precision: <code>0.570</code>.</li></ul></div>
+        <div class="panel caveated"><strong>Caveated</strong><ul><li>Public but scope-sensitive generated or workflow refs.</li><li>Credential-shaped examples stay bounded.</li></ul></div>
+        <div class="panel blocked"><strong>Blocked / omitted</strong><ul><li>Media assets and credential-shaped markers are not promoted.</li><li>Omitted samples are visible up to the receipt cap.</li></ul></div>
+      </div>
+      <p>This public case study uses a sanitized extract over a pinned public OSS receipt. It does not run mem0 code, call a provider/model, execute an adapter, write target files, judge project quality, or imply maintainer endorsement.</p>
+    </section>
+    <section>
+      <h2>Read the evidence</h2>
+      <p>
+        <a href="https://github.com/ctxvault/ctxvault/blob/main/release/v0.6.0/public-influence/mem0-public-case-study-deep-dive.md">Deep dive</a>
+        · <a href="https://github.com/ctxvault/ctxvault/blob/main/release/v0.6.0/public-influence/mem0-public-case-study-extract.json">Public JSON extract</a>
+        · <a href="https://github.com/ctxvault/ctxvault">GitHub repository</a>
+      </p>
+    </section>
+  </main>
+  <footer>
+    <p>No benchmark claim. No runtime or adapter claim. No provider/model call. No target repository write. No target project quality, security, correctness, or endorsement claim.</p>
+  </footer>
+</body>
+</html>

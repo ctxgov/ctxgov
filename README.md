@@ -4,14 +4,14 @@ Status: v0.5.3 public release artifact. Public core and evidence surface.
 
 Governed context projection for AI work.
 
-Know what your AI tools see.
+Know what your AI tools were allowed to see.
 
 CtxVault is the local trust layer for AI work. It helps you decide which
 evidence is allowed to influence the next AI work surface, with visible review
 decisions, omissions, caveats, and rollback receipts.
 
-It is not another memory platform, RAG runtime, provider SDK, benchmark runner,
-or agent harness. The control point is narrower and more inspectable:
+It is not another agent memory platform, RAG runtime, provider SDK, benchmark
+runner, or agent harness. The control point is narrower and more inspectable:
 
 ```text
 source evidence -> review decision -> portable context packet -> receipt
@@ -34,6 +34,10 @@ for tools like `AGENTS.md`, `CLAUDE.md`, Cursor rules, or a workstream brief.
 Receipts keep the source refs, decision state, omitted evidence, blocked refs,
 hashes, target-profile dry-runs, and rollback path visible.
 
+Then what: when agent memory, retrieval, docs, generated notes, and local files
+start to blur together, CtxVault gives reviewers a receipt for what was allowed
+to influence the next AI-facing context packet.
+
 ## Start Here
 
 Run the deterministic public checks:
@@ -47,6 +51,8 @@ Inspect the public-safe evidence and examples:
 
 - `release/v0.5.3/RELEASE_NOTES.md`
 - `release/v0.5.3/experience-evidence-pack.md`
+- `release/v0.6.0/public-influence/mem0-public-case-study-deep-dive.md`
+- `release/v0.6.0/public-influence/case-study-card.md`
 - `examples/v0.5.3-experience-evidence/README.md`
 - `docs/mechanism/governed-context-projection.md`
 - `docs/mechanism/governed-context-projection.zh.md`
@@ -82,8 +88,22 @@ blocked 101, verified manifests, passed target-profile dry-runs, and kept
 target writes disabled.
 
 Additional v0.6.0 external OSS governance evaluation work is being prepared as
-private pre-publication evidence. It is not a public benchmark, compatibility
+public evidence surface material. It is not a public benchmark, compatibility
 claim, runtime claim, or stable protocol claim.
+
+## Public v0.6.0 Evidence Surface
+
+- Static demo: `docs/index.html`
+- mem0 read-only governance case study:
+  `release/v0.6.0/public-influence/mem0-public-case-study-deep-dive.md`
+- Public extract data:
+  `release/v0.6.0/public-influence/mem0-public-case-study-extract.json`
+
+The mem0 case study is a read-only governance evaluation over public metadata
+and a sanitized extract. It does not judge mem0 quality, performance,
+compatibility, correctness, security, or maintainer endorsement.
+It exists to show the governance shape directly: `2056` candidate refs,
+`478` selected, `263` caveated, `98` blocked, and `1217` omitted.
 
 ## Compatibility Notes
 
