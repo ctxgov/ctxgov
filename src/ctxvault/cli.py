@@ -10,6 +10,7 @@ from typing import Callable
 
 from .checks import main as run_checks_main
 from .config import load_config
+from .context_health import summarize_context_health_write_result, write_context_health_report
 from .core import ContextBuildRequest, CtxVault
 from .ingest import import_conversation_path, import_knowledge_path, import_prompt_path, import_transcript_path
 from .layout import default_layout
@@ -867,6 +868,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     doctor = subcommands.add_parser("doctor", help="Run read-only local diagnostics")
     doctor.add_argument("--root", type=Path, default=project_root())
+    doctor.add_argument("--path", type=Path, help="Run Context Health Doctor over a local repo or folder")
+    doctor.add_argument("--output", type=Path, help="Write Context Health Doctor outputs under this root")
+    doctor.add_argument("--max-file-bytes", type=int, default=524288)
+    doctor.add_argument("--include-report", action="store_true", help="Print the full ContextHealthReport in stdout")
 
     serve_mcp = subcommands.add_parser("serve-mcp", help="Run the stdio MCP transport over the named deterministic surface")
     serve_mcp.add_argument("--root", type=Path, default=project_root())
@@ -2295,6 +2300,15 @@ def main(argv: list[str] | None = None) -> int:
             return 0
 
         if args.command == "doctor":
+            if args.path:
+                result = write_context_health_report(
+                    args.path.resolve(),
+                    output_root=args.output,
+                    max_file_bytes=args.max_file_bytes,
+                )
+                payload = result if args.include_report else summarize_context_health_write_result(result)
+                print(json.dumps(payload, indent=2, sort_keys=True))
+                return 0
             surface = CtxVaultSurface(CtxVault(default_layout(args.root.resolve())))
             print(json.dumps(surface.doctor_report(), indent=2, sort_keys=True))
             return 0
@@ -2314,7 +2328,7 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.command == "check":
             return run_checks_main()
-    except (KeyError, ValueError) as exc:
+    except (KeyError, ValueError, FileNotFoundError) as exc:
         print(str(exc), file=sys.stderr)
         return 1
 

@@ -1,10 +1,10 @@
 # CtxVault
 
-Status: v0.5.3 public release artifact. Public core and evidence surface.
+Status: v0.6.2 public release artifact. Public core and evidence surface.
 
 Governed context projection for AI work.
 
-Know what your AI tools were allowed to see.
+Know what your AI tools see.
 
 CtxVault is the local trust layer for AI work. It helps you decide which
 evidence is allowed to influence the next AI work surface, with visible review
@@ -49,6 +49,18 @@ to influence the next AI-facing context packet.
 
 ## Start Here
 
+For Context Health Doctor, scan a local repo, folder, or file and write a
+claim/context/memory/action health report:
+
+```bash
+PYTHONPATH=src python3 -m ctxvault.cli doctor --path /path/to/repo --output .ctxvault/health
+```
+
+The doctor reads local files selected by the user and writes derived artifacts
+under `.ctxvault/health`. It does not write target repo files, call models or
+providers, execute runtimes or adapters, or promote memory. Add
+`--include-report` when you want the full JSON report in stdout.
+
 For downstream OSS case-study adoption, start with the public-safe decision
 preview path:
 
@@ -91,6 +103,8 @@ outputs, or hosted runtime behavior.
 
 ## What The Public Core Shows
 
+- Context Health Doctor reports stale, conflicting, unsupported, or unsafe
+  AI-facing context across claim, context, memory, and action layers.
 - Evidence is treated as candidate context until review or policy decisions
   caveat, block, or withhold it.
 - Directory projection previews render reviewed material into portable,
@@ -215,7 +229,8 @@ Do not claim:
 
 ## Current Release Status
 
-The latest public release is v0.5.3. It exposes sanitized experience evidence
-and aggregate OSS dry-run metrics, not private dogfood receipts, private local
-paths, repo-local source excerpts, target repository writes, provider/model
-outputs, or hosted runtime evidence.
+The latest public release is v0.6.2. It introduces Context Health Doctor as a
+local report path for AI-facing context health. It exposes public-safe examples
+and aggregate evidence, not private dogfood receipts, private local paths,
+repo-local source excerpts, target repository writes, provider/model outputs,
+or hosted runtime evidence.

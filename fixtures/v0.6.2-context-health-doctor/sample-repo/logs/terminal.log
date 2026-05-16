@@ -1,0 +1,5 @@
+Summary: all checks passed.
+
+$ pytest
+FAILED tests/test_example.py::test_contract
+exit code: 1
