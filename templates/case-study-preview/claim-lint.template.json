@@ -4,6 +4,12 @@
     "name": "<target-name>",
     "pinned_ref": "<commit-tag-release-doc-version>"
   },
+  "authority_layers": {
+    "claim": "source-bound descriptive claims only",
+    "context": "selected and caveated evidence only",
+    "memory": "blocked until lifecycle and rollback exist",
+    "action": "blocked until side-effect approval exists"
+  },
   "claim_classes": [
     "quality",
     "security",
@@ -16,7 +22,13 @@
   ],
   "allowed_claims": [],
   "blocked_claims": [],
-  "safe_rewrites": [],
+  "safe_rewrites": [
+    {
+      "unsafe_claim": "<unsupported-quality-security-performance-compatibility-or-endorsement-claim>",
+      "blocked_reason": "<missing-evidence-or-unsupported-authority-layer>",
+      "safe_rewrite": "<source-bound-wording-that-does-not-overclaim>"
+    }
+  ],
   "missing_evidence": [],
   "publication_decision": "blocked_until_owner_approval",
   "side_effect_boundary": {

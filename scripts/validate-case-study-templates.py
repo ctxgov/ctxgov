@@ -36,14 +36,31 @@ def main() -> None:
             "target",
             "verification_methods",
             "source_refs",
+            "authority_layers",
+            "evidence_object_schema",
             "selected_evidence",
             "omitted_evidence",
+            "blocked_evidence",
             "missing_evidence",
             "side_effect_boundary",
             "rollback",
         ],
         TEMPLATE_DIR / "source-fact-receipt.template.json",
     )
+    for layer in ["claim", "context", "memory", "action"]:
+        require(layer in source_fact["authority_layers"], f"source template missing authority layer {layer}")
+    for field in [
+        "ref",
+        "state",
+        "reason",
+        "authority_layer_blocked",
+        "safe_rewrite_or_next_check",
+        "rollback_ref",
+    ]:
+        require(
+            field in source_fact["evidence_object_schema"]["required_fields"],
+            f"source template missing evidence object field {field}",
+        )
     require(source_fact["side_effect_boundary"]["target_file_written"] is False, "source template may not allow target writes")
     require(source_fact["side_effect_boundary"]["provider_or_model_call_performed"] is False, "source template may not allow provider calls")
 
@@ -52,6 +69,7 @@ def main() -> None:
         [
             "schema_id",
             "target",
+            "authority_layers",
             "claim_classes",
             "allowed_claims",
             "blocked_claims",
@@ -63,6 +81,8 @@ def main() -> None:
         ],
         TEMPLATE_DIR / "claim-lint.template.json",
     )
+    for layer in ["claim", "context", "memory", "action"]:
+        require(layer in claim_lint["authority_layers"], f"claim-lint missing authority layer {layer}")
     for required_class in [
         "quality",
         "security",
@@ -81,8 +101,10 @@ def main() -> None:
         "Selected Evidence",
         "Omitted Evidence",
         "Missing Evidence",
+        "Authority Ladder",
         "Blocked Claims",
         "Decision Table",
+        "Safe Rewrites",
         "No Target Mutation",
     ]:
         require(required_section in extract, f"extract template missing {required_section}")

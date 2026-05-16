@@ -6,6 +6,9 @@ List every generated CtxVault artifact:
 
 -
 
+Decision-preview artifacts should include the decision preview, source-fact
+receipt, claim-lint receipt, public-safe extract, and rollback note.
+
 ## Public Artifacts
 
 List every public artifact, if any:

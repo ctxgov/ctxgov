@@ -14,6 +14,7 @@ from .core import ContextBuildRequest, CtxVault
 from .ingest import import_conversation_path, import_knowledge_path, import_prompt_path, import_transcript_path
 from .layout import default_layout
 from .mcp_stdio import serve_stdio
+from .oss_case_study import build_oss_case_study_preview
 from .policy import CtxVaultPolicy
 from .surface import CtxVaultSurface
 
@@ -460,6 +461,21 @@ def build_parser() -> argparse.ArgumentParser:
     context_extract.add_argument("--workstream-id")
     context_extract.add_argument("--dry-run", action="store_true")
     context_extract.add_argument("--write-receipt", action=argparse.BooleanOptionalAction, default=True)
+
+    oss_case_study_preview = subcommands.add_parser(
+        "oss-case-study-preview",
+        help="Create a governed read-only OSS case-study decision preview",
+    )
+    oss_case_study_preview.add_argument("--root", type=Path, default=project_root())
+    oss_case_study_preview.add_argument("--target-name", required=True)
+    oss_case_study_preview.add_argument("--repo-url")
+    oss_case_study_preview.add_argument("--pinned-ref", required=True)
+    oss_case_study_preview.add_argument("--source-path", type=Path)
+    oss_case_study_preview.add_argument("--output-dir", type=Path)
+    oss_case_study_preview.add_argument("--checked-at-utc")
+    oss_case_study_preview.add_argument("--license", default="unknown")
+    oss_case_study_preview.add_argument("--allow-network", action="store_true")
+    oss_case_study_preview.add_argument("--max-source-bytes", type=int, default=262144)
 
     receipt_inspect = subcommands.add_parser(
         "receipt-inspect",
@@ -1488,6 +1504,29 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(json.dumps(result, indent=2, sort_keys=True))
             return 0
+
+        if args.command == "oss-case-study-preview":
+            root = args.root.resolve()
+            output_dir = None
+            if args.output_dir is not None:
+                output_dir = args.output_dir if args.output_dir.is_absolute() else root / args.output_dir
+            source_path = None
+            if args.source_path is not None:
+                source_path = args.source_path if args.source_path.is_absolute() else root / args.source_path
+            result = build_oss_case_study_preview(
+                root=root,
+                target_name=args.target_name,
+                repo_url=args.repo_url,
+                pinned_ref=args.pinned_ref,
+                source_path=source_path,
+                output_dir=output_dir,
+                checked_at_utc=args.checked_at_utc,
+                license_name=args.license,
+                allow_network=args.allow_network,
+                max_source_bytes=args.max_source_bytes,
+            )
+            print(json.dumps(result, indent=2, sort_keys=True))
+            return 1 if result.get("status") == "blocked_network_not_approved" else 0
 
         if args.command == "receipt-inspect":
             root = args.root.resolve()

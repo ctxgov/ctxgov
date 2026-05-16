@@ -22,6 +22,15 @@ rollback path.
 
 -
 
+## Authority Ladder
+
+| Layer | Decision | Evidence Required | Default |
+| --- | --- | --- | --- |
+| Claim |  | Source refs and claim-lint result. | Block unsupported categories. |
+| Context |  | Selected, caveated, omitted, blocked, stale, and conflicting refs. | Preview only. |
+| Memory |  | Lifecycle decision and rollback. | Blocked. |
+| Action |  | Side-effect scope, owner approval, and rollback. | Blocked. |
+
 ## Blocked Claims
 
 - Quality:
@@ -41,6 +50,12 @@ rollback path.
 | Blocked |  |  |  |  |
 | Missing |  |  |  |  |
 | Rollback |  |  |  |  |
+
+## Safe Rewrites
+
+| Unsafe Claim | Blocked Reason | Safe Rewrite |
+| --- | --- | --- |
+|  |  |  |
 
 ## No Target Mutation
 

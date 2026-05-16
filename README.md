@@ -10,6 +10,15 @@ CtxVault is the local trust layer for AI work. It helps you decide which
 evidence is allowed to influence the next AI work surface, with visible review
 decisions, omissions, caveats, and rollback receipts.
 
+Start with a decision preview, not a dashboard:
+
+| Decision | What CtxVault shows first |
+| --- | --- |
+| Claim | What can be safely stated, and which claims are blocked. |
+| Context | What can enter the AI-facing packet, and what was omitted or caveated. |
+| Memory | What is blocked from durable reuse until lifecycle and rollback exist. |
+| Action | What cannot run or write until side-effect approval exists. |
+
 It is not another agent memory platform, RAG runtime, provider SDK, benchmark
 runner, or agent harness. The control point is narrower and more inspectable:
 
@@ -39,6 +48,24 @@ start to blur together, CtxVault gives reviewers a receipt for what was allowed
 to influence the next AI-facing context packet.
 
 ## Start Here
+
+For downstream OSS case-study adoption, start with the public-safe decision
+preview path:
+
+```bash
+python3 scripts/validate-case-study-templates.py
+PYTHONPATH=src python3 -m ctxvault.cli oss-case-study-preview \
+  --target-name example \
+  --repo-url https://github.com/owner/repo \
+  --pinned-ref <commit> \
+  --source-path /path/to/local/README.md \
+  --output-dir /tmp/ctxvault-case-study
+```
+
+The command above reads an explicit local source path and writes only local
+CtxVault preview artifacts. Remote README fetch is gated behind
+`--allow-network`; it still does not clone, run, install, call a provider/model,
+write target files, create issues, or promote memory.
 
 Run the deterministic public checks:
 

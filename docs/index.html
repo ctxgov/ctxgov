@@ -108,6 +108,22 @@
       gap: 12px;
       margin-top: 18px;
     }
+    .decision-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 30px;
+      font-size: 0.95rem;
+    }
+    .decision-table th,
+    .decision-table td {
+      border: 1px solid var(--line);
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .decision-table th {
+      background: #f1f5f9;
+    }
     ul {
       margin: 8px 0 0;
       padding-left: 18px;
@@ -142,6 +158,21 @@
     <p class="lede">CtxVault is not another agent memory store. It is a receipt layer for governed context projection: what evidence was allowed in, what was caveated, what was blocked, what was omitted, and how the packet can be audited or rolled back.</p>
   </header>
   <main>
+    <section>
+      <h2>Decision preview first</h2>
+      <p>CtxVault shows whether evidence can authorize a claim, context packet, memory use, or action before anything is published, run, or written.</p>
+      <table class="decision-table" aria-label="CtxVault decision preview">
+        <thead>
+          <tr><th>Decision</th><th>Allowed</th><th>Blocked</th><th>Rollback</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Claim</td><td>Source-bound statements.</td><td>Quality, security, compatibility, endorsement, benchmark, and stable protocol claims.</td><td>Delete or supersede public-safe copy.</td></tr>
+          <tr><td>Context</td><td>Selected and caveated evidence.</td><td>Private, stale, conflicting, unsupported, or uninspected refs.</td><td>Regenerate the packet from the receipt.</td></tr>
+          <tr><td>Memory</td><td>None by default.</td><td>Durable reuse before lifecycle and delete policy.</td><td>No memory state exists unless separately approved.</td></tr>
+          <tr><td>Action</td><td>None by default.</td><td>Target writes, runtime, provider/model calls, and outreach.</td><td>No target state exists unless separately approved.</td></tr>
+        </tbody>
+      </table>
+    </section>
     <section>
       <h2>Then what?</h2>
       <div class="decisions" aria-label="CtxVault user outcomes">

@@ -15,8 +15,43 @@
   ],
   "source_facts": {},
   "volatile_facts": [],
-  "selected_evidence": [],
-  "omitted_evidence": [],
+  "authority_layers": {
+    "claim": "source-bound descriptive claims only",
+    "context": "selected and caveated evidence only",
+    "memory": "blocked until lifecycle and rollback exist",
+    "action": "blocked until side-effect approval exists"
+  },
+  "evidence_object_schema": {
+    "required_fields": [
+      "ref",
+      "state",
+      "reason",
+      "authority_layer_blocked",
+      "safe_rewrite_or_next_check",
+      "rollback_ref"
+    ]
+  },
+  "selected_evidence": [
+    {
+      "ref": "<primary-source-url#section>",
+      "state": "selected",
+      "reason": "<why-this-source-can-influence-the-preview>",
+      "authority_layer_blocked": null,
+      "safe_rewrite_or_next_check": "<source-backed-safe-wording-or-next-check>",
+      "rollback_ref": "<delete-or-supersede-local-preview-artifacts>"
+    }
+  ],
+  "omitted_evidence": [
+    {
+      "ref": "<source-or-surface-not-inspected>",
+      "state": "omitted",
+      "reason": "<why-it-is-not-authority-yet>",
+      "authority_layer_blocked": "claim|context|memory|action",
+      "safe_rewrite_or_next_check": "<next-source-check-or-safe-caveat>",
+      "rollback_ref": "<delete-or-supersede-local-preview-artifacts>"
+    }
+  ],
+  "blocked_evidence": [],
   "stale_or_conflicting_evidence": [],
   "missing_evidence": [],
   "side_effect_boundary": {
