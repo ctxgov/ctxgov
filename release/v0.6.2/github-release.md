@@ -12,8 +12,9 @@ PYTHONPATH=src python3 -m ctxvault.cli doctor --path /path/to/repo --output .ctx
 ```
 
 The doctor writes a claim/context/memory/action health report plus local
-receipts under `.ctxvault/health`. The default CLI output is compact JSON; add
-`--include-report` when you want the full report in stdout.
+receipts under the chosen output root, for example `.ctxvault/health`. The
+default CLI output is compact JSON; add `--include-report` when you want the
+full report in stdout.
 
 This first wave is intentionally narrow:
 
