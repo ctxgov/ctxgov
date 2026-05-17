@@ -1,7 +1,10 @@
 # v0.6.2 Package Registry Preflight
 
-Status: local preflight only. No package registry publication has been
-performed.
+Status: preflight completed. No package registry publication has completed.
+The first TestPyPI workflow attempt is recorded in
+`testpypi-publishing-attempt-2026-05-17.json`; it was blocked by missing
+TestPyPI trusted-publisher configuration, after the build and metadata checks
+passed.
 
 Selected package version: `0.6.2.post1`. The GitHub Release and `v0.6.2` tag
 remain unchanged; the package registry path uses a package-only post release so
@@ -10,6 +13,18 @@ the existing GitHub Release does not need to move again.
 This lane prepares CtxVault v0.6.2 for a possible `0.6.2.post1` package
 registry release without uploading artifacts, changing registry state, or
 making installability claims beyond local smoke checks.
+
+## Latest Execution State
+
+- Public `main` contains the manual trusted-publishing workflow and package
+  metadata for `0.6.2.post1`.
+- The existing GitHub Release and `v0.6.2` tag were not moved.
+- The workflow was manually run against TestPyPI from `main`.
+- Artifact build and distribution metadata checks passed.
+- TestPyPI publication did not complete because TestPyPI has no matching
+  trusted publisher for the observed workflow claims.
+- No PyPI upload, package-first announcement, social post, article, maintainer
+  outreach, issue, or pull request outreach has been performed.
 
 ## No-Approval Work
 

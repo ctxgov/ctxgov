@@ -4,26 +4,27 @@
   "version": "v0.6.2",
   "date": "2026-05-16",
   "timezone": "America/Los_Angeles",
-  "status": "owner_options_selected_local_execution_only",
+  "status": "owner_options_selected_public_preflight_pushed_testpypi_attempt_blocked",
   "selected_package_version": "0.6.2.post1",
+  "latest_execution_receipt": "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
   "selected_options": [
     {
       "id": "public-preflight-push",
       "selected_option": "B",
       "decision": "Do not move the existing v0.6.2 GitHub Release or tag; use package-only version 0.6.2.post1 for registry publication.",
-      "execution": "kept local only"
+      "execution": "public main push performed after later owner approval; v0.6.2 tag and GitHub Release were not moved"
     },
     {
       "id": "package-registry-target",
       "selected_option": "A",
       "decision": "Use TestPyPI first, then PyPI.",
-      "execution": "prepared local trusted-publishing workflow and retained registry upload as blocked"
+      "execution": "TestPyPI workflow_dispatch attempted from main and blocked by missing TestPyPI trusted publisher"
     },
     {
       "id": "package-publishing-mechanism",
       "selected_option": "A",
       "decision": "Use PyPI trusted publishing.",
-      "execution": "prepared manual-only GitHub Actions workflow with id-token permission and testpypi/pypi environments"
+      "execution": "manual-only GitHub Actions workflow is active; OIDC token exchange failed because TestPyPI has no matching publisher"
     },
     {
       "id": "external-outreach-channel",
@@ -41,17 +42,21 @@
   "local_artifacts_added": [
     ".github/workflows/publish-python.yml",
     "release/v0.6.2/package-outreach-selected-options-2026-05-16.json",
-    "tests/test_v062_selected_package_outreach_options.py"
+    "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
+    "tests/test_v062_selected_package_outreach_options.py",
+    "tests/test_v062_testpypi_publishing_attempt.py"
   ],
-  "external_actions_blocked": {
-    "public_preflight_commit_pushed": false,
+  "external_actions_state": {
+    "public_preflight_commit_pushed": true,
     "github_release_updated": false,
     "git_tag_moved": false,
-    "testpypi_upload_performed": false,
+    "testpypi_workflow_run_started": true,
+    "testpypi_upload_completed": false,
+    "testpypi_package_available_verified": false,
     "pypi_upload_performed": false,
     "github_packages_upload_performed": false,
+    "trusted_publisher_configured_on_testpypi": false,
     "trusted_publisher_configured_on_pypi": false,
-    "github_actions_workflow_run_started": false,
     "package_first_announcement_published": false,
     "social_post_performed": false,
     "technical_article_published": false,
@@ -60,7 +65,7 @@
   "trusted_publishing_constraints": [
     {
       "constraint": "Publishing workflow is workflow_dispatch only.",
-      "reason": "No automatic upload should happen on push, release, or tag until a separate execution approval exists."
+      "reason": "No automatic upload should happen on push, release, or tag."
     },
     {
       "constraint": "TestPyPI and PyPI run as separate environment-gated jobs.",
@@ -75,12 +80,9 @@
       "reason": "The release theme is local Context Health Doctor, not downstream project evaluation, endorsement, or compatibility."
     }
   ],
-  "remaining_required_before_testpypi": [
-    "Approve pushing the local preflight/workflow commit.",
-    "Create or confirm the TestPyPI project name.",
+  "remaining_required_before_testpypi_completion": [
     "Configure TestPyPI trusted publisher for repository ctxvault/ctxvault, workflow publish-python.yml, environment testpypi.",
-    "Push a commit containing the workflow.",
-    "Run the workflow manually with registry=testpypi.",
+    "Rerun the workflow manually from main with registry=testpypi.",
     "Install from TestPyPI in a clean environment and run Context Health Doctor smoke."
   ],
   "remaining_required_before_pypi": [
@@ -93,12 +95,12 @@
     "Only then approve package-first announcement."
   ],
   "rollback": {
-    "local_only_rollback": "Revert the local selected-options commit before pushing.",
+    "source_rollback": "Revert the public main commits that added package metadata, workflow, and receipts if the package lane is abandoned.",
     "registry_rollback_required": false,
     "outreach_rollback_required": false
   },
   "final_assessment": {
-    "condition": "selected_options_recorded_and_local_trusted_publishing_prepared_external_actions_blocked",
+    "condition": "selected_options_recorded_public_preflight_pushed_testpypi_attempt_blocked_by_external_configuration",
     "remaining_unconstrained_uncertainty_count": 0
   }
 }

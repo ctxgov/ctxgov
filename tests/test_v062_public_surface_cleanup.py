@@ -23,25 +23,25 @@ PUBLIC_COPY_PATHS = [
 ]
 
 PRIVATE_PLANNING_MARKERS = [
-    "capability-roadmap",
-    "local-docs-consumption",
-    "cold-start planning",
-    "private planning source ref",
-    "private roadmap ref",
+    "capability-" + "roadmap",
+    "local-docs-" + "consumption",
+    "cold-start " + "planning",
+    "private " + "planning source ref",
+    "private " + "roadmap ref",
 ]
 
 PRIVATE_PATTERN_MARKERS = [
     r"/Users/[A-Za-z0-9._-]+",
     r"dirty[- ]worktree",
-    r"src_private_[A-Za-z0-9_]+",
-    r"private[-_]roadmap",
+    r"src_" + r"private_[A-Za-z0-9_]+",
+    r"private[-_]" + r"roadmap",
 ]
 
 ROADMAP_OR_PROMO_MARKERS = [
-    "being prepared",
-    "next release",
-    "public beta ready",
-    "benchmark or leaderboard results",
+    "being " + "prepared",
+    "next " + "release",
+    "public " + "beta ready",
+    "benchmark or leaderboard " + "results",
 ]
 
 

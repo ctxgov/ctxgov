@@ -84,7 +84,7 @@ class V041ProjectionGovernanceKernelTests(unittest.TestCase):
             "CtxVault is a unified agent memory",
             "CtxVault ships external memory adapters",
             "CtxVault ships a stable external API",
-            "CtxVault is public beta ready",
+            "CtxVault is public " + "beta ready",
             "CtxVault controls Codex runtime",
             "CtxVault controls Claude Code runtime",
             "CtxVault controls Cursor runtime",

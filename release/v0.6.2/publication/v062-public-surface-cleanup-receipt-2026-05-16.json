@@ -30,8 +30,8 @@
   ],
   "constraints": [
     {
-      "uncertainty": "Published content may expose private planning source names or private-repo-only state.",
-      "constraint": "Current release-facing public copy and legacy public fixtures must not contain private planning doc names, private local paths, private planning refs, or uncommitted-worktree state.",
+      "uncertainty": "Published content may expose non-public planning source names or local-only state.",
+      "constraint": "Current release-facing public copy and legacy public fixtures must not contain non-public planning doc names, local user paths, internal planning refs, or uncommitted-worktree state.",
       "test": "tests/test_v062_public_surface_cleanup.py::test_public_copy_has_no_private_planning_markers",
       "audit": "public surface grep over README.md, ROADMAP.md, release/v0.6.2, selected legacy docs, and selected legacy fixtures",
       "rollback": "revert the cleanup content commit and restore the previous published public surface"

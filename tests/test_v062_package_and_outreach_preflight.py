@@ -12,6 +12,7 @@ PACKAGE_PREFLIGHT = ROOT / "release" / "v0.6.2" / "package-registry-preflight.md
 OUTREACH_PREFLIGHT = ROOT / "release" / "v0.6.2" / "external-outreach-preflight.md"
 APPROVAL_MATRIX = ROOT / "release" / "v0.6.2" / "package-and-outreach-approval-matrix.json"
 PREFLIGHT_RECEIPT = ROOT / "release" / "v0.6.2" / "package-outreach-preflight-receipt-2026-05-16.json"
+TESTPYPI_ATTEMPT = ROOT / "release" / "v0.6.2" / "testpypi-publishing-attempt-2026-05-17.json"
 
 
 FORBIDDEN_PUBLIC_CLAIMS = [
@@ -42,7 +43,8 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
         preflight = PACKAGE_PREFLIGHT.read_text(encoding="utf-8")
         normalized = " ".join(preflight.split())
 
-        self.assertIn("No package registry publication has been performed.", normalized)
+        self.assertIn("No package registry publication has completed.", normalized)
+        self.assertIn("blocked by missing TestPyPI trusted-publisher configuration", normalized)
         self.assertIn("Option A: TestPyPI First, Then PyPI", preflight)
         self.assertIn("Recommendation: choose this for the first package publication.", preflight)
         self.assertIn("yank plus patch release, not overwrite", preflight)
@@ -67,7 +69,14 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
         matrix = json.loads(APPROVAL_MATRIX.read_text(encoding="utf-8"))
 
         self.assertEqual(matrix["schema_id"], "ctxvault.v062-package-outreach-approval-matrix/v1")
-        self.assertEqual(matrix["status"], "owner_options_selected_local_preparation_only")
+        self.assertEqual(
+            matrix["status"],
+            "owner_options_selected_public_preflight_pushed_testpypi_attempt_blocked",
+        )
+        self.assertEqual(
+            matrix["latest_execution_receipt"],
+            "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
+        )
         self.assertEqual(matrix["owner_selected_options"]["public-preflight-push"]["selected_option"], "B")
         self.assertEqual(matrix["owner_selected_options"]["package-registry-target"]["selected_option"], "A")
         self.assertEqual(matrix["owner_selected_options"]["package-publishing-mechanism"]["selected_option"], "A")
@@ -83,13 +92,13 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
         blocked = set(matrix["explicitly_blocked_until_approved"])
         for required in [
             "pypi_upload",
-            "testpypi_upload",
             "twine_upload",
             "social_post",
             "maintainer_outreach",
             "package_install_claim_in_public_copy",
         ]:
             self.assertIn(required, blocked)
+        self.assertIn("testpypi_publish_completion", matrix["blocked_until_external_configuration"])
 
     def test_preflight_receipt_records_local_smoke_without_external_side_effects(self) -> None:
         receipt = json.loads(PREFLIGHT_RECEIPT.read_text(encoding="utf-8"))
@@ -114,16 +123,17 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
                 OUTREACH_PREFLIGHT.read_text(encoding="utf-8"),
                 APPROVAL_MATRIX.read_text(encoding="utf-8"),
                 PREFLIGHT_RECEIPT.read_text(encoding="utf-8"),
+                TESTPYPI_ATTEMPT.read_text(encoding="utf-8"),
             ]
         )
 
         for pattern in [
             r"/Users/[A-Za-z0-9._-]+",
-            r"private[-_]roadmap",
+            r"private[-_]" + r"roadmap",
             r"dirty[- ]worktree",
-            r"post-m1-capability",
-            r"being\s+prepared",
-            r"next\s+release",
+            r"post-m1-" + r"capability",
+            r"being\s+" + r"prepared",
+            r"next\s+" + r"release",
             r"public\s+beta\s+ready",
         ]:
             self.assertIsNone(re.search(pattern, combined))

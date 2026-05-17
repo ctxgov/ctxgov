@@ -1,7 +1,8 @@
 {
   "schema_id": "ctxvault.v062-package-outreach-approval-matrix/v1",
   "version": "v0.6.2",
-  "status": "owner_options_selected_local_preparation_only",
+  "status": "owner_options_selected_public_preflight_pushed_testpypi_attempt_blocked",
+  "latest_execution_receipt": "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
   "owner_selected_options": {
     "public-preflight-push": {
       "selected_option": "B",
@@ -56,6 +57,20 @@
         "tests/test_v062_package_and_outreach_preflight.py"
       ],
       "boundary": "local deterministic tests only"
+    }
+  ],
+  "owner_approved_execution": [
+    {
+      "id": "public-main-push",
+      "status": "executed",
+      "evidence": "public main contains package metadata and the manual trusted-publishing workflow at c350bb223308237d3aa9bf1a8f2194da5859a742",
+      "boundary": "existing v0.6.2 GitHub Release and tag were not moved"
+    },
+    {
+      "id": "testpypi-workflow-dispatch",
+      "status": "attempted_blocked",
+      "evidence": "GitHub Actions run 25983008724 built artifacts and passed metadata checks, then failed with invalid-publisher because TestPyPI has no matching trusted publisher",
+      "boundary": "no TestPyPI package publication completed and no PyPI upload ran"
     }
   ],
   "approval_required": [
@@ -155,14 +170,17 @@
   ],
   "explicitly_blocked_until_approved": [
     "pypi_upload",
-    "testpypi_upload",
     "github_packages_upload",
     "twine_upload",
-    "trusted_publishing_workflow_enablement",
     "social_post",
     "technical_article_publication",
     "maintainer_outreach",
     "github_issue_or_pull_request_outreach",
     "package_install_claim_in_public_copy"
+  ],
+  "blocked_until_external_configuration": [
+    "testpypi_publish_completion",
+    "testpypi_install_claim",
+    "trusted_publisher_configuration_on_testpypi"
   ]
 }

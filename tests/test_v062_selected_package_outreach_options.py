@@ -8,33 +8,44 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "publish-python.yml"
 SELECTED_OPTIONS = ROOT / "release" / "v0.6.2" / "package-outreach-selected-options-2026-05-16.json"
+TESTPYPI_ATTEMPT = ROOT / "release" / "v0.6.2" / "testpypi-publishing-attempt-2026-05-17.json"
 
 
 class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
-    def test_selected_options_match_owner_choices_and_keep_external_actions_blocked(self) -> None:
+    def test_selected_options_match_owner_choices_and_current_external_state(self) -> None:
         receipt = json.loads(SELECTED_OPTIONS.read_text(encoding="utf-8"))
         selected = {item["id"]: item["selected_option"] for item in receipt["selected_options"]}
 
+        self.assertEqual(
+            receipt["status"],
+            "owner_options_selected_public_preflight_pushed_testpypi_attempt_blocked",
+        )
         self.assertEqual(receipt["selected_package_version"], "0.6.2.post1")
+        self.assertEqual(
+            receipt["latest_execution_receipt"],
+            "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
+        )
         self.assertEqual(selected["public-preflight-push"], "B")
         self.assertEqual(selected["package-registry-target"], "A")
         self.assertEqual(selected["package-publishing-mechanism"], "A")
         self.assertEqual(selected["external-outreach-channel"], "B")
         self.assertEqual(selected["maintainer-outreach"], "A")
 
-        blocked = receipt["external_actions_blocked"]
+        state = receipt["external_actions_state"]
+        self.assertTrue(state["public_preflight_commit_pushed"])
+        self.assertTrue(state["testpypi_workflow_run_started"])
         for field in [
-            "public_preflight_commit_pushed",
             "github_release_updated",
             "git_tag_moved",
-            "testpypi_upload_performed",
+            "testpypi_upload_completed",
+            "testpypi_package_available_verified",
             "pypi_upload_performed",
+            "trusted_publisher_configured_on_testpypi",
             "trusted_publisher_configured_on_pypi",
-            "github_actions_workflow_run_started",
             "package_first_announcement_published",
             "maintainer_outreach_performed",
         ]:
-            self.assertFalse(blocked[field], field)
+            self.assertFalse(state[field], field)
 
     def test_trusted_publishing_workflow_is_manual_oidc_and_registry_gated(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
@@ -56,11 +67,18 @@ class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
         body = json.dumps(receipt, sort_keys=True)
 
         self.assertIn("Configure TestPyPI trusted publisher", body)
-        self.assertIn("Run the workflow manually with registry=testpypi", body)
+        self.assertIn("Rerun the workflow manually from main with registry=testpypi", body)
         self.assertIn("v0.6.2.post1", body)
         self.assertIn("Only then approve package-first announcement", body)
         self.assertNotIn("has been published to " + "PyPI", body)
         self.assertNotIn("maintainer outreach is " + "allowed", body)
+
+    def test_latest_execution_receipt_exists(self) -> None:
+        receipt = json.loads(SELECTED_OPTIONS.read_text(encoding="utf-8"))
+        latest = ROOT / receipt["latest_execution_receipt"]
+
+        self.assertEqual(latest, TESTPYPI_ATTEMPT)
+        self.assertTrue(latest.exists())
 
 
 if __name__ == "__main__":
