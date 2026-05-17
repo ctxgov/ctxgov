@@ -12,7 +12,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.privacy import scan_privacy_files, scan_privacy_text
+from ctxgov.privacy import scan_privacy_files, scan_privacy_text
 
 
 class PrivacyScanTests(unittest.TestCase):

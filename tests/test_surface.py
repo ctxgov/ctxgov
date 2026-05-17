@@ -13,11 +13,11 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.core import CtxVault
-from ctxvault.ingest import import_transcript_path
-from ctxvault.layout import default_layout
-from ctxvault.policy import CtxVaultPolicy
-from ctxvault.surface import CtxVaultSurface
+from ctxgov.core import CtxVault
+from ctxgov.ingest import import_transcript_path
+from ctxgov.layout import default_layout
+from ctxgov.policy import CtxVaultPolicy
+from ctxgov.surface import CtxVaultSurface
 
 
 class SurfaceTests(unittest.TestCase):

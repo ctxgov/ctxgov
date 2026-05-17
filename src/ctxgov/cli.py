@@ -38,7 +38,7 @@ def resolve_fixture_path(root: Path, *relative_parts: str) -> Path:
 def workbench_module_name() -> str:
     if __package__:
         return f"{__package__}.workbench"
-    return "ctxvault.workbench"
+    return "ctxgov.workbench"
 
 
 def has_workbench_surface() -> bool:
@@ -47,9 +47,9 @@ def has_workbench_surface() -> bool:
 
 def load_workbench_server() -> Callable[..., int]:
     try:
-        module = import_module(".workbench", __package__ or "ctxvault")
+        module = import_module(".workbench", __package__ or "ctxgov")
     except ModuleNotFoundError as exc:
-        if exc.name in {workbench_module_name(), "ctxvault.workbench"}:
+        if exc.name in {workbench_module_name(), "ctxgov.workbench"}:
             raise RuntimeError("workbench surface is not available in this build") from exc
         raise
     server = getattr(module, "serve_workbench", None)
@@ -59,7 +59,7 @@ def load_workbench_server() -> Callable[..., int]:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="ctxvault")
+    parser = argparse.ArgumentParser(prog="ctxgov")
     subcommands = parser.add_subparsers(dest="command", required=True)
 
     print_layout = subcommands.add_parser("print-layout", help="Print the default runtime layout")

@@ -1,6 +1,6 @@
-# Contributing To CtxVault
+# Contributing To CtxGov
 
-CtxVault is governed context projection for AI work. Contributions are welcome
+CtxGov is governed context projection for AI work. Contributions are welcome
 when they keep the project inspectable, local-first, and receipt-backed.
 
 ## Good First Contributions
@@ -33,7 +33,7 @@ run:
 ```bash
 python3 scripts/validate_fixtures.py
 python3 scripts/check_v050_public_drafts.py
-PYTHONPATH=src python3 -m unittest tests.test_v05_pull_context_governance_planning
+python3 -m pytest tests/test_context_health_doctor.py tests/test_cli.py
 ```
 
 Use small pull requests. Lead with the receipt, fixture, test, or public example

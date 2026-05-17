@@ -111,7 +111,7 @@ Recommendation: do not do this for v0.6.2. Treat it as a later dedicated lane.
 
 Short GitHub/package announcement draft:
 
-> CtxVault v0.6.2 adds Context Health Doctor: a local scan that reports stale,
+> CtxGov v0.6.2 adds Context Health Doctor: a local scan that reports stale,
 > conflicting, unsupported, or unsafe AI-facing context across claim, context,
 > memory, and action layers before it reaches agents. It writes generated
 > reports and rollback receipts under the chosen output path. It does not

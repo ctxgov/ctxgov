@@ -1,28 +1,33 @@
 # v0.6.2 Package Registry Preflight
 
-Status: preflight completed. No package registry publication has completed.
+Status: ctxgov package identity prepared. No package registry publication has completed.
 The first TestPyPI workflow attempt is recorded in
 `testpypi-publishing-attempt-2026-05-17.json`; it was blocked by missing
 TestPyPI trusted-publisher configuration, after the build and metadata checks
-passed.
+passed. That attempt used the now-retired `ctxvault` package name.
 
-Selected package version: `0.6.2.post1`. The GitHub Release and `v0.6.2` tag
-remain unchanged; the package registry path uses a package-only post release so
-the existing GitHub Release does not need to move again.
+Selected package distribution: `ctxgov`. Selected package version:
+`0.6.2.post1`. The GitHub Release and `v0.6.2` tag remain unchanged; the
+package registry path uses a package-only post release so the existing GitHub
+Release does not need to move again.
 
-This lane prepares CtxVault v0.6.2 for a possible `0.6.2.post1` package
+This lane prepares CtxGov v0.6.2 for a possible `0.6.2.post1` package
 registry release without uploading artifacts, changing registry state, or
 making installability claims beyond local smoke checks.
 
 ## Latest Execution State
 
 - Public `main` contains the manual trusted-publishing workflow and package
-  metadata for `0.6.2.post1`.
+  metadata for `ctxgov==0.6.2.post1`.
+- The GitHub package source is moving to `ctxgov/ctxgov`.
 - The existing GitHub Release and `v0.6.2` tag were not moved.
-- The workflow was manually run against TestPyPI from `main`.
+- The previous `ctxvault` workflow was manually run against TestPyPI from
+  `main`.
 - Artifact build and distribution metadata checks passed.
 - TestPyPI publication did not complete because TestPyPI has no matching
   trusted publisher for the observed workflow claims.
+- Official PyPI publication is blocked until a PyPI account can be created or
+  recovered and the `ctxgov` organization/project publisher path is configured.
 - No PyPI upload, package-first announcement, social post, article, maintainer
   outreach, issue, or pull request outreach has been performed.
 
@@ -33,7 +38,7 @@ These actions are local and reversible:
 - Add conservative package metadata in `pyproject.toml`.
 - Build a local wheel without dependency resolution.
 - Install the local wheel into a temporary virtual environment.
-- Run `ctxvault doctor` from the installed console script against the v0.6.2
+- Run `ctxgov doctor` from the installed console script against the v0.6.2
   sample fixture.
 - Verify missing-path fail-closed behavior from the installed console script.
 - Scan package-facing release artifacts for private planning markers and
@@ -43,7 +48,7 @@ These actions are local and reversible:
 ## Local Build Command
 
 ```bash
-python3 -m pip wheel . --no-deps --no-build-isolation -w /private/tmp/ctxvault-v062-package-wheelhouse
+python3 -m pip wheel . --no-deps --no-build-isolation -w /private/tmp/ctxgov-v062-package-wheelhouse
 ```
 
 The command intentionally avoids network dependency resolution. It validates
@@ -157,6 +162,8 @@ Publishing requires explicit approval of:
 - package name ownership and account access
 - publishing mechanism
 - whether TestPyPI is mandatory
+- PyPI account access or recovery path
+- `ctxgov` organization approval state, if publishing under an organization
 - final artifact hashes
 - rollback policy: yank plus patch release, not overwrite
 - exact release/install wording after registry publication

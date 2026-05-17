@@ -16,9 +16,9 @@ if str(SRC_ROOT) not in sys.path:
 
 from run_v032_deterministic_demo import DEMO_SOURCES, SCOPE_KIND, SCOPE_VALUE, TARGET_KIND, _knowledge_payload
 
-from ctxvault.core import CtxVault
-from ctxvault.layout import default_layout
-from ctxvault.surface import CtxVaultSurface
+from ctxgov.core import CtxVault
+from ctxgov.layout import default_layout
+from ctxgov.surface import CtxVaultSurface
 
 
 SCENARIOS: tuple[dict[str, Any], ...] = (

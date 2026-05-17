@@ -43,7 +43,7 @@ body:
     attributes:
       label: What did you try?
       description: Name the command, doc section, target surface, fixture, or workflow you touched.
-      placeholder: PYTHONPATH=src python3 -m ctxvault.cli adapter-healthcheck --root /tmp/ctxvault-clean-verify --target-kind agents-md --target-path exports/AGENTS.md
+      placeholder: PYTHONPATH=src python3 -m ctxgov.cli adapter-healthcheck --root /tmp/ctxvault-clean-verify --target-kind agents-md --target-path exports/AGENTS.md
     validations:
       required: true
   - type: textarea

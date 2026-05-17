@@ -14,7 +14,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.adapters import (
+from ctxgov.adapters import (
     HARNESS_SURFACE_SCHEMA_VERSION,
     PROJECTION_HEALTHCHECK_SCHEMA_VERSION,
     RUNTIME_EVENT_RECEIPT_SCHEMA_VERSION,

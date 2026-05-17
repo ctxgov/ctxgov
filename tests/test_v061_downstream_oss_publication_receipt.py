@@ -33,7 +33,10 @@ class V061DownstreamOssPublicationReceiptTests(unittest.TestCase):
             "ec07824ba1fdfa7798b8c44dc2c7d83a689b0459",
         )
         for path in receipt["published_scope"]:
-            self.assertTrue((ROOT / path).exists(), path)
+            current_path = ROOT / path
+            if not current_path.exists() and path.startswith("src/ctxvault/"):
+                current_path = ROOT / path.replace("src/ctxvault/", "src/ctxgov/", 1)
+            self.assertTrue(current_path.exists(), path)
         for key, url in receipt["published_urls"].items():
             with self.subTest(key=key):
                 self.assertTrue(url.startswith("https://github.com/ctxvault/ctxvault/blob/main/"), url)

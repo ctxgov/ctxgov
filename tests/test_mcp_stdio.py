@@ -15,8 +15,8 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.ingest import import_transcript_path
-from ctxvault.mcp_stdio import CtxVaultMcpServer, read_message, write_message
+from ctxgov.ingest import import_transcript_path
+from ctxgov.mcp_stdio import CtxVaultMcpServer, read_message, write_message
 
 
 class McpServerTests(unittest.TestCase):
@@ -957,7 +957,7 @@ class McpServerTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
-        from ctxvault.ingest import import_transcript_path
+        from ctxgov.ingest import import_transcript_path
 
         import_transcript_path(
             self.server.surface.vault,
@@ -1308,7 +1308,7 @@ class McpServerTests(unittest.TestCase):
             [
                 sys.executable,
                 "-m",
-                "ctxvault.cli",
+                "ctxgov.cli",
                 "serve-mcp",
                 "--root",
                 str(self.repo_root),

@@ -13,9 +13,9 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.core import ContextBuildRequest, CtxVault
-from ctxvault.layout import default_layout
-from ctxvault.receipts import emit_audit_receipt, emit_context_bundle_receipt, emit_projection_receipt, emit_workstream_candidate_receipt, emit_workstream_receipt
+from ctxgov.core import ContextBuildRequest, CtxVault
+from ctxgov.layout import default_layout
+from ctxgov.receipts import emit_audit_receipt, emit_context_bundle_receipt, emit_projection_receipt, emit_workstream_candidate_receipt, emit_workstream_receipt
 
 
 class ReceiptTests(unittest.TestCase):

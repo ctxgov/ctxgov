@@ -15,6 +15,7 @@ CONTEXT_HEALTH_BACKUP_MANIFEST_SCHEMA_ID = "ctxvault.context-health-backup-manif
 
 SCAN_SUFFIXES = {".md", ".markdown", ".txt", ".log", ".json"}
 EXCLUDED_DIR_NAMES = {
+    ".ctxgov",
     ".ctxvault",
     ".git",
     ".hg",
@@ -40,7 +41,7 @@ def build_context_health_report(
     _validate_scan_path(resolved_scan_path, max_file_bytes=max_file_bytes)
     storage_base = _storage_base_for_scan_path(resolved_scan_path)
     resolved_output_root = _resolve_output_root(storage_base, output_root)
-    backup_root = storage_base / ".ctxvault" / "backups" / "context-health-doctor"
+    backup_root = storage_base / ".ctxgov" / "backups" / "context-health-doctor"
     scanned_files = _collect_scan_files(resolved_scan_path, max_file_bytes=max_file_bytes)
     findings = _build_findings(resolved_scan_path, scanned_files)
     report_id = _report_id(resolved_scan_path, findings)
@@ -348,7 +349,7 @@ def _build_findings(root: Path, scanned_files: list[dict[str, Any]]) -> list[dic
         findings.extend(_file_findings(item))
     for idx, finding in enumerate(findings, start=1):
         finding["finding_id"] = f"chf_{idx:04d}_{finding['finding_type']}"
-        finding["rollback_ref"] = f"delete://{root / '.ctxvault' / 'health'}/runs/<run_id>"
+        finding["rollback_ref"] = f"delete://{root / '.ctxgov' / 'health'}/runs/<run_id>"
     return findings
 
 
@@ -815,7 +816,7 @@ def _storage_base_for_scan_path(scan_path: Path) -> Path:
 
 def _resolve_output_root(storage_base: Path, output_root: Path | None) -> Path:
     if output_root is None:
-        return (storage_base / ".ctxvault" / "health").resolve()
+        return (storage_base / ".ctxgov" / "health").resolve()
     if output_root.is_absolute():
         return output_root.resolve()
     return (storage_base / output_root).resolve()

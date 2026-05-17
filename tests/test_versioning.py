@@ -15,9 +15,9 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.core import CtxVault
-from ctxvault.layout import default_layout
-from ctxvault.versioning import accept_pairing_offer, apply_replica, apply_restore, apply_sync_manifest, create_snapshot, diff_snapshots, emit_pairing_offer, emit_sync_manifest, emit_sync_receipt, evaluate_replica_trust, import_replica, list_mutations, list_pairing_offers, list_replica_trust_devices, list_snapshots, list_sync_conflicts, list_transport_events, load_replica_trust_registry, plan_restore, record_mutation, review_sync_conflict, set_replica_device_trust, snapshot_lineage, snapshot_provenance, sync_status, verify_replica
+from ctxgov.core import CtxVault
+from ctxgov.layout import default_layout
+from ctxgov.versioning import accept_pairing_offer, apply_replica, apply_restore, apply_sync_manifest, create_snapshot, diff_snapshots, emit_pairing_offer, emit_sync_manifest, emit_sync_receipt, evaluate_replica_trust, import_replica, list_mutations, list_pairing_offers, list_replica_trust_devices, list_snapshots, list_sync_conflicts, list_transport_events, load_replica_trust_registry, plan_restore, record_mutation, review_sync_conflict, set_replica_device_trust, snapshot_lineage, snapshot_provenance, sync_status, verify_replica
 
 
 class VersioningTests(unittest.TestCase):

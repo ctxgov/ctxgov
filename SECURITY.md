@@ -1,6 +1,6 @@
 # Security Policy
 
-CtxVault's public core is designed to keep the default path local,
+CtxGov's public core is designed to keep the default path local,
 deterministic, and inspectable.
 
 ## Reporting
@@ -22,7 +22,7 @@ The public evidence path does not require:
 - live adapter execution
 - automatic memory promotion
 
-Do not treat CtxVault as a security certification, secret scanner, sandbox,
+Do not treat CtxGov as a security certification, secret scanner, sandbox,
 TEE, remote attestation system, or hallucination-prevention product.
 
 ## Safe Example Rules

@@ -1,4 +1,4 @@
-"""CtxVault deterministic scaffold."""
+"""CtxGov deterministic context-governance scaffold."""
 
 from .adapters import AdapterRegistry
 from .backup import emit_backup_bundle
@@ -19,7 +19,7 @@ from .versioning import apply_replica, apply_restore, apply_sync_manifest, creat
 try:
     from .projection_lifecycle import canonical_projection_path, default_context_assembly_decisions, scan_projection_lifecycle
 except ModuleNotFoundError as exc:  # pragma: no cover - exercised in extracted public-core builds
-    if exc.name not in {"ctxvault.projection_lifecycle", f"{__name__}.projection_lifecycle"}:
+    if exc.name not in {"ctxgov.projection_lifecycle", f"{__name__}.projection_lifecycle"}:
         raise
     canonical_projection_path = None
     default_context_assembly_decisions = None
@@ -28,7 +28,7 @@ except ModuleNotFoundError as exc:  # pragma: no cover - exercised in extracted 
 try:
     from .workbench import CtxVaultWorkbenchService, serve_workbench
 except ModuleNotFoundError as exc:  # pragma: no cover - exercised in extracted public-core builds
-    if exc.name not in {"ctxvault.workbench", f"{__name__}.workbench"}:
+    if exc.name not in {"ctxgov.workbench", f"{__name__}.workbench"}:
         raise
     CtxVaultWorkbenchService = None
     serve_workbench = None

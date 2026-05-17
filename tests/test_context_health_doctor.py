@@ -16,8 +16,8 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault import cli
-from ctxvault.context_health import build_context_health_report, write_context_health_report
+from ctxgov import cli
+from ctxgov.context_health import build_context_health_report, write_context_health_report
 from scripts.validate_fixtures import validate
 
 
@@ -97,10 +97,10 @@ class ContextHealthDoctorTests(unittest.TestCase):
             before = {
                 path.relative_to(sample): path.read_text(encoding="utf-8")
                 for path in sample.rglob("*")
-                if path.is_file() and ".ctxvault" not in path.relative_to(sample).parts
+                if path.is_file() and ".ctxgov" not in path.relative_to(sample).parts and ".ctxvault" not in path.relative_to(sample).parts
             }
 
-            result = write_context_health_report(sample, output_root=Path(".ctxvault") / "health")
+            result = write_context_health_report(sample, output_root=Path(".ctxgov") / "health")
 
             json_report = Path(result["json_report_path"])
             markdown_report = Path(result["markdown_report_path"])
@@ -140,7 +140,7 @@ class ContextHealthDoctorTests(unittest.TestCase):
             after = {
                 path.relative_to(sample): path.read_text(encoding="utf-8")
                 for path in sample.rglob("*")
-                if path.is_file() and ".ctxvault" not in path.relative_to(sample).parts
+                if path.is_file() and ".ctxgov" not in path.relative_to(sample).parts and ".ctxvault" not in path.relative_to(sample).parts
             }
             self.assertEqual(before, after)
 
@@ -148,7 +148,7 @@ class ContextHealthDoctorTests(unittest.TestCase):
         with TemporaryDirectory() as tmpdir:
             sample = self.copy_sample_repo(tmpdir)
 
-            code, stdout = self.run_cli("doctor", "--path", str(sample), "--output", ".ctxvault/health")
+            code, stdout = self.run_cli("doctor", "--path", str(sample), "--output", ".ctxgov/health")
 
             self.assertEqual(code, 0)
             result = json.loads(stdout)
@@ -160,7 +160,7 @@ class ContextHealthDoctorTests(unittest.TestCase):
             self.assertFalse(result["raw_source_copied"])
             self.assertFalse(result["target_files_written"])
 
-            code, stdout = self.run_cli("doctor", "--path", str(sample), "--output", ".ctxvault/health", "--include-report")
+            code, stdout = self.run_cli("doctor", "--path", str(sample), "--output", ".ctxgov/health", "--include-report")
 
             self.assertEqual(code, 0)
             full_result = json.loads(stdout)
@@ -191,14 +191,14 @@ class ContextHealthDoctorTests(unittest.TestCase):
             stderr = io.StringIO()
 
             with redirect_stdout(stdout), redirect_stderr(stderr):
-                code = cli.main(["doctor", "--path", str(missing), "--output", ".ctxvault/health"])
+                code = cli.main(["doctor", "--path", str(missing), "--output", ".ctxgov/health"])
 
             self.assertEqual(code, 1)
             self.assertEqual(stdout.getvalue(), "")
             self.assertIn("Context Health Doctor scan path does not exist", stderr.getvalue())
             self.assertFalse(missing.exists())
 
-    def test_scan_boundaries_account_for_omitted_files_and_skip_ctxvault_outputs(self) -> None:
+    def test_scan_boundaries_account_for_omitted_files_and_skip_generated_outputs(self) -> None:
         with TemporaryDirectory() as tmpdir:
             repo = Path(tmpdir) / "repo"
             repo.mkdir()
@@ -208,6 +208,12 @@ class ContextHealthDoctorTests(unittest.TestCase):
             ctxvault_report = repo / ".ctxvault" / "health" / "runs" / "old"
             ctxvault_report.mkdir(parents=True)
             (ctxvault_report / "context-health-report.md").write_text(
+                "Stable MGP and security complete claims from old generated output.",
+                encoding="utf-8",
+            )
+            ctxgov_report = repo / ".ctxgov" / "health" / "runs" / "old"
+            ctxgov_report.mkdir(parents=True)
+            (ctxgov_report / "context-health-report.md").write_text(
                 "Stable MGP and security complete claims from old generated output.",
                 encoding="utf-8",
             )
@@ -226,9 +232,9 @@ class ContextHealthDoctorTests(unittest.TestCase):
             result = write_context_health_report(path)
 
             self.assertTrue(Path(result["json_report_path"]).exists())
-            self.assertEqual(Path(result["output_root"]).resolve(), (Path(tmpdir) / ".ctxvault" / "health").resolve())
+            self.assertEqual(Path(result["output_root"]).resolve(), (Path(tmpdir) / ".ctxgov" / "health").resolve())
             self.assertTrue(
-                Path(result["backup_manifest_path"]).resolve().is_relative_to((Path(tmpdir) / ".ctxvault" / "backups").resolve())
+                Path(result["backup_manifest_path"]).resolve().is_relative_to((Path(tmpdir) / ".ctxgov" / "backups").resolve())
             )
 
 

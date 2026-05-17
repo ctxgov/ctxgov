@@ -15,11 +15,11 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.context_slices import build_markdown_context_slices
-from ctxvault.core import CtxVault
-from ctxvault.layout import default_layout
-from ctxvault.policy import CtxVaultPolicy
-from ctxvault.surface import CtxVaultSurface
+from ctxgov.context_slices import build_markdown_context_slices
+from ctxgov.core import CtxVault
+from ctxgov.layout import default_layout
+from ctxgov.policy import CtxVaultPolicy
+from ctxgov.surface import CtxVaultSurface
 from scripts.validate_fixtures import validate
 
 

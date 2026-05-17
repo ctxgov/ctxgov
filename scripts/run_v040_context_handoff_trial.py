@@ -14,9 +14,9 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from ctxvault.core import CtxVault
-from ctxvault.layout import default_layout
-from ctxvault.surface import CtxVaultSurface
+from ctxgov.core import CtxVault
+from ctxgov.layout import default_layout
+from ctxgov.surface import CtxVaultSurface
 
 
 DEFAULT_ROOT = Path("/tmp/ctxvault-v040-trial")

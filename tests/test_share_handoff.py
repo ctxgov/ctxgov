@@ -13,7 +13,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.share_handoff import (
+from ctxgov.share_handoff import (
     list_share_handoffs,
     mark_share_handoff_consumed,
     preview_share_handoff,

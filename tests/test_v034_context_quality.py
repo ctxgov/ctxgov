@@ -15,9 +15,9 @@ SCRIPT = ROOT / "scripts" / "run_v034_context_quality_scorecards.py"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.core import CtxVault
-from ctxvault.layout import default_layout
-from ctxvault.surface import CtxVaultSurface
+from ctxgov.core import CtxVault
+from ctxgov.layout import default_layout
+from ctxgov.surface import CtxVaultSurface
 from scripts.validate_fixtures import validate
 
 

@@ -30,12 +30,15 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
     def test_pyproject_has_conservative_package_metadata_without_compatibility_overclaim(self) -> None:
         pyproject = PYPROJECT.read_text(encoding="utf-8")
 
+        self.assertIn('name = "ctxgov"', pyproject)
         self.assertIn('version = "0.6.2.post1"', pyproject)
-        self.assertIn('ctxvault = "ctxvault.cli:main"', pyproject)
+        self.assertIn('ctxgov = "ctxgov.cli:main"', pyproject)
         self.assertIn('Development Status :: 3 - Alpha', pyproject)
         self.assertIn('License :: OSI Approved :: Apache Software License', pyproject)
         self.assertIn("[project.urls]", pyproject)
-        self.assertIn('Repository = "https://github.com/ctxvault/ctxvault"', pyproject)
+        self.assertIn('Repository = "https://github.com/ctxgov/ctxgov"', pyproject)
+        self.assertNotIn('name = "ctxvault"', pyproject)
+        self.assertNotIn('ctxvault = "ctxvault.cli:main"', pyproject)
         self.assertNotRegex(pyproject, r"Programming Language :: Python :: 3\.\d+")
         self.assertNotIn("Production/Stable", pyproject)
 
@@ -71,11 +74,11 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
         self.assertEqual(matrix["schema_id"], "ctxvault.v062-package-outreach-approval-matrix/v1")
         self.assertEqual(
             matrix["status"],
-            "owner_options_selected_public_preflight_pushed_testpypi_attempt_blocked",
+            "ctxgov_package_identity_prepared_pypi_account_blocked",
         )
         self.assertEqual(
             matrix["latest_execution_receipt"],
-            "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
+            "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json",
         )
         self.assertEqual(matrix["owner_selected_options"]["public-preflight-push"]["selected_option"], "B")
         self.assertEqual(matrix["owner_selected_options"]["package-registry-target"]["selected_option"], "A")
@@ -96,17 +99,21 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
             "social_post",
             "maintainer_outreach",
             "package_install_claim_in_public_copy",
+            "ctxvault_distribution_publication",
+            "ctxvault_console_script_publication",
         ]:
             self.assertIn(required, blocked)
+        self.assertIn("pypi_account_creation_or_recovery", matrix["blocked_until_external_configuration"])
         self.assertIn("testpypi_publish_completion", matrix["blocked_until_external_configuration"])
 
     def test_preflight_receipt_records_local_smoke_without_external_side_effects(self) -> None:
         receipt = json.loads(PREFLIGHT_RECEIPT.read_text(encoding="utf-8"))
 
         self.assertEqual(receipt["schema_id"], "ctxvault.v062-package-outreach-preflight-receipt/v1")
-        self.assertEqual(receipt["status"], "local_package_and_outreach_preflight_completed_no_external_publication")
+        self.assertEqual(receipt["status"], "ctxgov_package_identity_local_preflight_completed_no_external_publication")
+        self.assertEqual(receipt["selected_package_distribution"], "ctxgov")
         self.assertEqual(receipt["selected_package_version"], "0.6.2.post1")
-        self.assertEqual(receipt["package_smoke"]["wheel_file"], "ctxvault-0.6.2.post1-py3-none-any.whl")
+        self.assertEqual(receipt["package_smoke"]["wheel_file"], "ctxgov-0.6.2.post1-py3-none-any.whl")
         self.assertRegex(receipt["package_smoke"]["wheel_sha256"], r"^[0-9a-f]{64}$")
         self.assertGreater(receipt["package_smoke"]["wheel_size_bytes"], 0)
         self.assertFalse(receipt["package_smoke"]["side_effects"]["package_uploaded"])

@@ -4,9 +4,10 @@
   "version": "v0.6.2",
   "date": "2026-05-16",
   "timezone": "America/Los_Angeles",
-  "status": "owner_options_selected_public_preflight_pushed_testpypi_attempt_blocked",
+  "status": "ctxgov_package_identity_prepared_pypi_account_blocked",
+  "selected_package_distribution": "ctxgov",
   "selected_package_version": "0.6.2.post1",
-  "latest_execution_receipt": "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
+  "latest_execution_receipt": "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json",
   "selected_options": [
     {
       "id": "public-preflight-push",
@@ -43,11 +44,16 @@
     ".github/workflows/publish-python.yml",
     "release/v0.6.2/package-outreach-selected-options-2026-05-16.json",
     "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
+    "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json",
     "tests/test_v062_selected_package_outreach_options.py",
     "tests/test_v062_testpypi_publishing_attempt.py"
   ],
   "external_actions_state": {
     "public_preflight_commit_pushed": true,
+    "ctxgov_github_org_created": true,
+    "ctxgov_github_repo_created": true,
+    "ctxgov_package_identity_prepared": true,
+    "pypi_account_access_available": false,
     "github_release_updated": false,
     "git_tag_moved": false,
     "testpypi_workflow_run_started": true,
@@ -81,13 +87,16 @@
     }
   ],
   "remaining_required_before_testpypi_completion": [
-    "Configure TestPyPI trusted publisher for repository ctxvault/ctxvault, workflow publish-python.yml, environment testpypi.",
-    "Rerun the workflow manually from main with registry=testpypi.",
-    "Install from TestPyPI in a clean environment and run Context Health Doctor smoke."
+    "Configure TestPyPI pending publisher for project ctxgov, owner ctxgov, repository ctxgov, workflow publish-python.yml, environment testpypi.",
+    "Rerun the workflow manually from ctxgov/ctxgov main with registry=testpypi.",
+    "Install ctxgov==0.6.2.post1 from TestPyPI in a clean environment and run Context Health Doctor smoke."
   ],
   "remaining_required_before_pypi": [
+    "Create or recover a working https://pypi.org/ account.",
+    "Verify the PyPI account email and enable required account security controls.",
+    "Request or configure the ctxgov PyPI organization, or record a separate decision to publish under an individual account.",
     "Review TestPyPI receipt and install smoke.",
-    "Configure PyPI trusted publisher for repository ctxvault/ctxvault, workflow publish-python.yml, environment pypi.",
+    "Configure PyPI pending publisher for project ctxgov, owner ctxgov, repository ctxgov, workflow publish-python.yml, environment pypi.",
     "Approve official PyPI upload.",
     "Create and push a v0.6.2.post1 package tag after TestPyPI succeeds.",
     "Run the workflow manually from a v0.6.2.post1 tag ref with registry=pypi.",
@@ -95,7 +104,7 @@
     "Only then approve package-first announcement."
   ],
   "rollback": {
-    "source_rollback": "Revert the public main commits that added package metadata, workflow, and receipts if the package lane is abandoned.",
+    "source_rollback": "Revert the public main commits that added package metadata, workflow, receipts, and ctxgov package identity if the package lane is abandoned.",
     "registry_rollback_required": false,
     "outreach_rollback_required": false
   },

@@ -13,7 +13,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.plugins import LocalPluginExecutorRegistry, PluginRegistry, PluginRegistryError
+from ctxgov.plugins import LocalPluginExecutorRegistry, PluginRegistry, PluginRegistryError
 
 
 class PluginRegistryTests(unittest.TestCase):

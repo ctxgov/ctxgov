@@ -410,7 +410,7 @@ def projection_adapter_healthcheck(
         "output_hash": None,
         "warnings": warnings,
         "verification": {
-            "command": f"python3 -m ctxvault.cli adapter-healthcheck --target-kind {spec['canonical']}",
+            "command": f"python3 -m ctxgov.cli adapter-healthcheck --target-kind {spec['canonical']}",
             "status": status,
         },
         "review_state": "not_required",

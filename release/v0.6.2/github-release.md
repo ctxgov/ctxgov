@@ -2,17 +2,17 @@
 
 Subtitle: offline context contracts and public-safe OSS evidence receipts.
 
-CtxVault now includes a local Context Health Doctor that shows what AI-facing
+CtxGov now includes a local Context Health Doctor that shows what AI-facing
 context is stale, conflicting, unsupported, or unsafe before it reaches agents.
 
 Use it to scan a local repo, folder, or file:
 
 ```bash
-PYTHONPATH=src python3 -m ctxvault.cli doctor --path /path/to/repo --output .ctxvault/health
+PYTHONPATH=src python3 -m ctxgov.cli doctor --path /path/to/repo --output .ctxgov/health
 ```
 
 The doctor writes a claim/context/memory/action health report plus local
-receipts under the chosen output root, for example `.ctxvault/health`. The
+receipts under the chosen output root, for example `.ctxgov/health`. The
 default CLI output is compact JSON; add `--include-report` when you want the
 full report in stdout.
 

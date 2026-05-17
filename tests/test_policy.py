@@ -13,7 +13,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.policy import CtxVaultPolicy
+from ctxgov.policy import CtxVaultPolicy
 
 
 class PolicyTests(unittest.TestCase):

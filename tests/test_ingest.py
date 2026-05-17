@@ -15,9 +15,9 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.core import ContextBuildRequest, CtxVault
-from ctxvault.ingest import import_conversation_path, import_knowledge_path, import_prompt_path, import_transcript_path
-from ctxvault.layout import default_layout
+from ctxgov.core import ContextBuildRequest, CtxVault
+from ctxgov.ingest import import_conversation_path, import_knowledge_path, import_prompt_path, import_transcript_path
+from ctxgov.layout import default_layout
 
 
 class IngestTests(unittest.TestCase):

@@ -16,11 +16,11 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault import cli
-from ctxvault.core import CtxVault
-from ctxvault.layout import default_layout
-from ctxvault.surface import CtxVaultSurface
-from ctxvault.versioning import record_mutation
+from ctxgov import cli
+from ctxgov.core import CtxVault
+from ctxgov.layout import default_layout
+from ctxgov.surface import CtxVaultSurface
+from ctxgov.versioning import record_mutation
 
 
 class CliBoundaryTests(unittest.TestCase):
@@ -38,14 +38,14 @@ class CliBoundaryTests(unittest.TestCase):
         self.fail("parser does not expose subcommands")
 
     def test_build_parser_omits_workbench_when_surface_is_missing(self) -> None:
-        with patch("ctxvault.cli.find_spec", return_value=None):
+        with patch("ctxgov.cli.find_spec", return_value=None):
             parser = cli.build_parser()
         self.assertNotIn("workbench", self._subcommand_names(parser))
 
     def test_load_workbench_server_raises_helpful_error_when_missing(self) -> None:
-        error = ModuleNotFoundError("No module named 'ctxvault.workbench'")
-        error.name = "ctxvault.workbench"
-        with patch("ctxvault.cli.import_module", side_effect=error):
+        error = ModuleNotFoundError("No module named 'ctxgov.workbench'")
+        error.name = "ctxgov.workbench"
+        with patch("ctxgov.cli.import_module", side_effect=error):
             with self.assertRaises(RuntimeError) as raised:
                 cli.load_workbench_server()
         self.assertIn("workbench surface is not available in this build", str(raised.exception))
@@ -59,8 +59,8 @@ class CliBoundaryTests(unittest.TestCase):
             observed["port"] = port
             return 17
 
-        with patch("ctxvault.cli.has_workbench_surface", return_value=True), patch(
-            "ctxvault.cli.load_workbench_server", return_value=fake_server
+        with patch("ctxgov.cli.has_workbench_surface", return_value=True), patch(
+            "ctxgov.cli.load_workbench_server", return_value=fake_server
         ):
             result = cli.main(["workbench", "--root", str(ROOT), "--host", "127.0.0.1", "--port", "9000"])
 

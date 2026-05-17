@@ -14,11 +14,11 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from ctxvault.core import CtxVault
-from ctxvault.ingest import import_knowledge_path, import_transcript_path
-from ctxvault.layout import default_layout
-from ctxvault.policy import CtxVaultPolicy
-from ctxvault.surface import CtxVaultSurface
+from ctxgov.core import CtxVault
+from ctxgov.ingest import import_knowledge_path, import_transcript_path
+from ctxgov.layout import default_layout
+from ctxgov.policy import CtxVaultPolicy
+from ctxgov.surface import CtxVaultSurface
 
 
 SCOPE_KIND = "project"

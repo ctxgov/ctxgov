@@ -14,7 +14,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.backup import emit_backup_bundle
+from ctxgov.backup import emit_backup_bundle
 
 
 class BackupBundleTests(unittest.TestCase):

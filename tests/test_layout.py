@@ -11,7 +11,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.layout import default_layout
+from ctxgov.layout import default_layout
 
 
 class LayoutTests(unittest.TestCase):

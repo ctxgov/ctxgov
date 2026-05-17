@@ -1,4 +1,4 @@
-# CtxVault Release Boundary
+# CtxGov Release Boundary
 
 This repository does not publish future plans. Public documentation should
 describe current shipped artifacts, current release boundaries, and explicit
@@ -23,6 +23,6 @@ Public copy must avoid:
   automatic-remediation claims
 
 The v0.6.2 claim boundary is Context Health Doctor: a local scan that writes
-generated CtxVault health artifacts and rollback receipts without modifying
+generated CtxGov health artifacts and rollback receipts without modifying
 scanned source files, calling models or providers, executing runtimes, fetching
 the network, or promoting memory.

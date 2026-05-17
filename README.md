@@ -1,11 +1,11 @@
-# CtxVault
+# CtxGov
 
-Status: v0.6.2 public release artifact. Current public surface: Context Health
-Doctor.
+Status: v0.6.2 public release artifact. Current package-preparation surface:
+Context Health Doctor.
 
 Know what your AI tools see.
 
-CtxVault is a local context-governance toolkit for AI work. The v0.6.2 release
+CtxGov is a local context-governance toolkit for AI work. The v0.6.2 release
 focuses on one public path: a local Context Health Doctor that reports stale,
 conflicting, unsupported, or unsafe AI-facing context before it reaches agents.
 
@@ -15,10 +15,10 @@ Scan a local repository, folder, or file and write a claim/context/memory/action
 health report:
 
 ```bash
-PYTHONPATH=src python3 -m ctxvault.cli doctor --path /path/to/repo --output .ctxvault/health
+PYTHONPATH=src python3 -m ctxgov.cli doctor --path /path/to/repo --output .ctxgov/health
 ```
 
-The doctor reads local files selected by the user. It writes generated CtxVault
+The doctor reads local files selected by the user. It writes generated CtxGov
 artifacts under the chosen output and rollback paths, including JSON, Markdown,
 run receipt, evidence manifest, backup manifest, and index files. It does not
 modify scanned source files, call models or providers, execute runtimes or
@@ -67,7 +67,7 @@ python3 -m pytest tests/test_context_health_doctor.py tests/test_cli.py
 
 The focused tests cover schema validation, sample findings, clean-repo allowed
 state, generated reports and receipts, rollback paths, missing-path fail-closed
-behavior, generated `.ctxvault` exclusion, and legacy `doctor --root`
+behavior, generated `.ctxgov`/`.ctxvault` exclusion, and legacy `doctor --root`
 compatibility.
 
 ## Release Artifacts
@@ -75,6 +75,6 @@ compatibility.
 - `release/v0.6.2/RELEASE_NOTES.md`
 - `release/v0.6.2/github-release.md`
 - `release/v0.6.2/publication/v062-publication-receipt-2026-05-16.json`
-- `src/ctxvault/context_health.py`
-- `src/ctxvault/cli.py`
+- `src/ctxgov/context_health.py`
+- `src/ctxgov/cli.py`
 - `tests/test_context_health_doctor.py`

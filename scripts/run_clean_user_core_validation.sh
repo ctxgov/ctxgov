@@ -33,14 +33,14 @@ mkdir -p "$VALIDATION_ROOT/exports" "$VALIDATION_ROOT/artifacts"
 
 python3 "$REPO_ROOT/scripts/run_deterministic_checks.py"
 
-PYTHONPATH="$PYTHONPATH_VALUE" python3 -m ctxvault.cli init-vault --root "$VALIDATION_ROOT"
-PYTHONPATH="$PYTHONPATH_VALUE" python3 -m ctxvault.cli seed-fixtures --root "$VALIDATION_ROOT"
-PYTHONPATH="$PYTHONPATH_VALUE" python3 -m ctxvault.cli build-context \
+PYTHONPATH="$PYTHONPATH_VALUE" python3 -m ctxgov.cli init-vault --root "$VALIDATION_ROOT"
+PYTHONPATH="$PYTHONPATH_VALUE" python3 -m ctxgov.cli seed-fixtures --root "$VALIDATION_ROOT"
+PYTHONPATH="$PYTHONPATH_VALUE" python3 -m ctxgov.cli build-context \
   --root "$VALIDATION_ROOT" \
   --task-label "clean user validation" \
   --prompt-id prompt_schema_designer_v1 \
   --memory-query "local LLM"
-PYTHONPATH="$PYTHONPATH_VALUE" python3 -m ctxvault.cli emit-agents-projection \
+PYTHONPATH="$PYTHONPATH_VALUE" python3 -m ctxgov.cli emit-agents-projection \
   --root "$VALIDATION_ROOT" \
   --workstream-id ws_20260421_ctxvault_schema \
   --output-path "$VALIDATION_ROOT/exports/AGENTS.md" \

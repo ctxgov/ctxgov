@@ -17,9 +17,9 @@ if str(SRC_ROOT) not in sys.path:
 if str(SCRIPT_ROOT) not in sys.path:
     sys.path.insert(0, str(SCRIPT_ROOT))
 
-from ctxvault.core import CtxVault
-from ctxvault.layout import default_layout
-from ctxvault.surface import CtxVaultSurface
+from ctxgov.core import CtxVault
+from ctxgov.layout import default_layout
+from ctxgov.surface import CtxVaultSurface
 from run_v040_context_handoff_trial import (
     PUBLIC_BOUNDARY,
     _first_run_checklist,

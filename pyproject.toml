@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ctxvault"
+name = "ctxgov"
 version = "0.6.2.post1"
-description = "Deterministic context extraction, safe handoff, and receipts before AI tools"
+description = "Local context governance and health reports before AI tools"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Apache-2.0"}
@@ -20,16 +20,16 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/ctxvault/ctxvault"
-Repository = "https://github.com/ctxvault/ctxvault"
-Issues = "https://github.com/ctxvault/ctxvault/issues"
-Changelog = "https://github.com/ctxvault/ctxvault/releases/tag/v0.6.2"
+Homepage = "https://github.com/ctxgov/ctxgov"
+Repository = "https://github.com/ctxgov/ctxgov"
+Issues = "https://github.com/ctxgov/ctxgov/issues"
+Changelog = "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.2"
 
 [project.optional-dependencies]
 schema = ["pydantic>=2.7"]
 
 [project.scripts]
-ctxvault = "ctxvault.cli:main"
+ctxgov = "ctxgov.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

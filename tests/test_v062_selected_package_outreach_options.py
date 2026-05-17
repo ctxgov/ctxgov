@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "publish-python.yml"
 SELECTED_OPTIONS = ROOT / "release" / "v0.6.2" / "package-outreach-selected-options-2026-05-16.json"
 TESTPYPI_ATTEMPT = ROOT / "release" / "v0.6.2" / "testpypi-publishing-attempt-2026-05-17.json"
+CTXGOV_IDENTITY = ROOT / "release" / "v0.6.2" / "ctxgov-package-identity-hardening-2026-05-17.json"
 
 
 class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
@@ -18,12 +19,13 @@ class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
 
         self.assertEqual(
             receipt["status"],
-            "owner_options_selected_public_preflight_pushed_testpypi_attempt_blocked",
+            "ctxgov_package_identity_prepared_pypi_account_blocked",
         )
+        self.assertEqual(receipt["selected_package_distribution"], "ctxgov")
         self.assertEqual(receipt["selected_package_version"], "0.6.2.post1")
         self.assertEqual(
             receipt["latest_execution_receipt"],
-            "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
+            "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json",
         )
         self.assertEqual(selected["public-preflight-push"], "B")
         self.assertEqual(selected["package-registry-target"], "A")
@@ -33,7 +35,11 @@ class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
 
         state = receipt["external_actions_state"]
         self.assertTrue(state["public_preflight_commit_pushed"])
+        self.assertTrue(state["ctxgov_github_org_created"])
+        self.assertTrue(state["ctxgov_github_repo_created"])
+        self.assertTrue(state["ctxgov_package_identity_prepared"])
         self.assertTrue(state["testpypi_workflow_run_started"])
+        self.assertFalse(state["pypi_account_access_available"])
         for field in [
             "github_release_updated",
             "git_tag_moved",
@@ -66,8 +72,9 @@ class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
         receipt = json.loads(SELECTED_OPTIONS.read_text(encoding="utf-8"))
         body = json.dumps(receipt, sort_keys=True)
 
-        self.assertIn("Configure TestPyPI trusted publisher", body)
-        self.assertIn("Rerun the workflow manually from main with registry=testpypi", body)
+        self.assertIn("Configure TestPyPI pending publisher for project ctxgov", body)
+        self.assertIn("Rerun the workflow manually from ctxgov/ctxgov main with registry=testpypi", body)
+        self.assertIn("Create or recover a working https://pypi.org/ account", body)
         self.assertIn("v0.6.2.post1", body)
         self.assertIn("Only then approve package-first announcement", body)
         self.assertNotIn("has been published to " + "PyPI", body)
@@ -77,8 +84,9 @@ class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
         receipt = json.loads(SELECTED_OPTIONS.read_text(encoding="utf-8"))
         latest = ROOT / receipt["latest_execution_receipt"]
 
-        self.assertEqual(latest, TESTPYPI_ATTEMPT)
+        self.assertEqual(latest, CTXGOV_IDENTITY)
         self.assertTrue(latest.exists())
+        self.assertTrue(TESTPYPI_ATTEMPT.exists())
 
 
 if __name__ == "__main__":

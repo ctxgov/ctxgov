@@ -1,8 +1,8 @@
 {
   "schema_id": "ctxvault.v062-package-outreach-approval-matrix/v1",
   "version": "v0.6.2",
-  "status": "owner_options_selected_public_preflight_pushed_testpypi_attempt_blocked",
-  "latest_execution_receipt": "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
+  "status": "ctxgov_package_identity_prepared_pypi_account_blocked",
+  "latest_execution_receipt": "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json",
   "owner_selected_options": {
     "public-preflight-push": {
       "selected_option": "B",
@@ -57,6 +57,17 @@
         "tests/test_v062_package_and_outreach_preflight.py"
       ],
       "boundary": "local deterministic tests only"
+    },
+    {
+      "id": "ctxgov-package-identity-hardening",
+      "status": "executed",
+      "artifacts": [
+        "pyproject.toml",
+        "src/ctxgov/",
+        "README.md",
+        "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json"
+      ],
+      "boundary": "source/package identity only; no registry upload, tag move, GitHub Release move, or outreach"
     }
   ],
   "owner_approved_execution": [
@@ -71,6 +82,12 @@
       "status": "attempted_blocked",
       "evidence": "GitHub Actions run 25983008724 built artifacts and passed metadata checks, then failed with invalid-publisher because TestPyPI has no matching trusted publisher",
       "boundary": "no TestPyPI package publication completed and no PyPI upload ran"
+    },
+    {
+      "id": "ctxgov-github-identity",
+      "status": "owner_created_verified",
+      "evidence": "ctxgov GitHub organization and ctxgov/ctxgov public repository exist and are writable by the current GitHub credentials",
+      "boundary": "GitHub source identity only; package registries remain unchanged"
     }
   ],
   "approval_required": [
@@ -176,9 +193,16 @@
     "technical_article_publication",
     "maintainer_outreach",
     "github_issue_or_pull_request_outreach",
-    "package_install_claim_in_public_copy"
+    "package_install_claim_in_public_copy",
+    "ctxvault_distribution_publication",
+    "ctxvault_console_script_publication"
   ],
   "blocked_until_external_configuration": [
+    "pypi_account_creation_or_recovery",
+    "pypi_account_verified_email_and_2fa",
+    "pypi_ctxgov_organization_request_or_owner_decision",
+    "pypi_ctxgov_pending_publisher_configuration",
+    "testpypi_ctxgov_pending_publisher_configuration",
     "testpypi_publish_completion",
     "testpypi_install_claim",
     "trusted_publisher_configuration_on_testpypi"

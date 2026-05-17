@@ -45,6 +45,6 @@ body:
     id: artifact
     attributes:
       label: Command, path, or screen
-      placeholder: python3 -m ctxvault.cli build-context ...
+      placeholder: python3 -m ctxgov.cli build-context ...
     validations:
       required: false

@@ -11,7 +11,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from ctxvault.config import load_config
+from ctxgov.config import load_config
 
 
 class ConfigTests(unittest.TestCase):
