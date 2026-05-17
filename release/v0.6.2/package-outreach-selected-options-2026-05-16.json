@@ -4,10 +4,10 @@
   "version": "v0.6.2",
   "date": "2026-05-16",
   "timezone": "America/Los_Angeles",
-  "status": "ctxgov_package_identity_prepared_pypi_account_blocked",
+  "status": "testpypi_published_install_smoke_passed_pypi_blocked_release_copy_prepared",
   "selected_package_distribution": "ctxgov",
   "selected_package_version": "0.6.2.post1",
-  "latest_execution_receipt": "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json",
+  "latest_execution_receipt": "release/v0.6.2/testpypi-publishing-success-2026-05-17.json",
   "selected_options": [
     {
       "id": "public-preflight-push",
@@ -19,19 +19,19 @@
       "id": "package-registry-target",
       "selected_option": "A",
       "decision": "Use TestPyPI first, then PyPI.",
-      "execution": "TestPyPI workflow_dispatch attempted from main and blocked by missing TestPyPI trusted publisher"
+      "execution": "TestPyPI workflow_dispatch from ctxgov/ctxgov main completed successfully and clean TestPyPI install smoke passed"
     },
     {
       "id": "package-publishing-mechanism",
       "selected_option": "A",
       "decision": "Use PyPI trusted publishing.",
-      "execution": "manual-only GitHub Actions workflow is active; OIDC token exchange failed because TestPyPI has no matching publisher"
+      "execution": "manual-only GitHub Actions workflow published to TestPyPI through trusted publishing; official PyPI remains blocked"
     },
     {
       "id": "external-outreach-channel",
       "selected_option": "B",
       "decision": "Use package-first announcement after package verification.",
-      "execution": "kept announcement copy as local draft only; no outreach performed"
+      "execution": "prepared blocked GitHub Release, announcement, and correction drafts; no release or outreach performed"
     },
     {
       "id": "maintainer-outreach",
@@ -45,8 +45,13 @@
     "release/v0.6.2/package-outreach-selected-options-2026-05-16.json",
     "release/v0.6.2/testpypi-publishing-attempt-2026-05-17.json",
     "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json",
+    "release/v0.6.2/testpypi-publishing-success-2026-05-17.json",
+    "release/v0.6.2/ctxgov-github-release-draft.md",
+    "release/v0.6.2/ctxgov-package-first-announcement-draft.md",
+    "release/v0.6.2/ctxgov-rollback-correction-note.md",
     "tests/test_v062_selected_package_outreach_options.py",
-    "tests/test_v062_testpypi_publishing_attempt.py"
+    "tests/test_v062_testpypi_publishing_attempt.py",
+    "tests/test_v062_testpypi_success_and_release_drafts.py"
   ],
   "external_actions_state": {
     "public_preflight_commit_pushed": true,
@@ -57,11 +62,12 @@
     "github_release_updated": false,
     "git_tag_moved": false,
     "testpypi_workflow_run_started": true,
-    "testpypi_upload_completed": false,
-    "testpypi_package_available_verified": false,
+    "testpypi_upload_completed": true,
+    "testpypi_package_available_verified": true,
+    "testpypi_install_smoke_passed": true,
     "pypi_upload_performed": false,
     "github_packages_upload_performed": false,
-    "trusted_publisher_configured_on_testpypi": false,
+    "trusted_publisher_configured_on_testpypi": true,
     "trusted_publisher_configured_on_pypi": false,
     "package_first_announcement_published": false,
     "social_post_performed": false,
@@ -86,22 +92,16 @@
       "reason": "The release theme is local Context Health Doctor, not downstream project evaluation, endorsement, or compatibility."
     }
   ],
-  "remaining_required_before_testpypi_completion": [
-    "Configure TestPyPI pending publisher for project ctxgov, owner ctxgov, repository ctxgov, workflow publish-python.yml, environment testpypi.",
-    "Rerun the workflow manually from ctxgov/ctxgov main with registry=testpypi.",
-    "Install ctxgov==0.6.2.post1 from TestPyPI in a clean environment and run Context Health Doctor smoke."
-  ],
+  "remaining_required_before_testpypi_completion": [],
   "remaining_required_before_pypi": [
-    "Create or recover a working https://pypi.org/ account.",
-    "Verify the PyPI account email and enable required account security controls.",
-    "Request or configure the ctxgov PyPI organization, or record a separate decision to publish under an individual account.",
+    "Wait for PyPI ctxgov organization approval, or record a separate decision to publish under an individual account.",
     "Review TestPyPI receipt and install smoke.",
     "Configure PyPI pending publisher for project ctxgov, owner ctxgov, repository ctxgov, workflow publish-python.yml, environment pypi.",
     "Approve official PyPI upload.",
     "Create and push a v0.6.2.post1 package tag after TestPyPI succeeds.",
     "Run the workflow manually from a v0.6.2.post1 tag ref with registry=pypi.",
     "Verify PyPI install in a clean environment.",
-    "Only then approve package-first announcement."
+    "Only then publish GitHub Release and approve package-first announcement."
   ],
   "rollback": {
     "source_rollback": "Revert the public main commits that added package metadata, workflow, receipts, and ctxgov package identity if the package lane is abandoned.",
@@ -109,7 +109,7 @@
     "outreach_rollback_required": false
   },
   "final_assessment": {
-    "condition": "selected_options_recorded_public_preflight_pushed_testpypi_attempt_blocked_by_external_configuration",
+    "condition": "testpypi_done_release_copy_prepared_official_pypi_and_public_announcement_blocked",
     "remaining_unconstrained_uncertainty_count": 0
   }
 }

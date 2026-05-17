@@ -1,0 +1,149 @@
+{
+  "schema_id": "ctxgov.v062-testpypi-publishing-success/v1",
+  "receipt_id": "ctxgov_testpypi_publishing_success_20260517_01",
+  "version": "v0.6.2",
+  "selected_package_distribution": "ctxgov",
+  "selected_package_version": "0.6.2.post1",
+  "date": "2026-05-17",
+  "timezone": "America/Los_Angeles",
+  "status": "testpypi_published_and_clean_install_smoke_passed_pypi_blocked",
+  "public_source_state": {
+    "repository": "ctxgov/ctxgov",
+    "branch": "main",
+    "head_sha": "1c4f83f28bfba042d6a166bd851390b4b802195b",
+    "github_release_tag": null,
+    "github_release_created": false,
+    "package_tag_created": false,
+    "github_release_updated": false
+  },
+  "workflow_run": {
+    "name": "Publish Python Package",
+    "workflow_file": ".github/workflows/publish-python.yml",
+    "run_id": 25985305251,
+    "run_url": "https://github.com/ctxgov/ctxgov/actions/runs/25985305251",
+    "created_at_utc": "2026-05-17T08:00:46Z",
+    "updated_at_utc": "2026-05-17T08:01:35Z",
+    "head_sha": "1c4f83f28bfba042d6a166bd851390b4b802195b",
+    "trigger": {
+      "event": "workflow_dispatch",
+      "registry_input": "testpypi",
+      "ref": "refs/heads/main"
+    },
+    "conclusion": "success"
+  },
+  "jobs": [
+    {
+      "name": "Build and check artifacts",
+      "conclusion": "success",
+      "evidence": [
+        "source and wheel distributions built",
+        "distribution metadata check passed",
+        "distribution artifacts uploaded for downstream publish job"
+      ]
+    },
+    {
+      "name": "Publish to TestPyPI",
+      "conclusion": "success",
+      "registry_state_changed": true
+    },
+    {
+      "name": "Publish to PyPI",
+      "conclusion": "skipped",
+      "registry_state_changed": false
+    }
+  ],
+  "testpypi_project": {
+    "project_url": "https://test.pypi.org/project/ctxgov/",
+    "release_url": "https://test.pypi.org/project/ctxgov/0.6.2.post1/",
+    "json_api_status": 200,
+    "version": "0.6.2.post1",
+    "ownership_organization": null,
+    "ownership_roles": [
+      {
+        "role": "Owner",
+        "user": "ctxgov"
+      }
+    ],
+    "artifacts": [
+      {
+        "filename": "ctxgov-0.6.2.post1-py3-none-any.whl",
+        "packagetype": "bdist_wheel",
+        "sha256": "edad85ea6b4434cd39ab3159dc131a60f010e9ea915a6bf7d25466d8743b92b4",
+        "size": 189426,
+        "upload_time_iso_8601": "2026-05-17T08:01:30.309101Z"
+      },
+      {
+        "filename": "ctxgov-0.6.2.post1.tar.gz",
+        "packagetype": "sdist",
+        "sha256": "c2289c4cf637c6d7f83248b3341de37232a67d34089b91b29981aab5b011ba67",
+        "size": 244673,
+        "upload_time_iso_8601": "2026-05-17T08:01:31.944943Z"
+      }
+    ]
+  },
+  "clean_install_smoke": {
+    "venv_root": "<temporary-venv>",
+    "install_command": "python -m pip install --index-url https://test.pypi.org/simple/ --no-deps ctxgov==0.6.2.post1",
+    "install_result": "success",
+    "import_check": {
+      "import_ctxgov": "success",
+      "find_spec_ctxvault": null
+    },
+    "doctor_sample_smoke": {
+      "command": "ctxgov doctor --path <temporary-sample-repo> --output <temporary-output> --include-report",
+      "exit_code": 0,
+      "finding_count": 10,
+      "raw_source_copied": false,
+      "target_files_written": false
+    },
+    "missing_path_smoke": {
+      "command": "ctxgov doctor --path <missing-path> --output <temporary-output>",
+      "exit_code": 1,
+      "expected_error_contains": "Context Health Doctor scan path does not exist"
+    }
+  },
+  "prepared_but_not_published_artifacts": [
+    "release/v0.6.2/ctxgov-github-release-draft.md",
+    "release/v0.6.2/ctxgov-package-first-announcement-draft.md",
+    "release/v0.6.2/ctxgov-rollback-correction-note.md"
+  ],
+  "side_effects": {
+    "testpypi_upload_completed": true,
+    "testpypi_package_available_verified": true,
+    "testpypi_install_smoke_passed": true,
+    "pypi_upload_performed": false,
+    "github_release_created": false,
+    "github_release_updated": false,
+    "package_tag_created": false,
+    "package_first_announcement_published": false,
+    "social_post_performed": false,
+    "technical_article_published": false,
+    "maintainer_outreach_performed": false,
+    "github_issue_or_pull_request_outreach_performed": false
+  },
+  "blocked_until_external_configuration": [
+    "PyPI ctxgov organization request approved or owner records a separate individual-account publication decision.",
+    "PyPI pending publisher configured for project ctxgov, owner ctxgov, repository ctxgov, workflow publish-python.yml, environment pypi."
+  ],
+  "blocked_until_later_approval": [
+    "Create and push v0.6.2.post1 package tag.",
+    "Run workflow_dispatch from the v0.6.2.post1 tag with registry=pypi.",
+    "Verify official PyPI install in a clean environment.",
+    "Publish GitHub Release copy.",
+    "Publish package-first announcement.",
+    "Publish technical article.",
+    "Perform any maintainer outreach."
+  ],
+  "rollback": {
+    "testpypi_rollback": "Delete or supersede TestPyPI-only guidance; TestPyPI state is preview state and does not establish official install claims.",
+    "pypi_rollback_required": false,
+    "tag_rollback_required": false,
+    "github_release_rollback_required": false,
+    "outreach_rollback_required": false,
+    "source_rollback": "Revert the source commit that records this TestPyPI success and draft copy if the package lane is abandoned."
+  },
+  "final_assessment": {
+    "condition": "testpypi_published_clean_install_smoke_passed_official_pypi_and_public_release_still_blocked",
+    "remaining_unconstrained_uncertainty_count": 0
+  }
+}

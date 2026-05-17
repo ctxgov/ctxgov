@@ -1,8 +1,8 @@
 {
   "schema_id": "ctxvault.v062-package-outreach-approval-matrix/v1",
   "version": "v0.6.2",
-  "status": "ctxgov_package_identity_prepared_pypi_account_blocked",
-  "latest_execution_receipt": "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json",
+  "status": "testpypi_published_install_smoke_passed_pypi_blocked_release_copy_prepared",
+  "latest_execution_receipt": "release/v0.6.2/testpypi-publishing-success-2026-05-17.json",
   "owner_selected_options": {
     "public-preflight-push": {
       "selected_option": "B",
@@ -68,6 +68,16 @@
         "release/v0.6.2/ctxgov-package-identity-hardening-2026-05-17.json"
       ],
       "boundary": "source/package identity only; no registry upload, tag move, GitHub Release move, or outreach"
+    },
+    {
+      "id": "ctxgov-release-copy-preparation",
+      "status": "executed",
+      "artifacts": [
+        "release/v0.6.2/ctxgov-github-release-draft.md",
+        "release/v0.6.2/ctxgov-package-first-announcement-draft.md",
+        "release/v0.6.2/ctxgov-rollback-correction-note.md"
+      ],
+      "boundary": "blocked drafts only; no GitHub Release creation, package tag, PyPI upload, social post, article, or maintainer outreach"
     }
   ],
   "owner_approved_execution": [
@@ -88,6 +98,12 @@
       "status": "owner_created_verified",
       "evidence": "ctxgov GitHub organization and ctxgov/ctxgov public repository exist and are writable by the current GitHub credentials",
       "boundary": "GitHub source identity only; package registries remain unchanged"
+    },
+    {
+      "id": "ctxgov-testpypi-publish-smoke",
+      "status": "executed",
+      "evidence": "GitHub Actions run 25985305251 published ctxgov 0.6.2.post1 to TestPyPI; clean install smoke passed from TestPyPI",
+      "boundary": "TestPyPI preview only; no official PyPI upload, package tag, GitHub Release, announcement, or outreach"
     }
   ],
   "approval_required": [
@@ -193,18 +209,14 @@
     "technical_article_publication",
     "maintainer_outreach",
     "github_issue_or_pull_request_outreach",
-    "package_install_claim_in_public_copy",
+    "package_install_claim_in_public_copy_until_pypi_smoke",
     "ctxvault_distribution_publication",
-    "ctxvault_console_script_publication"
+    "ctxvault_console_script_publication",
+    "github_release_publication",
+    "package_tag_push"
   ],
   "blocked_until_external_configuration": [
-    "pypi_account_creation_or_recovery",
-    "pypi_account_verified_email_and_2fa",
     "pypi_ctxgov_organization_request_or_owner_decision",
-    "pypi_ctxgov_pending_publisher_configuration",
-    "testpypi_ctxgov_pending_publisher_configuration",
-    "testpypi_publish_completion",
-    "testpypi_install_claim",
-    "trusted_publisher_configuration_on_testpypi"
+    "pypi_ctxgov_pending_publisher_configuration"
   ]
 }

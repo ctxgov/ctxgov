@@ -1,33 +1,39 @@
 # v0.6.2 Package Registry Preflight
 
-Status: ctxgov package identity prepared. No package registry publication has completed.
+Status: TestPyPI publication and clean install smoke completed. Official PyPI
+publication has not run.
 The first TestPyPI workflow attempt is recorded in
 `testpypi-publishing-attempt-2026-05-17.json`; it was blocked by missing
 TestPyPI trusted-publisher configuration, after the build and metadata checks
 passed. That attempt used the now-retired `ctxvault` package name.
+The ctxgov TestPyPI publication is recorded in
+`testpypi-publishing-success-2026-05-17.json`; it published
+`ctxgov==0.6.2.post1` to TestPyPI and clean install smoke passed.
 
 Selected package distribution: `ctxgov`. Selected package version:
 `0.6.2.post1`. The GitHub Release and `v0.6.2` tag remain unchanged; the
 package registry path uses a package-only post release so the existing GitHub
 Release does not need to move again.
 
-This lane prepares CtxGov v0.6.2 for a possible `0.6.2.post1` package
-registry release without uploading artifacts, changing registry state, or
-making installability claims beyond local smoke checks.
+This lane prepares CtxGov v0.6.2 for an official `0.6.2.post1` PyPI release.
+TestPyPI is preview state only; official install claims remain blocked until
+PyPI publication and clean PyPI install smoke pass.
 
 ## Latest Execution State
 
 - Public `main` contains the manual trusted-publishing workflow and package
   metadata for `ctxgov==0.6.2.post1`.
-- The GitHub package source is moving to `ctxgov/ctxgov`.
+- The GitHub package source is `ctxgov/ctxgov`.
 - The existing GitHub Release and `v0.6.2` tag were not moved.
 - The previous `ctxvault` workflow was manually run against TestPyPI from
   `main`.
-- Artifact build and distribution metadata checks passed.
-- TestPyPI publication did not complete because TestPyPI has no matching
-  trusted publisher for the observed workflow claims.
-- Official PyPI publication is blocked until a PyPI account can be created or
-  recovered and the `ctxgov` organization/project publisher path is configured.
+- The ctxgov workflow was manually run against TestPyPI from `main`.
+- Artifact build, distribution metadata checks, and TestPyPI publication passed.
+- Clean TestPyPI install smoke passed for `ctxgov==0.6.2.post1`.
+- Official PyPI publication is blocked until the `ctxgov` PyPI organization or
+  owner path and the PyPI pending publisher are configured.
+- GitHub Release, package tag, and announcement drafts are prepared but not
+  published.
 - No PyPI upload, package-first announcement, social post, article, maintainer
   outreach, issue, or pull request outreach has been performed.
 
