@@ -31,20 +31,21 @@ class V061DownstreamOssPublicationLaneTests(unittest.TestCase):
             code = cli.main(list(args))
         return code, json.loads(stdout.getvalue())
 
-    def test_public_first_screen_explains_decision_preview_before_memory_or_actions(self) -> None:
+    def test_readme_stays_v062_focused_while_v061_public_pages_remain_available(self) -> None:
         readme = README.read_text(encoding="utf-8")
         pages = PAGES.read_text(encoding="utf-8")
 
         for required in [
-            "Start with a decision preview",
+            "v0.6.2 public release artifact",
+            "Context Health Doctor",
             "Claim",
             "Context",
             "Memory",
             "Action",
-            "oss-case-study-preview",
-            "--allow-network",
         ]:
             self.assertIn(required, readme)
+        self.assertNotIn("oss-case-study-preview", readme)
+        self.assertNotIn("--allow-network", readme)
         for required in [
             "Decision preview first",
             "claim, context packet, memory use, or action",

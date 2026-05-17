@@ -16,9 +16,9 @@
       "captured_at": "2026-05-08T09:00:00Z"
     },
     {
-      "id": "src_private_roadmap_note",
+      "id": "src_out_of_scope_adapter_note",
       "kind": "note",
-      "path_or_ref": "note://ctxvault/private-roadmap/external-memory-adapter",
+      "path_or_ref": "note://ctxvault/public-example/out-of-scope-adapter-boundary",
       "digest": null,
       "captured_at": "2026-05-08T09:00:00Z"
     }
@@ -41,9 +41,9 @@
     {
       "id": "cand_external_memory_adapters",
       "source_ids": [
-        "src_private_roadmap_note"
+        "src_out_of_scope_adapter_note"
       ],
-      "summary_or_excerpt": "External memory adapters may become a future candidate-provider lane, but they are not v0.4.1 schema scope and are not v0.4.0 shipped behavior.",
+      "summary_or_excerpt": "External memory adapters are outside v0.4.1 schema scope and are not v0.4.0 shipped behavior.",
       "scope": {
         "kind": "project",
         "value": "ctxvault"
@@ -54,7 +54,7 @@
     {
       "id": "cand_runtime_control_claim",
       "source_ids": [
-        "src_private_roadmap_note"
+        "src_out_of_scope_adapter_note"
       ],
       "summary_or_excerpt": "This candidate asserts runtime-control authority over Codex, Claude Code, Cursor, or ChatGPT; the review decision blocks it.",
       "scope": {
@@ -80,7 +80,7 @@
     {
       "candidate_id": "cand_external_memory_adapters",
       "decision": "omitted",
-      "reason": "External memory adapters are a deferred roadmap lane, not v0.4.1 Projection Governance Kernel schema scope and not a shipped release claim.",
+      "reason": "External memory adapters are an out-of-scope adapter lane, not v0.4.1 Projection Governance Kernel schema scope and not a shipped release claim.",
       "scope": {
         "kind": "project",
         "value": "ctxvault"

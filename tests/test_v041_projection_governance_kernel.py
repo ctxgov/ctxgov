@@ -43,13 +43,17 @@ class V041ProjectionGovernanceKernelTests(unittest.TestCase):
         validate(self.projection_packet, self.schema, self.schema, PROJECTION_FIXTURE.name)
         validate(self.receipt_packet, self.schema, self.schema, RECEIPT_FIXTURE.name)
 
-    def test_docs_and_readme_keep_v041_as_design_preview(self) -> None:
+    def test_docs_keep_v041_as_design_preview_and_readme_stays_current_release_focused(self) -> None:
         readme = README.read_text(encoding="utf-8")
         note = NOTE.read_text(encoding="utf-8")
         normalized_readme = " ".join(readme.split())
         normalized_note = " ".join(note.split())
 
         self.assertIn("Know what your AI tools see.", readme)
+        self.assertIn("v0.6.2 public release artifact", readme)
+        self.assertIn("Context Health Doctor", readme)
+        self.assertNotIn("v0.4.1 is an experimental", normalized_readme)
+        self.assertNotIn("Projection Governance Kernel", readme)
         self.assertIn("Know what your AI tools see.", note)
         self.assertIn("Status: experimental, non-normative v0.4.1 schema explanation", note)
         self.assertIn("This is not a v0.4.0 shipped-feature claim.", note)
@@ -60,13 +64,6 @@ class V041ProjectionGovernanceKernelTests(unittest.TestCase):
             "sources become candidate context; review decisions govern what may be projected",
             normalized_note,
         )
-        self.assertIn(
-            "v0.4.1 is an experimental, non-normative Projection Governance Kernel design preview",
-            normalized_readme,
-        )
-        self.assertIn("not a stable external API", normalized_readme)
-        self.assertIn("not runtime behavior", normalized_readme)
-        self.assertIn("Projection Governance Kernel", readme)
         self.assertIn("v0.4.1-execution-approval-matrix.md", note)
         self.assertIn("v0.4.1-release-notes.md", note)
 

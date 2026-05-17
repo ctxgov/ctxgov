@@ -18,9 +18,10 @@ receipts under `.ctxvault/health`. The default CLI output is compact JSON; add
 This first wave is intentionally narrow:
 
 - scans local files selected by the user
-- writes derived health reports and receipts under `.ctxvault/health`
+- writes generated health reports and receipts under the chosen output and
+  rollback paths
 - records rollback delete paths for generated artifacts
-- does not write target repo files
+- does not modify scanned source files
 - does not call models or providers
 - does not execute runtimes or adapters
 

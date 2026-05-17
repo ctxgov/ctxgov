@@ -203,7 +203,7 @@
       "options": [
         {
           "option": "A",
-          "label": "keep as experimental fixture packs and roadmap material",
+          "label": "keep as experimental fixture packs outside the public release claim",
           "recommendation": "recommended"
         },
         {

@@ -17,7 +17,8 @@ embedded report to stdout.
 ## What It Does
 
 Context Health Doctor scans a chosen local repository, folder, or file and
-writes derived health artifacts under `.ctxvault/health`.
+writes generated CtxVault health artifacts under the chosen output and rollback
+paths.
 
 It reports health across four authority layers:
 
@@ -46,7 +47,7 @@ This release does not claim:
 - performance or benchmark results
 - universal compatibility
 - stable protocol status
-- target repository writes
+- scanned source-file modification
 - model, provider, browser, cloud, MCP, live runtime, or adapter calls
 - auto-remediation
 - memory promotion
@@ -60,4 +61,3 @@ action, evidence, and rollback fields.
 Public-safe OSS evidence receipts show the same claim-boundary discipline on
 downstream source checks. They are supporting proof, not separate launch
 headlines.
-

@@ -47,7 +47,7 @@
     "full_public_tests": "python3 -m pytest -> 226 passed",
     "diff_check": "git diff --check -> passed",
     "leak_scan": "rg for local user paths, tailnet hostnames, ssh remotes, owner approval internals, private-key markers, and GitHub token-shaped prefixes over published v0.6.2 scope -> no matches",
-    "github_head_check": "gh api repos/ctxvault/ctxvault/git/ref/heads/main --jq .object.sha -> 55af5d1430cd32938a7830b1f90a2c6f1a5689aa",
+    "github_head_check": "At content-push time, gh api repos/ctxvault/ctxvault/git/ref/heads/main --jq .object.sha -> 55af5d1430cd32938a7830b1f90a2c6f1a5689aa. This receipt was recorded in a later commit and superseded for final head/tag verification by the post-publication cleanup receipt.",
     "url_verification": {
       "release_notes": 200,
       "context_health_module": 200
@@ -90,4 +90,3 @@
     "remaining_unconstrained_uncertainty_count": 0
   }
 }
-

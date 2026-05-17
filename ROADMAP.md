@@ -1,41 +1,28 @@
-# CtxVault Public Roadmap
+# CtxVault Release Boundary
 
-CtxVault is moving toward a sharper public surface: governed context projection
-for AI work, backed by review decisions and receipts.
+This repository does not publish future plans. Public documentation should
+describe current shipped artifacts, current release boundaries, and explicit
+non-claims.
 
-## Near Term
+For the current public surface, start with:
 
-- Reset the README around governed context projection, not generic memory.
-- Publish a public-safe evidence pack with aggregate read-only governance
-  metrics.
-- Add a static demo that shows source evidence, review decision, projected
-  packet, receipt, and rollback path.
-- Improve contributor paths with issue labels, public examples, and focused
-  tests.
-- Prepare one external OSS read-only governance case study.
+- `README.md`
+- `release/v0.6.2/RELEASE_NOTES.md`
+- `release/v0.6.2/github-release.md`
+- `release/v0.6.2/publication/v062-publication-receipt-2026-05-16.json`
 
-## Current Preferred Case Study
+Public copy must avoid:
 
-`mem0` is the first preferred external OSS case study because it stresses
-memory, retrieval, SDK/API, CLI, server, integrations, credential-shaped
-material, and benchmark-overclaim boundaries. Any public case study must say
-only read-only governance evaluation. It must not claim target project quality,
-performance, compatibility, security, or correctness.
+- private planning document names or summaries
+- private repository paths or local machine paths
+- roadmap promises
+- promotional adoption claims
+- package publication claims unless a package receipt exists
+- external outreach claims unless an outreach receipt exists
+- benchmark, security, reliability, compatibility, stable-protocol, or
+  automatic-remediation claims
 
-## Explicit Non-Goals
-
-- No benchmark or leaderboard claim.
-- No reliability, accuracy, coding-performance, security, hardware, or cost
-  claim.
-- No provider/model execution claim.
-- No runtime or adapter compatibility claim.
-- No target repository write claim.
-- No stable Memory Governance Protocol claim.
-- No Memory OS, RAG replacement, or hallucination-prevention claim.
-
-## Publication Gate
-
-Public releases, public evidence packs, public case studies, and public essays
-need exact approved copy, source-fact recheck, leak scan, credential-boundary
-review, post-publication verification, rollback verification, and owner
-approval before publication.
+The v0.6.2 claim boundary is Context Health Doctor: a local scan that writes
+generated CtxVault health artifacts and rollback receipts without modifying
+scanned source files, calling models or providers, executing runtimes, fetching
+the network, or promoting memory.
