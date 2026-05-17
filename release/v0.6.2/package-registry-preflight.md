@@ -1,0 +1,143 @@
+# v0.6.2 Package Registry Preflight
+
+Status: local preflight only. No package registry publication has been
+performed.
+
+This lane prepares CtxVault v0.6.2 for a possible package registry release
+without uploading artifacts, changing registry state, or making installability
+claims beyond local smoke checks.
+
+## No-Approval Work
+
+These actions are local and reversible:
+
+- Add conservative package metadata in `pyproject.toml`.
+- Build a local wheel without dependency resolution.
+- Install the local wheel into a temporary virtual environment.
+- Run `ctxvault doctor` from the installed console script against the v0.6.2
+  sample fixture.
+- Verify missing-path fail-closed behavior from the installed console script.
+- Scan package-facing release artifacts for private planning markers and
+  future-plan wording.
+- Record package publication as blocked until a registry lane is approved.
+
+## Local Build Command
+
+```bash
+python3 -m pip wheel . --no-deps --no-build-isolation -w /private/tmp/ctxvault-v062-package-wheelhouse
+```
+
+The command intentionally avoids network dependency resolution. It validates
+that the current source tree can produce an installable wheel in the local
+environment. It is not a registry upload.
+
+## Registry Options
+
+### Option A: TestPyPI First, Then PyPI
+
+Run the same wheel/install smoke locally, publish to TestPyPI, install from
+TestPyPI in a clean environment, then approve a separate PyPI publication.
+
+Pros:
+
+- Exercises registry metadata and install path before the irreversible PyPI
+  version is consumed.
+- Keeps rollback clear: failed TestPyPI attempts do not consume the official
+  PyPI version.
+- Matches the project posture of converting uncertainty into auditable gates.
+
+Cons:
+
+- Adds one extra approval and verification step.
+- TestPyPI does not perfectly mirror final user discovery on PyPI.
+
+Recommendation: choose this for the first package publication.
+
+### Option B: Direct PyPI Release
+
+Publish v0.6.2 directly to PyPI after local wheel smoke.
+
+Pros:
+
+- Fastest path to a public package.
+- Avoids TestPyPI account/project setup if the PyPI project is already ready.
+
+Cons:
+
+- PyPI versions are effectively immutable. A bad upload requires yanking and a
+  patch release instead of overwriting.
+- Any metadata or README rendering issue becomes public immediately.
+- Too much risk for the first package release of this project.
+
+Recommendation: do not choose this for the first package publication.
+
+### Option C: GitHub Packages Only
+
+Publish the Python package to GitHub Packages or keep install instructions tied
+to GitHub source.
+
+Pros:
+
+- Keeps package distribution near the source repository.
+- Can be acceptable for internal or limited-preview consumers.
+
+Cons:
+
+- Poorer default Python package discovery than PyPI.
+- Users may still expect PyPI.
+- Does not remove the need for package metadata, install smoke, and rollback
+  policy.
+
+Recommendation: use only if the goal is a limited distribution preview.
+
+### Option D: Source-Only Release
+
+Keep v0.6.2 as a GitHub Release with source checkout instructions and do not
+publish a package.
+
+Pros:
+
+- Lowest external state and rollback risk.
+- Current GitHub Release already supports the documented `PYTHONPATH=src`
+  command.
+
+Cons:
+
+- Higher friction for ordinary Python users.
+- No registry-level install path.
+
+Recommendation: acceptable if the immediate goal is release credibility rather
+than package adoption.
+
+## Publishing Mechanism Options
+
+### Option A: PyPI Trusted Publishing
+
+Use PyPI trusted publishing through a reviewed GitHub Actions workflow after
+the TestPyPI lane passes.
+
+Recommendation: best long-term mechanism because it avoids local long-lived
+API tokens.
+
+### Option B: Scoped PyPI API Token
+
+Use a project-scoped token with a twine-based upload command.
+
+Recommendation: acceptable only if trusted publishing is not available and the
+token handling/rollback receipt is explicit.
+
+### Option C: Username/Password Upload
+
+Do not use this. It is weaker operationally and unnecessary.
+
+## Required Approval Before Publish
+
+Publishing requires explicit approval of:
+
+- registry target
+- package name ownership and account access
+- publishing mechanism
+- whether TestPyPI is mandatory
+- final artifact hashes
+- rollback policy: yank plus patch release, not overwrite
+- exact release/install wording after registry publication

@@ -9,7 +9,21 @@ description = "Deterministic context extraction, safe handoff, and receipts befo
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Apache-2.0"}
+keywords = ["ai", "context", "governance", "receipts", "developer-tools"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development",
+]
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/ctxvault/ctxvault"
+Repository = "https://github.com/ctxvault/ctxvault"
+Issues = "https://github.com/ctxvault/ctxvault/issues"
+Changelog = "https://github.com/ctxvault/ctxvault/releases/tag/v0.6.2"
 
 [project.optional-dependencies]
 schema = ["pydantic>=2.7"]

@@ -1,0 +1,146 @@
+{
+  "schema_id": "ctxvault.v062-package-outreach-approval-matrix/v1",
+  "version": "v0.6.2",
+  "status": "local_preflight_only",
+  "no_approval_executed": [
+    {
+      "id": "v062-package-metadata-hardening",
+      "status": "executed",
+      "artifacts": [
+        "pyproject.toml"
+      ],
+      "boundary": "local source metadata only; no package build upload or registry state"
+    },
+    {
+      "id": "v062-package-local-wheel-smoke",
+      "status": "prepared",
+      "artifacts": [
+        "release/v0.6.2/package-registry-preflight.md"
+      ],
+      "boundary": "local wheel/install smoke only; no network dependency resolution and no registry upload"
+    },
+    {
+      "id": "v062-outreach-copy-preflight",
+      "status": "executed",
+      "artifacts": [
+        "release/v0.6.2/external-outreach-preflight.md"
+      ],
+      "boundary": "draft copy and response policy only; no post, message, issue, pull request, or maintainer contact"
+    },
+    {
+      "id": "v062-package-outreach-regression-tests",
+      "status": "executed",
+      "artifacts": [
+        "tests/test_v062_package_and_outreach_preflight.py"
+      ],
+      "boundary": "local deterministic tests only"
+    }
+  ],
+  "approval_required": [
+    {
+      "id": "package-registry-target",
+      "requires_owner_approval_because": "chooses external registry state and package-name ownership path",
+      "recommended_option": "A",
+      "options": [
+        {
+          "option": "A",
+          "label": "TestPyPI first, then PyPI",
+          "recommendation": "recommended",
+          "reason": "Safest first package path; validates registry rendering and install behavior before consuming the official PyPI version."
+        },
+        {
+          "option": "B",
+          "label": "Direct PyPI",
+          "recommendation": "defer",
+          "reason": "Fast but too risky for first package release because bad PyPI versions require yank plus patch release."
+        },
+        {
+          "option": "C",
+          "label": "GitHub Packages only",
+          "recommendation": "limited_preview_only",
+          "reason": "Keeps distribution near source but is weaker for normal Python discovery."
+        },
+        {
+          "option": "D",
+          "label": "Source-only GitHub Release",
+          "recommendation": "acceptable",
+          "reason": "Lowest rollback risk, but higher user friction."
+        }
+      ]
+    },
+    {
+      "id": "package-publishing-mechanism",
+      "requires_owner_approval_because": "selects credential and CI trust model",
+      "recommended_option": "A",
+      "options": [
+        {
+          "option": "A",
+          "label": "PyPI trusted publishing",
+          "recommendation": "recommended",
+          "reason": "Avoids local long-lived API tokens and gives an auditable CI path."
+        },
+        {
+          "option": "B",
+          "label": "Project-scoped API token with twine",
+          "recommendation": "acceptable_if_needed",
+          "reason": "Works when trusted publishing is unavailable, but requires explicit token handling."
+        },
+        {
+          "option": "C",
+          "label": "Username/password upload",
+          "recommendation": "reject",
+          "reason": "Unnecessary and weaker operationally."
+        }
+      ]
+    },
+    {
+      "id": "external-outreach-channel",
+      "requires_owner_approval_because": "creates public communication state outside the repository",
+      "recommended_option": "B",
+      "options": [
+        {
+          "option": "A",
+          "label": "GitHub Release only",
+          "recommendation": "current_default",
+          "reason": "Already live, lowest risk, but limited reach."
+        },
+        {
+          "option": "B",
+          "label": "Package-first announcement",
+          "recommendation": "recommended_after_package",
+          "reason": "Best user path after package verification: install, run doctor, inspect report."
+        },
+        {
+          "option": "C",
+          "label": "Technical article",
+          "recommendation": "second_wave",
+          "reason": "Good fit for explaining authority layers, but needs exact-copy review."
+        },
+        {
+          "option": "D",
+          "label": "Social post",
+          "recommendation": "defer",
+          "reason": "High compression makes over-claiming likely."
+        },
+        {
+          "option": "E",
+          "label": "Maintainer outreach",
+          "recommendation": "reject_for_v062",
+          "reason": "Too easy to imply evaluation, endorsement, or compatibility."
+        }
+      ]
+    }
+  ],
+  "explicitly_blocked_until_approved": [
+    "pypi_upload",
+    "testpypi_upload",
+    "github_packages_upload",
+    "twine_upload",
+    "trusted_publishing_workflow_enablement",
+    "social_post",
+    "technical_article_publication",
+    "maintainer_outreach",
+    "github_issue_or_pull_request_outreach",
+    "package_install_claim_in_public_copy"
+  ]
+}
