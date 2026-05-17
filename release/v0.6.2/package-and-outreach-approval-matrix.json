@@ -5,7 +5,7 @@
   "owner_selected_options": {
     "public-preflight-push": {
       "selected_option": "B",
-      "decision": "Do not push the package/outreach preflight commit yet."
+      "decision": "Do not move the existing v0.6.2 GitHub Release or tag; use package-only version 0.6.2.post1 for registry publication."
     },
     "package-registry-target": {
       "selected_option": "A",

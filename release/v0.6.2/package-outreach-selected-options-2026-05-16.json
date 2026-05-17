@@ -5,11 +5,12 @@
   "date": "2026-05-16",
   "timezone": "America/Los_Angeles",
   "status": "owner_options_selected_local_execution_only",
+  "selected_package_version": "0.6.2.post1",
   "selected_options": [
     {
       "id": "public-preflight-push",
       "selected_option": "B",
-      "decision": "Do not push the package/outreach preflight commit yet.",
+      "decision": "Do not move the existing v0.6.2 GitHub Release or tag; use package-only version 0.6.2.post1 for registry publication.",
       "execution": "kept local only"
     },
     {
@@ -86,7 +87,8 @@
     "Review TestPyPI receipt and install smoke.",
     "Configure PyPI trusted publisher for repository ctxvault/ctxvault, workflow publish-python.yml, environment pypi.",
     "Approve official PyPI upload.",
-    "Run the workflow manually from a v0.6.2 tag ref with registry=pypi.",
+    "Create and push a v0.6.2.post1 package tag after TestPyPI succeeds.",
+    "Run the workflow manually from a v0.6.2.post1 tag ref with registry=pypi.",
     "Verify PyPI install in a clean environment.",
     "Only then approve package-first announcement."
   ],

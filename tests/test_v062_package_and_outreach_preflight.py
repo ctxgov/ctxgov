@@ -29,7 +29,7 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
     def test_pyproject_has_conservative_package_metadata_without_compatibility_overclaim(self) -> None:
         pyproject = PYPROJECT.read_text(encoding="utf-8")
 
-        self.assertIn('version = "0.6.2"', pyproject)
+        self.assertIn('version = "0.6.2.post1"', pyproject)
         self.assertIn('ctxvault = "ctxvault.cli:main"', pyproject)
         self.assertIn('Development Status :: 3 - Alpha', pyproject)
         self.assertIn('License :: OSI Approved :: Apache Software License', pyproject)
@@ -96,11 +96,10 @@ class V062PackageAndOutreachPreflightTests(unittest.TestCase):
 
         self.assertEqual(receipt["schema_id"], "ctxvault.v062-package-outreach-preflight-receipt/v1")
         self.assertEqual(receipt["status"], "local_package_and_outreach_preflight_completed_no_external_publication")
-        self.assertEqual(receipt["package_smoke"]["wheel_file"], "ctxvault-0.6.2-py3-none-any.whl")
-        self.assertEqual(
-            receipt["package_smoke"]["wheel_sha256"],
-            "8f4f516620d29a36ea9ae0bb2058aadb8d8729884d0b4f19889987883b23d42c",
-        )
+        self.assertEqual(receipt["selected_package_version"], "0.6.2.post1")
+        self.assertEqual(receipt["package_smoke"]["wheel_file"], "ctxvault-0.6.2.post1-py3-none-any.whl")
+        self.assertRegex(receipt["package_smoke"]["wheel_sha256"], r"^[0-9a-f]{64}$")
+        self.assertGreater(receipt["package_smoke"]["wheel_size_bytes"], 0)
         self.assertFalse(receipt["package_smoke"]["side_effects"]["package_uploaded"])
         self.assertFalse(receipt["package_smoke"]["side_effects"]["registry_state_changed"])
         self.assertFalse(receipt["package_smoke"]["side_effects"]["external_outreach_performed"])

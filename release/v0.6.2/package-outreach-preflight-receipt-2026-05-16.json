@@ -5,6 +5,7 @@
   "date": "2026-05-16",
   "timezone": "America/Los_Angeles",
   "status": "local_package_and_outreach_preflight_completed_no_external_publication",
+  "selected_package_version": "0.6.2.post1",
   "no_approval_executed": [
     "pyproject.toml metadata hardening",
     "package registry preflight document",
@@ -18,12 +19,12 @@
     "wheel content scan"
   ],
   "package_smoke": {
-    "wheel_file": "ctxvault-0.6.2-py3-none-any.whl",
-    "wheel_sha256": "8f4f516620d29a36ea9ae0bb2058aadb8d8729884d0b4f19889987883b23d42c",
-    "wheel_size_bytes": 189452,
+    "wheel_file": "ctxvault-0.6.2.post1-py3-none-any.whl",
+    "wheel_sha256": "20b34cfbabddff622f381ca73147fd28c98934a29643a8e37ab3af25abd12532",
+    "wheel_size_bytes": 189536,
     "wheel_file_count": 32,
     "build_command": "python3 -m pip wheel . --no-deps --no-build-isolation -w <temporary-wheelhouse>",
-    "install_command": "python -m pip install --no-index --find-links <temporary-wheelhouse> ctxvault==0.6.2",
+    "install_command": "python -m pip install --no-index --find-links <temporary-wheelhouse> ctxvault==0.6.2.post1",
     "doctor_smoke": "installed ctxvault doctor --path fixtures/v0.6.2-context-health-doctor/sample-repo --output <temporary-output> --include-report -> exit 0",
     "missing_path_smoke": "installed ctxvault doctor --path <missing-path> --output <temporary-output> -> exit 1 with fail-closed missing-path error",
     "side_effects": {
@@ -45,7 +46,7 @@
     "focused_tests": "python3 -m pytest tests/test_v062_package_and_outreach_preflight.py tests/test_v062_public_surface_cleanup.py tests/test_context_health_doctor.py tests/test_cli.py -> 39 passed",
     "wheel_private_marker_scan": "zipgrep over wheel for private planning markers and local user paths -> no matches",
     "wheel_forbidden_claim_scan": "zipgrep over wheel for security guarantee, benchmark performance, universal compatibility, stable protocol, automatic remediation, maintainer endorsement -> no matches",
-    "metadata_check": "wheel METADATA includes v0.6.2, Apache-2.0, project URLs, alpha classifier, console script, and no Python minor-version compatibility classifier"
+    "metadata_check": "wheel METADATA includes 0.6.2.post1, Apache-2.0, project URLs, alpha classifier, console script, and no Python minor-version compatibility classifier"
   },
   "approval_required_next": [
     {

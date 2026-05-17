@@ -3,9 +3,13 @@
 Status: local preflight only. No package registry publication has been
 performed.
 
-This lane prepares CtxVault v0.6.2 for a possible package registry release
-without uploading artifacts, changing registry state, or making installability
-claims beyond local smoke checks.
+Selected package version: `0.6.2.post1`. The GitHub Release and `v0.6.2` tag
+remain unchanged; the package registry path uses a package-only post release so
+the existing GitHub Release does not need to move again.
+
+This lane prepares CtxVault v0.6.2 for a possible `0.6.2.post1` package
+registry release without uploading artifacts, changing registry state, or
+making installability claims beyond local smoke checks.
 
 ## No-Approval Work
 
@@ -55,7 +59,7 @@ Recommendation: choose this for the first package publication.
 
 ### Option B: Direct PyPI Release
 
-Publish v0.6.2 directly to PyPI after local wheel smoke.
+Publish `0.6.2.post1` directly to PyPI after local wheel smoke.
 
 Pros:
 

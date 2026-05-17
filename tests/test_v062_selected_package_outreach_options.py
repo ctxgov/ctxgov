@@ -15,6 +15,7 @@ class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
         receipt = json.loads(SELECTED_OPTIONS.read_text(encoding="utf-8"))
         selected = {item["id"]: item["selected_option"] for item in receipt["selected_options"]}
 
+        self.assertEqual(receipt["selected_package_version"], "0.6.2.post1")
         self.assertEqual(selected["public-preflight-push"], "B")
         self.assertEqual(selected["package-registry-target"], "A")
         self.assertEqual(selected["package-publishing-mechanism"], "A")
@@ -56,6 +57,7 @@ class V062SelectedPackageOutreachOptionsTests(unittest.TestCase):
 
         self.assertIn("Configure TestPyPI trusted publisher", body)
         self.assertIn("Run the workflow manually with registry=testpypi", body)
+        self.assertIn("v0.6.2.post1", body)
         self.assertIn("Only then approve package-first announcement", body)
         self.assertNotIn("has been published to " + "PyPI", body)
         self.assertNotIn("maintainer outreach is " + "allowed", body)
