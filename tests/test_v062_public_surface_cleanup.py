@@ -14,6 +14,7 @@ PUBLIC_COPY_PATHS = [
     ROOT / "release" / "v0.6.2" / "RELEASE_NOTES.md",
     ROOT / "release" / "v0.6.2" / "github-release.md",
     ROOT / "release" / "v0.6.2" / "publication" / "v062-publication-receipt-2026-05-16.json",
+    ROOT / "release" / "v0.6.2" / "publication" / "v062-public-surface-cleanup-receipt-2026-05-16.json",
     ROOT / "docs" / "v0.3-compiled-context" / "experimental-fixtures" / "compiled-workstream-state.json",
     ROOT / "docs" / "v0.4.1-projection-governance-kernel.md",
     ROOT / "docs" / "v0.4.1-execution-approval-matrix.md",
@@ -98,6 +99,18 @@ class V062PublicSurfaceCleanupTests(unittest.TestCase):
         self.assertFalse(receipt["owner_approval"]["external_outreach_approved_for_this_lane"])
         self.assertFalse(receipt["side_effect_boundary"]["package_published"])
         self.assertFalse(receipt["side_effect_boundary"]["maintainer_outreach_performed"])
+
+        cleanup_receipt = json.loads(
+            (
+                ROOT
+                / "release"
+                / "v0.6.2"
+                / "publication"
+                / "v062-public-surface-cleanup-receipt-2026-05-16.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertFalse(cleanup_receipt["side_effect_boundary"]["package_published"])
+        self.assertFalse(cleanup_receipt["side_effect_boundary"]["external_outreach_performed"])
 
 
 if __name__ == "__main__":
