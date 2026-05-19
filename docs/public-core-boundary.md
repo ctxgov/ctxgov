@@ -29,6 +29,7 @@ These public contracts are intentionally marked experimental:
 - the first local plugin executor path
 - projection adapter healthchecks
 - runtime event receipts
+- runtime evidence receipts
 
 They are useful and inspectable today, but still expected to evolve.
 
@@ -40,3 +41,5 @@ The public trust promise is:
 - policy and privacy gates remain visible
 - non-core product layers do not replace the source of truth
 - optional convenience surfaces can evolve without weakening the public core
+- runtime evidence receipts record observed refs, omissions, and bounded
+  rollback/output states without claiming runtime ownership or trace truth

@@ -13,6 +13,12 @@ SCHEMA_FILES = {
     "core": ROOT / "schemas" / "json" / "ctxvault-core-v0.schema.json",
     "governance": ROOT / "schemas" / "json" / "ctxvault-governance-v0.schema.json",
     "controls": ROOT / "schemas" / "json" / "ctxvault-controls-v0.schema.json",
+    "runtime_evidence_receipt": (
+        ROOT
+        / "schemas"
+        / "json"
+        / "ctxvault-runtime-evidence-receipt-v0.schema.json"
+    ),
     "projection_governance_kernel_v041": (
         ROOT
         / "schemas"
@@ -36,6 +42,10 @@ FIXTURE_MAP = {
     ROOT / "fixtures" / "evidence" / "audit-run.json": ("governance", "AuditRun"),
     ROOT / "fixtures" / "evidence" / "adapter-capability-profile.json": ("governance", "AdapterCapabilityProfile"),
     ROOT / "fixtures" / "evidence" / "plugin-manifest.json": ("governance", "PluginManifest"),
+    ROOT / "fixtures" / "evidence" / "runtime-evidence-receipt.json": (
+        "runtime_evidence_receipt",
+        "__root__",
+    ),
     ROOT / "fixtures" / "controls" / "backup-check-receipt.json": ("controls", "BackupCheckReceipt"),
     ROOT / "fixtures" / "controls" / "protection-policy.json": ("controls", "ProtectionPolicy"),
     ROOT / "fixtures" / "controls" / "rollback-decision.json": ("controls", "RollbackDecision"),
@@ -188,7 +198,7 @@ def main() -> int:
     validated = 0
     for fixture_path, (schema_name, def_name) in FIXTURE_MAP.items():
         payload = json.loads(fixture_path.read_text())
-        schema = {"$ref": f"#/$defs/{def_name}"}
+        schema = schemas[schema_name] if def_name == "__root__" else {"$ref": f"#/$defs/{def_name}"}
         validate(payload, schema, schemas[schema_name], fixture_path.name)
         validated += 1
     print(f"validated {validated} fixture(s)")
