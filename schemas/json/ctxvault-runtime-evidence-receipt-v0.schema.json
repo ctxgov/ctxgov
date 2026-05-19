@@ -1,0 +1,464 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ctxgov.dev/schemas/ctxvault-runtime-evidence-receipt-v0.schema.json",
+  "title": "CtxVault Runtime Evidence Receipt v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "identity",
+    "source_refs",
+    "execution_context",
+    "outcome",
+    "omissions",
+    "output_state",
+    "rollback",
+    "claims_not_made"
+  ],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "enum": ["ctxvault.runtime-evidence-receipt/v0"]
+    },
+    "identity": {
+      "$ref": "#/$defs/Identity"
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SourceRef"
+      }
+    },
+    "execution_context": {
+      "$ref": "#/$defs/ExecutionContext"
+    },
+    "outcome": {
+      "$ref": "#/$defs/Outcome"
+    },
+    "omissions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Omission"
+      }
+    },
+    "output_state": {
+      "$ref": "#/$defs/OutputState"
+    },
+    "rollback": {
+      "$ref": "#/$defs/Rollback"
+    },
+    "claims_not_made": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "trace_truth",
+          "runtime_ownership",
+          "provider_fault",
+          "rollback_executed",
+          "public_reliability",
+          "compatibility_certification",
+          "benchmark_result"
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "type": "object",
+        "required": ["rollback"],
+        "properties": {
+          "rollback": {
+            "type": "object",
+            "required": ["observed_state"],
+            "properties": {
+              "observed_state": {
+                "const": "executed"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "claims_not_made": {
+            "type": "array",
+            "not": {
+              "contains": {
+                "const": "rollback_executed"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "Identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "created_at",
+        "producer",
+        "producer_schema_version"
+      ],
+      "properties": {
+        "receipt_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "created_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "producer": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "producer_schema_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "value"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": ["sha256"]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "ref"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["trace", "span", "tool_call", "artifact", "output", "config", "rollback", "other"]
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "anyOf": [
+            { "$ref": "#/$defs/Digest" },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "ExecutionContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime",
+        "framework_version",
+        "config_fingerprint",
+        "seed_fingerprint",
+        "environment_label"
+      ],
+      "properties": {
+        "runtime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "framework_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "config_fingerprint": {
+          "type": ["string", "null"]
+        },
+        "seed_fingerprint": {
+          "type": ["string", "null"]
+        },
+        "environment_label": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "error_class", "failure_stage", "observed_at", "failure_attribution"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["succeeded", "failed", "cancelled", "unknown"]
+        },
+        "error_class": {
+          "type": ["string", "null"]
+        },
+        "failure_stage": {
+          "type": ["string", "null"]
+        },
+        "observed_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "failure_attribution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["level", "statement", "source_ref"],
+          "allOf": [
+            {
+              "if": {
+                "type": "object",
+                "required": ["level"],
+                "properties": {
+                  "level": {
+                    "const": "source_supported_component"
+                  }
+                }
+              },
+              "then": {
+                "type": "object",
+                "properties": {
+                  "source_ref": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": ["not_attributed", "stage_only", "source_supported_component"]
+            },
+            "statement": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_ref": {
+              "type": ["string", "null"]
+            }
+          }
+        }
+      }
+    },
+    "Omission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "source_ref", "reason"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["redacted", "omitted", "unavailable"]
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "OutputState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "role", "size_bytes", "digest", "reason"],
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "required": ["state"],
+            "properties": {
+              "state": {
+                "const": "observed_digest_only"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "digest": {
+                "$ref": "#/$defs/Digest"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": ["state"],
+            "properties": {
+              "state": {
+                "const": "not_produced"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "size_bytes": {
+                "type": "null"
+              },
+              "digest": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["observed_digest_only", "redacted", "omitted", "unavailable", "not_produced"]
+        },
+        "role": {
+          "type": ["string", "null"]
+        },
+        "size_bytes": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "digest": {
+          "anyOf": [
+            { "$ref": "#/$defs/Digest" },
+            { "type": "null" }
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rollback_ref", "reversible", "path_available", "observed_state", "observed_at"],
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "required": ["observed_state"],
+            "properties": {
+              "observed_state": {
+                "const": "executed"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "rollback_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path_available": {
+                "const": true
+              },
+              "observed_at": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": ["observed_state"],
+            "properties": {
+              "observed_state": {
+                "const": "path_available_not_executed"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "rollback_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path_available": {
+                "const": true
+              },
+              "observed_at": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": ["observed_state"],
+            "properties": {
+              "observed_state": {
+                "enum": ["not_attempted", "unavailable"]
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "rollback_ref": {
+                "type": "null"
+              },
+              "path_available": {
+                "const": false
+              },
+              "observed_at": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "rollback_ref": {
+          "type": ["string", "null"]
+        },
+        "reversible": {
+          "type": "boolean"
+        },
+        "path_available": {
+          "type": "boolean"
+        },
+        "observed_state": {
+          "type": "string",
+          "enum": ["not_attempted", "path_available_not_executed", "executed", "unavailable"]
+        },
+        "observed_at": {
+          "type": ["string", "null"]
+        }
+      }
+    }
+  }
+}
