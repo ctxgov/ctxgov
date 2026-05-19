@@ -71,6 +71,11 @@ class ValidationError(Exception):
     pass
 
 
+def check_const(instance: Any, schema: dict[str, Any], path: str) -> None:
+    if "const" in schema and instance != schema["const"]:
+        raise ValidationError(f"{path}: value {instance!r} does not match const {schema['const']!r}")
+
+
 def resolve_ref(ref: str, root_schema: dict[str, Any]) -> dict[str, Any]:
     if not ref.startswith("#/$defs/"):
         raise ValidationError(f"unsupported $ref {ref}")
@@ -85,6 +90,41 @@ def validate(instance: Any, schema: dict[str, Any], root_schema: dict[str, Any],
     if "$ref" in schema:
         validate(instance, resolve_ref(schema["$ref"], root_schema), root_schema, path)
         return
+
+    if "allOf" in schema:
+        for option in schema["allOf"]:
+            validate(instance, option, root_schema, path)
+
+    if "if" in schema:
+        condition_matches = True
+        try:
+            validate(instance, schema["if"], root_schema, path)
+        except ValidationError:
+            condition_matches = False
+        if condition_matches and "then" in schema:
+            validate(instance, schema["then"], root_schema, path)
+        if not condition_matches and "else" in schema:
+            validate(instance, schema["else"], root_schema, path)
+
+    if "not" in schema:
+        try:
+            validate(instance, schema["not"], root_schema, path)
+        except ValidationError:
+            pass
+        else:
+            raise ValidationError(f"{path}: matched disallowed schema")
+
+    if "contains" in schema:
+        if not isinstance(instance, list):
+            raise ValidationError(f"{path}: expected array for contains")
+        for idx, item in enumerate(instance):
+            try:
+                validate(item, schema["contains"], root_schema, f"{path}[{idx}]")
+                break
+            except ValidationError:
+                continue
+        else:
+            raise ValidationError(f"{path}: expected at least one item matching contains")
 
     if "anyOf" in schema:
         errors: list[str] = []
@@ -149,6 +189,7 @@ def validate(instance: Any, schema: dict[str, Any], root_schema: dict[str, Any],
     if expected_type == "string":
         if not isinstance(instance, str):
             raise ValidationError(f"{path}: expected string")
+        check_const(instance, schema, path)
         if "minLength" in schema and len(instance) < schema["minLength"]:
             raise ValidationError(f"{path}: expected minLength {schema['minLength']}")
         if "pattern" in schema and re.search(schema["pattern"], instance) is None:
@@ -160,6 +201,7 @@ def validate(instance: Any, schema: dict[str, Any], root_schema: dict[str, Any],
     if expected_type == "integer":
         if not isinstance(instance, int) or isinstance(instance, bool):
             raise ValidationError(f"{path}: expected integer")
+        check_const(instance, schema, path)
         if "minimum" in schema and instance < schema["minimum"]:
             raise ValidationError(f"{path}: expected integer >= {schema['minimum']}")
         if "maximum" in schema and instance > schema["maximum"]:
@@ -169,6 +211,7 @@ def validate(instance: Any, schema: dict[str, Any], root_schema: dict[str, Any],
     if expected_type == "number":
         if not isinstance(instance, (int, float)) or isinstance(instance, bool):
             raise ValidationError(f"{path}: expected number")
+        check_const(instance, schema, path)
         if "minimum" in schema and instance < schema["minimum"]:
             raise ValidationError(f"{path}: expected number >= {schema['minimum']}")
         if "maximum" in schema and instance > schema["maximum"]:
@@ -178,14 +221,17 @@ def validate(instance: Any, schema: dict[str, Any], root_schema: dict[str, Any],
     if expected_type == "boolean":
         if not isinstance(instance, bool):
             raise ValidationError(f"{path}: expected boolean")
+        check_const(instance, schema, path)
         return
 
     if expected_type == "null":
         if instance is not None:
             raise ValidationError(f"{path}: expected null")
+        check_const(instance, schema, path)
         return
 
     if expected_type is None:
+        check_const(instance, schema, path)
         if "enum" in schema and instance not in schema["enum"]:
             raise ValidationError(f"{path}: value '{instance}' not in enum {schema['enum']}")
         return

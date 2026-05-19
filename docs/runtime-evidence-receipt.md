@@ -45,6 +45,24 @@ The same distinction applies to rollback. Having a rollback path is different
 from observing rollback execution. Use `rollback.observed_state` to record the
 difference.
 
+## Coherence Invariants
+
+The v0 schema enforces a few cross-field guardrails so a receipt cannot validate
+while overclaiming:
+
+- `output_state.state: observed_digest_only` requires both `digest` and
+  `size_bytes`.
+- `output_state.state: not_produced` requires both `digest` and `size_bytes` to
+  be null.
+- `rollback.observed_state: executed` requires `observed_at`, `path_available`,
+  and `rollback_ref`.
+- `rollback.observed_state: path_available_not_executed` requires
+  `path_available` and `rollback_ref`, and keeps `observed_at` null.
+- `failure_attribution.level: source_supported_component` requires
+  `source_ref`.
+- A receipt that observed rollback execution cannot also list
+  `rollback_executed` in `claims_not_made`.
+
 ## Public Output Boundary
 
 If provider or model output is not approved for public examples, the receipt can

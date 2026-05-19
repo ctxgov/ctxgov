@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.6.2 - Pending
+
+- Added Context Health Doctor release notes for local claim, context, memory,
+  and action health review.
+- Added the experimental runtime evidence receipt schema and public boundary
+  note.
+- Tightened runtime evidence receipt coherence invariants for output state,
+  rollback observation, attribution source refs, and rollback-executed claim
+  boundaries.
+- Community-sourced improvement: thanks @Rul1an for schema and boundary review
+  on the runtime evidence receipt field split.
+
 ## v0.5.3 - 2026-05-13
 
 - Published the v0.5.3 Experience Evidence Pack.

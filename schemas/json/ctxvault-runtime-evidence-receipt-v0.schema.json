@@ -63,6 +63,38 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "type": "object",
+        "required": ["rollback"],
+        "properties": {
+          "rollback": {
+            "type": "object",
+            "required": ["observed_state"],
+            "properties": {
+              "observed_state": {
+                "const": "executed"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "claims_not_made": {
+            "type": "array",
+            "not": {
+              "contains": {
+                "const": "rollback_executed"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "Identity": {
       "type": "object",
@@ -193,6 +225,28 @@
           "type": "object",
           "additionalProperties": false,
           "required": ["level", "statement", "source_ref"],
+          "allOf": [
+            {
+              "if": {
+                "type": "object",
+                "required": ["level"],
+                "properties": {
+                  "level": {
+                    "const": "source_supported_component"
+                  }
+                }
+              },
+              "then": {
+                "type": "object",
+                "properties": {
+                  "source_ref": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          ],
           "properties": {
             "level": {
               "type": "string",
@@ -232,6 +286,53 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["state", "role", "size_bytes", "digest", "reason"],
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "required": ["state"],
+            "properties": {
+              "state": {
+                "const": "observed_digest_only"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "digest": {
+                "$ref": "#/$defs/Digest"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": ["state"],
+            "properties": {
+              "state": {
+                "const": "not_produced"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "size_bytes": {
+                "type": "null"
+              },
+              "digest": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
       "properties": {
         "state": {
           "type": "string",
@@ -260,6 +361,86 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["rollback_ref", "reversible", "path_available", "observed_state", "observed_at"],
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "required": ["observed_state"],
+            "properties": {
+              "observed_state": {
+                "const": "executed"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "rollback_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path_available": {
+                "const": true
+              },
+              "observed_at": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": ["observed_state"],
+            "properties": {
+              "observed_state": {
+                "const": "path_available_not_executed"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "rollback_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path_available": {
+                "const": true
+              },
+              "observed_at": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": ["observed_state"],
+            "properties": {
+              "observed_state": {
+                "enum": ["not_attempted", "unavailable"]
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "rollback_ref": {
+                "type": "null"
+              },
+              "path_available": {
+                "const": false
+              },
+              "observed_at": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
       "properties": {
         "rollback_ref": {
           "type": ["string", "null"]

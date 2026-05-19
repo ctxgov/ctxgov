@@ -61,3 +61,9 @@ action, evidence, and rollback fields.
 Public-safe OSS evidence receipts show the same claim-boundary discipline on
 downstream source checks. They are supporting proof, not separate launch
 headlines.
+
+## Community Review
+
+Thanks @Rul1an for tightening the runtime evidence receipt invariants around
+output state, rollback observation, attribution source refs, and
+rollback-executed claim boundaries.
