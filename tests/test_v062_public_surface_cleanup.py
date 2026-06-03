@@ -54,14 +54,16 @@ class V062PublicSurfaceCleanupTests(unittest.TestCase):
         for pattern in PRIVATE_PATTERN_MARKERS:
             self.assertNotRegex(combined, pattern)
 
-    def test_readme_stays_focused_on_current_v062_release(self) -> None:
+    def test_readme_stays_focused_on_current_public_releases(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         normalized = " ".join(readme.split())
 
-        self.assertIn("v0.6.2 public release artifact", readme)
+        self.assertIn("v0.6.3", readme)
+        self.assertIn("v0.3.0", readme)
         self.assertIn("Context Health Doctor", readme)
-        self.assertIn("does not modify scanned source files", normalized)
-        self.assertIn("package registry publication", readme)
+        self.assertIn("does not write target repo files", normalized)
+        self.assertIn("They do not publish a new package", normalized)
+        self.assertIn("claim a public benchmark result", readme)
         self.assertNotIn("Proof Scene", readme)
         self.assertNotIn("Compatibility Notes", readme)
         self.assertNotIn("Reviewer Path", readme)

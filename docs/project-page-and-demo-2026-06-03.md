@@ -1,7 +1,7 @@
 # CtxGov Project Page And Demo Pack
 
 Date: 2026-06-03
-Status: local project-page and demo material. Not a published site, hosted demo,
+Status: GitHub Pages source and companion demo material. Not a hosted runtime,
 benchmark claim, security claim, or adoption claim.
 
 ## Project Page
@@ -28,9 +28,10 @@ Supporting copy:
 2. Problem: agents consume stale or conflicting repo/workflow context.
 3. Demo: before/after context-health report.
 4. Taxonomy: stale, conflicting, unsupported, unsafe, hidden terminal failure.
-5. Benchmark: separate `ctxgov/agent-context-evals` v0.2 scaffold, no public benchmark claim.
-6. Links: GitHub, release draft, benchmark report, technical report, hiring
-   packet.
+5. Benchmark: separate `ctxgov/agent-context-evals` v0.3 review-ready artifact,
+   no public benchmark claim.
+6. Links: GitHub, v0.6.3 release, v0.3 readiness report, technical report,
+   demo GIF, hiring packet.
 7. Limitations: no security guarantee, no benchmark claim, no compatibility
    claim, no live adapter, no target writes.
 
@@ -38,10 +39,10 @@ Supporting copy:
 
 Screen layout:
 
-- Left: sample AI-facing context from README, release notes, AGENTS.md, and
-  terminal log.
-- Right: CtxGov report with finding type, evidence span, severity, and next
-  action.
+- Left: sample AI-facing context from README, release notes, AGENTS.md,
+  terminal log, and memory summary.
+- Right: context-health report with finding type, evidence span, and claim
+  boundary.
 
 Script:
 
@@ -62,13 +63,13 @@ Acceptance:
 
 ## Publication Checklist
 
-- [ ] Enable GitHub Pages from `main` and `/docs`.
-- [ ] Open the page in a browser.
-- [ ] Verify no legacy namespace appears in first viewport.
-- [ ] Verify GitHub, release, report, and benchmark links resolve.
-- [ ] Capture a GIF from the hero demo panel or replace this pack with a live
-  demo link.
-- [ ] Run a copy pass for unsupported security/benchmark/compatibility claims.
+- [x] Enable GitHub Pages from `main` and `/docs`.
+- [x] Open the page in a browser.
+- [x] Verify no legacy namespace appears in first viewport.
+- [x] Verify GitHub, release, report, benchmark, and demo GIF links resolve.
+- [x] Publish companion v0.3 demo GIF:
+  `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
+- [x] Run a copy pass for unsupported security/benchmark/compatibility claims.
 
 ## Rollback
 
