@@ -185,12 +185,26 @@
             "duplicated_rule",
             "private_public_boundary_risk",
             "unsupported_claim",
+            "release_link_404",
+            "package_registry_unverified",
+            "release_artifact_missing",
             "missing_raw_ref",
             "over_compressed_summary",
             "memory_without_lifecycle_or_rollback",
+            "memory_missing_source_coverage",
+            "memory_missing_rollback",
+            "memory_unbounded_consequence",
+            "memory_missing_model_state_surface",
             "action_or_publication_without_evidence",
+            "task_shard_schema_conflict",
+            "task_shard_unapproved_side_effect",
+            "task_shard_missing_rollback",
             "terminal_failure_hidden"
           ]
+        },
+        "evidence_span": {
+          "type": "string",
+          "minLength": 1
         },
         "authority_layer_affected": {
           "type": "array",

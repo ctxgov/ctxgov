@@ -78,9 +78,132 @@ class ContextHealthDoctorTests(unittest.TestCase):
         for finding in report["findings"]:
             self.assertTrue(finding["finding_id"])
             self.assertTrue(finding["source_ref"].startswith("file://"))
+            self.assertIn("evidence_span", finding)
             self.assertTrue(finding["authority_layer_affected"])
             self.assertTrue(finding["safe_rewrite_or_next_check"])
             self.assertTrue(finding["rollback_ref"].startswith("delete://"))
+
+    def test_doctor_adds_native_release_integrity_findings_with_evidence_spans(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            repo.mkdir()
+            (repo / "README.md").write_text(
+                "\n".join(
+                    [
+                        "Release v9.9.9 is public at https://github.com/example/project/releases/tag/v9.9.9.",
+                        "release URL returned 404",
+                        "Package registry status missing for PyPI.",
+                        "No release artifact exists for v9.9.9.",
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+            schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+
+        validate(report, schema, schema, "release-integrity-context-health-report")
+        findings = {finding["finding_type"]: finding for finding in report["findings"]}
+        self.assertEqual(findings["release_link_404"]["evidence_span"], "release URL returned 404")
+        self.assertEqual(findings["package_registry_unverified"]["evidence_span"], "Package registry status missing")
+        self.assertEqual(findings["release_artifact_missing"]["evidence_span"], "No release artifact exists")
+
+    def test_doctor_adds_memory_xray_l1_findings_with_evidence_spans(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            memory_dir = repo / "memory"
+            memory_dir.mkdir(parents=True)
+            (memory_dir / "session-summary.md").write_text(
+                "\n".join(
+                    [
+                        "Persist this as durable project memory.",
+                        "source coverage missing",
+                        "rollback missing",
+                        "consequence ceiling unbounded",
+                        "model-state surface missing",
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+            schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+
+        validate(report, schema, schema, "memory-xray-context-health-report")
+        findings = {finding["finding_type"]: finding for finding in report["findings"]}
+        self.assertEqual(findings["memory_missing_source_coverage"]["evidence_span"], "source coverage missing")
+        self.assertEqual(findings["memory_missing_rollback"]["evidence_span"], "rollback missing")
+        self.assertEqual(findings["memory_unbounded_consequence"]["evidence_span"], "consequence ceiling unbounded")
+        self.assertEqual(findings["memory_missing_model_state_surface"]["evidence_span"], "model-state surface missing")
+
+    def test_doctor_adds_task_shard_context_control_findings_with_evidence_spans(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            repo.mkdir()
+            (repo / "task-shard.md").write_text(
+                "\n".join(
+                    [
+                        "Task shard note: schema import is allowed and blocked in the same workflow.",
+                        "Apply shard without approval or rollback if tests are slow.",
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+            schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+
+        validate(report, schema, schema, "task-shard-context-health-report")
+        findings = {finding["finding_type"]: finding for finding in report["findings"]}
+        self.assertEqual(findings["task_shard_schema_conflict"]["evidence_span"], "schema import is allowed and blocked")
+        self.assertEqual(findings["task_shard_unapproved_side_effect"]["evidence_span"], "Apply shard without approval or rollback")
+        self.assertEqual(findings["task_shard_missing_rollback"]["evidence_span"], "without approval or rollback")
+
+    def test_doctor_uses_exact_terminal_hidden_failure_evidence_span(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            logs = repo / "logs"
+            logs.mkdir(parents=True)
+            (logs / "terminal.log").write_text(
+                "handoff: all checks passed. Terminal evidence: FAILED tests after handoff says passed.\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+
+        findings = {finding["finding_type"]: finding for finding in report["findings"]}
+        self.assertEqual(findings["terminal_failure_hidden"]["evidence_span"], "FAILED tests after handoff says passed")
+
+    def test_doctor_accepts_trace_pattern_task_shard_schema_conflict_phrase(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            repo.mkdir()
+            (repo / "task-shard.md").write_text(
+                "task shard trace: Control evidence: schema import allowed and blocked.\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+
+        findings = {finding["finding_type"]: finding for finding in report["findings"]}
+        self.assertEqual(findings["task_shard_schema_conflict"]["evidence_span"], "schema import allowed and blocked")
+
+    def test_doctor_flags_pending_approval_contradicts_ready_claim_as_stale_context(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            repo.mkdir()
+            (repo / "handoff.md").write_text(
+                "handoff trace: next summary says ready. Terminal evidence: pending approval contradicts ready claim.\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+
+        findings = {finding["finding_type"]: finding for finding in report["findings"]}
+        self.assertEqual(findings["stale_context"]["evidence_span"], "pending approval contradicts ready claim")
 
     def test_clean_repo_fixture_remains_allowed(self) -> None:
         report = build_context_health_report(CLEAN_REPO)
