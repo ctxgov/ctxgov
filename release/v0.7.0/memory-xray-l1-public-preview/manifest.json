@@ -1,0 +1,37 @@
+{
+  "artifact_count": 5,
+  "artifacts": [
+    {
+      "bytes": 2434,
+      "path": "release/v0.7.0/memory-xray-l1-public-preview/README.md",
+      "sha256": "0466570dbfa8b50fa761dd30398fe774bb42cf5f318e7b2c4447288c4841fd50"
+    },
+    {
+      "bytes": 487,
+      "path": "release/v0.7.0/memory-xray-l1-public-preview/claim-lint.json",
+      "sha256": "ec26ec1fa954af581aca59842f841717518b6fe896067b440908118b404b1dc9"
+    },
+    {
+      "bytes": 9802,
+      "path": "release/v0.7.0/memory-xray-l1-public-preview/index.html",
+      "sha256": "c87789f5af2853ddf4381a4390e58e5dbcaae5b098b5806e9c6fe1aa17b9b2d0"
+    },
+    {
+      "bytes": 165,
+      "path": "release/v0.7.0/memory-xray-l1-public-preview/leak-scan.json",
+      "sha256": "010923f10d0aa311d0f12300cdf6140a2358e4fb48542c570c35876c03ca6192"
+    },
+    {
+      "bytes": 25571,
+      "path": "release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json",
+      "sha256": "45dfd7eef21610e7a660e1f05a97c4058e1b177b9480bd998a22fb562a918db1"
+    }
+  ],
+  "claim_boundary": "report_shape_only",
+  "created_at": "2026-06-03T09:30:00-07:00",
+  "example_count": 5,
+  "formal_product_release": "not_proven",
+  "oss_ready_example_count": 5,
+  "schema_id": "ctxvault.memory-xray-l1-public-preview-manifest/v0",
+  "status": "ready_to_prepare_public_pack"
+}

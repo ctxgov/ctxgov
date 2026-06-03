@@ -107,6 +107,7 @@ Inspect:
 - `fixtures/v0.6.2-context-health-doctor/example-context-health-report.json`
 - `release/v0.6.8/RELEASE_NOTES.md`
 - `release/v0.6.8/github-release.md`
+- `release/v0.7.0/memory-xray-l1-public-preview/`
 - `docs/project-page-and-demo-2026-06-03.md`
 - `docs/research-engineering-hiring-packet.md`
 - `docs/linkedin-and-outreach-pack-2026-06-03.md`

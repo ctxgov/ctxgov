@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Memory X-Ray Report L1 Public-Safe Example</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #16201d;
+      --muted: #586661;
+      --line: #d8dfdc;
+      --panel: #f7f9f8;
+      --ok: #136f63;
+      --warn: #9b5d00;
+      --block: #7f1d1d;
+      --accent: #2457a6;
+      --surface: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #eef2f0;
+      color: var(--ink);
+      font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 40px 24px 56px;
+    }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 28px;
+      align-items: center;
+      min-height: 78vh;
+      padding-bottom: 26px;
+    }
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(2.2rem, 4.4rem, 5.2rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.25rem;
+      letter-spacing: 0;
+    }
+    p { margin: 0; }
+    .lead {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.18rem;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--ok);
+      font-weight: 700;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--ok);
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 28px;
+      max-width: 620px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      padding: 14px;
+      min-height: 88px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .metric span { color: var(--muted); font-size: 0.92rem; }
+    .anatomy {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 20px;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .flow-row {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+    }
+    .badge {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #dbe7ff;
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .flow-row strong { display: block; margin-bottom: 2px; }
+    .flow-row span { color: var(--muted); font-size: 0.93rem; }
+    section {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .example {
+      min-height: 236px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 14px;
+    }
+    .example h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+    dl { margin: 0; }
+    dt {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+    dd {
+      margin: 0 0 10px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+    .boundary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .boundary-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 16px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li { margin: 6px 0; }
+    .not-claimed strong { color: var(--block); }
+    .missing strong { color: var(--warn); }
+    code {
+      background: #e7ecea;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 0.92em;
+    }
+    footer {
+      padding-top: 24px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    @media (max-width: 980px) {
+      header, .boundary { grid-template-columns: 1fr; }
+      header { min-height: auto; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 620px) {
+      main { padding: 28px 16px 42px; }
+      .metrics, .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2.35rem; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <div class="status"><span class="dot"></span>L1 public-safe report-shape example</div>
+        <h1>Memory X-Ray Report</h1>
+        <p class="lead">A source-backed, rollbackable, consequence-bounded shape for reviewing memory candidates before they change future behavior.</p>
+        <div class="metrics" aria-label="L1 report metrics">
+          <div class="metric"><strong>5</strong><span>sanitized examples</span></div>
+          <div class="metric"><strong>5/5</strong><span>source/rollback/consequence ready</span></div>
+          <div class="metric"><strong>yes</strong><span>private paths redacted</span></div>
+          <div class="metric"><strong>yes</strong><span>provider names redacted</span></div>
+        </div>
+      </div>
+      <div class="anatomy" aria-label="Report anatomy">
+        <h2>Report Shape</h2>
+        <div class="flow">
+          <div class="flow-row"><span class="badge">1</span><div><strong>Source coverage</strong><span>Selected, omitted, missing, and contradicted refs stay visible.</span></div></div>
+          <div class="flow-row"><span class="badge">2</span><div><strong>Consequence ceiling</strong><span>Future behavior impact is bounded before promotion.</span></div></div>
+          <div class="flow-row"><span class="badge">3</span><div><strong>Rollback template</strong><span>Every candidate has a discard or supersede path.</span></div></div>
+          <div class="flow-row"><span class="badge">4</span><div><strong>Model-state surface</strong><span>The report names the kind of state inspected.</span></div></div>
+        </div>
+      </div>
+    </header>
+    <section>
+      <h2>Sanitized Example Rows</h2>
+      <div class="grid">
+        <article class="example">
+          <h3>Example 1</h3>
+          <dl>
+            <dt>Selected refs</dt><dd>3</dd>
+            <dt>Missing refs</dt><dd>0</dd>
+            <dt>Consequence ceiling</dt><dd>inform_warn_only</dd>
+            <dt>Blocked effects</dt><dd>6</dd>
+            <dt>State surfaces</dt><dd>3</dd>
+            <dt>Rollback</dt><dd>supersede; external=none</dd>
+          </dl>
+        </article>
+        <article class="example">
+          <h3>Example 2</h3>
+          <dl>
+            <dt>Selected refs</dt><dd>3</dd>
+            <dt>Missing refs</dt><dd>0</dd>
+            <dt>Consequence ceiling</dt><dd>inform_warn_only</dd>
+            <dt>Blocked effects</dt><dd>6</dd>
+            <dt>State surfaces</dt><dd>5</dd>
+            <dt>Rollback</dt><dd>supersede; external=none</dd>
+          </dl>
+        </article>
+        <article class="example">
+          <h3>Example 3</h3>
+          <dl>
+            <dt>Selected refs</dt><dd>3</dd>
+            <dt>Missing refs</dt><dd>0</dd>
+            <dt>Consequence ceiling</dt><dd>inform_warn_only</dd>
+            <dt>Blocked effects</dt><dd>6</dd>
+            <dt>State surfaces</dt><dd>3</dd>
+            <dt>Rollback</dt><dd>supersede; external=none</dd>
+          </dl>
+        </article>
+        <article class="example">
+          <h3>Example 4</h3>
+          <dl>
+            <dt>Selected refs</dt><dd>3</dd>
+            <dt>Missing refs</dt><dd>0</dd>
+            <dt>Consequence ceiling</dt><dd>inform_warn_only</dd>
+            <dt>Blocked effects</dt><dd>6</dd>
+            <dt>State surfaces</dt><dd>5</dd>
+            <dt>Rollback</dt><dd>supersede; external=none</dd>
+          </dl>
+        </article>
+        <article class="example">
+          <h3>Example 5</h3>
+          <dl>
+            <dt>Selected refs</dt><dd>3</dd>
+            <dt>Missing refs</dt><dd>0</dd>
+            <dt>Consequence ceiling</dt><dd>inform_warn_only</dd>
+            <dt>Blocked effects</dt><dd>6</dd>
+            <dt>State surfaces</dt><dd>3</dd>
+            <dt>Rollback</dt><dd>supersede; external=none</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
+    <section class="boundary">
+      <div class="boundary-box not-claimed">
+        <h2>Not Claimed</h2>
+        <p><strong>Do not read this pack as:</strong></p>
+        <ul>
+          <li>a public benchmark result</li>
+          <li>a productivity improvement claim</li>
+          <li>adoption proof</li>
+          <li>support for a named provider or framework</li>
+          <li>a live adapter</li>
+          <li>a safety claim or security claim</li>
+          <li>a stable protocol claim</li>
+        </ul>
+      </div>
+      <div class="boundary-box missing">
+        <h2>Missing For A Full Product Release</h2>
+        <ul>
+          <li><strong>L2:</strong> permission, source freshness, downstream citation or reviewer feedback, claim lint, rollback.</li>
+          <li><strong>L3:</strong> stable schema, deterministic validation, failure-mode docs, no backend writes.</li>
+          <li><strong>L4:</strong> real telemetry, holdout, negative controls, reproducible methodology.</li>
+          <li><strong>L5:</strong> downstream uses, migration/versioning, compatibility policy, public spec review.</li>
+        </ul>
+      </div>
+    </section>
+    <footer>
+      Rollback: delete or supersede this directory. No provider state, memory backend, package, public claim, or live adapter is created by this preview.
+    </footer>
+  </main>
+</body>
+</html>

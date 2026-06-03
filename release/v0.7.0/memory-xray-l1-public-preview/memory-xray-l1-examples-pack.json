@@ -1,0 +1,807 @@
+{
+  "claim_boundary": {
+    "adapter_compatibility_claim_created": false,
+    "provider_support_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_spec_created": false,
+    "stable_mgp_claim_created": false
+  },
+  "created_at": "2026-06-03T09:30:00-07:00",
+  "examples": [
+    {
+      "blocked_effects": [
+        "act",
+        "adapter_route",
+        "cache_reuse",
+        "default",
+        "sampler_bias",
+        "train_or_publish"
+      ],
+      "claim_boundary": {
+        "adapter_compatibility_claim_created": false,
+        "provider_support_claim_created": false,
+        "public_adoption_claim_created": false,
+        "public_spec_created": false,
+        "stable_mgp_claim_created": false
+      },
+      "consequence_ceiling": "inform_warn_only",
+      "example_id": "memory_xray_public_shape_001_generic_memory_store_revision",
+      "example_kind": "generic_memory_store_revision",
+      "label": "Memory store or revision file inspected as evidence",
+      "mgp_receipt_shape": {
+        "object_types": [
+          "MemoryEvidencePacket",
+          "ConsequenceVisa",
+          "ModelStateSurfacePassport"
+        ],
+        "records": [
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "MemoryEvidencePacket",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "ConsequenceVisa",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [
+              "prompt_tokens",
+              "kv_prefix_cache",
+              "tool_state"
+            ],
+            "object_type": "ModelStateSurfacePassport",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          }
+        ],
+        "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
+      },
+      "private_source_index": 1,
+      "private_source_ref": "redacted_private_saved_trace",
+      "provider_or_framework": "redacted",
+      "risk_band": "medium",
+      "risk_score": 63,
+      "rollback_template": {
+        "delete_paths": [],
+        "external_state_to_revert": "none",
+        "supersede_with": "later_reviewed_memory_for_redacted_case"
+      },
+      "source_coverage": {
+        "contradicted_ref_count": 0,
+        "coverage_ratio": 0.75,
+        "missing_ref_count": 0,
+        "omitted_ref_count": 1,
+        "selected_ref_count": 3,
+        "source_event_count": 4
+      },
+      "source_path": "redacted",
+      "source_rollback_consequence_evidence": {
+        "blocked_effect_count": 6,
+        "consequence_evidence_present": true,
+        "contradicted_ref_count": 0,
+        "missing_ref_count": 0,
+        "model_state_surface_count": 3,
+        "omitted_ref_count": 1,
+        "rollback_evidence_present": true,
+        "selected_ref_count": 3,
+        "source_evidence_present": true
+      }
+    },
+    {
+      "blocked_effects": [
+        "act",
+        "adapter_route",
+        "cache_reuse",
+        "default",
+        "sampler_bias",
+        "train_or_publish"
+      ],
+      "claim_boundary": {
+        "adapter_compatibility_claim_created": false,
+        "provider_support_claim_created": false,
+        "public_adoption_claim_created": false,
+        "public_spec_created": false,
+        "stable_mgp_claim_created": false
+      },
+      "consequence_ceiling": "inform_warn_only",
+      "example_id": "memory_xray_public_shape_002_generic_response_state_cache_receipt",
+      "example_kind": "generic_response_state_cache_receipt",
+      "label": "Response state, cache metadata, or tool state inspected as evidence",
+      "mgp_receipt_shape": {
+        "object_types": [
+          "MemoryEvidencePacket",
+          "ConsequenceVisa",
+          "ModelStateSurfacePassport"
+        ],
+        "records": [
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "MemoryEvidencePacket",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "ConsequenceVisa",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [
+              "prompt_tokens",
+              "kv_prefix_cache",
+              "tool_state",
+              "adapter_delta",
+              "sampler_bias"
+            ],
+            "object_type": "ModelStateSurfacePassport",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          }
+        ],
+        "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
+      },
+      "private_source_index": 2,
+      "private_source_ref": "redacted_private_saved_trace",
+      "provider_or_framework": "redacted",
+      "risk_band": "medium",
+      "risk_score": 63,
+      "rollback_template": {
+        "delete_paths": [],
+        "external_state_to_revert": "none",
+        "supersede_with": "later_reviewed_memory_for_redacted_case"
+      },
+      "source_coverage": {
+        "contradicted_ref_count": 0,
+        "coverage_ratio": 0.75,
+        "missing_ref_count": 0,
+        "omitted_ref_count": 1,
+        "selected_ref_count": 3,
+        "source_event_count": 4
+      },
+      "source_path": "redacted",
+      "source_rollback_consequence_evidence": {
+        "blocked_effect_count": 6,
+        "consequence_evidence_present": true,
+        "contradicted_ref_count": 0,
+        "missing_ref_count": 0,
+        "model_state_surface_count": 5,
+        "omitted_ref_count": 1,
+        "rollback_evidence_present": true,
+        "selected_ref_count": 3,
+        "source_evidence_present": true
+      }
+    },
+    {
+      "blocked_effects": [
+        "act",
+        "adapter_route",
+        "cache_reuse",
+        "default",
+        "sampler_bias",
+        "train_or_publish"
+      ],
+      "claim_boundary": {
+        "adapter_compatibility_claim_created": false,
+        "provider_support_claim_created": false,
+        "public_adoption_claim_created": false,
+        "public_spec_created": false,
+        "stable_mgp_claim_created": false
+      },
+      "consequence_ceiling": "inform_warn_only",
+      "example_id": "memory_xray_public_shape_003_generic_graph_memory_episode",
+      "example_kind": "generic_graph_memory_episode",
+      "label": "Graph memory episode or temporal edge inspected as evidence",
+      "mgp_receipt_shape": {
+        "object_types": [
+          "MemoryEvidencePacket",
+          "ConsequenceVisa",
+          "ModelStateSurfacePassport"
+        ],
+        "records": [
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "MemoryEvidencePacket",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "ConsequenceVisa",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [
+              "prompt_tokens",
+              "kv_prefix_cache",
+              "tool_state"
+            ],
+            "object_type": "ModelStateSurfacePassport",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          }
+        ],
+        "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
+      },
+      "private_source_index": 3,
+      "private_source_ref": "redacted_private_saved_trace",
+      "provider_or_framework": "redacted",
+      "risk_band": "high",
+      "risk_score": 88,
+      "rollback_template": {
+        "delete_paths": [],
+        "external_state_to_revert": "none",
+        "supersede_with": "later_reviewed_memory_for_redacted_case"
+      },
+      "source_coverage": {
+        "contradicted_ref_count": 0,
+        "coverage_ratio": 0.75,
+        "missing_ref_count": 0,
+        "omitted_ref_count": 1,
+        "selected_ref_count": 3,
+        "source_event_count": 4
+      },
+      "source_path": "redacted",
+      "source_rollback_consequence_evidence": {
+        "blocked_effect_count": 6,
+        "consequence_evidence_present": true,
+        "contradicted_ref_count": 0,
+        "missing_ref_count": 0,
+        "model_state_surface_count": 3,
+        "omitted_ref_count": 1,
+        "rollback_evidence_present": true,
+        "selected_ref_count": 3,
+        "source_evidence_present": true
+      }
+    },
+    {
+      "blocked_effects": [
+        "act",
+        "adapter_route",
+        "cache_reuse",
+        "default",
+        "sampler_bias",
+        "train_or_publish"
+      ],
+      "claim_boundary": {
+        "adapter_compatibility_claim_created": false,
+        "provider_support_claim_created": false,
+        "public_adoption_claim_created": false,
+        "public_spec_created": false,
+        "stable_mgp_claim_created": false
+      },
+      "consequence_ceiling": "inform_warn_only",
+      "example_id": "memory_xray_public_shape_004_generic_memory_store_revision",
+      "example_kind": "generic_memory_store_revision",
+      "label": "Memory store or revision file inspected as evidence",
+      "mgp_receipt_shape": {
+        "object_types": [
+          "MemoryEvidencePacket",
+          "ConsequenceVisa",
+          "ModelStateSurfacePassport"
+        ],
+        "records": [
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "MemoryEvidencePacket",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "ConsequenceVisa",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [
+              "prompt_tokens",
+              "kv_prefix_cache",
+              "tool_state",
+              "adapter_delta",
+              "sampler_bias"
+            ],
+            "object_type": "ModelStateSurfacePassport",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "omitted",
+              "selected"
+            ]
+          }
+        ],
+        "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
+      },
+      "private_source_index": 4,
+      "private_source_ref": "redacted_private_saved_trace",
+      "provider_or_framework": "redacted",
+      "risk_band": "medium",
+      "risk_score": 63,
+      "rollback_template": {
+        "delete_paths": [],
+        "external_state_to_revert": "none",
+        "supersede_with": "later_reviewed_memory_for_redacted_case"
+      },
+      "source_coverage": {
+        "contradicted_ref_count": 0,
+        "coverage_ratio": 0.75,
+        "missing_ref_count": 0,
+        "omitted_ref_count": 1,
+        "selected_ref_count": 3,
+        "source_event_count": 4
+      },
+      "source_path": "redacted",
+      "source_rollback_consequence_evidence": {
+        "blocked_effect_count": 6,
+        "consequence_evidence_present": true,
+        "contradicted_ref_count": 0,
+        "missing_ref_count": 0,
+        "model_state_surface_count": 5,
+        "omitted_ref_count": 1,
+        "rollback_evidence_present": true,
+        "selected_ref_count": 3,
+        "source_evidence_present": true
+      }
+    },
+    {
+      "blocked_effects": [
+        "act",
+        "adapter_route",
+        "cache_reuse",
+        "default",
+        "sampler_bias",
+        "train_or_publish"
+      ],
+      "claim_boundary": {
+        "adapter_compatibility_claim_created": false,
+        "provider_support_claim_created": false,
+        "public_adoption_claim_created": false,
+        "public_spec_created": false,
+        "stable_mgp_claim_created": false
+      },
+      "consequence_ceiling": "inform_warn_only",
+      "example_id": "memory_xray_public_shape_005_generic_response_state_cache_receipt",
+      "example_kind": "generic_response_state_cache_receipt",
+      "label": "Response state, cache metadata, or tool state inspected as evidence",
+      "mgp_receipt_shape": {
+        "object_types": [
+          "MemoryEvidencePacket",
+          "ConsequenceVisa",
+          "ModelStateSurfacePassport"
+        ],
+        "records": [
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "MemoryEvidencePacket",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [],
+            "object_type": "ConsequenceVisa",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "selected"
+            ]
+          },
+          {
+            "allowed_effects": [
+              "warn"
+            ],
+            "blocked_effects": [
+              "default",
+              "act",
+              "cache_reuse",
+              "adapter_route",
+              "train_or_publish",
+              "sampler_bias"
+            ],
+            "model_state_surfaces": [
+              "prompt_tokens",
+              "external_rag",
+              "tool_state"
+            ],
+            "object_type": "ModelStateSurfacePassport",
+            "rollback_fields_present": [
+              "delete_paths",
+              "external_state_to_revert",
+              "source_path_inspected",
+              "supersede_with"
+            ],
+            "source_ref_statuses": [
+              "selected"
+            ]
+          }
+        ],
+        "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
+      },
+      "private_source_index": 5,
+      "private_source_ref": "redacted_private_saved_trace",
+      "provider_or_framework": "redacted",
+      "risk_band": "high",
+      "risk_score": 83,
+      "rollback_template": {
+        "delete_paths": [],
+        "external_state_to_revert": "none",
+        "supersede_with": "later_reviewed_memory_for_redacted_case"
+      },
+      "source_coverage": {
+        "contradicted_ref_count": 0,
+        "coverage_ratio": 1.0,
+        "missing_ref_count": 0,
+        "omitted_ref_count": 0,
+        "selected_ref_count": 3,
+        "source_event_count": 3
+      },
+      "source_path": "redacted",
+      "source_rollback_consequence_evidence": {
+        "blocked_effect_count": 6,
+        "consequence_evidence_present": true,
+        "contradicted_ref_count": 0,
+        "missing_ref_count": 0,
+        "model_state_surface_count": 3,
+        "omitted_ref_count": 0,
+        "rollback_evidence_present": true,
+        "selected_ref_count": 3,
+        "source_evidence_present": true
+      }
+    }
+  ],
+  "object_type": "MemoryXRayPublicExamplesPack",
+  "oss_efficiency_bridge": {
+    "blocked_side_effects": {
+      "memory_backend_written": false,
+      "provider_or_model_call_performed": false,
+      "public_benchmark_claim_created": false,
+      "public_compatibility_claim_created": false,
+      "stable_mgp_claim_created": false
+    },
+    "consequence_evidence": {
+      "present_count": 5,
+      "required_for_gate": "Every sanitized example must expose consequence ceiling, blocked effects, and observed model-state surfaces."
+    },
+    "product_line": "OSS Efficiency Benchmark",
+    "quality_metrics": {
+      "consequence_evidence_present_count": 5,
+      "example_count": 5,
+      "model_state_surface_present_count": 5,
+      "oss_efficiency_ready_example_count": 5,
+      "private_path_redaction_passed": true,
+      "provider_name_redaction_passed": true,
+      "public_claim_boundary_passed": true,
+      "quality_claim_boundary": "L1 sanitized report-shape quality only; not a public benchmark, adoption claim, compatibility claim, safety claim, or stable-MGP claim.",
+      "rollback_template_present_count": 5,
+      "source_evidence_present_count": 5,
+      "source_rollback_consequence_gate_passed": true
+    },
+    "report_surface": "Memory X-Ray Report L1 sanitized examples",
+    "rollback_evidence": {
+      "present_count": 5,
+      "required_for_gate": "Every sanitized example must include rollback fields and external_state_to_revert=none."
+    },
+    "rollback_path": "discard_or_supersede_sanitized_public_examples_pack",
+    "source_evidence": {
+      "present_count": 5,
+      "required_for_gate": "Every sanitized example must expose selected/omitted/missing/contradicted source-ref counts without private paths."
+    }
+  },
+  "policy_profile": "team-coding-research",
+  "rollback": {
+    "delete_paths": [],
+    "external_state_to_revert": "none",
+    "mode": "discard_or_supersede_sanitized_public_examples_pack",
+    "notes": "Examples are generated from already-saved private reports with provider names, paths, trace ids, and contents redacted."
+  },
+  "schema_id": "ctxvault.memory-xray-public-examples-pack/v0",
+  "side_effect_boundary": {
+    "cache_control_performed": false,
+    "graph_index_built": false,
+    "live_adapter_created": false,
+    "local_file_read": true,
+    "memory_backend_written": false,
+    "memory_promotion_performed": false,
+    "memory_xray_created": true,
+    "output_written": false,
+    "package_published": false,
+    "provider_memory_written": false,
+    "provider_or_model_call_performed": false,
+    "public_claim_created": false,
+    "public_compatibility_claim": false,
+    "public_release_created": false,
+    "runtime_or_adapter_executed": false,
+    "stable_mgp_claim": false,
+    "stable_protocol_claim": false,
+    "target_file_written": false,
+    "tool_execution_performed": false,
+    "vector_index_built": false
+  },
+  "source": {
+    "private_example_count": 20,
+    "private_manifest_schema_id": "ctxvault.memory-xray-private-adapter-sidecar-examples/v0.1",
+    "private_source_paths_redacted": true
+  },
+  "status": "sanitized_examples_private_preview_no_public_spec_no_compatibility_claim",
+  "summary": {
+    "all_private_paths_redacted": true,
+    "all_provider_names_redacted": true,
+    "claim_boundary": "Sanitized shapes only; not a public spec, compatibility matrix, provider support claim, adoption claim, benchmark, or stable-MGP claim.",
+    "example_count": 5,
+    "quality_metrics": {
+      "consequence_evidence_present_count": 5,
+      "example_count": 5,
+      "model_state_surface_present_count": 5,
+      "oss_efficiency_ready_example_count": 5,
+      "private_path_redaction_passed": true,
+      "provider_name_redaction_passed": true,
+      "public_claim_boundary_passed": true,
+      "quality_claim_boundary": "L1 sanitized report-shape quality only; not a public benchmark, adoption claim, compatibility claim, safety claim, or stable-MGP claim.",
+      "rollback_template_present_count": 5,
+      "source_evidence_present_count": 5,
+      "source_rollback_consequence_gate_passed": true
+    }
+  },
+  "version": "v0.7.0"
+}

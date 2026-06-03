@@ -1,0 +1,20 @@
+{
+  "allowed_public_wording": "report-shape preview only",
+  "blocked_claims": [
+    "benchmark result",
+    "productivity improvement",
+    "adoption proof",
+    "provider support",
+    "framework support",
+    "compatible with",
+    "live adapter",
+    "stable mgp",
+    "safety guarantee",
+    "security guarantee"
+  ],
+  "checked_at": "2026-06-03T09:30:00-07:00",
+  "finding_count": 0,
+  "findings": [],
+  "schema_id": "ctxvault.memory-xray-l1-claim-lint/v0",
+  "status": "passed"
+}

@@ -1,0 +1,7 @@
+{
+  "checked_at": "2026-06-03T09:30:00-07:00",
+  "finding_count": 0,
+  "findings": [],
+  "schema_id": "ctxvault.memory-xray-l1-leak-scan/v0",
+  "status": "passed"
+}
