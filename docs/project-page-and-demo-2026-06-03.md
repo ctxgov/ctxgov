@@ -28,7 +28,7 @@ Supporting copy:
 2. Problem: agents consume stale or conflicting repo/workflow context.
 3. Demo: before/after context-health report.
 4. Taxonomy: stale, conflicting, unsupported, unsafe, hidden terminal failure.
-5. Benchmark: separate `ctxgov/agent-context-evals` v0.1 skeleton, no public benchmark claim.
+5. Benchmark: separate `ctxgov/agent-context-evals` v0.2 scaffold, no public benchmark claim.
 6. Links: GitHub, release draft, benchmark report, technical report, hiring
    packet.
 7. Limitations: no security guarantee, no benchmark claim, no compatibility

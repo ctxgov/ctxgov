@@ -18,9 +18,10 @@ context it is about to trust is stale, conflicting, unsupported, unsafe, or
 hiding a failed command.
 
 Current artifacts include the CtxGov repo, a Context Health Doctor sample, a
-v0.6.3 public-surface cleanup release packet, a companion Agent Context Health
-benchmark skeleton with 50 synthetic labeled cases, deterministic scoring,
-baselines, and a technical-report draft.
+v0.6.3 public-surface cleanup release packet, and a companion Agent Context
+Health Eval v0.2 scaffold with 50 trace-pattern labeled cases, 12
+hidden-holdout public case texts, deterministic scoring, baselines, adapter
+contracts, and a technical-report draft.
 
 I am focused on research engineering roles around evals, model behavior, agent
 reliability, and AI safety evaluation. I care about reproducible evidence,
@@ -75,7 +76,8 @@ Links:
 - CtxGov repo: `https://github.com/ctxgov/ctxgov`
 - Release: `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.3`
 - Project page: `https://ctxgov.github.io/ctxgov/`
-- Technical report: `https://github.com/ctxgov/agent-context-evals`
+- Technical report: `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md`
+- Companion release: `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.2.0`
 
 ## Targeted Outreach Message
 
@@ -91,10 +93,11 @@ I am building CtxGov, a small evaluation artifact for AI-agent context health.
 It checks repo/workflow context for stale, conflicting, unsupported, unsafe, and
 hidden-failure spans before an agent acts on it.
 
-The current materials are repo-first: public-surface release draft, 50-case
-synthetic benchmark skeleton, regex baseline, scorer, CtxGov adapter stub, and
-technical report draft. The limitations are explicit: no security guarantee,
-no universal benchmark claim, and no provider compatibility claim.
+The current materials are repo-first: public-surface release, 50-case v0.2
+trace-pattern scaffold, 12 hidden-holdout public case texts, regex baseline,
+scorer, CtxGov heuristic and doctor adapter modes, and technical report draft.
+The limitations are explicit: no security guarantee, no universal benchmark
+claim, and no provider compatibility claim.
 
 I would value feedback from an evals/research-engineering perspective,
 especially on the taxonomy and whether the benchmark schema would be useful for

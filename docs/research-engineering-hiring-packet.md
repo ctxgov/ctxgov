@@ -29,8 +29,9 @@ The core question:
 | CtxGov main repo | Local public-surface cleanup prepared | `README.md` |
 | v0.6.3 release draft | Local GitHub release body ready | `release/v0.6.3/github-release.md` |
 | Project page | Local static page ready | `docs/index.html` |
-| Agent Context Evals companion | Public v0.1 skeleton | `https://github.com/ctxgov/agent-context-evals` |
+| Agent Context Evals companion | Public v0.2 scaffold | `https://github.com/ctxgov/agent-context-evals` |
 | Technical report | Draft ready | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md` |
+| Companion release | Published | `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.2.0` |
 | Demo script | Capture script ready | `release/v0.6.3/demo/60-second-demo-script.md` |
 | LinkedIn/outreach pack | Draft ready | `docs/linkedin-and-outreach-pack-2026-06-03.md` |
 
