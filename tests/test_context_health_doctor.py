@@ -162,6 +162,56 @@ class ContextHealthDoctorTests(unittest.TestCase):
         self.assertEqual(findings["task_shard_unapproved_side_effect"]["evidence_span"], "Apply shard without approval or rollback")
         self.assertEqual(findings["task_shard_missing_rollback"]["evidence_span"], "without approval or rollback")
 
+    def test_doctor_accepts_v05_paraphrase_evidence_spans(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            (repo / "docs").mkdir(parents=True)
+            (repo / "logs").mkdir(parents=True)
+            (repo / "memory").mkdir(parents=True)
+            (repo / "docs" / "release.md").write_text(
+                "release note: release link resolves to not found.\n",
+                encoding="utf-8",
+            )
+            (repo / "logs" / "terminal.log").write_text(
+                "terminal handoff says green while terminal records exit code 1.\n",
+                encoding="utf-8",
+            )
+            (repo / "memory" / "session-summary.md").write_text(
+                "\n".join(
+                    [
+                        "memory candidate: source links are absent for the memory candidate.",
+                        "memory candidate: no rollback path is recorded.",
+                        "memory candidate: there is no ceiling on downstream consequences.",
+                        "memory candidate: affected model-state surface is absent.",
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            (repo / "task-shard.md").write_text(
+                "\n".join(
+                    [
+                        "task shard: same shard both permits and blocks schema import.",
+                        "task shard: run the deploy step before approval or rollback is recorded.",
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+
+        findings = {finding["finding_type"]: finding for finding in report["findings"]}
+        self.assertEqual(findings["release_link_404"]["evidence_span"], "release link resolves to not found")
+        self.assertEqual(findings["terminal_failure_hidden"]["evidence_span"], "handoff says green while terminal records exit code 1")
+        self.assertEqual(findings["memory_missing_source_coverage"]["evidence_span"], "source links are absent for the memory candidate")
+        self.assertEqual(findings["memory_missing_rollback"]["evidence_span"], "no rollback path is recorded")
+        self.assertEqual(findings["memory_unbounded_consequence"]["evidence_span"], "there is no ceiling on downstream consequences")
+        self.assertEqual(findings["memory_missing_model_state_surface"]["evidence_span"], "affected model-state surface is absent")
+        self.assertEqual(findings["task_shard_schema_conflict"]["evidence_span"], "same shard both permits and blocks schema import")
+        self.assertEqual(findings["task_shard_unapproved_side_effect"]["evidence_span"], "run the deploy step before approval or rollback is recorded")
+        self.assertEqual(findings["task_shard_missing_rollback"]["evidence_span"], "before approval or rollback is recorded")
+
     def test_doctor_uses_exact_terminal_hidden_failure_evidence_span(self) -> None:
         with TemporaryDirectory() as tmpdir:
             repo = Path(tmpdir) / "repo"
@@ -176,6 +226,68 @@ class ContextHealthDoctorTests(unittest.TestCase):
 
         findings = {finding["finding_type"]: finding for finding in report["findings"]}
         self.assertEqual(findings["terminal_failure_hidden"]["evidence_span"], "FAILED tests after handoff says passed")
+
+    def test_doctor_treats_handoff_says_passed_as_success_summary(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            logs = repo / "logs"
+            logs.mkdir(parents=True)
+            (logs / "terminal.log").write_text(
+                "Terminal evidence: FAILED tests after handoff says passed.\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+
+        findings = {finding["finding_type"]: finding for finding in report["findings"]}
+        self.assertEqual(findings["terminal_failure_hidden"]["evidence_span"], "FAILED tests after handoff says passed")
+
+    def test_doctor_does_not_flag_negated_public_claim_boundaries(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            repo.mkdir()
+            (repo / "README.md").write_text(
+                "\n".join(
+                    [
+                        "This is not a benchmark claim.",
+                        "This is not a security guarantee.",
+                        "This is not a provider compatibility claim.",
+                        "This is not an agent-safety claim.",
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+
+        finding_types = {finding["finding_type"] for finding in report["findings"]}
+        self.assertNotIn("unsupported_claim", finding_types)
+
+    def test_doctor_does_not_treat_release_noun_as_action_without_evidence(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            repo.mkdir()
+            (repo / "README.md").write_text(
+                "Release check mentions a previous 404, but the current release URL returns 200 and the copy says verified.\n",
+                encoding="utf-8",
+            )
+
+            report = build_context_health_report(repo)
+
+        finding_types = {finding["finding_type"] for finding in report["findings"]}
+        self.assertNotIn("action_or_publication_without_evidence", finding_types)
+
+    def test_doctor_still_flags_imperative_deploy_without_approval(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir) / "repo"
+            repo.mkdir()
+            (repo / "AGENTS.md").write_text("Deploy now without approval.\n", encoding="utf-8")
+
+            report = build_context_health_report(repo)
+
+        finding_types = {finding["finding_type"] for finding in report["findings"]}
+        self.assertIn("action_or_publication_without_evidence", finding_types)
 
     def test_doctor_accepts_trace_pattern_task_shard_schema_conflict_phrase(self) -> None:
         with TemporaryDirectory() as tmpdir:
