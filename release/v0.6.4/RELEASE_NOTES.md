@@ -33,6 +33,7 @@ Run before publishing the release:
 ```bash
 python3 -m unittest tests.test_context_health_doctor
 python3 -m unittest tests.test_surface tests.test_v062_public_surface_cleanup tests.test_v062_testpypi_success_and_release_drafts
+python3 scripts/check_release_integrity.py --root .
 PYTHONPATH=src python3 -m ctxgov.cli doctor --path fixtures/v0.6.2-context-health-doctor/sample-repo --output /tmp/ctxgov-health --include-report
 ```
 

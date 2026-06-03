@@ -268,8 +268,8 @@
       <p class="lede">Agents fail on bad context. CtxGov checks AI-facing repo and workflow context for stale claims, conflicting instructions, unsupported releases, unsafe action guidance, and hidden terminal failures before execution.</p>
       <div class="actions">
         <a class="button primary" href="https://github.com/ctxgov/ctxgov">GitHub</a>
-        <a class="button" href="../release/v0.6.4/RELEASE_NOTES.md">Release notes</a>
-        <a class="button" href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.4.0">Eval v0.4</a>
+        <a class="button" href="../release/v0.6.5/RELEASE_NOTES.md">Release notes</a>
+        <a class="button" href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.5.0">Eval v0.5</a>
       </div>
     </div>
     <div class="demo-board" aria-label="Before and after report demo">
@@ -351,11 +351,11 @@
   </section>
   <section id="benchmark">
     <h2>Benchmark</h2>
-    <p>The companion evaluation artifact lives in <a href="https://github.com/ctxgov/agent-context-evals">ctxgov/agent-context-evals</a>. It currently contains 50 v0.2 trace-pattern labeled cases, 20 hard negatives, 12 hidden-holdout public case texts, 12 v0.3 review-intake cases, evidence spans, a regex baseline, an offline LLM-judge harness, CtxGov heuristic and native doctor adapter modes, per-finding metrics, evidence-span overlap, a technical report draft, a review packet, and a demo fixture.</p>
+    <p>The companion evaluation artifact lives in <a href="https://github.com/ctxgov/agent-context-evals">ctxgov/agent-context-evals</a>. It currently contains 50 v0.2 trace-pattern labeled cases, 20 v0.4 hard negatives, 160 v0.5 deterministic mutation cases with 206 labels, 12 hidden-holdout public case texts, 12 v0.3 review-intake cases, evidence spans, a regex baseline, an offline LLM-judge harness, CtxGov heuristic and native doctor adapter modes, single-label and multi-label scoring, per-finding metrics, evidence-span overlap, a technical report draft, a review packet, and a demo fixture.</p>
     <div class="grid">
-      <div class="metric"><strong>50</strong><p>synthetic labeled cases</p></div>
+      <div class="metric"><strong>160</strong><p>v0.5 mutation cases</p></div>
       <div class="metric"><strong>12</strong><p>review-intake cases pending independent labels</p></div>
-      <div class="metric"><strong>3</strong><p>baseline/adapter paths plus offline judge prompts</p></div>
+      <div class="metric"><strong>206</strong><p>v0.5 local labels</p></div>
       <div class="metric"><strong>0</strong><p>public benchmark claims</p></div>
     </div>
   </section>
@@ -363,9 +363,11 @@
     <h2>Links</h2>
     <ul>
       <li><a href="https://github.com/ctxgov/ctxgov">GitHub repository</a></li>
+      <li><a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.5">CtxGov v0.6.5 release</a></li>
       <li><a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.4">CtxGov v0.6.4 release</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.4-results.md">Companion v0.4 results report</a></li>
+      <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.5-results.md">Companion v0.5 results report</a></li>
       <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md">Technical report draft</a></li>
+      <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.5.0">Companion v0.5.0 release</a></li>
       <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.4.0">Companion v0.4.0 release</a></li>
       <li><a href="https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif">60-second demo GIF</a></li>
       <li><a href="../docs/research-engineering-hiring-packet.md">Research engineering hiring packet</a></li>
@@ -373,7 +375,7 @@
   </section>
   <section id="limits">
     <h2>Limitations</h2>
-    <p>CtxGov is not a security scanner, sandbox, agent harness, provider SDK, memory backend, automatic remediation agent, or universal benchmark. Current evaluation materials are public v0.2 scaffold data, v0.4 synthetic hard negatives, and a v0.3 review-ready packet until independently reviewed trace-derived labels and administered holdout results exist.</p>
+    <p>CtxGov is not a security scanner, sandbox, agent harness, provider SDK, memory backend, automatic remediation agent, or universal benchmark. Current evaluation materials are public v0.2 scaffold data, v0.4 synthetic hard negatives, v0.5 deterministic mutation data, and a v0.3 review-ready packet until independently reviewed trace-derived labels and administered holdout results exist.</p>
   </section>
   <footer>
     <p>No security guarantee. No public benchmark result. No provider/model call. No target repository write. No hosted runtime. No live adapter. No universal compatibility claim. No adoption claim. No stable protocol claim.</p>

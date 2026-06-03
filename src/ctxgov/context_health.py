@@ -476,7 +476,13 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 "Attach source-fact, claim-lint, and rollback receipts or rewrite as internal experimental wording.",
             )
         )
-    pending_ready_conflict = _first_match(text, [r"\bpending approval contradicts ready claim\b"])
+    pending_ready_conflict = _first_match(
+        text,
+        [
+            r"\bpending approval contradicts ready claim\b",
+            r"\bready wording is contradicted by a pending approval gate\b",
+        ],
+    )
     if pending_ready_conflict:
         findings.append(
             _finding(
@@ -489,7 +495,14 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 evidence_span=pending_ready_conflict,
             )
         )
-    release_link_404 = _first_match(text, [r"\brelease url returned 404\b", r"\brelease\b.{0,80}\b404 not found\b"])
+    release_link_404 = _first_match(
+        text,
+        [
+            r"\brelease url returned 404\b",
+            r"\brelease link resolves to not found\b",
+            r"\brelease\b.{0,80}\b404 not found\b",
+        ],
+    )
     if release_link_404:
         findings.append(
             _finding(
@@ -576,7 +589,7 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 "Add lifecycle state, source refs, and rollback refs before memory promotion.",
             )
         )
-    memory_source_gap = _memory_xray_match(item, text, r"\bsource coverage missing\b")
+    memory_source_gap = _memory_xray_match(item, text, r"\b(source coverage missing|source links are absent for the memory candidate)\b")
     if memory_source_gap:
         findings.append(
             _finding(
@@ -589,7 +602,7 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 evidence_span=memory_source_gap,
             )
         )
-    memory_rollback_gap = _memory_xray_match(item, text, r"\brollback missing\b")
+    memory_rollback_gap = _memory_xray_match(item, text, r"\b(rollback missing|no rollback path is recorded)\b")
     if memory_rollback_gap:
         findings.append(
             _finding(
@@ -602,7 +615,7 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 evidence_span=memory_rollback_gap,
             )
         )
-    memory_consequence_gap = _memory_xray_match(item, text, r"\bconsequence ceiling unbounded\b")
+    memory_consequence_gap = _memory_xray_match(item, text, r"\b(consequence ceiling unbounded|there is no ceiling on downstream consequences)\b")
     if memory_consequence_gap:
         findings.append(
             _finding(
@@ -615,7 +628,7 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 evidence_span=memory_consequence_gap,
             )
         )
-    memory_state_gap = _memory_xray_match(item, text, r"\bmodel-state surface missing\b")
+    memory_state_gap = _memory_xray_match(item, text, r"\b(model-state surface missing|affected model-state surface is absent)\b")
     if memory_state_gap:
         findings.append(
             _finding(
@@ -628,7 +641,11 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 evidence_span=memory_state_gap,
             )
         )
-    task_schema_conflict = _task_shard_match(item, text, r"\bschema import (?:is )?allowed and blocked\b")
+    task_schema_conflict = _task_shard_match(
+        item,
+        text,
+        r"\b(schema import (?:is )?allowed and blocked|same shard both permits and blocks schema import)\b",
+    )
     if task_schema_conflict:
         findings.append(
             _finding(
@@ -641,7 +658,11 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 evidence_span=task_schema_conflict,
             )
         )
-    task_unapproved_side_effect = _task_shard_match(item, text, r"\bapply shard without approval(?: or rollback)?\b")
+    task_unapproved_side_effect = _task_shard_match(
+        item,
+        text,
+        r"\b(apply shard without approval(?: or rollback)?|run the deploy step before approval or rollback is recorded)\b",
+    )
     if task_unapproved_side_effect:
         findings.append(
             _finding(
@@ -654,7 +675,7 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 evidence_span=task_unapproved_side_effect,
             )
         )
-    task_missing_rollback = _task_shard_match(item, text, r"\bwithout approval or rollback\b")
+    task_missing_rollback = _task_shard_match(item, text, r"\b(without approval or rollback|before approval or rollback is recorded)\b")
     if task_missing_rollback:
         findings.append(
             _finding(
@@ -738,7 +759,21 @@ def _has_unsupported_claim(text: str) -> bool:
         r"\btarget[- ]?write\s+(support|authority|ready)\b",
         r"\bhallucination\s+(prevention|guarantee|proof)\b",
     ]
-    return any(re.search(pattern, text) for pattern in patterns)
+    for pattern in patterns:
+        for match in re.finditer(pattern, text):
+            if not _is_negated_claim_match(text, match.start()):
+                return True
+    return False
+
+
+def _is_negated_claim_match(text: str, start: int) -> bool:
+    prefix = text[max(0, start - 100) : start]
+    return bool(
+        re.search(
+            r"\b(no|not|never|without|does not|do not|is not|are not|not a|not an)\b[\w\s,-]{0,60}$",
+            prefix,
+        )
+    )
 
 
 def _first_match(text: str, patterns: list[str]) -> str | None:
@@ -781,7 +816,14 @@ def _task_shard_match(item: dict[str, Any], text: str, pattern: str) -> str | No
 
 
 def _has_action_without_evidence(text: str) -> bool:
-    if not re.search(r"\b(publish|release|ship|deploy|push|write|open pr|create issue|target write)\b", text):
+    has_action_verb = bool(
+        re.search(
+            r"\b(publish|ship|deploy|push|write|open pr|create issue|target write|upload|delete|apply)\b",
+            text,
+        )
+        or re.search(r"\b(create|publish|ship)\s+(the\s+)?release\b|\bgh release create\b|\brelease now\b", text)
+    )
+    if not has_action_verb:
         return False
     if re.search(r"\b(no|without|missing)\s+(receipt|evidence|rollback|approval)\b", text):
         return True
@@ -793,13 +835,16 @@ def _terminal_failure_hidden_match(item: dict[str, Any], text: str) -> str | Non
     lowered = text.lower()
     if not path.endswith((".log", ".txt")) and "terminal" not in path:
         return None
-    has_success_summary = bool(re.search(r"\b(all checks passed|all passed|success|succeeded)\b", lowered))
+    has_success_summary = bool(
+        re.search(r"\b(all checks passed|all passed|success|succeeded|handoff says passed|says passed|says green)\b", lowered)
+    )
     if not has_success_summary:
         return None
     exact_failure = _first_match(
         text,
         [
             r"\bFAILED tests after handoff says passed\b",
+            r"\bhandoff says green while terminal records exit code 1\b",
             r"\bFAILED\b.{0,100}\bexit code[: ]+[1-9]\d*\b",
             r"\b[0-9]+ failed, [0-9]+ passed, exit code[: ]+[1-9]\d*\b",
             r"\bTraceback [^\n.]+",
