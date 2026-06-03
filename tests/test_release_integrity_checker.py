@@ -45,6 +45,7 @@ class ReleaseIntegrityCheckerTests(unittest.TestCase):
                     "\n".join(
                         [
                             "CtxGov provides a security guarantee for agent runs.",
+                            "The current companion Agent Context Health Eval v0.5 artifact is ready.",
                             "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6",
                             "https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0",
                         ]
@@ -59,6 +60,7 @@ class ReleaseIntegrityCheckerTests(unittest.TestCase):
         self.assertEqual(report["status"], "fail")
         self.assertIn("legacy_companion_release_link", issue_types)
         self.assertIn("missing_expected_companion_release_link", issue_types)
+        self.assertIn("stale_current_companion_artifact_wording", issue_types)
         self.assertIn("unsupported_public_claim", issue_types)
 
     def test_report_is_json_serializable(self) -> None:
