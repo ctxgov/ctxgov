@@ -2,7 +2,7 @@
 
 Date: 2026-06-03
 Status: public packet for personal outreach and LinkedIn Featured. Links were
-updated after the CtxGov v0.6.7 and companion v0.6.0 releases.
+updated after the CtxGov v0.6.8 and companion v0.7.0 releases.
 
 ## Target Roles
 
@@ -32,12 +32,13 @@ The core question:
 | v0.6.5 release-integrity and multi-label eval readiness release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.5` |
 | v0.6.6 companion eval alignment release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6` |
 | v0.6.7 current companion wording guard release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7` |
+| v0.6.8 companion v0.7 alignment release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.8` |
 | Project page | Published | `https://ctxgov.github.io/ctxgov/` |
-| Agent Context Evals companion | Public v0.6 local eval artifact | `https://github.com/ctxgov/agent-context-evals` |
+| Agent Context Evals companion | Public v0.7 trace-shaped local eval artifact | `https://github.com/ctxgov/agent-context-evals` |
 | Technical report | Draft ready | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md` |
-| Companion release | Published | `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0` |
+| Companion release | Published | `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0` |
 | Demo GIF | Published | `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif` |
-| v0.6 results report | Published | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.6-results.md` |
+| v0.7 results report | Published | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.7-results.md` |
 | LinkedIn/outreach pack | Draft ready | `docs/linkedin-and-outreach-pack-2026-06-03.md` |
 
 ## What To Inspect First

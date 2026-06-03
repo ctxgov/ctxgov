@@ -48,8 +48,8 @@ class V061DownstreamOssPublicationLaneTests(unittest.TestCase):
         self.assertNotIn("--allow-network", readme)
         for required in [
             "Agent Context Health Evaluation for AI Workflows",
-            "CtxGov v0.6.7 release",
-            "Companion v0.6 results report",
+            "CtxGov v0.6.8 release",
+            "Companion v0.7 results report",
             "No provider/model call",
             "No target repository write",
         ]:

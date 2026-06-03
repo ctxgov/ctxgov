@@ -8,8 +8,8 @@ from typing import Any
 
 
 EXPECTED = {
-    "ctxgov_release": "v0.6.7",
-    "companion_release": "v0.6.0",
+    "ctxgov_release": "v0.6.8",
+    "companion_release": "v0.7.0",
     "project_page": "https://ctxgov.github.io/ctxgov/",
 }
 
@@ -20,8 +20,8 @@ PUBLIC_SURFACE_PATHS = [
     "docs/project-page-and-demo-2026-06-03.md",
     "docs/research-engineering-hiring-packet.md",
     "docs/linkedin-and-outreach-pack-2026-06-03.md",
-    "release/v0.6.7/RELEASE_NOTES.md",
-    "release/v0.6.7/github-release.md",
+    "release/v0.6.8/RELEASE_NOTES.md",
+    "release/v0.6.8/github-release.md",
 ]
 
 NEGATION_MARKERS = (
@@ -46,8 +46,10 @@ CLAIM_BOUNDARY_PATTERNS = [
 
 STALE_CURRENT_COMPANION_PATTERNS = [
     re.compile(r"\bcompanion evaluation repo and v0\.5\b", re.I),
-    re.compile(r"\bcurrent companion\b.*\bv0\.5\b", re.I),
+    re.compile(r"\bcompanion evaluation repo and current v0\.6\b", re.I),
+    re.compile(r"\bcurrent companion (evaluation|eval|artifact)\b.*\bv0\.[56]\b", re.I),
     re.compile(r"\bcompanion Agent Context Health Eval v0\.5 artifact\b", re.I),
+    re.compile(r"\bcompanion Agent Context Health Eval v0\.6 artifact\b", re.I),
 ]
 
 PRIVATE_OR_SECRET_PATTERNS = [
@@ -123,12 +125,12 @@ def _check_release_links(contents: dict[str, str]) -> list[dict[str, Any]]:
     expected_companion_url = (
         f"https://github.com/ctxgov/agent-context-evals/releases/tag/{EXPECTED['companion_release']}"
     )
-    expected_report_url = "https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.6-results.md"
+    expected_report_url = "https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.7-results.md"
 
     for url, issue_type in [
         (expected_ctxgov_url, "missing_expected_ctxgov_release_link"),
         (expected_companion_url, "missing_expected_companion_release_link"),
-        (expected_report_url, "missing_expected_v06_results_link"),
+        (expected_report_url, "missing_expected_v07_results_link"),
         (EXPECTED["project_page"], "missing_expected_project_page_link"),
     ]:
         if url not in combined:
