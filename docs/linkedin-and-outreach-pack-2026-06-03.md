@@ -1,7 +1,7 @@
 # LinkedIn And Outreach Pack
 
 Date: 2026-06-03
-Status: draft material with public v0.6.3/v0.6.4/v0.6.5/v0.6.6/v0.6.7 and companion v0.6.0 links prepared.
+Status: draft material with public v0.6.3/v0.6.4/v0.6.5/v0.6.6/v0.6.7/v0.6.8 and companion v0.7.0 links prepared.
 
 ## LinkedIn Headline
 
@@ -20,9 +20,10 @@ Current artifacts include the CtxGov repo, a Context Health Doctor sample, a
 v0.6.3 public-surface cleanup release, a v0.6.4 doctor-coverage release, a
 v0.6.5 release-integrity and multi-label eval readiness release, a v0.6.6
 companion alignment release, a v0.6.7 current-companion wording guard release,
-and a companion Agent Context Health Eval v0.6
-artifact with 160 deterministic mutation cases, 206 labels, 60 adversarial hard
-negatives, 12 hidden-holdout public case texts, 12 review-intake cases,
+a v0.6.8 companion v0.7 alignment release, and a companion Agent Context Health
+Eval v0.7 artifact with 96 trace-shaped cases, 160 deterministic mutation
+cases, 206 labels, 60 adversarial hard negatives, offline adapters, automated
+error analysis, 12 hidden-holdout public case texts, 12 review-intake cases,
 deterministic scoring, baselines, adapter contracts, span diagnostics, a native
 CtxGov doctor adapter run, an offline LLM-judge harness, a demo GIF, a review
 packet, and a technical-report draft.
@@ -66,9 +67,11 @@ points to the exact text that would mislead the next agent run.
 Current materials include the CtxGov repo, a v0.6.3 public-surface release, a
 v0.6.4 doctor-coverage release, a v0.6.5 release-integrity and multi-label eval
 readiness release, a v0.6.6 companion alignment release, a v0.6.7
-current-companion wording guard release, a 160-case deterministic mutation
-scaffold with 206 labels, 60 adversarial hard negatives, a regex baseline, a
-native CtxGov doctor adapter result, span diagnostics, an
+current-companion wording guard release, a v0.6.8 companion v0.7 alignment
+release, a 96-case trace-shaped local suite, a 160-case deterministic mutation
+scaffold with 206 labels, 60 adversarial hard negatives, offline adapters,
+automated error analysis, a regex baseline, a native CtxGov doctor adapter
+result, span diagnostics, an
 offline LLM-judge harness, a demo GIF, a review packet, a scorer, and a
 technical-report draft.
 
@@ -83,12 +86,12 @@ Before the agent runs, check whether the context is healthy enough to trust.
 Links:
 
 - CtxGov repo: `https://github.com/ctxgov/ctxgov`
-- Release: `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7`
+- Release: `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.8`
 - Project page: `https://ctxgov.github.io/ctxgov/`
 - Technical report: `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md`
-- v0.6 results report: `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.6-results.md`
+- v0.7 results report: `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.7-results.md`
 - Demo GIF: `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
-- Companion release: `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0`
+- Companion release: `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0`
 
 ## Targeted Outreach Message
 
@@ -105,11 +108,12 @@ It checks repo/workflow context for stale, conflicting, unsupported, unsafe, and
 hidden-failure spans before an agent acts on it.
 
 The current materials are repo-first: public-surface release, doctor-coverage
-release, release-integrity checker, 160-case v0.5 deterministic mutation
-scaffold with 206 labels, 60 v0.6 adversarial hard negatives, 12 hidden-holdout
-public case texts, 12 v0.3 review-intake cases, regex baseline, scorer, span
-diagnostics, offline LLM-judge harness, demo GIF, CtxGov heuristic and doctor
-adapter modes, and technical report draft.
+release, release-integrity checker, 96-case v0.7 trace-shaped local suite,
+offline adapters, automated error analysis, 160-case v0.5 deterministic
+mutation scaffold with 206 labels, 60 v0.6 adversarial hard negatives, 12
+hidden-holdout public case texts, 12 v0.3 review-intake cases, regex baseline,
+scorer, span diagnostics, offline LLM-judge harness, demo GIF, CtxGov heuristic
+and doctor adapter modes, and technical report draft.
 The limitations are explicit: no security guarantee, no universal benchmark
 claim, and no provider compatibility claim.
 

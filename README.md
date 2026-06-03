@@ -37,7 +37,7 @@ CtxGov public materials currently focus on four artifacts:
   boundaries
 - Context Health Doctor: a read-only local report over AI-facing repository
   context
-- companion evaluation repo and current v0.6 local eval packet:
+- companion evaluation repo and current v0.7 trace-shaped local eval packet:
   `https://github.com/ctxgov/agent-context-evals`
 - project, hiring, and outreach packet material under `docs/` and `release/`
 
@@ -105,13 +105,13 @@ Inspect:
 
 - `fixtures/v0.6.2-context-health-doctor/sample-repo/`
 - `fixtures/v0.6.2-context-health-doctor/example-context-health-report.json`
-- `release/v0.6.7/RELEASE_NOTES.md`
-- `release/v0.6.7/github-release.md`
+- `release/v0.6.8/RELEASE_NOTES.md`
+- `release/v0.6.8/github-release.md`
 - `docs/project-page-and-demo-2026-06-03.md`
 - `docs/research-engineering-hiring-packet.md`
 - `docs/linkedin-and-outreach-pack-2026-06-03.md`
-- `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0`
-- `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.6-results.md`
+- `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0`
+- `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.7-results.md`
 - `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
 
 ## Claim Boundaries
@@ -152,7 +152,13 @@ The companion alignment release is `v0.6.6`:
 The current companion wording guard release is `v0.6.7`:
 `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7`.
 
-The current companion evaluation artifact release is `v0.6.0`:
+The current companion v0.7 alignment release is `v0.6.8`:
+`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.8`.
+
+The current companion evaluation artifact release is `v0.7.0`:
+`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0`.
+
+The previous companion evaluation artifact release was `v0.6.0`:
 `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0`.
 
 The previous companion mutation multi-label release was `v0.5.0`:
@@ -164,8 +170,9 @@ The previous companion hard-negative release was `v0.4.0`:
 Together they provide public CtxGov positioning, release integrity, local
 Context Health Doctor evidence, native release integrity, Memory X-Ray L1, and
 Task Shard checks, companion eval materials, hard negatives, mutation and
-multi-label scoring, adversarial clean controls, span diagnostics, an offline
-LLM judge harness, an independent-review packet, and a demo GIF. They do not
+multi-label scoring, adversarial clean controls, v0.7 trace-shaped cases,
+offline adapters, automated error analysis, span diagnostics, an offline LLM
+judge harness, an independent-review packet, and a demo GIF. They do not
 publish a new package or claim a public benchmark result.
 
 ## Provenance
