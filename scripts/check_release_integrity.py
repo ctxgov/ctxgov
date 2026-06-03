@@ -8,7 +8,7 @@ from typing import Any
 
 
 EXPECTED = {
-    "ctxgov_release": "v0.6.6",
+    "ctxgov_release": "v0.6.7",
     "companion_release": "v0.6.0",
     "project_page": "https://ctxgov.github.io/ctxgov/",
 }
@@ -20,8 +20,8 @@ PUBLIC_SURFACE_PATHS = [
     "docs/project-page-and-demo-2026-06-03.md",
     "docs/research-engineering-hiring-packet.md",
     "docs/linkedin-and-outreach-pack-2026-06-03.md",
-    "release/v0.6.6/RELEASE_NOTES.md",
-    "release/v0.6.6/github-release.md",
+    "release/v0.6.7/RELEASE_NOTES.md",
+    "release/v0.6.7/github-release.md",
 ]
 
 NEGATION_MARKERS = (

@@ -103,7 +103,8 @@ unsafe, or hiding a failed command.
 Current artifacts include the CtxGov repo, a Context Health Doctor sample, a
 v0.6.3 public-surface release, a v0.6.4 doctor-coverage release, a v0.6.5
 release-integrity and multi-label eval readiness release, a v0.6.6 companion
-alignment release, and a companion Agent Context Health Eval v0.6 artifact with
+alignment release, a v0.6.7 current-companion wording guard release, and a
+companion Agent Context Health Eval v0.6 artifact with
 160 deterministic mutation cases, 206 labels, 60 adversarial hard negatives,
 multi-label scoring, span diagnostics, deterministic baselines, a native CtxGov
 doctor adapter run, an offline LLM-judge harness, a demo GIF, a review packet,

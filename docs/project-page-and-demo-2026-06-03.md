@@ -30,7 +30,7 @@ Supporting copy:
 4. Taxonomy: stale, conflicting, unsupported, unsafe, hidden terminal failure.
 5. Benchmark: separate `ctxgov/agent-context-evals` v0.6 adversarial
    hard-negative and span-diagnostics artifact, no public benchmark claim.
-6. Links: GitHub, v0.6.6 release, v0.6 results report, technical report,
+6. Links: GitHub, v0.6.7 release, v0.6 results report, technical report,
    demo GIF, hiring packet.
 7. Limitations: no security guarantee, no benchmark claim, no compatibility
    claim, no live adapter, no target writes.

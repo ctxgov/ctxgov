@@ -2,7 +2,7 @@
 
 Date: 2026-06-03
 Status: public packet for personal outreach and LinkedIn Featured. Links were
-updated after the CtxGov v0.6.6 and companion v0.6.0 releases.
+updated after the CtxGov v0.6.7 and companion v0.6.0 releases.
 
 ## Target Roles
 
@@ -31,6 +31,7 @@ The core question:
 | v0.6.4 doctor coverage release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.4` |
 | v0.6.5 release-integrity and multi-label eval readiness release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.5` |
 | v0.6.6 companion eval alignment release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6` |
+| v0.6.7 current companion wording guard release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7` |
 | Project page | Published | `https://ctxgov.github.io/ctxgov/` |
 | Agent Context Evals companion | Public v0.6 local eval artifact | `https://github.com/ctxgov/agent-context-evals` |
 | Technical report | Draft ready | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md` |

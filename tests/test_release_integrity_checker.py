@@ -21,7 +21,7 @@ class ReleaseIntegrityCheckerTests(unittest.TestCase):
 
         self.assertEqual(report["status"], "pass")
         self.assertEqual(report["issue_count"], 0)
-        self.assertEqual(report["expected"]["ctxgov_release"], "v0.6.6")
+        self.assertEqual(report["expected"]["ctxgov_release"], "v0.6.7")
         self.assertEqual(report["expected"]["companion_release"], "v0.6.0")
         self.assertIn("README.md", report["checked_paths"])
         self.assertIn("docs/index.html", report["checked_paths"])
@@ -36,8 +36,8 @@ class ReleaseIntegrityCheckerTests(unittest.TestCase):
                 "docs/project-page-and-demo-2026-06-03.md",
                 "docs/research-engineering-hiring-packet.md",
                 "docs/linkedin-and-outreach-pack-2026-06-03.md",
-                "release/v0.6.6/RELEASE_NOTES.md",
-                "release/v0.6.6/github-release.md",
+                "release/v0.6.7/RELEASE_NOTES.md",
+                "release/v0.6.7/github-release.md",
             ]:
                 path = root / relative
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -46,7 +46,7 @@ class ReleaseIntegrityCheckerTests(unittest.TestCase):
                         [
                             "CtxGov provides a security guarantee for agent runs.",
                             "The current companion Agent Context Health Eval v0.5 artifact is ready.",
-                            "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6",
+                            "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7",
                             "https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0",
                         ]
                     )
