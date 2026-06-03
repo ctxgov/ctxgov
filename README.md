@@ -37,7 +37,7 @@ CtxGov public materials currently focus on four artifacts:
   boundaries
 - Context Health Doctor: a read-only local report over AI-facing repository
   context
-- companion evaluation repo and v0.5 mutation multi-label packet:
+- companion evaluation repo and current v0.6 local eval packet:
   `https://github.com/ctxgov/agent-context-evals`
 - project, hiring, and outreach packet material under `docs/` and `release/`
 

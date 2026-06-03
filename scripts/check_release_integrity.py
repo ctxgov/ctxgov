@@ -44,6 +44,12 @@ CLAIM_BOUNDARY_PATTERNS = [
     (re.compile(r"\badoption claim\b", re.I), "adoption claim"),
 ]
 
+STALE_CURRENT_COMPANION_PATTERNS = [
+    re.compile(r"\bcompanion evaluation repo and v0\.5\b", re.I),
+    re.compile(r"\bcurrent companion\b.*\bv0\.5\b", re.I),
+    re.compile(r"\bcompanion Agent Context Health Eval v0\.5 artifact\b", re.I),
+]
+
 PRIVATE_OR_SECRET_PATTERNS = [
     re.compile(r"/Users/[A-Za-z0-9._-]+"),
     re.compile(r"\b(api[_-]?key|secret|password|token)\s*[:=]\s*\S+", re.I),
@@ -148,10 +154,28 @@ def _check_release_links(contents: dict[str, str]) -> list[dict[str, Any]]:
     return issues
 
 
+def _check_current_artifact_wording(contents: dict[str, str]) -> list[dict[str, Any]]:
+    issues: list[dict[str, Any]] = []
+    for path, text in contents.items():
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            for pattern in STALE_CURRENT_COMPANION_PATTERNS:
+                if pattern.search(line):
+                    issues.append(
+                        {
+                            "type": "stale_current_companion_artifact_wording",
+                            "path": path,
+                            "line": line_number,
+                            "evidence": line.strip(),
+                        }
+                    )
+    return issues
+
+
 def check_release_integrity(root: Path) -> dict[str, Any]:
     resolved = root.resolve()
     contents, issues = _read_public_surfaces(resolved)
     issues.extend(_check_release_links(contents))
+    issues.extend(_check_current_artifact_wording(contents))
     issues.extend(_check_claim_boundaries(contents))
     issues.extend(_check_private_or_secret_markers(contents))
     return {
