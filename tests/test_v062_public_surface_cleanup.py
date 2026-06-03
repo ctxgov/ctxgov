@@ -59,7 +59,8 @@ class V062PublicSurfaceCleanupTests(unittest.TestCase):
         normalized = " ".join(readme.split())
 
         self.assertIn("v0.6.3", readme)
-        self.assertIn("v0.3.0", readme)
+        self.assertIn("v0.6.4", readme)
+        self.assertIn("v0.4.0", readme)
         self.assertIn("Context Health Doctor", readme)
         self.assertIn("does not write target repo files", normalized)
         self.assertIn("They do not publish a new package", normalized)

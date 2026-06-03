@@ -36,21 +36,22 @@ class V061DownstreamOssPublicationLaneTests(unittest.TestCase):
         pages = PAGES.read_text(encoding="utf-8")
 
         for required in [
-            "v0.6.2 public release artifact",
+            "Agent Context Health Evaluation for AI Workflows.",
+            "v0.6.4",
             "Context Health Doctor",
-            "Claim",
-            "Context",
-            "Memory",
-            "Action",
+            "Claim Boundaries",
+            "Memory X-Ray L1",
+            "Task Shard",
         ]:
             self.assertIn(required, readme)
         self.assertNotIn("oss-case-study-preview", readme)
         self.assertNotIn("--allow-network", readme)
         for required in [
-            "Decision preview first",
-            "claim, context packet, memory use, or action",
-            "Target writes",
-            "provider/model calls",
+            "Agent Context Health Evaluation for AI Workflows",
+            "CtxGov v0.6.4 release",
+            "Companion v0.4 results report",
+            "No provider/model call",
+            "No target repository write",
         ]:
             self.assertIn(required, pages)
 

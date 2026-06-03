@@ -49,8 +49,8 @@ class V041ProjectionGovernanceKernelTests(unittest.TestCase):
         normalized_readme = " ".join(readme.split())
         normalized_note = " ".join(note.split())
 
-        self.assertIn("Know what your AI tools see.", readme)
-        self.assertIn("v0.6.2 public release artifact", readme)
+        self.assertIn("Agent Context Health Evaluation for AI Workflows.", readme)
+        self.assertIn("v0.6.4", readme)
         self.assertIn("Context Health Doctor", readme)
         self.assertNotIn("v0.4.1 is an experimental", normalized_readme)
         self.assertNotIn("Projection Governance Kernel", readme)

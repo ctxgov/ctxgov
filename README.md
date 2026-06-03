@@ -37,7 +37,7 @@ CtxGov public materials currently focus on four artifacts:
   boundaries
 - Context Health Doctor: a read-only local report over AI-facing repository
   context
-- companion evaluation repo and v0.3 review-ready packet:
+- companion evaluation repo and v0.4 doctor-coverage packet:
   `https://github.com/ctxgov/agent-context-evals`
 - project, hiring, and outreach packet material under `docs/` and `release/`
 
@@ -77,6 +77,11 @@ python3 baselines/llm_judge_baseline.py \
   --manifest reports/v0.3-llm-judge-baseline-manifest.json \
   --prompt-output reports/v0.3-llm-judge-prompts.jsonl
 python3 scripts/build_demo_fixture.py --fixture demo/fixtures/bad_context_repo --output-dir demo/reports
+python3 ctxgov_adapter/run_ctxgov.py \
+  --cases data/v0.2/trace_pattern_cases.jsonl \
+  --output reports/v0.4-ctxgov-doctor-results.jsonl \
+  --mode doctor \
+  --ctxgov-root /path/to/ctxgov
 ```
 
 ## Public-Safe Evidence
@@ -89,13 +94,13 @@ Inspect:
 
 - `fixtures/v0.6.2-context-health-doctor/sample-repo/`
 - `fixtures/v0.6.2-context-health-doctor/example-context-health-report.json`
-- `release/v0.6.3/RELEASE_NOTES.md`
-- `release/v0.6.3/github-release.md`
+- `release/v0.6.4/RELEASE_NOTES.md`
+- `release/v0.6.4/github-release.md`
 - `docs/project-page-and-demo-2026-06-03.md`
 - `docs/research-engineering-hiring-packet.md`
 - `docs/linkedin-and-outreach-pack-2026-06-03.md`
-- `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0`
-- `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.3-readiness.md`
+- `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.4.0`
+- `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.4-results.md`
 - `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
 
 ## Claim Boundaries
@@ -123,13 +128,17 @@ Do not claim:
 The public-surface cleanup release is `v0.6.3`:
 `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.3`.
 
-The companion evaluation artifact release is `v0.3.0`:
-`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0`.
+The Context Health Doctor coverage release is `v0.6.4`:
+`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.4`.
+
+The companion evaluation artifact release is `v0.4.0`:
+`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.4.0`.
 
 Together they provide public CtxGov positioning, release integrity, local
-Context Health Doctor evidence, companion eval materials, an offline LLM judge
-harness, an independent-review packet, and a demo GIF. They do not publish a
-new package or claim a public benchmark result.
+Context Health Doctor evidence, native release integrity, Memory X-Ray L1, and
+Task Shard checks, companion eval materials, hard negatives, an offline LLM
+judge harness, an independent-review packet, and a demo GIF. They do not
+publish a new package or claim a public benchmark result.
 
 ## Provenance
 

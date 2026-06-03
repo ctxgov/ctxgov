@@ -476,6 +476,73 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 "Attach source-fact, claim-lint, and rollback receipts or rewrite as internal experimental wording.",
             )
         )
+    pending_ready_conflict = _first_match(text, [r"\bpending approval contradicts ready claim\b"])
+    if pending_ready_conflict:
+        findings.append(
+            _finding(
+                source_ref,
+                "stale_context",
+                ["claim", "context"],
+                "high",
+                "Ready or pass claim is contradicted by pending approval evidence.",
+                "Downgrade the ready claim until approval is recorded.",
+                evidence_span=pending_ready_conflict,
+            )
+        )
+    release_link_404 = _first_match(text, [r"\brelease url returned 404\b", r"\brelease\b.{0,80}\b404 not found\b"])
+    if release_link_404:
+        findings.append(
+            _finding(
+                source_ref,
+                "release_link_404",
+                ["claim"],
+                "high",
+                "Release copy points at a release URL that returned 404.",
+                "Create the release artifact or remove the public release link.",
+                evidence_span=release_link_404,
+            )
+        )
+    package_unverified = _first_match(
+        text,
+        [
+            r"\bpackage registry status missing\b",
+            r"\bno\s+(pypi|npm|package registry)\s+artifact\b.{0,40}\b(verified|exists|found)\b",
+            r"\b(pypi|npm|package registry)\s+artifact\b.{0,40}\b(missing|unverified|not verified)\b",
+        ],
+    )
+    if package_unverified:
+        findings.append(
+            _finding(
+                source_ref,
+                "package_registry_unverified",
+                ["claim"],
+                "high",
+                "Package or registry availability is claimed without a verified registry artifact.",
+                "Verify the package registry artifact or keep package-install wording out of public copy.",
+                evidence_span=package_unverified,
+            )
+        )
+    release_missing = _first_match(
+        text,
+        [
+            r"\bno release artifact exists\b",
+            r"\brelease artifact missing\b",
+            r"\btag is missing\b",
+            r"\bno tag or release artifact exists\b",
+        ],
+    )
+    if release_missing:
+        findings.append(
+            _finding(
+                source_ref,
+                "release_artifact_missing",
+                ["claim"],
+                "high",
+                "Release or tag artifact is explicitly missing while release-facing context is present.",
+                "Publish the artifact first or downgrade the release claim.",
+                evidence_span=release_missing,
+            )
+        )
     if _looks_like_summary_without_raw_refs(lowered):
         findings.append(
             _finding(
@@ -509,6 +576,97 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 "Add lifecycle state, source refs, and rollback refs before memory promotion.",
             )
         )
+    memory_source_gap = _memory_xray_match(item, text, r"\bsource coverage missing\b")
+    if memory_source_gap:
+        findings.append(
+            _finding(
+                source_ref,
+                "memory_missing_source_coverage",
+                ["memory"],
+                "high",
+                "Memory-like content does not carry source coverage evidence.",
+                "Add source coverage before durable memory promotion.",
+                evidence_span=memory_source_gap,
+            )
+        )
+    memory_rollback_gap = _memory_xray_match(item, text, r"\brollback missing\b")
+    if memory_rollback_gap:
+        findings.append(
+            _finding(
+                source_ref,
+                "memory_missing_rollback",
+                ["memory"],
+                "high",
+                "Memory-like content lacks a rollback or deletion path.",
+                "Add rollback or deletion instructions before durable memory promotion.",
+                evidence_span=memory_rollback_gap,
+            )
+        )
+    memory_consequence_gap = _memory_xray_match(item, text, r"\bconsequence ceiling unbounded\b")
+    if memory_consequence_gap:
+        findings.append(
+            _finding(
+                source_ref,
+                "memory_unbounded_consequence",
+                ["memory"],
+                "high",
+                "Memory-like content has no bounded consequence ceiling.",
+                "State what future behavior the memory may and may not affect.",
+                evidence_span=memory_consequence_gap,
+            )
+        )
+    memory_state_gap = _memory_xray_match(item, text, r"\bmodel-state surface missing\b")
+    if memory_state_gap:
+        findings.append(
+            _finding(
+                source_ref,
+                "memory_missing_model_state_surface",
+                ["memory"],
+                "high",
+                "Memory-like content does not expose the affected model-state surface.",
+                "Name the model-state surface before durable memory promotion.",
+                evidence_span=memory_state_gap,
+            )
+        )
+    task_schema_conflict = _task_shard_match(item, text, r"\bschema import (?:is )?allowed and blocked\b")
+    if task_schema_conflict:
+        findings.append(
+            _finding(
+                source_ref,
+                "task_shard_schema_conflict",
+                ["context", "action"],
+                "high",
+                "Task shard schema import rules conflict in the same context surface.",
+                "Resolve the schema import boundary before applying the shard.",
+                evidence_span=task_schema_conflict,
+            )
+        )
+    task_unapproved_side_effect = _task_shard_match(item, text, r"\bapply shard without approval(?: or rollback)?\b")
+    if task_unapproved_side_effect:
+        findings.append(
+            _finding(
+                source_ref,
+                "task_shard_unapproved_side_effect",
+                ["action"],
+                "high",
+                "Task shard context asks for a side effect without approval.",
+                "Require approval before applying the shard.",
+                evidence_span=task_unapproved_side_effect,
+            )
+        )
+    task_missing_rollback = _task_shard_match(item, text, r"\bwithout approval or rollback\b")
+    if task_missing_rollback:
+        findings.append(
+            _finding(
+                source_ref,
+                "task_shard_missing_rollback",
+                ["action"],
+                "high",
+                "Task shard context omits rollback while asking for an action.",
+                "Add a rollback path before applying the shard.",
+                evidence_span=task_missing_rollback,
+            )
+        )
     if _has_action_without_evidence(lowered):
         findings.append(
             _finding(
@@ -520,7 +678,8 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 "Add an approval receipt, evidence refs, and rollback before executing or publishing.",
             )
         )
-    if _terminal_failure_hidden(item, lowered):
+    terminal_failure = _terminal_failure_hidden_match(item, text)
+    if terminal_failure:
         findings.append(
             _finding(
                 source_ref,
@@ -529,6 +688,7 @@ def _file_findings(item: dict[str, Any]) -> list[dict[str, Any]]:
                 "high",
                 "Terminal summary claims success while failed tests, exit codes, or permission errors are present.",
                 "Surface failed command, exit code, and permission errors in the next report.",
+                evidence_span=terminal_failure,
             )
         )
     return findings
@@ -541,11 +701,14 @@ def _finding(
     severity: str,
     reason: str,
     safe_rewrite_or_next_check: str,
+    *,
+    evidence_span: str | None = None,
 ) -> dict[str, Any]:
     return {
         "finding_id": "",
         "source_ref": source_ref,
         "finding_type": finding_type,
+        "evidence_span": evidence_span or reason,
         "authority_layer_affected": authority_layers,
         "severity": severity,
         "reason": reason,
@@ -578,6 +741,14 @@ def _has_unsupported_claim(text: str) -> bool:
     return any(re.search(pattern, text) for pattern in patterns)
 
 
+def _first_match(text: str, patterns: list[str]) -> str | None:
+    for pattern in patterns:
+        match = re.search(pattern, text, flags=re.IGNORECASE)
+        if match:
+            return " ".join(match.group(0).strip().split())
+    return None
+
+
 def _looks_like_summary_without_raw_refs(text: str) -> bool:
     if "summary" not in text and "summarized" not in text:
         return False
@@ -595,6 +766,20 @@ def _is_memory_without_lifecycle(item: dict[str, Any], text: str) -> bool:
     return not re.search(r"\b(lifecycle|rollback|delete|deletion|ttl|expires|source[_ -]?ref|raw[_ -]?ref|receipt)\b", text)
 
 
+def _memory_xray_match(item: dict[str, Any], text: str, pattern: str) -> str | None:
+    path_text = str(item["relative_path"]).lower()
+    if "memory" not in path_text and "memory" not in text.lower():
+        return None
+    return _first_match(text, [pattern])
+
+
+def _task_shard_match(item: dict[str, Any], text: str, pattern: str) -> str | None:
+    path_text = str(item["relative_path"]).lower()
+    if "task-shard" not in path_text and "task shard" not in text.lower():
+        return None
+    return _first_match(text, [pattern])
+
+
 def _has_action_without_evidence(text: str) -> bool:
     if not re.search(r"\b(publish|release|ship|deploy|push|write|open pr|create issue|target write)\b", text):
         return False
@@ -603,13 +788,31 @@ def _has_action_without_evidence(text: str) -> bool:
     return not re.search(r"\b(receipt|evidence|rollback|approval|source[_ -]?ref|sha256)\b", text)
 
 
-def _terminal_failure_hidden(item: dict[str, Any], text: str) -> bool:
+def _terminal_failure_hidden_match(item: dict[str, Any], text: str) -> str | None:
     path = str(item["relative_path"]).lower()
+    lowered = text.lower()
     if not path.endswith((".log", ".txt")) and "terminal" not in path:
-        return False
-    has_success_summary = bool(re.search(r"\b(all checks passed|all passed|success|succeeded)\b", text))
-    has_failure = bool(re.search(r"\b(failed|exit code[: ]+[1-9]\d*|permission denied|error:)\b", text))
-    return has_success_summary and has_failure
+        return None
+    has_success_summary = bool(re.search(r"\b(all checks passed|all passed|success|succeeded)\b", lowered))
+    if not has_success_summary:
+        return None
+    exact_failure = _first_match(
+        text,
+        [
+            r"\bFAILED tests after handoff says passed\b",
+            r"\bFAILED\b.{0,100}\bexit code[: ]+[1-9]\d*\b",
+            r"\b[0-9]+ failed, [0-9]+ passed, exit code[: ]+[1-9]\d*\b",
+            r"\bTraceback [^\n.]+",
+            r"\bCodeRabbit auth status failed\b",
+            r"\boutput file was empty(?: after run)?\b",
+            r"\bpermission denied\b",
+            r"\berror:\s*[^\n.]+",
+        ],
+    )
+    if exact_failure:
+        return exact_failure
+    generic_failure = _first_match(text, [r"\bfailed\b", r"\bexit code[: ]+[1-9]\d*\b"])
+    return generic_failure
 
 
 def _decision_table(findings: list[dict[str, Any]]) -> dict[str, dict[str, str]]:
@@ -695,6 +898,7 @@ def _evidence_manifest(report: dict[str, Any], scan_path: Path, scanned_files: l
                 "finding_id": finding["finding_id"],
                 "source_ref": finding["source_ref"],
                 "finding_type": finding["finding_type"],
+                "evidence_span": finding.get("evidence_span", ""),
                 "severity": finding["severity"],
                 "authority_layer_affected": finding["authority_layer_affected"],
                 "rollback_ref": finding["rollback_ref"],

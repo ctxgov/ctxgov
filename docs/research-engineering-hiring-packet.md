@@ -2,7 +2,7 @@
 
 Date: 2026-06-03
 Status: public packet for personal outreach and LinkedIn Featured. Links were
-updated after the companion v0.3.0 release.
+updated after the companion v0.4.0 release.
 
 ## Target Roles
 
@@ -28,12 +28,13 @@ The core question:
 | --- | --- | --- |
 | CtxGov main repo | Public | `https://github.com/ctxgov/ctxgov` |
 | v0.6.3 release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.3` |
+| v0.6.4 doctor coverage release | Prepared | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.4` |
 | Project page | Published | `https://ctxgov.github.io/ctxgov/` |
-| Agent Context Evals companion | Public v0.3 review-ready artifact | `https://github.com/ctxgov/agent-context-evals` |
+| Agent Context Evals companion | Public v0.4 doctor-coverage artifact | `https://github.com/ctxgov/agent-context-evals` |
 | Technical report | Draft ready | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md` |
-| Companion release | Published | `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0` |
+| Companion release | Published | `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.4.0` |
 | Demo GIF | Published | `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif` |
-| Readiness report | Published | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.3-readiness.md` |
+| v0.4 results report | Published | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.4-results.md` |
 | LinkedIn/outreach pack | Draft ready | `docs/linkedin-and-outreach-pack-2026-06-03.md` |
 
 ## What To Inspect First
@@ -71,5 +72,5 @@ Short version:
 - complete independent review of the v0.3 review-intake cases
 - publish adjudicated labels and reviewer agreement notes
 - add false positive and false negative analysis on reviewed labels
-- add hard negative controls
+- expand hard negative controls beyond the initial v0.4 set
 - get one downstream issue/PR/design-doc citation with permission
