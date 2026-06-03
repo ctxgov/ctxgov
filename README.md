@@ -105,13 +105,13 @@ Inspect:
 
 - `fixtures/v0.6.2-context-health-doctor/sample-repo/`
 - `fixtures/v0.6.2-context-health-doctor/example-context-health-report.json`
-- `release/v0.6.5/RELEASE_NOTES.md`
-- `release/v0.6.5/github-release.md`
+- `release/v0.6.6/RELEASE_NOTES.md`
+- `release/v0.6.6/github-release.md`
 - `docs/project-page-and-demo-2026-06-03.md`
 - `docs/research-engineering-hiring-packet.md`
 - `docs/linkedin-and-outreach-pack-2026-06-03.md`
-- `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.5.0`
-- `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.5-results.md`
+- `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0`
+- `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.6-results.md`
 - `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
 
 ## Claim Boundaries
@@ -146,7 +146,13 @@ The Context Health Doctor coverage release is `v0.6.4`:
 The release-integrity and multi-label eval readiness release is `v0.6.5`:
 `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.5`.
 
-The current companion evaluation artifact release is `v0.5.0`:
+The companion alignment release is `v0.6.6`:
+`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6`.
+
+The current companion evaluation artifact release is `v0.6.0`:
+`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0`.
+
+The previous companion mutation multi-label release was `v0.5.0`:
 `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.5.0`.
 
 The previous companion hard-negative release was `v0.4.0`:
@@ -155,9 +161,9 @@ The previous companion hard-negative release was `v0.4.0`:
 Together they provide public CtxGov positioning, release integrity, local
 Context Health Doctor evidence, native release integrity, Memory X-Ray L1, and
 Task Shard checks, companion eval materials, hard negatives, mutation and
-multi-label scoring, an offline LLM judge harness, an independent-review
-packet, and a demo GIF. They do not publish a new package or claim a public
-benchmark result.
+multi-label scoring, adversarial clean controls, span diagnostics, an offline
+LLM judge harness, an independent-review packet, and a demo GIF. They do not
+publish a new package or claim a public benchmark result.
 
 ## Provenance
 
