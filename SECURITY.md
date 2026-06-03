@@ -1,6 +1,6 @@
 # Security Policy
 
-CtxGov's public core is designed to keep the default path local,
+CtxGov's public artifacts are designed to keep the default path local,
 deterministic, and inspectable.
 
 ## Reporting
@@ -13,7 +13,7 @@ receipts.
 
 ## Current Public Boundary
 
-The public evidence path does not require:
+The current public evidence path does not require:
 
 - provider/model calls
 - remote embedding services
@@ -22,8 +22,12 @@ The public evidence path does not require:
 - live adapter execution
 - automatic memory promotion
 
-Do not treat CtxGov as a security certification, secret scanner, sandbox,
-TEE, remote attestation system, or hallucination-prevention product.
+CtxGov should not be treated as a security certification, vulnerability
+scanner, sandbox, TEE, remote attestation system, or hallucination-prevention
+product.
+
+The current finding taxonomy may include `unsafe_action_guidance`, but that
+means context-side side-effect risk, not security coverage.
 
 ## Safe Example Rules
 
