@@ -105,8 +105,8 @@ Inspect:
 
 - `fixtures/v0.6.2-context-health-doctor/sample-repo/`
 - `fixtures/v0.6.2-context-health-doctor/example-context-health-report.json`
-- `release/v0.6.6/RELEASE_NOTES.md`
-- `release/v0.6.6/github-release.md`
+- `release/v0.6.7/RELEASE_NOTES.md`
+- `release/v0.6.7/github-release.md`
 - `docs/project-page-and-demo-2026-06-03.md`
 - `docs/research-engineering-hiring-packet.md`
 - `docs/linkedin-and-outreach-pack-2026-06-03.md`
@@ -148,6 +148,9 @@ The release-integrity and multi-label eval readiness release is `v0.6.5`:
 
 The companion alignment release is `v0.6.6`:
 `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6`.
+
+The current companion wording guard release is `v0.6.7`:
+`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7`.
 
 The current companion evaluation artifact release is `v0.6.0`:
 `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0`.

@@ -1,7 +1,7 @@
 # LinkedIn And Outreach Pack
 
 Date: 2026-06-03
-Status: draft material with public v0.6.3/v0.6.4/v0.6.5/v0.6.6 and companion v0.6.0 links prepared.
+Status: draft material with public v0.6.3/v0.6.4/v0.6.5/v0.6.6/v0.6.7 and companion v0.6.0 links prepared.
 
 ## LinkedIn Headline
 
@@ -19,7 +19,8 @@ hiding a failed command.
 Current artifacts include the CtxGov repo, a Context Health Doctor sample, a
 v0.6.3 public-surface cleanup release, a v0.6.4 doctor-coverage release, a
 v0.6.5 release-integrity and multi-label eval readiness release, a v0.6.6
-companion alignment release, and a companion Agent Context Health Eval v0.6
+companion alignment release, a v0.6.7 current-companion wording guard release,
+and a companion Agent Context Health Eval v0.6
 artifact with 160 deterministic mutation cases, 206 labels, 60 adversarial hard
 negatives, 12 hidden-holdout public case texts, 12 review-intake cases,
 deterministic scoring, baselines, adapter contracts, span diagnostics, a native
@@ -64,9 +65,10 @@ points to the exact text that would mislead the next agent run.
 
 Current materials include the CtxGov repo, a v0.6.3 public-surface release, a
 v0.6.4 doctor-coverage release, a v0.6.5 release-integrity and multi-label eval
-readiness release, a v0.6.6 companion alignment release, a 160-case
-deterministic mutation scaffold with 206 labels, 60 adversarial hard negatives,
-a regex baseline, a native CtxGov doctor adapter result, span diagnostics, an
+readiness release, a v0.6.6 companion alignment release, a v0.6.7
+current-companion wording guard release, a 160-case deterministic mutation
+scaffold with 206 labels, 60 adversarial hard negatives, a regex baseline, a
+native CtxGov doctor adapter result, span diagnostics, an
 offline LLM-judge harness, a demo GIF, a review packet, a scorer, and a
 technical-report draft.
 
@@ -81,7 +83,7 @@ Before the agent runs, check whether the context is healthy enough to trust.
 Links:
 
 - CtxGov repo: `https://github.com/ctxgov/ctxgov`
-- Release: `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6`
+- Release: `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7`
 - Project page: `https://ctxgov.github.io/ctxgov/`
 - Technical report: `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md`
 - v0.6 results report: `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.6-results.md`
