@@ -3,221 +3,378 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CtxVault - Governed Context Projection</title>
-  <meta name="description" content="CtxVault is an open-source receipt layer for governed AI context. Audit what AI tools are allowed to see, caveat, block, omit, and roll back.">
-  <link rel="canonical" href="https://ctxvault.github.io/ctxvault/">
+  <title>CtxGov - Agent Context Health Evaluation</title>
+  <meta name="description" content="CtxGov evaluates AI-facing context before agent execution, catching stale, conflicting, unsupported, unsafe, and hidden-failure context.">
+  <link rel="canonical" href="https://ctxgov.github.io/ctxgov/">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ctxvault.github.io/ctxvault/">
-  <meta property="og:title" content="CtxVault - Receipts for Governed AI Context">
-  <meta property="og:description" content="Stop shipping mystery context to AI tools. Audit what was selected, caveated, blocked, omitted, and how to roll it back.">
-  <meta property="og:image" content="https://ctxvault.github.io/ctxvault/og.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="CtxVault - Receipts for Governed AI Context">
-  <meta name="twitter:description" content="Stop shipping mystery context to AI tools. Audit what was selected, caveated, blocked, omitted, and how to roll it back.">
-  <meta name="twitter:image" content="https://ctxvault.github.io/ctxvault/og.png">
+  <meta property="og:url" content="https://ctxgov.github.io/ctxgov/">
+  <meta property="og:title" content="CtxGov - Agent Context Health Evaluation">
+  <meta property="og:description" content="Agents fail on bad context. CtxGov checks the context first.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CtxGov - Agent Context Health Evaluation">
+  <meta name="twitter:description" content="Agents fail on bad context. CtxGov checks the context first.">
   <link rel="icon" href="data:,">
   <style>
     :root {
       color-scheme: light;
       --ink: #111827;
       --muted: #4b5563;
-      --line: #d1d5db;
+      --line: #cbd5e1;
       --panel: #f8fafc;
       --accent: #0f766e;
-      --warn: #92400e;
-      --block: #991b1b;
+      --blue: #1d4ed8;
+      --warn: #b45309;
+      --danger: #b91c1c;
       --bg: #ffffff;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--ink);
       background: var(--bg);
-      line-height: 1.5;
+      font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    header, main, footer {
-      max-width: 1120px;
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+    }
+    nav a { color: var(--ink); text-decoration: none; font-weight: 650; }
+    nav .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: flex-end;
+    }
+    header, section, footer {
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 32px 20px;
+      padding: 34px 24px;
     }
     header {
-      padding-top: 48px;
+      min-height: calc(100vh - 62px);
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(380px, 1.08fr);
+      gap: 30px;
+      align-items: center;
       border-bottom: 1px solid var(--line);
     }
     h1 {
-      margin: 0 0 12px;
-      font-size: 4rem;
-      line-height: 1;
+      margin: 0 0 18px;
+      font-size: clamp(2.6rem, 6vw, 5.8rem);
+      line-height: 0.96;
       letter-spacing: 0;
     }
     h2 {
-      margin: 0 0 14px;
-      font-size: 1.35rem;
+      margin: 0 0 12px;
+      font-size: 1.65rem;
       letter-spacing: 0;
     }
-    p { max-width: 760px; }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+    p { margin: 0 0 14px; max-width: 780px; }
     .eyebrow {
-      margin: 0 0 14px;
+      margin-bottom: 12px;
       color: var(--accent);
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
       font-size: 0.82rem;
       letter-spacing: 0;
     }
     .lede {
-      font-size: 1.2rem;
       color: var(--muted);
+      font-size: 1.18rem;
     }
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin: 28px 0;
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
     }
-    .step, .metric, .panel {
+    .button {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      padding: 0 14px;
+      color: var(--ink);
+      background: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 6px;
+    }
+    .button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+    .demo-board {
       border: 1px solid var(--line);
       background: var(--panel);
       padding: 16px;
       border-radius: 8px;
     }
-    .step strong, .metric strong {
-      display: block;
-      font-size: 1rem;
-      margin-bottom: 6px;
+    .demo-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
-    .step span, .metric span {
-      display: block;
-      color: var(--muted);
+    .pane {
+      min-height: 440px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 14px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .pane-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: #e2e8f0;
+      color: #334155;
+      white-space: nowrap;
+    }
+    .tag.fail { background: #fee2e2; color: var(--danger); }
+    .tag.warn { background: #fef3c7; color: var(--warn); }
+    .tag.ok { background: #ccfbf1; color: var(--accent); }
+    .context-line,
+    .finding {
+      border: 1px solid var(--line);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      background: #fff;
       font-size: 0.92rem;
     }
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 12px;
-      margin: 18px 0 30px;
-    }
-    .metric b {
+    .context-line strong,
+    .finding strong { display: block; margin-bottom: 4px; }
+    .context-line code,
+    .finding code {
       display: block;
-      font-size: 1.6rem;
-      line-height: 1.1;
+      padding: 8px;
+      margin-top: 6px;
+      background: #f1f5f9;
+      border-radius: 4px;
+      color: #334155;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
-    .decisions {
+    .finding.stale { border-left: 5px solid var(--warn); }
+    .finding.conflict { border-left: 5px solid var(--blue); }
+    .finding.unsafe { border-left: 5px solid var(--danger); }
+    .finding.release { border-left: 5px solid #7c3aed; }
+    .grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       margin-top: 18px;
     }
-    .decision-table {
+    .card, .metric {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 16px;
+      border-radius: 8px;
+    }
+    .card p, .metric p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+    .metric strong {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    table {
       width: 100%;
       border-collapse: collapse;
-      margin: 18px 0 30px;
+      margin-top: 18px;
       font-size: 0.95rem;
     }
-    .decision-table th,
-    .decision-table td {
+    th, td {
       border: 1px solid var(--line);
       padding: 12px;
       text-align: left;
       vertical-align: top;
     }
-    .decision-table th {
-      background: #f1f5f9;
-    }
-    ul {
-      margin: 8px 0 0;
-      padding-left: 18px;
-    }
+    th { background: #f1f5f9; }
+    ul { margin: 8px 0 0; padding-left: 20px; }
     li { margin: 6px 0; }
     code {
       background: #eef2f7;
       padding: 2px 5px;
       border-radius: 4px;
+      font-size: 0.92em;
     }
     a { color: #075985; }
-    .selected { border-top: 4px solid var(--accent); }
-    .caveated { border-top: 4px solid var(--warn); }
-    .blocked { border-top: 4px solid var(--block); }
-    .omitted { border-top: 4px solid #475569; }
     footer {
       color: var(--muted);
       border-top: 1px solid var(--line);
-      padding-bottom: 48px;
+      padding-bottom: 50px;
     }
-    @media (max-width: 860px) {
-      .flow, .metrics, .decisions { grid-template-columns: 1fr; }
-      header { padding-top: 32px; }
-      h1 { font-size: 2.35rem; }
+    @media (max-width: 960px) {
+      header, .demo-columns { grid-template-columns: 1fr; }
+      header { min-height: auto; }
+      .pane { min-height: auto; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      nav { position: static; align-items: flex-start; flex-direction: column; }
+      header, section, footer { padding: 28px 16px; }
+      h1 { font-size: 2.55rem; }
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <p class="eyebrow">CtxVault public evidence surface</p>
-    <h1>Stop shipping mystery context to AI tools.</h1>
-    <p class="lede">CtxVault is not another agent memory store. It is a receipt layer for governed context projection: what evidence was allowed in, what was caveated, what was blocked, what was omitted, and how the packet can be audited or rolled back.</p>
+  <nav aria-label="Primary">
+    <a href="#top">CtxGov</a>
+    <div class="links">
+      <a href="#demo">Demo</a>
+      <a href="#taxonomy">Taxonomy</a>
+      <a href="#benchmark">Benchmark</a>
+      <a href="#limits">Limits</a>
+    </div>
+  </nav>
+  <header id="top">
+    <div>
+      <div class="eyebrow">Agent context health</div>
+      <h1>Agent Context Health Evaluation for AI Workflows</h1>
+      <p class="lede">Agents fail on bad context. CtxGov checks AI-facing repo and workflow context for stale claims, conflicting instructions, unsupported releases, unsafe action guidance, and hidden terminal failures before execution.</p>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/ctxgov/ctxgov">GitHub</a>
+        <a class="button" href="../release/v0.6.3/RELEASE_NOTES.md">Release notes</a>
+        <a class="button" href="https://github.com/ctxgov/agent-context-evals">Benchmark repo</a>
+      </div>
+    </div>
+    <div class="demo-board" aria-label="Before and after report demo">
+      <div class="demo-columns">
+        <div class="pane">
+          <div class="pane-title">Before <span class="tag warn">AI-facing context</span></div>
+          <div class="context-line">
+            <strong>README.md</strong>
+            <code>v0.6.3 is released and safe to publish.</code>
+          </div>
+          <div class="context-line">
+            <strong>release notes</strong>
+            <code>External deploy, proactive outreach, public benchmark, and package publication remain pending.</code>
+          </div>
+          <div class="context-line">
+            <strong>AGENTS.md</strong>
+            <code>Run the deploy script after tests pass.</code>
+          </div>
+          <div class="context-line">
+            <strong>terminal.log</strong>
+            <code>FAILED tests/test_release.py::test_release_url_not_404</code>
+          </div>
+        </div>
+        <div class="pane">
+          <div class="pane-title">After <span class="tag ok">CtxGov report</span></div>
+          <div class="finding stale">
+            <strong>stale_claim</strong>
+            <span>Release wording is stronger than the readiness evidence.</span>
+            <code>v0.6.3 is released and safe to publish.</code>
+          </div>
+          <div class="finding release">
+            <strong>unsupported_release_claim</strong>
+            <span>Release URL must exist before public copy can point to it.</span>
+            <code>test_release_url_not_404</code>
+          </div>
+          <div class="finding conflict">
+            <strong>conflicting_policy</strong>
+            <span>Deploy instruction conflicts with pending external approval.</span>
+            <code>External deploy ... remain pending.</code>
+          </div>
+          <div class="finding unsafe">
+            <strong>unsafe_action_guidance</strong>
+            <span>Side-effect action lacks explicit approval and rollback.</span>
+            <code>Run the deploy script after tests pass.</code>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
-  <main>
-    <section>
-      <h2>Decision preview first</h2>
-      <p>CtxVault shows whether evidence can authorize a claim, context packet, memory use, or action before anything is published, run, or written.</p>
-      <table class="decision-table" aria-label="CtxVault decision preview">
-        <thead>
-          <tr><th>Decision</th><th>Allowed</th><th>Blocked</th><th>Rollback</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Claim</td><td>Source-bound statements.</td><td>Quality, security, compatibility, endorsement, benchmark, and stable protocol claims.</td><td>Delete or supersede public-safe copy.</td></tr>
-          <tr><td>Context</td><td>Selected and caveated evidence.</td><td>Private, stale, conflicting, unsupported, or uninspected refs.</td><td>Regenerate the packet from the receipt.</td></tr>
-          <tr><td>Memory</td><td>None by default.</td><td>Durable reuse before lifecycle and delete policy.</td><td>No memory state exists unless separately approved.</td></tr>
-          <tr><td>Action</td><td>None by default.</td><td>Target writes, runtime, provider/model calls, and outreach.</td><td>No target state exists unless separately approved.</td></tr>
-        </tbody>
-      </table>
-    </section>
-    <section>
-      <h2>Then what?</h2>
-      <div class="decisions" aria-label="CtxVault user outcomes">
-        <div class="panel selected"><strong>Before</strong><ul><li>Agents pull from memory, docs, tickets, and local files.</li><li>Reviewers cannot tell what actually shaped the next answer.</li></ul></div>
-        <div class="panel caveated"><strong>With CtxVault</strong><ul><li>The AI-facing packet carries selected, caveated, blocked, and omitted evidence.</li><li>The team can inspect the receipt before trusting the output.</li></ul></div>
-        <div class="panel blocked"><strong>After</strong><ul><li>Unsafe or unsupported context has a visible reason.</li><li>Bad projections have a rollback target instead of a blame trail.</li></ul></div>
-      </div>
-    </section>
-    <section>
-      <h2>The control point</h2>
-      <div class="flow" aria-label="governed context projection flow">
-        <div class="step"><strong>Source refs</strong><span>Public or local evidence starts as candidate context.</span></div>
-        <div class="step"><strong>Review decision</strong><span>Refs are selected, caveated, blocked, omitted, or marked unsupported.</span></div>
-        <div class="step"><strong>Context packet</strong><span>Reviewed material can become an AI-facing packet such as AGENTS.md or CLAUDE.md.</span></div>
-        <div class="step"><strong>Receipt</strong><span>Hashes, side effects, omissions, and rollback path stay inspectable.</span></div>
-      </div>
-    </section>
-    <section>
-      <h2>mem0 read-only governance case study</h2>
-      <p>The case study makes the pain visible: from 2056 candidate refs, only 478 were selected, 263 were caveated, 98 were blocked, and 1217 were omitted from the projected context. This is about governing influence, not storing more memory.</p>
-      <div class="metrics">
-        <div class="metric"><b>2056</b><span>candidate refs</span></div>
-        <div class="metric"><b>839</b><span>surfaced refs</span></div>
-        <div class="metric"><b>478</b><span>selected refs</span></div>
-        <div class="metric"><b>263</b><span>caveated refs</span></div>
-        <div class="metric"><b>98</b><span>blocked refs</span></div>
-      </div>
-      <div class="decisions">
-        <div class="panel selected"><strong>Selected</strong><ul><li>Public docs and protocol refs.</li><li>Evidence precision: <code>0.570</code>.</li></ul></div>
-        <div class="panel caveated"><strong>Caveated</strong><ul><li>Public but scope-sensitive generated or workflow refs.</li><li>Credential-shaped examples stay bounded.</li></ul></div>
-        <div class="panel blocked"><strong>Blocked / omitted</strong><ul><li>Media assets and credential-shaped markers are not promoted.</li><li>Omitted samples are visible up to the receipt cap.</li></ul></div>
-      </div>
-      <p>This public case study uses a sanitized extract over a pinned public OSS receipt. It does not run mem0 code, call a provider/model, execute an adapter, write target files, judge project quality, or imply maintainer endorsement.</p>
-    </section>
-    <section>
-      <h2>Read the evidence</h2>
-      <p>
-        <a href="https://github.com/ctxvault/ctxvault/blob/main/release/v0.6.0/public-influence/mem0-public-case-study-deep-dive.md">Deep dive</a>
-        · <a href="https://github.com/ctxvault/ctxvault/blob/main/release/v0.6.0/public-influence/mem0-public-case-study-extract.json">Public JSON extract</a>
-        · <a href="https://github.com/ctxvault/ctxvault">GitHub repository</a>
-      </p>
-    </section>
-  </main>
+  <section id="problem">
+    <h2>Problem</h2>
+    <p>AI agents execute against context assembled from many surfaces: repository docs, rules files, release notes, memory summaries, saved traces, and terminal logs. When those surfaces disagree, the model can produce polished work from broken premises.</p>
+    <div class="grid">
+      <div class="card"><h3>Stale</h3><p>Old claims outlive the evidence that once supported them.</p></div>
+      <div class="card"><h3>Conflicting</h3><p>Two instructions grant incompatible authority.</p></div>
+      <div class="card"><h3>Unsupported</h3><p>Copy references a release, benchmark, or capability without an artifact.</p></div>
+      <div class="card"><h3>Unsafe</h3><p>Action guidance skips approval, rollback, or side-effect boundaries.</p></div>
+    </div>
+  </section>
+  <section id="demo">
+    <h2>60-Second Demo</h2>
+    <p>The demo story is a before/after report: left side shows a small sample repo with stale, conflicting, unsupported, and unsafe context; right side shows a CtxGov report with finding type, evidence span, severity, and required next action.</p>
+    <p>Local demo capture plan: `release/v0.6.3/demo/60-second-demo-script.md`.</p>
+  </section>
+  <section id="taxonomy">
+    <h2>Failure Taxonomy</h2>
+    <table aria-label="CtxGov failure taxonomy">
+      <thead>
+        <tr><th>Finding Type</th><th>Evidence Span</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>stale_claim</code></td><td>Current-facing claim contradicted by fresher source.</td><td>Downgrade, caveat, or refresh the claim.</td></tr>
+        <tr><td><code>conflicting_policy</code></td><td>Two context files authorize incompatible behavior.</td><td>Pick the authoritative source or block execution.</td></tr>
+        <tr><td><code>unsupported_release_claim</code></td><td>Release, tag, package, benchmark, or demo claim without artifact.</td><td>Create the artifact or remove the claim.</td></tr>
+        <tr><td><code>unsafe_action_guidance</code></td><td>Instruction asks an agent to run/write/deploy without approval.</td><td>Require side-effect approval and rollback.</td></tr>
+        <tr><td><code>hidden_terminal_failure</code></td><td>Log shows failure while handoff says pass or ready.</td><td>Preserve the failure and rerun verification.</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <section id="benchmark">
+    <h2>Benchmark</h2>
+    <p>The companion benchmark lives in <a href="https://github.com/ctxgov/agent-context-evals">ctxgov/agent-context-evals</a>. It currently contains 50 synthetic labeled cases, evidence spans, a regex baseline, a CtxGov adapter stub, scoring, metrics, and a technical report draft.</p>
+    <div class="grid">
+      <div class="metric"><strong>50</strong><p>synthetic labeled cases</p></div>
+      <div class="metric"><strong>5</strong><p>finding families plus clean controls</p></div>
+      <div class="metric"><strong>2</strong><p>local baselines/adapters</p></div>
+      <div class="metric"><strong>0</strong><p>public benchmark claims</p></div>
+    </div>
+  </section>
+  <section id="links">
+    <h2>Links</h2>
+    <ul>
+      <li><a href="https://github.com/ctxgov/ctxgov">GitHub repository</a></li>
+      <li><a href="../release/v0.6.3/github-release.md">GitHub release draft</a></li>
+      <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.1-results.md">Benchmark report draft</a></li>
+      <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md">Technical report draft</a></li>
+      <li><a href="../docs/research-engineering-hiring-packet.md">Research engineering hiring packet</a></li>
+    </ul>
+  </section>
+  <section id="limits">
+    <h2>Limitations</h2>
+    <p>CtxGov is not a security scanner, sandbox, agent harness, provider SDK, memory backend, automatic remediation agent, or universal benchmark. Current benchmark materials are synthetic v0.1 skeleton data until the adapter is real, results are reproducible, and independent review exists.</p>
+  </section>
   <footer>
-    <p>No benchmark claim. No runtime or adapter claim. No provider/model call. No target repository write. No target project quality, security, correctness, or endorsement claim.</p>
+    <p>No security guarantee. No public benchmark result. No provider/model call. No target repository write. No hosted runtime. No live adapter. No universal compatibility claim. No adoption claim. No stable protocol claim.</p>
   </footer>
 </body>
 </html>
