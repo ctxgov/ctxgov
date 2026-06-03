@@ -102,11 +102,12 @@ unsafe, or hiding a failed command.
 
 Current artifacts include the CtxGov repo, a Context Health Doctor sample, a
 v0.6.3 public-surface release, a v0.6.4 doctor-coverage release, a v0.6.5
-release-integrity and multi-label eval readiness release, and a companion Agent
-Context Health Eval v0.5 artifact with 160 deterministic mutation cases, 206
-labels, 40 clean controls, multi-label scoring, deterministic baselines, a
-native CtxGov doctor adapter run, an offline LLM-judge harness, a demo GIF, a
-review packet, and a technical-report draft.
+release-integrity and multi-label eval readiness release, a v0.6.6 companion
+alignment release, and a companion Agent Context Health Eval v0.6 artifact with
+160 deterministic mutation cases, 206 labels, 60 adversarial hard negatives,
+multi-label scoring, span diagnostics, deterministic baselines, a native CtxGov
+doctor adapter run, an offline LLM-judge harness, a demo GIF, a review packet,
+and a technical-report draft.
 
 I am focused on research engineering roles around evals, model behavior,
 agent reliability, and AI safety evaluation. I care about reproducible

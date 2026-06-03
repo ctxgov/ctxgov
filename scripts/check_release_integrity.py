@@ -8,8 +8,8 @@ from typing import Any
 
 
 EXPECTED = {
-    "ctxgov_release": "v0.6.5",
-    "companion_release": "v0.5.0",
+    "ctxgov_release": "v0.6.6",
+    "companion_release": "v0.6.0",
     "project_page": "https://ctxgov.github.io/ctxgov/",
 }
 
@@ -20,8 +20,8 @@ PUBLIC_SURFACE_PATHS = [
     "docs/project-page-and-demo-2026-06-03.md",
     "docs/research-engineering-hiring-packet.md",
     "docs/linkedin-and-outreach-pack-2026-06-03.md",
-    "release/v0.6.5/RELEASE_NOTES.md",
-    "release/v0.6.5/github-release.md",
+    "release/v0.6.6/RELEASE_NOTES.md",
+    "release/v0.6.6/github-release.md",
 ]
 
 NEGATION_MARKERS = (
@@ -117,12 +117,12 @@ def _check_release_links(contents: dict[str, str]) -> list[dict[str, Any]]:
     expected_companion_url = (
         f"https://github.com/ctxgov/agent-context-evals/releases/tag/{EXPECTED['companion_release']}"
     )
-    expected_report_url = "https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.5-results.md"
+    expected_report_url = "https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.6-results.md"
 
     for url, issue_type in [
         (expected_ctxgov_url, "missing_expected_ctxgov_release_link"),
         (expected_companion_url, "missing_expected_companion_release_link"),
-        (expected_report_url, "missing_expected_v05_results_link"),
+        (expected_report_url, "missing_expected_v06_results_link"),
         (EXPECTED["project_page"], "missing_expected_project_page_link"),
     ]:
         if url not in combined:
