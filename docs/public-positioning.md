@@ -72,7 +72,7 @@ Use:
 
 - `local source artifact`
 - `L1 public-safe report-shape example`
-- `companion benchmark staging skeleton`
+- `companion eval review-ready artifact`
 - `synthetic labeled cases`
 - `deterministic scorer`
 - `claim boundaries`
@@ -101,9 +101,10 @@ whether the context it is about to trust is stale, conflicting, unsupported,
 unsafe, or hiding a failed command.
 
 Current artifacts include the CtxGov repo, a Context Health Doctor sample, a
-v0.6.3 public-surface release packet, a companion Agent Context Health benchmark
-skeleton with 50 synthetic labeled cases, deterministic scoring, baselines, and
-a technical-report draft.
+v0.6.3 public-surface release, a companion Agent Context Health Eval v0.3
+artifact with 50 trace-pattern labeled cases, deterministic scoring, baselines,
+an offline LLM-judge harness, a demo GIF, a review packet, and a
+technical-report draft.
 
 I am focused on research engineering roles around evals, model behavior,
 agent reliability, and AI safety evaluation. I care about reproducible
@@ -118,8 +119,8 @@ Every public artifact must keep these constraints visible:
 - no target repository write
 - no live adapter or hosted runtime claim
 - no security guarantee
-- no benchmark-performance claim until the companion repo is public and
-  reproducible
+- no benchmark-performance claim until independent review and adjudication are
+  published
 - no adoption claim until a downstream issue, PR, design doc, or maintainer
   thread cites the artifact with permission
 - no stable protocol claim

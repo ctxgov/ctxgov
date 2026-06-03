@@ -269,7 +269,7 @@
       <div class="actions">
         <a class="button primary" href="https://github.com/ctxgov/ctxgov">GitHub</a>
         <a class="button" href="../release/v0.6.3/RELEASE_NOTES.md">Release notes</a>
-        <a class="button" href="https://github.com/ctxgov/agent-context-evals">Benchmark repo</a>
+        <a class="button" href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0">Eval v0.3</a>
       </div>
     </div>
     <div class="demo-board" aria-label="Before and after report demo">
@@ -331,8 +331,8 @@
   </section>
   <section id="demo">
     <h2>60-Second Demo</h2>
-    <p>The demo story is a before/after report: left side shows a small sample repo with stale, conflicting, unsupported, and unsafe context; right side shows a CtxGov report with finding type, evidence span, severity, and required next action.</p>
-    <p>Local demo capture plan: `release/v0.6.3/demo/60-second-demo-script.md`.</p>
+    <p>The demo story is a before/after report: left side shows a small sample repo with stale, conflicting, unsupported, unsafe, hidden-failure, and Memory X-Ray L1 gaps; right side shows a context-health report with finding type, evidence span, and claim boundaries.</p>
+    <p><a href="https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif">View the companion v0.3 demo GIF</a> or inspect the <a href="https://github.com/ctxgov/agent-context-evals/blob/main/demo/reports/demo-context-health-report.md">reproducible demo report</a>.</p>
   </section>
   <section id="taxonomy">
     <h2>Failure Taxonomy</h2>
@@ -351,11 +351,11 @@
   </section>
   <section id="benchmark">
     <h2>Benchmark</h2>
-    <p>The companion benchmark lives in <a href="https://github.com/ctxgov/agent-context-evals">ctxgov/agent-context-evals</a>. It currently contains 50 v0.2 trace-pattern labeled cases, 12 hidden-holdout public case texts, evidence spans, a regex baseline, CtxGov heuristic and doctor adapter modes, per-finding metrics, evidence-span overlap, and a technical report draft.</p>
+    <p>The companion evaluation artifact lives in <a href="https://github.com/ctxgov/agent-context-evals">ctxgov/agent-context-evals</a>. It currently contains 50 v0.2 trace-pattern labeled cases, 12 hidden-holdout public case texts, 12 v0.3 review-intake cases, evidence spans, a regex baseline, an offline LLM-judge harness, CtxGov heuristic and doctor adapter modes, per-finding metrics, evidence-span overlap, a technical report draft, a review packet, and a demo fixture.</p>
     <div class="grid">
       <div class="metric"><strong>50</strong><p>synthetic labeled cases</p></div>
-      <div class="metric"><strong>5</strong><p>finding families plus clean controls</p></div>
-      <div class="metric"><strong>2</strong><p>local baselines/adapters</p></div>
+      <div class="metric"><strong>12</strong><p>review-intake cases pending independent labels</p></div>
+      <div class="metric"><strong>3</strong><p>baseline/adapter paths plus offline judge prompts</p></div>
       <div class="metric"><strong>0</strong><p>public benchmark claims</p></div>
     </div>
   </section>
@@ -363,16 +363,17 @@
     <h2>Links</h2>
     <ul>
       <li><a href="https://github.com/ctxgov/ctxgov">GitHub repository</a></li>
-      <li><a href="../release/v0.6.3/github-release.md">GitHub release draft</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.2-results.md">Benchmark report draft</a></li>
+      <li><a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.3">CtxGov v0.6.3 release</a></li>
+      <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.3-readiness.md">Companion v0.3 readiness report</a></li>
       <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md">Technical report draft</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.2.0">Companion v0.2.0 release</a></li>
+      <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0">Companion v0.3.0 release</a></li>
+      <li><a href="https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif">60-second demo GIF</a></li>
       <li><a href="../docs/research-engineering-hiring-packet.md">Research engineering hiring packet</a></li>
     </ul>
   </section>
   <section id="limits">
     <h2>Limitations</h2>
-    <p>CtxGov is not a security scanner, sandbox, agent harness, provider SDK, memory backend, automatic remediation agent, or universal benchmark. Current benchmark materials are public v0.2 scaffold data until independently reviewed trace-derived labels, hard negatives, and administered holdout results exist.</p>
+    <p>CtxGov is not a security scanner, sandbox, agent harness, provider SDK, memory backend, automatic remediation agent, or universal benchmark. Current evaluation materials are public v0.2 scaffold data plus a v0.3 review-ready packet until independently reviewed trace-derived labels, hard negatives, and administered holdout results exist.</p>
   </section>
   <footer>
     <p>No security guarantee. No public benchmark result. No provider/model call. No target repository write. No hosted runtime. No live adapter. No universal compatibility claim. No adoption claim. No stable protocol claim.</p>

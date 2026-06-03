@@ -37,7 +37,7 @@ CtxGov public materials currently focus on four artifacts:
   boundaries
 - Context Health Doctor: a read-only local report over AI-facing repository
   context
-- companion evaluation repo:
+- companion evaluation repo and v0.3 review-ready packet:
   `https://github.com/ctxgov/agent-context-evals`
 - project, hiring, and outreach packet material under `docs/` and `release/`
 
@@ -66,14 +66,17 @@ PYTHONPATH=src python3 -m ctxgov.cli doctor \
   --include-report
 ```
 
-For the companion benchmark skeleton:
+For the companion evaluation artifact:
 
 ```bash
 git clone https://github.com/ctxgov/agent-context-evals
 cd agent-context-evals
-python3 baselines/regex_baseline.py --cases data/cases.jsonl --output reports/regex-baseline-results.jsonl
-python3 ctxgov_adapter/run_ctxgov.py --cases data/cases.jsonl --output reports/ctxgov-adapter-results.jsonl
-python3 scoring/score_findings.py --labels data/labels.jsonl --predictions reports/ctxgov-adapter-results.jsonl
+python3 baselines/llm_judge_baseline.py \
+  --cases data/v0.3/review_intake_cases.jsonl \
+  --output reports/v0.3-llm-judge-baseline-results.jsonl \
+  --manifest reports/v0.3-llm-judge-baseline-manifest.json \
+  --prompt-output reports/v0.3-llm-judge-prompts.jsonl
+python3 scripts/build_demo_fixture.py --fixture demo/fixtures/bad_context_repo --output-dir demo/reports
 ```
 
 ## Public-Safe Evidence
@@ -91,7 +94,9 @@ Inspect:
 - `docs/project-page-and-demo-2026-06-03.md`
 - `docs/research-engineering-hiring-packet.md`
 - `docs/linkedin-and-outreach-pack-2026-06-03.md`
-- `https://github.com/ctxgov/agent-context-evals`
+- `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0`
+- `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.3-readiness.md`
+- `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
 
 ## Claim Boundaries
 
@@ -115,10 +120,16 @@ Do not claim:
 
 ## Release Status
 
-The prepared public-surface cleanup release is `v0.6.3`. It is a GitHub source
-release draft for clearer CtxGov positioning, release integrity, and local
-companion-eval materials. It does not publish a new package or claim a public
-benchmark result.
+The public-surface cleanup release is `v0.6.3`:
+`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.3`.
+
+The companion evaluation artifact release is `v0.3.0`:
+`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0`.
+
+Together they provide public CtxGov positioning, release integrity, local
+Context Health Doctor evidence, companion eval materials, an offline LLM judge
+harness, an independent-review packet, and a demo GIF. They do not publish a
+new package or claim a public benchmark result.
 
 ## Provenance
 

@@ -1,8 +1,8 @@
 # Research Engineering Hiring Packet
 
 Date: 2026-06-03
-Status: local packet for personal outreach and LinkedIn Featured. Verify all
-links after public deployment.
+Status: public packet for personal outreach and LinkedIn Featured. Links were
+updated after the companion v0.3.0 release.
 
 ## Target Roles
 
@@ -26,20 +26,22 @@ The core question:
 
 | Artifact | Status | Link |
 | --- | --- | --- |
-| CtxGov main repo | Local public-surface cleanup prepared | `README.md` |
-| v0.6.3 release draft | Local GitHub release body ready | `release/v0.6.3/github-release.md` |
-| Project page | Local static page ready | `docs/index.html` |
-| Agent Context Evals companion | Public v0.2 scaffold | `https://github.com/ctxgov/agent-context-evals` |
+| CtxGov main repo | Public | `https://github.com/ctxgov/ctxgov` |
+| v0.6.3 release | Published | `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.3` |
+| Project page | Published | `https://ctxgov.github.io/ctxgov/` |
+| Agent Context Evals companion | Public v0.3 review-ready artifact | `https://github.com/ctxgov/agent-context-evals` |
 | Technical report | Draft ready | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md` |
-| Companion release | Published | `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.2.0` |
-| Demo script | Capture script ready | `release/v0.6.3/demo/60-second-demo-script.md` |
+| Companion release | Published | `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0` |
+| Demo GIF | Published | `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif` |
+| Readiness report | Published | `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.3-readiness.md` |
 | LinkedIn/outreach pack | Draft ready | `docs/linkedin-and-outreach-pack-2026-06-03.md` |
 
 ## What To Inspect First
 
 1. README first screen: does the project read as agent context health eval?
 2. Failure taxonomy: are the finding categories concrete?
-3. Benchmark skeleton: are the cases, labels, scorer, and baseline reproducible?
+3. Evaluation artifact: are the cases, labels, scorer, baselines, adapters,
+   review packet, and demo reproducible?
 4. Technical report: are limitations and reproducibility honest?
 5. Demo: can a reviewer understand the artifact in 60 seconds?
 
@@ -62,12 +64,12 @@ Correct framing:
 
 Short version:
 
-`I am building CtxGov, an agent context-health evaluation artifact. It checks repo/workflow context for stale, conflicting, unsupported, unsafe, and hidden-failure spans before an AI agent acts. The repo, local benchmark skeleton, scorer, baselines, and technical report draft are ready for review.`
+`I am building CtxGov, an agent context-health evaluation artifact. It checks repo/workflow context for stale, conflicting, unsupported, unsafe, and hidden-failure spans before an AI agent acts. The repo, companion eval artifact, scorer, baselines, doctor adapter result, offline judge harness, demo, and technical report draft are ready for review.`
 
 ## Next Proof Needed
 
-- publish the companion repo
-- run and report deterministic baseline metrics
-- capture 60-second demo GIF
+- complete independent review of the v0.3 review-intake cases
+- publish adjudicated labels and reviewer agreement notes
+- add false positive and false negative analysis on reviewed labels
+- add hard negative controls
 - get one downstream issue/PR/design-doc citation with permission
-- add independent reviewer FP/FN notes

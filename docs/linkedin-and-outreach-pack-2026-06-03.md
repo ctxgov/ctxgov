@@ -1,8 +1,7 @@
 # LinkedIn And Outreach Pack
 
 Date: 2026-06-03
-Status: local draft material. Do not send outreach or publish posts until links
-and release/page URLs are verified.
+Status: draft material with public v0.6.3 and companion v0.3.0 links verified.
 
 ## LinkedIn Headline
 
@@ -18,10 +17,11 @@ context it is about to trust is stale, conflicting, unsupported, unsafe, or
 hiding a failed command.
 
 Current artifacts include the CtxGov repo, a Context Health Doctor sample, a
-v0.6.3 public-surface cleanup release packet, and a companion Agent Context
-Health Eval v0.2 scaffold with 50 trace-pattern labeled cases, 12
-hidden-holdout public case texts, deterministic scoring, baselines, adapter
-contracts, and a technical-report draft.
+v0.6.3 public-surface cleanup release, and a companion Agent Context Health
+Eval v0.3 artifact with 50 trace-pattern labeled cases, 12 hidden-holdout
+public case texts, 12 review-intake cases, deterministic scoring, baselines,
+adapter contracts, an offline LLM-judge harness, a demo GIF, a review packet,
+and a technical-report draft.
 
 I am focused on research engineering roles around evals, model behavior, agent
 reliability, and AI safety evaluation. I care about reproducible evidence,
@@ -59,9 +59,10 @@ The first artifact checks AI-facing context for five failure families:
 The key design choice is evidence spans. A finding is not useful unless it
 points to the exact text that would mislead the next agent run.
 
-Current local materials include the CtxGov repo, a v0.6.3 public-surface
-release draft, a 50-case companion benchmark skeleton, a regex baseline, a
-scorer, and a technical-report draft.
+Current materials include the CtxGov repo, a v0.6.3 public-surface release, a
+50-case companion eval scaffold, a regex baseline, a real CtxGov doctor adapter
+result, an offline LLM-judge harness, a demo GIF, a review packet, a scorer,
+and a technical-report draft.
 
 Limitations are explicit: this is not a security guarantee, not a universal
 benchmark, not a provider compatibility claim, and not an auto-remediation
@@ -77,7 +78,9 @@ Links:
 - Release: `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.3`
 - Project page: `https://ctxgov.github.io/ctxgov/`
 - Technical report: `https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md`
-- Companion release: `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.2.0`
+- Readiness report: `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.3-readiness.md`
+- Demo GIF: `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
+- Companion release: `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.3.0`
 
 ## Targeted Outreach Message
 
@@ -94,8 +97,9 @@ It checks repo/workflow context for stale, conflicting, unsupported, unsafe, and
 hidden-failure spans before an agent acts on it.
 
 The current materials are repo-first: public-surface release, 50-case v0.2
-trace-pattern scaffold, 12 hidden-holdout public case texts, regex baseline,
-scorer, CtxGov heuristic and doctor adapter modes, and technical report draft.
+trace-pattern scaffold, 12 hidden-holdout public case texts, 12 v0.3
+review-intake cases, regex baseline, scorer, offline LLM-judge harness, demo
+GIF, CtxGov heuristic and doctor adapter modes, and technical report draft.
 The limitations are explicit: no security guarantee, no universal benchmark
 claim, and no provider compatibility claim.
 
