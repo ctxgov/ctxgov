@@ -374,6 +374,7 @@
         <a href="#run">Run</a>
         <a href="#demo">Demo</a>
         <a href="#evidence">Evidence</a>
+        <a href="#reviewer">Reviewer</a>
         <a href="#limits">Limits</a>
         <a href="https://github.com/ctxgov/ascr">ASCR</a>
         <a href="https://github.com/ctxgov/ctxgov">GitHub</a>
@@ -387,8 +388,9 @@
           <h1>CtxGov</h1>
           <p class="lede">
             Find stale, conflicting, unsupported, unsafe, and memory-risky
-            AI-facing context before agents act. v0.6.10 aligns the report
-            shape to ASCR: Agent State & Context Runtime Contract.
+            AI-facing context before agents act. v0.6.11 hardens the public
+            surface with a self-audit, deterministic preview rendering, and
+            ASCR-aligned release-control receipts for Agent State & Context Runtime Contract.
           </p>
           <div class="actions">
             <a class="button primary" href="#run">Run locally</a>
@@ -459,10 +461,15 @@
           publication boundary without calling a provider, writing to a memory
           backend, or updating an external target.
         </p>
-        <pre><code>python3 scripts/check_ascr_aligned_release_pack.py</code></pre>
+        <pre><code>python3 scripts/check_public_evidence_release_pack.py
+python3 scripts/check_ascr_aligned_release_pack.py
+python3 scripts/check_public_surface_hardening.py
+python3 scripts/render_public_memory_xray_preview.py \
+  --input release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json \
+  --output /tmp/ctxgov-memory-xray-preview.md</code></pre>
         <pre><code>{
   "issue_count": 0,
-  "release": "v0.6.10",
+  "release": "v0.6.11",
   "status": "pass"
 }</code></pre>
       </section>
@@ -477,6 +484,17 @@
           claims.
         </p>
         <div class="grid">
+          <article class="card">
+            <h3>v0.6.11 Self-Audit</h3>
+            <p>
+              Public-surface hardening, drift findings, claim lint, leak scan,
+              link check, deterministic preview rendering, and execution
+              receipts.
+            </p>
+            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.11/self-audit-public-report">
+              Open v0.6.11 report
+            </a>
+          </article>
           <article class="card">
             <h3>ASCR Contract</h3>
             <p>
@@ -496,16 +514,6 @@
             </p>
             <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.10/ascr-aligned-evidence-update">
               Open v0.6.10 pack
-            </a>
-          </article>
-          <article class="card">
-            <h3>Companion Local Eval</h3>
-            <p>
-              Public companion artifact for local evaluation work. It is linked
-              as evidence context, not as a public benchmark claim.
-            </p>
-            <a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0">
-              Open v0.7.0
             </a>
           </article>
         </div>
@@ -538,13 +546,50 @@
         </div>
       </section>
 
+      <section class="shell" id="reviewer">
+        <h2>Reviewer Mode</h2>
+        <p class="section-copy">
+          Review CtxGov as an agent context health and ASCR-aligned
+          memory-governance report-shape release. The fastest review path is to
+          inspect the receipts, render the deterministic preview, and check that
+          every public claim stays inside the recorded boundary.
+        </p>
+        <div class="grid">
+          <article class="card">
+            <h3>Run</h3>
+            <ul>
+              <li><code>python3 scripts/check_public_surface_hardening.py</code></li>
+              <li><code>python3 scripts/check_ascr_aligned_release_pack.py</code></li>
+              <li><code>python3 scripts/check_public_evidence_release_pack.py</code></li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Inspect</h3>
+            <ul>
+              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.11/self-audit-public-report">v0.6.11 self-audit report</a></li>
+              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.10/ascr-aligned-evidence-update">v0.6.10 ASCR evidence pack</a></li>
+              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.9/memory-xray-public-evidence-preview">v0.6.9 Memory X-Ray evidence pack</a></li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Do Not Infer</h3>
+            <ul>
+              <li>No public benchmark claim.</li>
+              <li>No security guarantee or provider/model compatibility claim.</li>
+              <li>No package, hosted runtime, live adapter, adoption, or CLI beta claim.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section class="shell" id="limits">
         <h2>Limits</h2>
         <p class="section-copy">
           The highest-trust release is the one that says exactly what is known
-          and what is not known. CtxGov v0.6.10 is a public-safe
-          ASCR-aligned evidence update, not a formal public benchmark,
-          provider-compatibility, stable-standard, or adoption release.
+          and what is not known. CtxGov v0.6.11 is a public-safe
+          public-surface hardening release layered on the v0.6.10 ASCR-aligned
+          evidence update, not a formal public benchmark, provider-compatibility,
+          stable-standard, or adoption release.
         </p>
         <div class="boundary">
           <article class="card">
@@ -573,7 +618,7 @@
     </main>
 
     <footer class="shell">
-      CtxGov v0.6.10 ASCR-aligned evidence update. Published through an
+      CtxGov v0.6.11 public-surface hardening. Published through an
       owner-approved public repo patch, GitHub release, and Pages verification.
     </footer>
   </body>

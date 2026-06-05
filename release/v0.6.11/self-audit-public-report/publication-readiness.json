@@ -1,0 +1,19 @@
+{
+  "schema": "ctxgov.publication_readiness_receipt.v0",
+  "release": "v0.6.11",
+  "checked_at": "2026-06-05T06:26:55Z",
+  "status": "ready_for_owner_approved_public_repo_patch",
+  "owner_approval_required": true,
+  "owner_approval_received": true,
+  "approval_scope": "public-safe public-surface hardening and self-audit release",
+  "license": "Apache-2.0",
+  "public_repository": "ctxgov/ctxgov",
+  "github_push_executed": false,
+  "github_release_executed": false,
+  "github_pages_update_executed": false,
+  "pages_fetch_verification_executed": false,
+  "provider_model_call_executed": false,
+  "memory_backend_write_executed": false,
+  "external_target_write_executed": false,
+  "outreach_executed": false
+}

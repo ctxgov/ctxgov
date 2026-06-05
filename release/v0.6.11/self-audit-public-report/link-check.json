@@ -1,0 +1,12 @@
+{
+  "schema": "ctxgov.public_link_check_receipt.v0",
+  "release": "v0.6.11",
+  "checked_at": "2026-06-05T06:26:55Z",
+  "status": "pass_local_remote_fetch_pending_publication",
+  "local_relative_links_checked": true,
+  "local_anchor_links_checked": true,
+  "remote_fetch_executed": false,
+  "release_fetch_verification_executed": false,
+  "pages_fetch_verification_executed": false,
+  "violations": []
+}

@@ -1,5 +1,7 @@
 # CtxGov
 
+![Public Surface Checks](https://github.com/ctxgov/ctxgov/actions/workflows/public-surface.yml/badge.svg)
+
 Find stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context
 before agents act.
 
@@ -20,19 +22,24 @@ ASCR: Agent State & Context Runtime Contract.
   separate framework-neutral contract/toolkit repo.
 - Evidence posture: public-safe report-shape and local release-control
   readiness, not a public benchmark or adoption claim.
-- Current release pack: `release/v0.6.10/` records the ASCR-aligned evidence
-  update. `release/v0.6.9/` remains the Memory X-Ray public evidence release.
+- Current release pack: `release/v0.6.11/` records public-surface hardening,
+  self-audit evidence, and deterministic report-preview rendering. `release/v0.6.10/`
+  remains the ASCR-aligned evidence update.
 
 ## Run Locally
 
 ```bash
 python3 scripts/check_public_evidence_release_pack.py
 python3 scripts/check_ascr_aligned_release_pack.py
+python3 scripts/check_public_surface_hardening.py
+python3 scripts/render_public_memory_xray_preview.py \
+  --input release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json \
+  --output /tmp/ctxgov-memory-xray-preview.md
 ```
 
-The public v0.6.10 surface is an ASCR-aligned evidence update layered on the
-v0.6.9 Memory X-Ray report-shape release. It does not publish a Memory X-Ray
-CLI beta.
+The public v0.6.11 surface is a hardening release layered on the v0.6.10 ASCR
+alignment and v0.6.9 Memory X-Ray report-shape release. The report preview
+renderer is deterministic public-safe example rendering only. It is not a Memory X-Ray CLI beta and does not scan arbitrary target repositories.
 
 ## Example Report Shape
 
@@ -64,6 +71,12 @@ boundary=no_public_benchmark_claim,no_provider_call,no_target_write
   [`release/v0.6.10/RELEASE_NOTES.md`](release/v0.6.10/RELEASE_NOTES.md)
 - ASCR-aligned evidence pack:
   [`release/v0.6.10/ascr-aligned-evidence-update/`](release/v0.6.10/ascr-aligned-evidence-update/)
+- v0.6.11 release notes:
+  [`release/v0.6.11/RELEASE_NOTES.md`](release/v0.6.11/RELEASE_NOTES.md)
+- Self-audit public report:
+  [`release/v0.6.11/self-audit-public-report/`](release/v0.6.11/self-audit-public-report/)
+- Self-audit case study:
+  [`docs/case-studies/v0.6.9-self-audit.md`](docs/case-studies/v0.6.9-self-audit.md)
 - v0.6.9 release notes:
   [`release/v0.6.9/RELEASE_NOTES.md`](release/v0.6.9/RELEASE_NOTES.md)
 - Memory X-Ray public evidence pack:
@@ -80,6 +93,9 @@ publication boundary manifest.
 The v0.6.10 evidence pack records the ASCR relationship, ASCR repo verification,
 claim lint, leak scan, link check, and publication receipts.
 
+The v0.6.11 evidence pack records a public-safe self-audit of post-publication
+context drift and a deterministic preview renderer for the L1 public examples.
+
 ## Claim Boundary
 
 Allowed public claims:
@@ -89,6 +105,8 @@ Allowed public claims:
 - Local release-control summaries cover repeat-run stability, no-op handoff
   replay, rollback refs, blocked lanes, and fail-closed negative modes.
 - CtxGov v0.6.10 is aligned to ASCR v0.1 contract surfaces.
+- CtxGov v0.6.11 renders public-safe Memory X-Ray examples deterministically
+  and records a self-audit case study for public-surface drift.
 
 Not claimed:
 
@@ -103,6 +121,7 @@ Not claimed:
 - No stable ASCR standard claim.
 - No memory-backend write.
 - No CLI beta claim.
+- No package publication claim from `pyproject.toml` version metadata.
 
 This release does not execute provider/model calls, memory-backend writes,
 external target writes, package publication, hosted runtime changes, or
@@ -117,7 +136,9 @@ The public-safe release path is now:
    evidence.
 2. v0.6.10 adds the ASCR sibling-repo relationship and ASCR-aligned evidence
    update.
-3. Public claims remain scoped to report shape, contract alignment, and
+3. v0.6.11 adds public-surface consistency, self-audit, public-surface CI, and
+   deterministic report preview rendering.
+4. Public claims remain scoped to report shape, contract alignment, and
    local/public-safe receipts.
 
 Formal benchmark, adoption, provider compatibility, package, live adapter,
@@ -128,16 +149,18 @@ rollback/claim-lint receipts.
 
 ## Repo Map
 
-- `src/ctxvault/` - CLI and local report-generation code.
-- `schemas/json/` - JSON schemas for reports and receipts.
-- `fixtures/` - local fixtures and private-sidecar evidence.
+- `src/ctxgov/` - public package/module path.
+- `schemas/` - report and receipt schema material.
+- `fixtures/` - public-safe fixtures and local evidence material.
 - `release/` - public-safe release packs and release notes.
-- `docs/` - project page and release planning documents.
-- `companion/agent-context-evals/` - companion local-eval artifact.
+- `docs/` - project page, provenance, and public-safe case studies.
+- `agent-context-evals` - separate companion repo linked from evidence, not
+  vendored into this repo.
 - ASCR sibling repo - <https://github.com/ctxgov/ascr>.
 
 ## License And Governance
 
 [`SECURITY.md`](SECURITY.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md) are part
-of the public repo hygiene surface. CtxGov uses Apache-2.0. OpenSSF/GitHub
-hygiene is treated as trust posture, not as a security certification.
+of the public repo hygiene surface. License: Apache-2.0. The license enables
+source use and contribution review; it is not a security, benchmark, adoption,
+compatibility, package-publication, or support claim.

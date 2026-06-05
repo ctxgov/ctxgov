@@ -1,0 +1,50 @@
+{
+  "schema": "ctxgov.self_audit_summary.v0",
+  "release": "v0.6.11",
+  "checked_at": "2026-06-05T06:26:55Z",
+  "status": "ready_for_owner_approved_publication",
+  "scope": "public_safe_post_publication_context_drift_self_audit",
+  "case_study": "docs/case-studies/v0.6.9-self-audit.md",
+  "findings": [
+    {
+      "finding_type": "publication_state_drift",
+      "evidence": "release/v0.6.9/memory-xray-public-evidence-preview/README.md",
+      "correction": "status now records owner-approved v0.6.9 publication"
+    },
+    {
+      "finding_type": "repo_map_drift",
+      "evidence": "README.md",
+      "correction": "repo map now points to src/ctxgov, schemas, release, docs, and separate companion repos"
+    },
+    {
+      "finding_type": "version_surface_drift",
+      "evidence": "pyproject.toml",
+      "correction": "source metadata now aligns to v0.6.11 without package-publication claim"
+    },
+    {
+      "finding_type": "roadmap_pointer_drift",
+      "evidence": "ROADMAP.md",
+      "correction": "current public surface now points to v0.6.11/v0.6.10/v0.6.9 evidence"
+    }
+  ],
+  "claim_boundary": {
+    "public_benchmark_claim": false,
+    "security_guarantee": false,
+    "provider_model_compatibility_claim": false,
+    "adoption_claim": false,
+    "package_publication_claim": false,
+    "hosted_runtime_claim": false,
+    "live_adapter_claim": false,
+    "public_spec_stability_claim": false,
+    "stable_ascr_standard_claim": false,
+    "memory_xray_cli_beta_claim": false
+  },
+  "side_effect_boundary": {
+    "provider_model_call": false,
+    "memory_backend_write": false,
+    "external_target_write": false,
+    "package_publication": false,
+    "hosted_runtime_change": false,
+    "proactive_outreach": false
+  }
+}

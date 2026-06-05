@@ -1,0 +1,15 @@
+{
+  "schema": "ctxgov.claim_lint_receipt.v0",
+  "release": "v0.6.11",
+  "checked_at": "2026-06-05T06:26:55Z",
+  "status": "pass",
+  "scope": [
+    "README.md",
+    "ROADMAP.md",
+    "docs/index.html",
+    "docs/case-studies/v0.6.9-self-audit.md",
+    "release/v0.6.11/",
+    "scripts/render_public_memory_xray_preview.py"
+  ],
+  "violations": []
+}

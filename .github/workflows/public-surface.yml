@@ -1,0 +1,40 @@
+name: Public Surface Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-surface:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check v0.6.9 public evidence pack
+        run: python3 scripts/check_public_evidence_release_pack.py
+
+      - name: Check v0.6.10 ASCR-aligned release pack
+        run: python3 scripts/check_ascr_aligned_release_pack.py
+
+      - name: Check v0.6.11 public-surface hardening
+        run: python3 scripts/check_public_surface_hardening.py
+
+      - name: Run narrow public-surface tests
+        run: python3 -m unittest tests.test_public_surface_hardening tests.test_render_public_memory_xray_preview tests.test_ascr_aligned_release_pack tests.test_public_evidence_release_pack -v
+
+      - name: Render deterministic preview smoke artifact
+        run: |
+          python3 scripts/render_public_memory_xray_preview.py \
+            --input release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json \
+            --output /tmp/ctxgov-memory-xray-preview.md
+          test -s /tmp/ctxgov-memory-xray-preview.md
+          test -s /tmp/ctxgov-memory-xray-preview.json

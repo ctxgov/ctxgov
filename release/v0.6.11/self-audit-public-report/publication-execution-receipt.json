@@ -1,0 +1,25 @@
+{
+  "schema": "ctxgov.publication_execution_receipt.v0",
+  "release": "v0.6.11",
+  "checked_at": "2026-06-05T06:26:55Z",
+  "status": "prepared_not_published",
+  "public_repository": "ctxgov/ctxgov",
+  "release_url": "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.11",
+  "pages_url": "https://ctxgov.github.io/ctxgov/",
+  "github_release_created": false,
+  "github_pages_fetch": {
+    "status": null,
+    "reviewer_mode_phrase_found": false
+  },
+  "release_page_fetch": {
+    "status": null
+  },
+  "side_effect_boundary": {
+    "provider_model_call": false,
+    "memory_backend_write": false,
+    "external_target_write": false,
+    "package_publication": false,
+    "hosted_runtime_change": false,
+    "proactive_outreach": false
+  }
+}

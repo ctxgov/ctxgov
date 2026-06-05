@@ -1,6 +1,10 @@
 # Memory X-Ray Public Evidence Preview
 
-Status: public-safe local release pack, prepared for owner-approved publication.
+Status: public-safe local release pack, published through the owner-approved
+v0.6.9 public GitHub release.
+
+This pack was originally prepared for owner approval. Publication execution is
+recorded in `publication-execution-receipt.json`.
 
 This pack shows the shape of a CtxGov / Memory X-Ray public evidence release
 without exposing private traces or implying unsupported claims. It is scoped to

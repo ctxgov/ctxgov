@@ -1,0 +1,252 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+import re
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+from typing import Any
+
+
+ROOT = Path(__file__).resolve().parents[1]
+RELEASE = ROOT / "release" / "v0.6.11"
+PACK = RELEASE / "self-audit-public-report"
+
+REQUIRED_FILES = [
+    ROOT / "README.md",
+    ROOT / "ROADMAP.md",
+    ROOT / "pyproject.toml",
+    ROOT / "docs" / "index.html",
+    ROOT / "docs" / "case-studies" / "v0.6.9-self-audit.md",
+    ROOT / ".github" / "workflows" / "public-surface.yml",
+    ROOT / "scripts" / "render_public_memory_xray_preview.py",
+    ROOT / "scripts" / "check_public_surface_hardening.py",
+    ROOT / "tests" / "test_render_public_memory_xray_preview.py",
+    ROOT / "tests" / "test_public_surface_hardening.py",
+    RELEASE / "RELEASE_NOTES.md",
+    RELEASE / "github-release.md",
+    PACK / "README.md",
+    PACK / "self-audit-summary.json",
+    PACK / "claim-lint.json",
+    PACK / "leak-scan.json",
+    PACK / "link-check.json",
+    PACK / "publication-readiness.json",
+    PACK / "publication-execution-receipt.json",
+    PACK / "manifest.json",
+]
+
+TEXT_FILES = [path for path in REQUIRED_FILES if path.suffix.lower() not in {".json"}]
+
+LIVE_SURFACE_FILES = [
+    ROOT / "README.md",
+    ROOT / "ROADMAP.md",
+    ROOT / "pyproject.toml",
+    ROOT / "docs" / "index.html",
+    ROOT / "docs" / "public-repo-metadata.md",
+    ROOT / "docs" / "case-studies" / "v0.6.9-self-audit.md",
+    RELEASE / "RELEASE_NOTES.md",
+    RELEASE / "github-release.md",
+    PACK / "README.md",
+]
+
+FORBIDDEN_LIVE_PATTERNS = [
+    re.compile(r"pending owner-approved publication", re.I),
+    re.compile(r"prepared for owner-approved publication", re.I),
+    re.compile(r"License selection remains", re.I),
+    re.compile(r"src/ctxvault/", re.I),
+    re.compile(r"companion/agent-context-evals", re.I),
+    re.compile(r"Changelog = \"https://github.com/ctxgov/ctxgov/releases/tag/v0\.6\.2\"", re.I),
+]
+
+OVERCLAIM_PATTERNS = [
+    re.compile(r"\bpublic benchmark (?:complete|passed|result|score|leaderboard)\b", re.I),
+    re.compile(r"\bsecurity (?:certification|guarantee)\b", re.I),
+    re.compile(r"\bprovider(?:/model)? compatibility claim\b", re.I),
+    re.compile(r"\badoption claim\b", re.I),
+    re.compile(r"\bpackage publication claim\b", re.I),
+    re.compile(r"\bhosted runtime claim\b", re.I),
+    re.compile(r"\blive adapter claim\b", re.I),
+    re.compile(r"\bMemory X-Ray CLI beta claim\b", re.I),
+]
+
+NEGATION_MARKERS = ("bad context", "no ", "not ", "not a ", "not claimed", "without ", "blocked", "does not")
+
+
+def main() -> int:
+    issues: list[dict[str, Any]] = []
+    for path in REQUIRED_FILES:
+        if not path.exists():
+            issues.append(_issue("missing_file", path, "Required public hardening file is missing."))
+    if issues:
+        return _finish(issues)
+
+    _check_live_surface_text(issues)
+    _check_pyproject(issues)
+    _check_self_audit_receipts(issues)
+    _check_workflow(issues)
+    _check_local_links(issues)
+    _check_preview_renderer(issues)
+    _check_claim_boundaries(issues)
+
+    return _finish(issues)
+
+
+def _check_live_surface_text(issues: list[dict[str, Any]]) -> None:
+    for path in LIVE_SURFACE_FILES:
+        text = path.read_text(encoding="utf-8")
+        for pattern in FORBIDDEN_LIVE_PATTERNS:
+            if pattern.search(text):
+                issues.append(_issue("live_surface_drift", path, pattern.pattern))
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    for phrase in [
+        "release/v0.6.11/",
+        "scripts/render_public_memory_xray_preview.py",
+        "not a Memory X-Ray CLI beta",
+        "src/ctxgov/",
+        "agent-context-evals` - separate companion repo",
+    ]:
+        if phrase not in readme:
+            issues.append(_issue("readme_missing_phrase", ROOT / "README.md", phrase))
+
+
+def _check_pyproject(issues: list[dict[str, Any]]) -> None:
+    text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    if 'version = "0.6.11"' not in text:
+        issues.append(_issue("pyproject_version", ROOT / "pyproject.toml", "version must be 0.6.11"))
+    if "releases/tag/v0.6.11" not in text:
+        issues.append(_issue("pyproject_changelog", ROOT / "pyproject.toml", "Changelog must point to v0.6.11"))
+
+
+def _check_self_audit_receipts(issues: list[dict[str, Any]]) -> None:
+    summary = _load_json(PACK / "self-audit-summary.json", issues)
+    claim_lint = _load_json(PACK / "claim-lint.json", issues)
+    leak_scan = _load_json(PACK / "leak-scan.json", issues)
+    readiness = _load_json(PACK / "publication-readiness.json", issues)
+    execution = _load_json(PACK / "publication-execution-receipt.json", issues)
+    manifest = _load_json(PACK / "manifest.json", issues)
+
+    if summary.get("status") not in {"ready_for_owner_approved_publication", "published_owner_approved_public_surface_hardening"}:
+        issues.append(_issue("self_audit_status", PACK / "self-audit-summary.json", "Unexpected self-audit status."))
+    if len(summary.get("findings", [])) != 4:
+        issues.append(_issue("self_audit_findings", PACK / "self-audit-summary.json", "Expected 4 self-audit findings."))
+    for receipt_path, receipt in [
+        (PACK / "claim-lint.json", claim_lint),
+        (PACK / "leak-scan.json", leak_scan),
+    ]:
+        if receipt.get("status") != "pass" or receipt.get("violations") not in ([], None):
+            issues.append(_issue("receipt_not_pass", receipt_path, "Receipt must pass with no violations."))
+    if readiness.get("status") not in {"ready_for_owner_approved_public_repo_patch", "published_owner_approved_public_write_bundle"}:
+        issues.append(_issue("readiness_status", PACK / "publication-readiness.json", "Unexpected readiness status."))
+    if execution.get("status") not in {"prepared_not_published", "published_and_verified"}:
+        issues.append(_issue("execution_status", PACK / "publication-execution-receipt.json", "Unexpected execution status."))
+    roles = {asset.get("role") for asset in manifest.get("assets", [])}
+    for role in {"release_notes", "github_release_copy", "pack_overview", "self_audit_summary", "claim_boundary_receipt", "publication_execution_receipt"}:
+        if role not in roles:
+            issues.append(_issue("manifest_missing_role", PACK / "manifest.json", role))
+
+
+def _check_workflow(issues: list[dict[str, Any]]) -> None:
+    workflow = (ROOT / ".github" / "workflows" / "public-surface.yml").read_text(encoding="utf-8")
+    for phrase in [
+        "python3 scripts/check_public_evidence_release_pack.py",
+        "python3 scripts/check_ascr_aligned_release_pack.py",
+        "python3 scripts/check_public_surface_hardening.py",
+        "python3 -m unittest tests.test_public_surface_hardening tests.test_render_public_memory_xray_preview",
+    ]:
+        if phrase not in workflow:
+            issues.append(_issue("workflow_missing_command", ROOT / ".github" / "workflows" / "public-surface.yml", phrase))
+
+
+def _check_local_links(issues: list[dict[str, Any]]) -> None:
+    markdown_link = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+    href_link = re.compile(r'href="([^"]+)"')
+    for path in TEXT_FILES:
+        if path.suffix.lower() not in {".md", ".html", ".toml"}:
+            continue
+        text = path.read_text(encoding="utf-8")
+        links = markdown_link.findall(text) + href_link.findall(text)
+        for raw_link in links:
+            link = raw_link.strip()
+            if not link or link.startswith(("http://", "https://", "mailto:", "javascript:")):
+                continue
+            if link.startswith("#"):
+                if link[1:] and f'id="{link[1:]}"' not in text:
+                    issues.append(_issue("missing_local_anchor", path, link))
+                continue
+            resolved = (path.parent / link.split("#", 1)[0]).resolve()
+            if not resolved.exists():
+                issues.append(_issue("missing_local_link_target", path, link))
+
+
+def _check_preview_renderer(issues: list[dict[str, Any]]) -> None:
+    with tempfile.TemporaryDirectory() as temp_dir:
+        output = Path(temp_dir) / "preview.md"
+        result = subprocess.run(
+            [
+                sys.executable,
+                "scripts/render_public_memory_xray_preview.py",
+                "--input",
+                "release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json",
+                "--output",
+                str(output),
+            ],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode != 0:
+            issues.append(_issue("preview_renderer_failed", ROOT / "scripts" / "render_public_memory_xray_preview.py", result.stdout + result.stderr))
+            return
+        report = json.loads(output.with_suffix(".json").read_text(encoding="utf-8"))
+        if report.get("example_count") != 5:
+            issues.append(_issue("preview_example_count", output.with_suffix(".json"), "Expected 5 rendered examples."))
+        markdown = output.read_text(encoding="utf-8")
+        for phrase in ["not a Memory X-Ray CLI beta", "No public benchmark claim", "No provider/model call"]:
+            if phrase not in markdown:
+                issues.append(_issue("preview_missing_phrase", output, phrase))
+
+
+def _check_claim_boundaries(issues: list[dict[str, Any]]) -> None:
+    for path in TEXT_FILES:
+        lines = path.read_text(encoding="utf-8").splitlines()
+        for line_number, line in enumerate(lines, start=1):
+            context = " ".join(lines[max(0, line_number - 3):line_number]).lower()
+            for pattern in OVERCLAIM_PATTERNS:
+                if pattern.search(line) and not any(marker in context for marker in NEGATION_MARKERS):
+                    issues.append(_issue("unnegated_overclaim_phrase", path, f"line {line_number}: {line.strip()}"))
+
+
+def _load_json(path: Path, issues: list[dict[str, Any]]) -> dict[str, Any]:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:  # pragma: no cover
+        issues.append(_issue("invalid_json", path, str(exc)))
+        return {}
+
+
+def _issue(kind: str, path: Path, detail: str) -> dict[str, Any]:
+    try:
+        rel = path.relative_to(ROOT)
+    except ValueError:
+        rel = path
+    return {"kind": kind, "path": str(rel), "detail": detail}
+
+
+def _finish(issues: list[dict[str, Any]]) -> int:
+    report = {
+        "schema": "ctxgov.public_surface_hardening_check.v0",
+        "release": "v0.6.11",
+        "status": "pass" if not issues else "fail",
+        "issue_count": len(issues),
+        "issues": issues,
+    }
+    print(json.dumps(report, indent=2, sort_keys=True))
+    return 0 if not issues else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
