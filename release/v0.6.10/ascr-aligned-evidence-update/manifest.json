@@ -1,7 +1,7 @@
 {
   "schema": "ctxgov.public_release_pack_manifest.v0",
   "release": "v0.6.10",
-  "checked_at": "2026-06-05T05:55:10Z",
+  "checked_at": "2026-06-05T06:02:52Z",
   "name": "ASCR-aligned evidence update",
   "assets": [
     {
@@ -42,9 +42,9 @@
     }
   ],
   "publication_boundary": {
-    "github_push_executed": false,
-    "release_publication_executed": false,
-    "pages_update_executed": false,
+    "github_push_executed": true,
+    "release_publication_executed": true,
+    "pages_update_executed": true,
     "provider_model_call_executed": false,
     "memory_backend_write_executed": false,
     "external_target_write_executed": false,

@@ -1,8 +1,8 @@
 {
   "schema": "ctxgov.publication_readiness_receipt.v0",
   "release": "v0.6.10",
-  "checked_at": "2026-06-05T05:55:10Z",
-  "status": "ready_for_owner_approved_public_repo_patch",
+  "checked_at": "2026-06-05T06:02:52Z",
+  "status": "published_owner_approved_public_write_bundle",
   "owner_approval_required": true,
   "owner_approval_received": true,
   "approval_scope": "public-safe ASCR-aligned evidence update",
@@ -10,19 +10,23 @@
   "clean_public_repo_checkout_required": true,
   "public_repository": "ctxgov/ctxgov",
   "ascr_public_repository": "ctxgov/ascr",
-  "github_push_executed": false,
-  "github_release_executed": false,
-  "github_metadata_updated": false,
-  "github_pages_update_executed": false,
-  "pages_fetch_verification_executed": false,
+  "initial_public_patch_commit": "b38bc6e18bd02065f692eca04e86b8908577d357",
+  "release_tag_target_verified": true,
+  "github_release_url": "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.10",
+  "github_pages_url": "https://ctxgov.github.io/ctxgov/",
+  "ascr_repo_url": "https://github.com/ctxgov/ascr",
+  "github_push_executed": true,
+  "github_release_executed": true,
+  "github_metadata_updated": true,
+  "github_pages_update_executed": true,
+  "pages_fetch_verification_executed": true,
   "provider_model_call_executed": false,
   "memory_backend_write_executed": false,
   "external_target_write_executed": false,
   "outreach_executed": false,
   "next_publication_steps": [
-    "push the clean public repo patch",
-    "create the v0.6.10 GitHub release",
-    "verify live Pages, release, and ASCR links",
-    "record final publication receipt"
+    "keep the public claim boundary unchanged",
+    "monitor live Pages, release, and ASCR links after CDN/cache propagation",
+    "record rollback path"
   ]
 }

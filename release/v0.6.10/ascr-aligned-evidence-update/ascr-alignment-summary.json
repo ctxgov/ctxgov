@@ -1,8 +1,8 @@
 {
   "schema": "ctxgov.ascr_alignment_summary.v0",
   "release": "v0.6.10",
-  "checked_at": "2026-06-05T05:55:10Z",
-  "status": "ready_for_owner_approved_publication",
+  "checked_at": "2026-06-05T06:02:52Z",
+  "status": "published_owner_approved_ascr_aligned_update",
   "positioning": "agent_context_health_memory_governance_report_shape_aligned_to_ascr_contract",
   "ascr": {
     "name": "Agent State & Context Runtime Contract",

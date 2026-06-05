@@ -1,8 +1,8 @@
 {
   "schema": "ctxgov.publication_execution_receipt.v0",
   "release": "v0.6.10",
-  "checked_at": "2026-06-05T05:55:10Z",
-  "status": "prepared_not_published",
+  "checked_at": "2026-06-05T06:02:52Z",
+  "status": "published_and_verified",
   "owner_approval": {
     "scope": "public-safe ASCR-aligned evidence update",
     "license": "Apache-2.0",
@@ -11,17 +11,20 @@
   },
   "public_repository": "ctxgov/ctxgov",
   "ascr_public_repository": "ctxgov/ascr",
+  "initial_public_patch_commit": "b38bc6e18bd02065f692eca04e86b8908577d357",
+  "release_tag_target_verified": true,
   "release_url": "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.10",
   "pages_url": "https://ctxgov.github.io/ctxgov/",
-  "github_about_updated": false,
-  "github_release_created": false,
+  "github_about_updated": true,
+  "github_release_created": true,
   "github_pages_fetch": {
-    "status": null,
-    "ascr_phrase_found": false,
+    "status": 200,
+    "ascr_phrase_found": true,
     "phrase": "Agent State & Context Runtime Contract"
   },
   "release_page_fetch": {
-    "status": null
+    "status": 200,
+    "release_title_found": true
   },
   "ascr_repo_fetch": {
     "status": 200,

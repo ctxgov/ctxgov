@@ -1,8 +1,8 @@
 {
   "schema": "ctxgov.public_link_check_receipt.v0",
   "release": "v0.6.10",
-  "checked_at": "2026-06-05T05:55:10Z",
-  "status": "pass_local_remote_fetch_pending_publication",
+  "checked_at": "2026-06-05T06:02:52Z",
+  "status": "pass_live_pages_release_and_ascr_verified",
   "scope": [
     "README.md",
     "docs/index.html",
@@ -14,11 +14,16 @@
   "ascr_repo_fetch_executed": true,
   "ascr_repo_http_status": 200,
   "remote_fetch_executed": true,
-  "release_fetch_verification_executed": false,
-  "pages_fetch_verification_executed": false,
+  "release_fetch_verification_executed": true,
+  "pages_fetch_verification_executed": true,
+  "pages_http_status": 200,
+  "release_http_status": 200,
+  "pages_ascr_phrase_found": true,
+  "release_page_phrase_found": true,
   "remote_links_inventory": [
     "https://ctxgov.github.io/ctxgov/",
     "https://github.com/ctxgov/ctxgov",
+    "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.10",
     "https://github.com/ctxgov/ascr",
     "https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0"
   ],
