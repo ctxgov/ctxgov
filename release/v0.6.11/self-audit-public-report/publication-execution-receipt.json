@@ -1,18 +1,28 @@
 {
   "schema": "ctxgov.publication_execution_receipt.v0",
   "release": "v0.6.11",
-  "checked_at": "2026-06-05T06:26:55Z",
-  "status": "prepared_not_published",
+  "checked_at": "2026-06-05T06:36:58Z",
+  "status": "published_and_verified",
   "public_repository": "ctxgov/ctxgov",
   "release_url": "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.11",
   "pages_url": "https://ctxgov.github.io/ctxgov/",
-  "github_release_created": false,
+  "initial_public_patch_commit": "f081b3e4fabc9234a682006e1ee9f89ea4d0da2d",
+  "release_target_commit_verified_before_receipt_commit": "f081b3e4fabc9234a682006e1ee9f89ea4d0da2d",
+  "github_release_created": true,
   "github_pages_fetch": {
-    "status": null,
-    "reviewer_mode_phrase_found": false
+    "status": 200,
+    "v0611_phrase_found": true,
+    "reviewer_mode_phrase_found": true
   },
   "release_page_fetch": {
-    "status": null
+    "status": 200,
+    "title_found": true
+  },
+  "public_surface_workflow": {
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f081b3e4fabc9234a682006e1ee9f89ea4d0da2d",
+    "url": "https://github.com/ctxgov/ctxgov/actions/runs/26999622600"
   },
   "side_effect_boundary": {
     "provider_model_call": false,

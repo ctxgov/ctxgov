@@ -1,7 +1,7 @@
 {
   "schema": "ctxgov.claim_lint_receipt.v0",
   "release": "v0.6.11",
-  "checked_at": "2026-06-05T06:26:55Z",
+  "checked_at": "2026-06-05T06:36:58Z",
   "status": "pass",
   "scope": [
     "README.md",

@@ -1,8 +1,8 @@
 {
   "schema": "ctxgov.self_audit_summary.v0",
   "release": "v0.6.11",
-  "checked_at": "2026-06-05T06:26:55Z",
-  "status": "ready_for_owner_approved_publication",
+  "checked_at": "2026-06-05T06:36:58Z",
+  "status": "published_owner_approved_public_surface_hardening",
   "scope": "public_safe_post_publication_context_drift_self_audit",
   "case_study": "docs/case-studies/v0.6.9-self-audit.md",
   "findings": [
