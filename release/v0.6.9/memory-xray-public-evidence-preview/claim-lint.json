@@ -1,0 +1,32 @@
+{
+  "schema": "ctxgov.public_claim_lint_receipt.v0",
+  "release": "v0.6.9",
+  "checked_at": "2026-06-05T00:00:00-07:00",
+  "status": "pass",
+  "scope": [
+    "README.md",
+    "docs/index.html",
+    "release/v0.6.9/RELEASE_NOTES.md",
+    "release/v0.6.9/github-release.md",
+    "release/v0.6.9/memory-xray-public-evidence-preview/"
+  ],
+  "required_boundary_phrases_present": [
+    "No public benchmark claim",
+    "No provider/model call",
+    "No memory-backend write",
+    "No external target write",
+    "No hosted runtime claim",
+    "No adoption claim"
+  ],
+  "disallowed_claims_checked": [
+    "public benchmark result",
+    "security guarantee",
+    "provider compatibility",
+    "adoption proven",
+    "stable protocol",
+    "package published",
+    "hosted runtime live",
+    "live adapter available"
+  ],
+  "violations": []
+}

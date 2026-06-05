@@ -1,8 +1,10 @@
 # CtxGov Project Page And Demo Pack
 
-Date: 2026-06-03
-Status: GitHub Pages source and companion demo material. Not a hosted runtime,
-benchmark claim, security claim, or adoption claim.
+Date: 2026-06-05
+Status: public-safe project-page and demo material prepared locally for
+owner-approved publication. This is not a hosted-runtime release, public
+benchmark claim, security claim, provider compatibility claim, package claim, or
+adoption claim.
 
 ## Project Page
 
@@ -10,68 +12,90 @@ Source:
 
 - `docs/index.html`
 
-Recommended URL after GitHub Pages setup:
+Public URL:
 
 - `https://ctxgov.github.io/ctxgov/`
 
+Current local public-surface target:
+
+- `v0.6.9` Memory X-Ray public evidence preview
+- `release/v0.6.9/RELEASE_NOTES.md`
+- `release/v0.6.9/memory-xray-public-evidence-preview/`
+
 First-viewport message:
 
-`Agent Context Health Evaluation for AI Workflows`
+`CtxGov`
 
 Supporting copy:
 
-`Agents fail on bad context. CtxGov checks AI-facing repo and workflow context for stale claims, conflicting instructions, unsupported releases, unsafe action guidance, and hidden terminal failures before execution.`
+`Find stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context before agents act.`
+
+Primary calls to action:
+
+- Run locally
+- Read evidence
+- Review limits
 
 ## Page Structure
 
-1. Hero: Agent Context Health Evaluation for AI Workflows.
-2. Problem: agents consume stale or conflicting repo/workflow context.
-3. Demo: before/after context-health report.
-4. Taxonomy: stale, conflicting, unsupported, unsafe, hidden terminal failure.
-5. Benchmark: separate `ctxgov/agent-context-evals` v0.7 trace-shaped,
-   offline-adapter, and error-analysis artifact, no public benchmark claim.
-6. Links: GitHub, v0.6.8 release, v0.7 results report, technical report,
-   demo GIF, hiring packet.
-7. Limitations: no security guarantee, no benchmark claim, no compatibility
-   claim, no live adapter, no target writes.
+1. Hero: CtxGov as agent context health / memory-governance report shape.
+2. Demo: before/after context health report covering README drift, AGENTS
+   unsafe write instruction, terminal failure, and memory-claim drift.
+3. Run locally: public evidence-pack checker.
+4. Evidence: L1 public preview, L2 release-control summary, companion local
+   eval v0.7.0.
+5. Findings: stale/conflicting context, unsupported claims, unsafe
+   instructions.
+6. Limits: explicit allowed public claims and explicit not-claimed surface.
 
 ## 60-Second Demo Narrative
 
 Screen layout:
 
-- Left: sample AI-facing context from README, release notes, AGENTS.md,
-  terminal log, and memory summary.
-- Right: context-health report with finding type, evidence span, and claim
-  boundary.
+- Left: sample AI-facing context from README, AGENTS.md, terminal log, and
+  saved memory summary.
+- Right: CtxGov / Memory X-Ray report with finding type, evidence span,
+  severity, and boundary.
 
 Script:
 
 1. Show the agent's input context.
-2. Highlight the stale release claim.
-3. Highlight the conflicting deploy instruction.
-4. Highlight the failed terminal test.
-5. Show CtxGov findings with evidence spans.
-6. End on the claim boundary: review before execution, no auto-remediation
-   claim.
+2. Highlight the unsupported public release claim.
+3. Highlight the external-write instruction that requires owner approval.
+4. Highlight the hung terminal command as failure evidence.
+5. Highlight saved memory that overstates publication state.
+6. Show CtxGov findings with evidence spans.
+7. End on the claim boundary: 0 public benchmark claims, 0 provider/model
+   calls, 0 memory-backend writes, 0 external target writes.
 
 Acceptance:
 
 - viewer understands the project in 10 seconds
-- demo shows actual finding categories, not abstract marketing copy
-- release/report/benchmark links are visible
+- demo shows finding categories, not abstract marketing copy
+- evidence and limits are visible in the first scroll path
+- page says Evidence / Local Eval, not Benchmark
 - limitations are visible before the footer
 
 ## Publication Checklist
 
-- [x] Enable GitHub Pages from `main` and `/docs`.
-- [x] Open the page in a browser.
-- [x] Verify no legacy namespace appears in first viewport.
-- [x] Verify GitHub, release, report, benchmark, and demo GIF links resolve.
-- [x] Publish companion demo GIF:
-  `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
-- [x] Run a copy pass for unsupported security/benchmark/compatibility claims.
+- [x] Prepare public-safe homepage source in `docs/index.html`.
+- [x] Use `https://ctxgov.github.io/ctxgov/` as the public URL target.
+- [x] Remove legacy namespace from first-viewport copy.
+- [x] Replace Benchmark section with Evidence / Local Eval framing.
+- [x] Link to L1 public preview, v0.6.9 evidence pack, and companion local eval
+  v0.7.0.
+- [ ] Apply this patch in a clean public `ctxgov/ctxgov` repo checkout.
+- [ ] Run claim lint, leak scan, release-pack check, and link check on the
+  public checkout.
+- [ ] Obtain owner approval for public write, GitHub release, and Pages update.
+- [ ] Push or open PR in the public repo.
+- [ ] Fetch the live Pages URL and verify updated copy.
+- [ ] Capture a GIF from the hero demo panel or replace this pack with an
+  approved video/GIF asset.
 
 ## Rollback
 
-Disable GitHub Pages or revert `docs/index.html`. No provider/model, target
-repo, package, benchmark, or hosted runtime state is created by this page.
+Rollback is to revert `docs/index.html`, remove `release/v0.6.9/`, and keep
+`v0.6.8` as the public release surface. This pack does not create
+provider/model state, memory-backend state, external target writes, package
+state, benchmark state, hosted runtime state, release publication, or outreach.

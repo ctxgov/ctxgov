@@ -1,0 +1,25 @@
+{
+  "schema": "ctxgov.public_link_check_receipt.v0",
+  "release": "v0.6.9",
+  "checked_at": "2026-06-05T00:00:00-07:00",
+  "status": "pass_local_remote_fetch_pending_owner_approval",
+  "scope": [
+    "README.md",
+    "docs/index.html",
+    "docs/project-page-and-demo-2026-06-03.md",
+    "release/v0.6.9/"
+  ],
+  "local_relative_links_checked": true,
+  "local_anchor_links_checked": true,
+  "remote_fetch_executed": false,
+  "remote_fetch_reason": "public repo patch and GitHub Pages update are not published yet",
+  "pages_fetch_verification_executed": false,
+  "pages_fetch_verification_required_after_publication": true,
+  "remote_links_inventory": [
+    "https://ctxgov.github.io/ctxgov/",
+    "https://github.com/ctxgov/ctxgov",
+    "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.8",
+    "https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0"
+  ],
+  "violations": []
+}

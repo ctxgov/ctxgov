@@ -1,6 +1,6 @@
 # CtxGov Public Repo Metadata
 
-Date: 2026-06-03
+Date: 2026-06-05
 Status: public-surface metadata source. This file is not a release receipt,
 benchmark result, security claim, package migration receipt, or compatibility
 matrix.
@@ -15,32 +15,33 @@ Recommended canonical public repository:
 
 `ctxgov/ctxgov`
 
-Historical/provenance namespace:
+Current legacy compatibility namespace:
 
 `ctxvault`
 
-Use `docs/provenance.md` when archived paths, old release artifacts, schema
-ids, immutable receipts, or older docs still contain the legacy namespace.
+Use `docs/provenance.md` when archived paths, old release artifacts, package
+names, CLI commands, schema ids, or immutable receipts still contain the legacy
+namespace.
 
 ## GitHub Description
 
 Preferred:
 
-`Context-health evaluator for AI agents: stale, conflicting, unsupported, and unsafe AI-facing context.`
+`Agent context health for stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context.`
 
 Shorter fallback:
 
-`Agent context-health evaluation before AI workflow execution.`
+`Find bad AI-facing context before agents act.`
 
 ## GitHub About
 
 Preferred:
 
-`CtxGov checks AI-facing project context for stale claims, conflicting instructions, unsupported release statements, unsafe action guidance, and hidden failure residue before agent execution.`
+`CtxGov checks AI-facing project context for stale claims, conflicting instructions, unsupported release statements, unsafe action guidance, hidden failure residue, and memory-risk drift before agent execution.`
 
 Shorter fallback:
 
-`Agent Context Health Evaluation for AI Workflows.`
+`Agent context health / memory governance before agents act.`
 
 ## Homepage
 
@@ -48,9 +49,9 @@ Preferred:
 
 `https://ctxgov.github.io/ctxgov/`
 
-Use the repo URL only until GitHub Pages or another project page is live. The
-homepage must not point at a package, wrapper, or demo that implies provider
-calls, target writes, or benchmark claims.
+Use the repo URL only as a fallback. The homepage must not point at a package,
+wrapper, or demo that implies provider calls, target writes, public benchmark
+claims, package availability, hosted runtime, or provider compatibility.
 
 ## Topics
 
@@ -62,12 +63,12 @@ First wave:
 - `ai-agents`
 - `llmops`
 - `model-behavior`
-- `evaluation`
+- `local-eval`
 - `developer-tools`
 - `python`
 - `local-first`
 
-Second wave after the companion benchmark is public:
+Second wave only after formal public evidence supports broader claims:
 
 - `benchmark`
 - `benchmarking`
@@ -89,7 +90,7 @@ standard.
 
 Use:
 
-`CtxGov evaluates AI-facing context before agent execution, so reviewers can catch stale, conflicting, unsupported, unsafe, or hidden-failure context before it shapes the next run.`
+`CtxGov finds stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context before it shapes the next agent run.`
 
 ## Litmus Test
 

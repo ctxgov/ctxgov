@@ -1,0 +1,17 @@
+{
+  "schema": "ctxgov.public_leak_scan_receipt.v0",
+  "release": "v0.6.9",
+  "checked_at": "2026-06-05T00:00:00-07:00",
+  "status": "pass",
+  "scope": [
+    "README.md",
+    "docs/index.html",
+    "release/v0.6.9/"
+  ],
+  "private_traces_published": false,
+  "private_fixture_internals_published": false,
+  "provider_tokens_published": false,
+  "raw_memory_backend_state_published": false,
+  "external_target_write_receipts_published": false,
+  "violations": []
+}

@@ -1,390 +1,574 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CtxGov - Agent Context Health Evaluation</title>
-  <meta name="description" content="CtxGov evaluates AI-facing context before agent execution, catching stale, conflicting, unsupported, unsafe, and hidden-failure context.">
-  <link rel="canonical" href="https://ctxgov.github.io/ctxgov/">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ctxgov.github.io/ctxgov/">
-  <meta property="og:title" content="CtxGov - Agent Context Health Evaluation">
-  <meta property="og:description" content="Agents fail on bad context. CtxGov checks the context first.">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="CtxGov - Agent Context Health Evaluation">
-  <meta name="twitter:description" content="Agents fail on bad context. CtxGov checks the context first.">
-  <link rel="icon" href="data:,">
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #111827;
-      --muted: #4b5563;
-      --line: #cbd5e1;
-      --panel: #f8fafc;
-      --accent: #0f766e;
-      --blue: #1d4ed8;
-      --warn: #b45309;
-      --danger: #b91c1c;
-      --bg: #ffffff;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: var(--bg);
-      font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 14px 24px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.96);
-    }
-    nav a { color: var(--ink); text-decoration: none; font-weight: 650; }
-    nav .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      justify-content: flex-end;
-    }
-    header, section, footer {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 34px 24px;
-    }
-    header {
-      min-height: calc(100vh - 62px);
-      display: grid;
-      grid-template-columns: minmax(0, 0.92fr) minmax(380px, 1.08fr);
-      gap: 30px;
-      align-items: center;
-      border-bottom: 1px solid var(--line);
-    }
-    h1 {
-      margin: 0 0 18px;
-      font-size: clamp(2.6rem, 6vw, 5.8rem);
-      line-height: 0.96;
-      letter-spacing: 0;
-    }
-    h2 {
-      margin: 0 0 12px;
-      font-size: 1.65rem;
-      letter-spacing: 0;
-    }
-    h3 {
-      margin: 0 0 8px;
-      font-size: 1rem;
-      letter-spacing: 0;
-    }
-    p { margin: 0 0 14px; max-width: 780px; }
-    .eyebrow {
-      margin-bottom: 12px;
-      color: var(--accent);
-      font-weight: 800;
-      text-transform: uppercase;
-      font-size: 0.82rem;
-      letter-spacing: 0;
-    }
-    .lede {
-      color: var(--muted);
-      font-size: 1.18rem;
-    }
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 22px;
-    }
-    .button {
-      display: inline-flex;
-      min-height: 42px;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--line);
-      padding: 0 14px;
-      color: var(--ink);
-      background: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      border-radius: 6px;
-    }
-    .button.primary {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: #fff;
-    }
-    .demo-board {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      padding: 16px;
-      border-radius: 8px;
-    }
-    .demo-columns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .pane {
-      min-height: 440px;
-      border: 1px solid var(--line);
-      background: #fff;
-      padding: 14px;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    .pane-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 12px;
-      font-weight: 800;
-    }
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 24px;
-      padding: 0 8px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      background: #e2e8f0;
-      color: #334155;
-      white-space: nowrap;
-    }
-    .tag.fail { background: #fee2e2; color: var(--danger); }
-    .tag.warn { background: #fef3c7; color: var(--warn); }
-    .tag.ok { background: #ccfbf1; color: var(--accent); }
-    .context-line,
-    .finding {
-      border: 1px solid var(--line);
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      background: #fff;
-      font-size: 0.92rem;
-    }
-    .context-line strong,
-    .finding strong { display: block; margin-bottom: 4px; }
-    .context-line code,
-    .finding code {
-      display: block;
-      padding: 8px;
-      margin-top: 6px;
-      background: #f1f5f9;
-      border-radius: 4px;
-      color: #334155;
-      white-space: normal;
-      overflow-wrap: anywhere;
-    }
-    .finding.stale { border-left: 5px solid var(--warn); }
-    .finding.conflict { border-left: 5px solid var(--blue); }
-    .finding.unsafe { border-left: 5px solid var(--danger); }
-    .finding.release { border-left: 5px solid #7c3aed; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
-    }
-    .card, .metric {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      padding: 16px;
-      border-radius: 8px;
-    }
-    .card p, .metric p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.93rem;
-    }
-    .metric strong {
-      display: block;
-      font-size: 2rem;
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 18px;
-      font-size: 0.95rem;
-    }
-    th, td {
-      border: 1px solid var(--line);
-      padding: 12px;
-      text-align: left;
-      vertical-align: top;
-    }
-    th { background: #f1f5f9; }
-    ul { margin: 8px 0 0; padding-left: 20px; }
-    li { margin: 6px 0; }
-    code {
-      background: #eef2f7;
-      padding: 2px 5px;
-      border-radius: 4px;
-      font-size: 0.92em;
-    }
-    a { color: #075985; }
-    footer {
-      color: var(--muted);
-      border-top: 1px solid var(--line);
-      padding-bottom: 50px;
-    }
-    @media (max-width: 960px) {
-      header, .demo-columns { grid-template-columns: 1fr; }
-      header { min-height: auto; }
-      .pane { min-height: auto; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width: 640px) {
-      nav { position: static; align-items: flex-start; flex-direction: column; }
-      header, section, footer { padding: 28px 16px; }
-      h1 { font-size: 2.55rem; }
-      .grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-  <nav aria-label="Primary">
-    <a href="#top">CtxGov</a>
-    <div class="links">
-      <a href="#demo">Demo</a>
-      <a href="#taxonomy">Taxonomy</a>
-      <a href="#benchmark">Benchmark</a>
-      <a href="#limits">Limits</a>
-    </div>
-  </nav>
-  <header id="top">
-    <div>
-      <div class="eyebrow">Agent context health</div>
-      <h1>Agent Context Health Evaluation for AI Workflows</h1>
-      <p class="lede">Agents fail on bad context. CtxGov checks AI-facing repo and workflow context for stale claims, conflicting instructions, unsupported releases, unsafe action guidance, and hidden terminal failures before execution.</p>
-      <div class="actions">
-        <a class="button primary" href="https://github.com/ctxgov/ctxgov">GitHub</a>
-        <a class="button" href="https://github.com/ctxgov/ctxgov/blob/main/release/v0.6.8/RELEASE_NOTES.md">Release notes</a>
-        <a class="button" href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.7.0/memory-xray-l1-public-preview">Memory X-Ray L1</a>
-        <a class="button" href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0">Eval v0.7</a>
-      </div>
-    </div>
-    <div class="demo-board" aria-label="Before and after report demo">
-      <div class="demo-columns">
-        <div class="pane">
-          <div class="pane-title">Before <span class="tag warn">AI-facing context</span></div>
-          <div class="context-line">
-            <strong>README.md</strong>
-            <code>v0.6.3 is released and safe to publish.</code>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CtxGov - Agent Context Health</title>
+    <meta
+      name="description"
+      content="CtxGov finds stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context before agents act."
+    />
+    <meta property="og:title" content="CtxGov - Agent Context Health" />
+    <meta
+      property="og:description"
+      content="Find stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context before agents act."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ctxgov.github.io/ctxgov/" />
+    <meta name="twitter:card" content="summary" />
+    <style>
+      :root {
+        --bg: #f7f8fb;
+        --panel: #ffffff;
+        --ink: #18202f;
+        --muted: #5d697a;
+        --line: #d8dde6;
+        --teal: #0b7f77;
+        --blue: #2458d3;
+        --red: #b42318;
+        --amber: #9a5b00;
+        --green: #067647;
+        --shadow: 0 20px 50px rgba(24, 32, 47, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+
+      a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .shell {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+      }
+
+      .mark {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--teal);
+        font-size: 15px;
+      }
+
+      .links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+        gap: 42px;
+        align-items: center;
+        padding: 54px 0 36px;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--teal);
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 680px;
+        font-size: clamp(48px, 7vw, 82px);
+        line-height: 0.95;
+      }
+
+      .lede {
+        margin: 22px 0 0;
+        max-width: 660px;
+        color: var(--muted);
+        font-size: 20px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 0 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      .button.primary {
+        border-color: var(--teal);
+        background: var(--teal);
+        color: #fff;
+      }
+
+      .proof-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .proof {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 14px;
+      }
+
+      .proof strong {
+        display: block;
+        font-size: 24px;
+      }
+
+      .proof span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .demo-board {
+        border: 1px solid #cbd3df;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #101827;
+        box-shadow: var(--shadow);
+      }
+
+      .demo-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 44px;
+        padding: 0 16px;
+        background: #182234;
+        color: #d9e2f1;
+        font-size: 13px;
+      }
+
+      .demo-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .pane {
+        min-height: 456px;
+        padding: 18px;
+      }
+
+      .pane.before {
+        border-right: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .pane-title {
+        margin: 0 0 14px;
+        color: #aebcd3;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .snippet,
+      .finding {
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        color: #eaf0fb;
+        font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas,
+          "Liberation Mono", monospace;
+      }
+
+      .snippet strong,
+      .finding strong {
+        color: #fff;
+      }
+
+      .finding {
+        border-left: 4px solid var(--teal);
+      }
+
+      .finding.warn {
+        border-left-color: var(--amber);
+      }
+
+      .finding.danger {
+        border-left-color: var(--red);
+      }
+
+      .finding.memory {
+        border-left-color: #7c3aed;
+      }
+
+      section {
+        padding: 44px 0;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: 32px;
+        line-height: 1.15;
+      }
+
+      .section-copy {
+        max-width: 780px;
+        margin: 0 0 24px;
+        color: var(--muted);
+        font-size: 17px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 20px;
+      }
+
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+
+      .card p,
+      .card li {
+        color: var(--muted);
+      }
+
+      .card ul {
+        margin: 12px 0 0;
+        padding-left: 20px;
+      }
+
+      pre {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #101827;
+        color: #eaf0fb;
+        padding: 18px;
+        font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas,
+          "Liberation Mono", monospace;
+      }
+
+      .boundary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .ok {
+        color: var(--green);
+        font-weight: 700;
+      }
+
+      .no {
+        color: var(--red);
+        font-weight: 700;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 26px 0 38px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .boundary {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 24px;
+        }
+
+        .proof-row,
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .shell {
+          padding: 0 18px;
+        }
+
+        .links {
+          display: none;
+        }
+
+        h1 {
+          font-size: 48px;
+        }
+
+        .demo-body,
+        .proof-row,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .pane.before {
+          border-right: 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shell nav">
+      <a class="brand" href="https://ctxgov.github.io/ctxgov/" aria-label="CtxGov home">
+        <span class="mark">C</span>
+        <span>CtxGov</span>
+      </a>
+      <nav class="links" aria-label="Primary">
+        <a href="#run">Run</a>
+        <a href="#demo">Demo</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#limits">Limits</a>
+        <a href="https://github.com/ctxgov/ctxgov">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="shell hero">
+        <div>
+          <p class="eyebrow">Agent context health / memory governance</p>
+          <h1>CtxGov</h1>
+          <p class="lede">
+            Find stale, conflicting, unsupported, unsafe, and memory-risky
+            AI-facing context before agents act.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#run">Run locally</a>
+            <a class="button" href="#evidence">Read evidence</a>
+            <a class="button" href="#limits">Review limits</a>
           </div>
-          <div class="context-line">
-            <strong>release notes</strong>
-            <code>External deploy, proactive outreach, public benchmark, and package publication remain pending.</code>
-          </div>
-          <div class="context-line">
-            <strong>AGENTS.md</strong>
-            <code>Run the deploy script after tests pass.</code>
-          </div>
-          <div class="context-line">
-            <strong>terminal.log</strong>
-            <code>FAILED tests/test_release.py::test_release_url_not_404</code>
+          <div class="proof-row" aria-label="Release boundary facts">
+            <div class="proof"><strong>5</strong><span>finding families</span></div>
+            <div class="proof"><strong>10</strong><span>L2 negative modes</span></div>
+            <div class="proof"><strong>0</strong><span>public benchmark claims</span></div>
+            <div class="proof"><strong>0</strong><span>provider/model calls</span></div>
           </div>
         </div>
-        <div class="pane">
-          <div class="pane-title">After <span class="tag ok">CtxGov report</span></div>
-          <div class="finding stale">
-            <strong>stale_claim</strong>
-            <span>Release wording is stronger than the readiness evidence.</span>
-            <code>v0.6.3 is released and safe to publish.</code>
+
+        <div class="demo-board" id="demo" aria-label="Before and after context report demo">
+          <div class="demo-head">
+            <span>Memory X-Ray report preview</span>
+            <span>public-safe</span>
           </div>
-          <div class="finding release">
-            <strong>unsupported_release_claim</strong>
-            <span>Release URL must exist before public copy can point to it.</span>
-            <code>test_release_url_not_404</code>
-          </div>
-          <div class="finding conflict">
-            <strong>conflicting_policy</strong>
-            <span>Deploy instruction conflicts with pending external approval.</span>
-            <code>External deploy ... remain pending.</code>
-          </div>
-          <div class="finding unsafe">
-            <strong>unsafe_action_guidance</strong>
-            <span>Side-effect action lacks explicit approval and rollback.</span>
-            <code>Run the deploy script after tests pass.</code>
+          <div class="demo-body">
+            <div class="pane before">
+              <p class="pane-title">BEFORE: AI-FACING CONTEXT</p>
+              <div class="snippet">
+                <strong>README.md</strong><br />
+                bad context: Public benchmark complete. Formal release ready.
+              </div>
+              <div class="snippet">
+                <strong>AGENTS.md</strong><br />
+                Push release artifacts and update target repo.
+              </div>
+              <div class="snippet">
+                <strong>terminal.log</strong><br />
+                ctxvault check hung; matching process was killed.
+              </div>
+              <div class="snippet">
+                <strong>memory-summary.md</strong><br />
+                Owner approval and public publish already happened.
+              </div>
+            </div>
+            <div class="pane">
+              <p class="pane-title">AFTER: CTXGOV REPORT</p>
+              <div class="finding danger">
+                <strong>unsupported_claim</strong><br />
+                Benchmark/adoption/spec language lacks public evidence.
+              </div>
+              <div class="finding warn">
+                <strong>unsafe_instruction</strong><br />
+                External write instruction requires owner approval.
+              </div>
+              <div class="finding">
+                <strong>terminal_failure</strong><br />
+                Hung command is evidence, not a pass receipt.
+              </div>
+              <div class="finding memory">
+                <strong>memory_claim_drift</strong><br />
+                Saved memory overstates publication state.
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </header>
-  <section id="problem">
-    <h2>Problem</h2>
-    <p>AI agents execute against context assembled from many surfaces: repository docs, rules files, release notes, memory summaries, saved traces, and terminal logs. When those surfaces disagree, the model can produce polished work from broken premises.</p>
-    <div class="grid">
-      <div class="card"><h3>Stale</h3><p>Old claims outlive the evidence that once supported them.</p></div>
-      <div class="card"><h3>Conflicting</h3><p>Two instructions grant incompatible authority.</p></div>
-      <div class="card"><h3>Unsupported</h3><p>Copy references a release, benchmark, or capability without an artifact.</p></div>
-      <div class="card"><h3>Unsafe</h3><p>Action guidance skips approval, rollback, or side-effect boundaries.</p></div>
-    </div>
-  </section>
-  <section id="demo">
-    <h2>60-Second Demo</h2>
-    <p>The demo story is a before/after report: left side shows a small sample repo with stale, conflicting, unsupported, unsafe, hidden-failure, and Memory X-Ray L1 gaps; right side shows a context-health report with finding type, evidence span, and claim boundaries.</p>
-    <p><a href="https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif">View the companion demo GIF</a> or inspect the <a href="https://github.com/ctxgov/agent-context-evals/blob/main/demo/reports/demo-context-health-report.md">reproducible demo report</a>.</p>
-  </section>
-  <section id="taxonomy">
-    <h2>Failure Taxonomy</h2>
-    <table aria-label="CtxGov failure taxonomy">
-      <thead>
-        <tr><th>Finding Type</th><th>Evidence Span</th><th>Action</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>stale_claim</code></td><td>Current-facing claim contradicted by fresher source.</td><td>Downgrade, caveat, or refresh the claim.</td></tr>
-        <tr><td><code>conflicting_policy</code></td><td>Two context files authorize incompatible behavior.</td><td>Pick the authoritative source or block execution.</td></tr>
-        <tr><td><code>unsupported_release_claim</code></td><td>Release, tag, package, benchmark, or demo claim without artifact.</td><td>Create the artifact or remove the claim.</td></tr>
-        <tr><td><code>unsafe_action_guidance</code></td><td>Instruction asks an agent to run/write/deploy without approval.</td><td>Require side-effect approval and rollback.</td></tr>
-        <tr><td><code>hidden_terminal_failure</code></td><td>Log shows failure while handoff says pass or ready.</td><td>Preserve the failure and rerun verification.</td></tr>
-      </tbody>
-    </table>
-  </section>
-  <section id="benchmark">
-    <h2>Benchmark</h2>
-    <p>The companion evaluation artifact lives in <a href="https://github.com/ctxgov/agent-context-evals">ctxgov/agent-context-evals</a>. It currently contains 50 v0.2 trace-pattern labeled cases, 20 v0.4 hard negatives, 160 v0.5 deterministic mutation cases with 206 labels, 60 v0.6 adversarial hard negatives, 96 v0.7 trace-shaped cases, 12 hidden-holdout public case texts, 12 v0.3 review-intake cases, evidence spans, a regex baseline, an offline LLM-judge harness, CtxGov heuristic and native doctor adapter modes, offline GitHub/CI/rules/registry/transcript/memory adapters, single-label and multi-label scoring, automated error analysis, per-finding metrics, evidence-span diagnostics, a technical report draft, a review packet, and a demo fixture.</p>
-    <div class="grid">
-      <div class="metric"><strong>160</strong><p>v0.5 mutation cases</p></div>
-      <div class="metric"><strong>96</strong><p>v0.7 trace-shaped cases</p></div>
-      <div class="metric"><strong>60</strong><p>v0.6 adversarial clean controls</p></div>
-      <div class="metric"><strong>0</strong><p>public benchmark claims</p></div>
-    </div>
-  </section>
-  <section id="links">
-    <h2>Links</h2>
-    <ul>
-      <li><a href="https://github.com/ctxgov/ctxgov">GitHub repository</a></li>
-      <li><a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.8">CtxGov v0.6.8 release</a></li>
-      <li><a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7">CtxGov v0.6.7 release</a></li>
-      <li><a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6">CtxGov v0.6.6 release</a></li>
-      <li><a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.5">CtxGov v0.6.5 release</a></li>
-      <li><a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.4">CtxGov v0.6.4 release</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.7-results.md">Companion v0.7 results report</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/reports/technical-report.md">Technical report draft</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0">Companion v0.7.0 release</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0">Companion v0.6.0 release</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.5.0">Companion v0.5.0 release</a></li>
-      <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.4.0">Companion v0.4.0 release</a></li>
-      <li><a href="https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif">60-second demo GIF</a></li>
-      <li><a href="https://github.com/ctxgov/ctxgov/blob/main/docs/research-engineering-hiring-packet.md">Research engineering hiring packet</a></li>
-    </ul>
-  </section>
-  <section id="limits">
-    <h2>Limitations</h2>
-    <p>CtxGov is not a security scanner, sandbox, agent harness, provider SDK, memory backend, automatic remediation agent, or universal benchmark. Current evaluation materials are public v0.2 scaffold data, v0.4 synthetic hard negatives, v0.5 deterministic mutation data, v0.6 adversarial hard negatives, v0.7 trace-shaped local data, and a v0.3 review-ready packet until independently reviewed trace-derived labels and administered holdout results exist.</p>
-  </section>
-  <footer>
-    <p>No security guarantee. No public benchmark result. No provider/model call. No target repository write. No hosted runtime. No live adapter. No universal compatibility claim. No adoption claim. No stable protocol claim.</p>
-  </footer>
-</body>
+      </section>
+
+      <section class="shell" id="run">
+        <h2>Run Locally</h2>
+        <p class="section-copy">
+          Start with the public evidence-pack check. It verifies the release
+          structure, claim boundary, local links, and publication boundary
+          without calling a provider, writing to a memory backend, or updating
+          an external target.
+        </p>
+        <pre><code>python3 scripts/check_public_evidence_release_pack.py</code></pre>
+        <pre><code>{
+  "issue_count": 0,
+  "release": "v0.6.9",
+  "status": "pass"
+}</code></pre>
+      </section>
+
+      <section class="shell" id="evidence">
+        <h2>Evidence, Not Overclaim</h2>
+        <p class="section-copy">
+          This release is scoped to report shape and local release-control
+          readiness. It shows what the tool can surface and where the evidence
+          boundary is, while avoiding benchmark, security, provider, adoption,
+          package, and spec-stability claims.
+        </p>
+        <div class="grid">
+          <article class="card">
+            <h3>L1 Public Preview</h3>
+            <p>
+              Sanitized Memory X-Ray examples and readiness receipts for the
+              report shape.
+            </p>
+            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.7.0/memory-xray-l1-public-preview">
+              Open L1 preview
+            </a>
+          </article>
+          <article class="card">
+            <h3>L2 Release Control</h3>
+            <p>
+              Local summary for release ledger, repeat-run history, no-op
+              handoff replay, rollback refs, blocked lanes, and fail-closed
+              negatives.
+            </p>
+            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.9/memory-xray-public-evidence-preview">
+              Open evidence pack
+            </a>
+          </article>
+          <article class="card">
+            <h3>Companion Local Eval</h3>
+            <p>
+              Public companion artifact for local evaluation work. It is linked
+              as evidence context, not as a public benchmark claim.
+            </p>
+            <a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0">
+              Open v0.7.0
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="shell">
+        <h2>What It Finds</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Stale Or Conflicting Context</h3>
+            <p>
+              Release text, docs, and saved summaries that disagree with the
+              current receipt state.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Unsupported Claims</h3>
+            <p>
+              Benchmark, adoption, security, provider, package, or spec wording
+              that exceeds public evidence.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Unsafe Instructions</h3>
+            <p>
+              AI-facing operational instructions that imply external writes,
+              outreach, or publication without an approval gate.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="shell" id="limits">
+        <h2>Limits</h2>
+        <p class="section-copy">
+          The highest-trust release is the one that says exactly what is known
+          and what is not known. CtxGov v0.6.9 is a public-safe evidence release
+          preview, not a formal public benchmark or adoption release.
+        </p>
+        <div class="boundary">
+          <article class="card">
+            <h3 class="ok">Allowed Public Claims</h3>
+            <ul>
+              <li>Agent context health report shape.</li>
+              <li>Memory X-Ray public-safe examples.</li>
+              <li>Local release-control readiness summary.</li>
+              <li>Claim lint, leak scan, and rollback boundary.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3 class="no">Not Claimed</h3>
+            <ul>
+              <li>No public benchmark claim.</li>
+              <li>No security guarantee.</li>
+              <li>No provider/model compatibility claim.</li>
+              <li>No hosted runtime, package, or adoption claim.</li>
+              <li>No CLI beta claim.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="shell">
+      CtxGov v0.6.9 public evidence preview. Publication requires a clean
+      public repo patch, owner approval, GitHub release, and Pages verification.
+    </footer>
+  </body>
 </html>

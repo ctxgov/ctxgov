@@ -1,6 +1,6 @@
 # CtxGov GitHub Repo Launch Checklist
 
-Date: 2026-06-03
+Date: 2026-06-05
 Status: public repo setup checklist. GitHub-side changes still require repo
 admin or maintainer permissions.
 
@@ -9,10 +9,11 @@ admin or maintainer permissions.
 The GitHub public surface is launch-ready when:
 
 - repository name and About surface consistently say CtxGov
-- README first screen explains Agent Context Health Evaluation
-- release URL for `v0.6.3` works
+- README first screen explains agent context health / memory governance
+- release URL for `v0.6.9` works after owner-approved publication
 - GitHub Pages or project page URL works
 - topics match AI evaluation and context engineering
+- LICENSE choice is confirmed by the owner
 - issue templates and curated starter issues are ready
 - no public copy claims security guarantees, benchmark performance, universal
   compatibility, or autonomous remediation
@@ -33,7 +34,7 @@ Use `docs/public-repo-metadata.md` as source of truth.
 
 Description:
 
-`Context-health evaluator for AI agents: stale, conflicting, unsupported, and unsafe AI-facing context.`
+`Agent context health for stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context.`
 
 Website:
 
@@ -47,7 +48,7 @@ Topics:
 - `ai-agents`
 - `llmops`
 - `model-behavior`
-- `evaluation`
+- `local-eval`
 - `developer-tools`
 - `python`
 - `local-first`
@@ -59,24 +60,39 @@ security-review artifact.
 
 The first screen must answer:
 
-- What is CtxGov? Agent Context Health Evaluation for AI Workflows.
+- What is CtxGov? Agent context health / memory governance before agents act.
 - What problem does it solve? Bad AI-facing context causes bad agent behavior.
-- What hazards does it inspect? Stale, conflicting, unsupported, unsafe, and
-  hidden-failure context.
+- What hazards does it inspect? Stale, conflicting, unsupported, unsafe,
+  memory-risky, and hidden-failure context.
 - What are the claim boundaries? No security, benchmark, compatibility,
-  provider-call, target-write, or autonomous-remediation claim.
+  provider-call, memory-backend-write, target-write, package, hosted-runtime,
+  adoption, or autonomous-remediation claim.
 - Where does legacy naming live? `docs/provenance.md`, not the top-level hook.
 
 ## Release Check
 
-Prepare `v0.6.3` as a GitHub source release:
+Prepare `v0.6.9` as a GitHub source release only after owner approval:
 
-- `release/v0.6.3/RELEASE_NOTES.md`
-- `release/v0.6.3/github-release.md`
-- `release/v0.6.3/release-readiness-checklist.md`
+- `release/v0.6.9/RELEASE_NOTES.md`
+- `release/v0.6.9/github-release.md`
+- `release/v0.6.9/memory-xray-public-evidence-preview/`
 
-The release body must say that package and CLI migration are not part of this
-release unless a separate migration receipt exists.
+Use
+`release/v0.6.9/memory-xray-public-evidence-preview/owner-approval-minimal-matrix.md`
+to keep review to a single bundled human gate: scope, claim boundary, license,
+public write bundle, and outreach posture.
+
+The release body must include these boundaries unless a separate owner-approved
+receipt exists:
+
+- No package publication claim.
+- No hosted runtime claim.
+- No provider/model compatibility claim.
+- No public benchmark claim.
+- No security guarantee.
+- No adoption claim.
+- No public spec-stability claim.
+- No CLI beta migration claim.
 
 ## GitHub Pages Check
 
@@ -84,10 +100,14 @@ Use `docs/index.html` as the project page source.
 
 Acceptance:
 
-- hero says `Agent Context Health Evaluation for AI Workflows`
-- page links to GitHub, report materials, release notes, and benchmark staging
+- hero says `CtxGov`
+- first viewport says `Find stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context before agents act.`
+- page links to GitHub, L1 preview, v0.6.9 evidence pack, release notes, and
+  companion local eval v0.7.0
+- page uses Evidence / Local Eval framing instead of Benchmark framing
 - limitations are visible without scrolling to the footer only
-- page does not claim security, benchmark, compatibility, or live demo status
+- page does not claim security, benchmark, compatibility, package, hosted
+  runtime, adoption, or live demo status
 
 ## Curated Starter Issues
 
@@ -99,7 +119,7 @@ Prepare these issue titles before launch:
 - `[baseline] Add regex baseline`
 - `[docs] Publish failure taxonomy`
 - `[demo] Add 60-second demo GIF`
-- `[release] Prepare v0.6.3 canonical GitHub release`
+- `[release] Prepare v0.6.9 public evidence release`
 - `[outreach] Track reviewer/HM feedback loops`
 
 Issue bodies are staged in `docs/curated-github-issues-2026-06-03.md`.
@@ -112,10 +132,13 @@ After publication, manually verify:
 - About description matches this checklist
 - website link is not 404
 - topics are visible
-- release URL for `v0.6.3` loads
+- release URL for `v0.6.9` loads after publication
+- live Pages fetch shows the updated `CtxGov` first viewport
 - README first screen does not show the legacy namespace
 - issue templates load
 - curated issues are visible and scoped
+- `python3 scripts/check_public_evidence_release_pack.py` passes in the public
+  checkout
 
 ## Rollback
 

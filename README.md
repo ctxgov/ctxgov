@@ -1,185 +1,127 @@
 # CtxGov
 
-Agent Context Health Evaluation for AI Workflows.
+Find stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context
+before agents act.
 
-CtxGov checks AI-facing project context before agent execution. It helps
-reviewers find stale claims, conflicting instructions, unsupported release
-statements, unsafe action guidance, and hidden failure residue before those
-signals shape the next agent run.
+CtxGov is an agent context health and memory-governance project. It treats
+README text, AGENTS instructions, terminal transcripts, saved memory summaries,
+release notes, and tool receipts as context that can shape the next agent run.
+Memory X-Ray turns that context into a report with finding types, evidence
+spans, and explicit release boundaries.
 
-Current public posture: local source artifact and public-safe local example
-materials. No hosted runtime, provider/model call, target repository write,
-public benchmark claim, security guarantee, compatibility matrix, adoption
-claim, or stable protocol claim is made by this repository.
+## 30-Second View
 
-## Why This Exists
+- Problem: agents act from mixed context that may be stale, contradictory,
+  unsupported, unsafe, or memory-shaped in misleading ways.
+- Product surface: a Memory X-Ray report that points at the context span and
+  says what is risky before the agent acts.
+- Evidence posture: public-safe report-shape and local release-control
+  readiness, not a public benchmark or adoption claim.
+- Current release pack: `release/v0.6.9/` is prepared as a public evidence
+  preview pending owner-approved publication.
 
-AI agents increasingly rely on repository files, memory summaries, release
-notes, rules files, terminal logs, and handoff packets. When those inputs are
-stale, contradictory, unsupported, or action-unsafe, the agent can confidently
-execute against bad context.
-
-CtxGov makes that risk inspectable before execution:
-
-| Context hazard | Example failure | CtxGov review target |
-| --- | --- | --- |
-| Stale claim | README says a feature shipped, but release notes still mark it gated. | Flag the stale claim and point to the conflicting evidence. |
-| Conflicting policy | `AGENTS.md` permits writes while governance docs block target writes. | Surface the conflict before an agent acts. |
-| Unsupported release claim | Public copy links to a release/tag that does not exist. | Require a release artifact or downgrade the wording. |
-| Unsafe action guidance | Docs suggest running deployment or network steps without approval. | Keep side-effect boundaries visible. |
-| Hidden failure residue | A terminal log shows tests failed, but handoff text says they passed. | Preserve the failure span in the next review packet. |
-
-## What It Produces
-
-CtxGov public materials currently focus on four artifacts:
-
-- main repo public surface: README, GitHub About copy, release notes, and claim
-  boundaries
-- Context Health Doctor: a read-only local report over AI-facing repository
-  context
-- companion evaluation repo and current v0.7 trace-shaped local eval packet:
-  `https://github.com/ctxgov/agent-context-evals`
-- project, hiring, and outreach packet material under `docs/` and `release/`
-
-The GitHub main package and console command use `ctxgov`. Historical schemas,
-fixtures, receipts, and older docs may still contain `ctxvault`; see
-`docs/provenance.md` for the boundary.
-
-## Quick Local Check
-
-Run the local Context Health Doctor against a selected repository or folder:
+## Run Locally
 
 ```bash
-PYTHONPATH=src python3 -m ctxgov.cli doctor --path /path/to/repo --output .ctxgov/health
+python3 scripts/check_public_evidence_release_pack.py
 ```
 
-The command reads user-selected local files and writes derived artifacts under
-`.ctxgov/health`. It does not write target repo files, call models or
-providers, execute runtimes or adapters, or promote memory.
+The public v0.6.9 surface is a release-pack and report-shape preview. It does
+not publish a Memory X-Ray CLI beta.
 
-For a bundled sample repo:
+## Example Report Shape
 
-```bash
-PYTHONPATH=src python3 -m ctxgov.cli doctor \
-  --path fixtures/v0.6.2-context-health-doctor/sample-repo \
-  --output /tmp/ctxgov-health \
-  --include-report
+```text
+finding=unsupported_claim severity=high evidence=README.md
+finding=unsafe_instruction severity=high evidence=AGENTS.md
+finding=terminal_failure severity=medium evidence=terminal.log
+finding=memory_claim_drift severity=medium evidence=memory-summary.md
+boundary=no_public_benchmark_claim,no_provider_call,no_target_write
 ```
 
-For the companion evaluation artifact:
+## What Memory X-Ray Finds
 
-```bash
-git clone https://github.com/ctxgov/agent-context-evals
-cd agent-context-evals
-python3 baselines/llm_judge_baseline.py \
-  --cases data/v0.3/review_intake_cases.jsonl \
-  --output reports/v0.3-llm-judge-baseline-results.jsonl \
-  --manifest reports/v0.3-llm-judge-baseline-manifest.json \
-  --prompt-output reports/v0.3-llm-judge-prompts.jsonl
-python3 scripts/build_demo_fixture.py --fixture demo/fixtures/bad_context_repo --output-dir demo/reports
-python3 ctxgov_adapter/run_ctxgov.py \
-  --cases data/v0.5/mutation_cases.jsonl \
-  --output reports/v0.5-ctxgov-doctor-results.jsonl \
-  --mode doctor \
-  --projection none \
-  --ctxgov-root /path/to/ctxgov
-python3 scoring/score_multilabel.py \
-  --labels data/v0.5/mutation_labels.jsonl \
-  --predictions reports/v0.5-ctxgov-doctor-results.jsonl
-```
+- `stale_claim`: release or project text no longer matches current receipts.
+- `conflicting_instruction`: AI-facing instructions disagree across sources.
+- `unsupported_claim`: public copy exceeds available evidence.
+- `unsafe_instruction`: context asks for external write, outreach, deploy, or
+  provider/model action without an approval gate.
+- `memory_claim_drift`: saved memory overstates state, authority, approval, or
+  publication status.
+- `terminal_failure`: failed or hung terminal output is treated as evidence,
+  not as a pass receipt.
 
-Before publishing or changing public copy, run the local release-integrity
-checker:
+## Evidence
 
-```bash
-python3 scripts/check_release_integrity.py --root .
-```
+- Project homepage: <https://ctxgov.github.io/ctxgov/>
+- v0.6.9 release notes:
+  [`release/v0.6.9/RELEASE_NOTES.md`](release/v0.6.9/RELEASE_NOTES.md)
+- Memory X-Ray public evidence pack:
+  [`release/v0.6.9/memory-xray-public-evidence-preview/`](release/v0.6.9/memory-xray-public-evidence-preview/)
+- L1 public preview:
+  [`release/v0.7.0/memory-xray-l1-public-preview/`](release/v0.7.0/memory-xray-l1-public-preview/)
+- Companion local eval v0.7.0:
+  <https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0>
 
-## Public-Safe Evidence
+The v0.6.9 evidence pack includes a machine-readable summary, claim lint,
+leak scan, 60-second demo script, technical note, reviewer packet, and
+publication boundary manifest.
 
-The bundled Context Health Doctor sample shows stale, conflicting, unsupported,
-unsafe, and hidden-failure context in a local fixture. It is a report-shape and
-workflow example, not a benchmark result.
+## Claim Boundary
 
-Inspect:
+Allowed public claims:
 
-- `fixtures/v0.6.2-context-health-doctor/sample-repo/`
-- `fixtures/v0.6.2-context-health-doctor/example-context-health-report.json`
-- `release/v0.6.8/RELEASE_NOTES.md`
-- `release/v0.6.8/github-release.md`
-- `release/v0.7.0/memory-xray-l1-public-preview/`
-- `docs/project-page-and-demo-2026-06-03.md`
-- `docs/research-engineering-hiring-packet.md`
-- `docs/linkedin-and-outreach-pack-2026-06-03.md`
-- `https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0`
-- `https://github.com/ctxgov/agent-context-evals/blob/main/reports/v0.7-results.md`
-- `https://raw.githubusercontent.com/ctxgov/agent-context-evals/main/demo/60-second-demo.gif`
+- CtxGov provides an agent context health / memory-governance report shape.
+- Memory X-Ray public-safe examples show finding types and evidence spans.
+- Local release-control summaries cover repeat-run stability, no-op handoff
+  replay, rollback refs, blocked lanes, and fail-closed negative modes.
 
-## Claim Boundaries
+Not claimed:
 
-Allowed wording:
+- No public benchmark claim.
+- No security guarantee.
+- No provider/model compatibility claim.
+- No adoption or downstream production-use claim.
+- No package publication claim.
+- No hosted runtime claim.
+- No live adapter claim.
+- No public spec-stability claim.
+- No memory-backend write.
+- No CLI beta claim.
 
-- CtxGov is a local context-health evaluator for AI-agent workflows.
-- CtxGov helps reviewers inspect stale, conflicting, unsupported, unsafe, or
-  failure-residue context before agent execution.
-- Current examples are local, synthetic or sanitized, and release-gated by
-  claim boundaries.
-
-Do not claim:
-
-- benchmark or leaderboard results
-- Do not claim a public benchmark result.
-- security completeness or vulnerability-scanner coverage
-- hallucination prevention
-- model reliability or coding-performance improvement
-- universal provider, framework, memory-backend, or agent-harness compatibility
-- automatic remediation, target repository writes, or autonomous execution
-- stable Memory Governance Protocol status
+This release pack does not execute provider/model calls, memory-backend writes,
+external target writes, GitHub push, release publication, or outreach.
 
 ## Release Status
 
-The public-surface cleanup release is `v0.6.3`:
-`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.3`.
+The public-safe release path is:
 
-The Context Health Doctor coverage release is `v0.6.4`:
-`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.4`.
+1. Keep the public narrative scoped to report shape and local readiness.
+2. Publish sanitized evidence only; do not publish private traces or fixture
+   internals.
+3. Run claim lint, leak scan, link checks, release-pack checks, and Pages fetch
+   verification.
+4. Publish only after owner approval in a clean public `ctxgov/ctxgov` repo
+   patch.
 
-The release-integrity and multi-label eval readiness release is `v0.6.5`:
-`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.5`.
+Formal benchmark, adoption, provider compatibility, package, live adapter,
+security, or spec-stability releases remain blocked until they have independent
+review evidence, non-picked real saved traces, downstream design-change signal,
+permissioned case-study material, hidden holdout custody, and final public
+rollback/claim-lint receipts.
 
-The companion alignment release is `v0.6.6`:
-`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.6`.
+## Repo Map
 
-The current companion wording guard release is `v0.6.7`:
-`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.7`.
+- `src/ctxvault/` - CLI and local report-generation code.
+- `schemas/json/` - JSON schemas for reports and receipts.
+- `fixtures/` - local fixtures and private-sidecar evidence.
+- `release/` - public-safe release packs and release notes.
+- `docs/` - project page and release planning documents.
+- `companion/agent-context-evals/` - companion local-eval artifact.
 
-The current companion v0.7 alignment release is `v0.6.8`:
-`https://github.com/ctxgov/ctxgov/releases/tag/v0.6.8`.
+## License And Governance
 
-The current companion evaluation artifact release is `v0.7.0`:
-`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.7.0`.
-
-The previous companion evaluation artifact release was `v0.6.0`:
-`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.6.0`.
-
-The previous companion mutation multi-label release was `v0.5.0`:
-`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.5.0`.
-
-The previous companion hard-negative release was `v0.4.0`:
-`https://github.com/ctxgov/agent-context-evals/releases/tag/v0.4.0`.
-
-Together they provide public CtxGov positioning, release integrity, local
-Context Health Doctor evidence, native release integrity, Memory X-Ray L1, and
-Task Shard checks, companion eval materials, hard negatives, mutation and
-multi-label scoring, adversarial clean controls, v0.7 trace-shaped cases,
-offline adapters, automated error analysis, span diagnostics, an offline LLM
-judge harness, an independent-review packet, and a demo GIF. They do not
-publish a new package or claim a public benchmark result.
-
-## Provenance
-
-CtxGov was previously developed under the `ctxvault` namespace. Historical
-paths, schemas, fixtures, release artifacts, and internal identifiers may still
-contain that name when changing them would break provenance. Public positioning
-should use CtxGov first and link to `docs/provenance.md` for legacy-name
-context.
+[`SECURITY.md`](SECURITY.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md) are part
+of the public repo hygiene surface. License selection remains an owner decision
+before public release. OpenSSF/GitHub hygiene is treated as trust posture, not
+as a security certification.

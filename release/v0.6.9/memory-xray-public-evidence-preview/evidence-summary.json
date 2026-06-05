@@ -1,0 +1,87 @@
+{
+  "schema": "ctxgov.memory_xray_public_evidence_summary.v0",
+  "release": "v0.6.9",
+  "prepared_at": "2026-06-05T00:00:00-07:00",
+  "status": "prepared_locally_for_owner_approved_publication",
+  "positioning": "agent_context_health_memory_governance_report_shape_release",
+  "public_claim": "Find stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context before agents act.",
+  "evidence_layers": {
+    "l1_public_preview": {
+      "status": "public_safe_preview_available",
+      "path": "release/v0.7.0/memory-xray-l1-public-preview/",
+      "published_private_traces": false,
+      "published_fixture_internals": false
+    },
+    "l2_release_control": {
+      "status": "local_no_approval_requirements_complete",
+      "linked_reports": 3,
+      "ledger_entries": 8,
+      "freeze_hold_negative_cases": 10,
+      "rollback_refs": 21,
+      "blocked_lanes": 11,
+      "publication_executed": false,
+      "public_claim_created": false
+    },
+    "repeat_run_noop_replay": {
+      "status": "local_pass",
+      "repeat_runs": 2,
+      "noop_handoff_replay_steps": 7,
+      "ledger_fingerprints_stable": true,
+      "handoff_fingerprints_stable": true,
+      "publication_target": "none",
+      "publication_executed": false
+    },
+    "negative_matrix": {
+      "status": "local_pass",
+      "case_count": 10,
+      "rejection_modes": [
+        "attempted_provider_model_memory_backend_side_effect",
+        "attempted_reviewer_outreach",
+        "attempted_url_package_or_target_write_side_effect",
+        "blocked_lane_drift",
+        "ledger_digest_drift",
+        "public_claim_drift",
+        "rollback_ref_loss",
+        "stale_noop_handoff_replay",
+        "stale_release_control_history",
+        "target_drift"
+      ]
+    }
+  },
+  "claim_boundary": {
+    "public_benchmark_claim": false,
+    "security_claim": false,
+    "provider_compatibility_claim": false,
+    "adoption_claim": false,
+    "stable_protocol_claim": false,
+    "package_publication": false,
+    "hosted_runtime": false,
+    "live_adapter": false,
+    "provider_model_call": false,
+    "memory_backend_write": false,
+    "target_repository_write": false,
+    "github_push": false,
+    "release_publication": false,
+    "proactive_outreach": false
+  },
+  "formal_release_gaps": [
+    "more_non_picked_real_saved_traces",
+    "independent_reviewer_fp_fn_notes",
+    "downstream_design_change_signal",
+    "permissioned_case_study",
+    "cli_beta_contract_if_cli_is_in_scope",
+    "hidden_holdout_scoring_custody",
+    "public_safe_rollback_and_claim_lint_receipts_for_final_public_artifact"
+  ],
+  "rollback": {
+    "remove_paths": [
+      "release/v0.6.9/"
+    ],
+    "revert_public_surfaces": [
+      "README.md",
+      "docs/index.html",
+      "docs/project-page-and-demo-2026-06-03.md"
+    ],
+    "fallback_public_release": "v0.6.8"
+  }
+}
