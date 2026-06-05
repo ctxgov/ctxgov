@@ -2,9 +2,9 @@
 
 Date: 2026-06-05
 Status: public-safe project-page and demo material prepared locally for
-owner-approved publication. This is not a hosted-runtime release, public
-benchmark claim, security claim, provider compatibility claim, package claim, or
-adoption claim.
+owner-approved publication, then published and live-verified on 2026-06-05.
+This is not a hosted-runtime release, public benchmark claim, security claim,
+provider compatibility claim, package claim, or adoption claim.
 
 ## Project Page
 
@@ -21,6 +21,8 @@ Current local public-surface target:
 - `v0.6.9` Memory X-Ray public evidence preview
 - `release/v0.6.9/RELEASE_NOTES.md`
 - `release/v0.6.9/memory-xray-public-evidence-preview/`
+- GitHub release: `https://github.com/ctxgov/ctxgov/releases/tag/v0.6.9`
+- Final public tag/target is verified by GitHub release state.
 
 First-viewport message:
 
@@ -84,18 +86,20 @@ Acceptance:
 - [x] Replace Benchmark section with Evidence / Local Eval framing.
 - [x] Link to L1 public preview, v0.6.9 evidence pack, and companion local eval
   v0.7.0.
-- [ ] Apply this patch in a clean public `ctxgov/ctxgov` repo checkout.
-- [ ] Run claim lint, leak scan, release-pack check, and link check on the
+- [x] Apply this patch in a clean public `ctxgov/ctxgov` repo checkout.
+- [x] Run claim lint, leak scan, release-pack check, and link check on the
   public checkout.
-- [ ] Obtain owner approval for public write, GitHub release, and Pages update.
-- [ ] Push or open PR in the public repo.
-- [ ] Fetch the live Pages URL and verify updated copy.
+- [x] Obtain owner approval for public write, GitHub release, and Pages update.
+- [x] Push to the public repo.
+- [x] Publish GitHub release `v0.6.9`.
+- [x] Fetch the live Pages URL and verify updated copy.
 - [ ] Capture a GIF from the hero demo panel or replace this pack with an
   approved video/GIF asset.
 
 ## Rollback
 
-Rollback is to revert `docs/index.html`, remove `release/v0.6.9/`, and keep
-`v0.6.8` as the public release surface. This pack does not create
-provider/model state, memory-backend state, external target writes, package
-state, benchmark state, hosted runtime state, release publication, or outreach.
+Rollback is to revert public commit `6acad2339a2e754dab8361a4734f688fada99fb0`,
+delete or supersede release `v0.6.9`, and keep `v0.6.8` as the fallback public
+surface. This pack does not create provider/model state, memory-backend state,
+external target writes, package state, benchmark state, hosted runtime state, or
+outreach.
