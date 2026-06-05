@@ -27,7 +27,7 @@ namespace.
 
 Preferred:
 
-`Agent context health for stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context.`
+`Agent context health and ASCR-aligned memory governance for stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context.`
 
 Shorter fallback:
 
@@ -67,6 +67,8 @@ First wave:
 - `developer-tools`
 - `python`
 - `local-first`
+- `ascr`
+- `memory-governance`
 
 Second wave only after formal public evidence supports broader claims:
 
@@ -97,6 +99,7 @@ Use:
 The repo header is correct if a new reader can infer all of this in 10 seconds:
 
 - this is about AI-agent context health
+- ASCR is a linked sibling contract/toolkit, not a stable-standard claim
 - the artifact is local and reviewable
 - the project is evaluation-oriented, not another agent runtime
 - no public benchmark, security, compatibility, or autonomous-execution claim is
