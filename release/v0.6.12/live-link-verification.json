@@ -1,0 +1,72 @@
+{
+  "checks": [
+    {
+      "http_status": 200,
+      "issue": null,
+      "name": "ctxgov_pages",
+      "required_phrases": {
+        "CtxGov": true,
+        "Reviewer Mode": true
+      },
+      "status": "pass",
+      "url": "https://ctxgov.github.io/ctxgov/"
+    },
+    {
+      "http_status": 200,
+      "issue": null,
+      "name": "ctxgov_current_release",
+      "required_phrases": {
+        "Live Link Verifier": true,
+        "v0.6.12": true
+      },
+      "status": "pass",
+      "url": "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.12"
+    },
+    {
+      "http_status": 200,
+      "issue": null,
+      "name": "ctxgov_previous_release",
+      "required_phrases": {
+        "Public Surface Hardening": true,
+        "v0.6.11": true
+      },
+      "status": "pass",
+      "url": "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.11"
+    },
+    {
+      "http_status": 200,
+      "issue": null,
+      "name": "ascr_repo",
+      "required_phrases": {
+        "Agent State": true,
+        "Context": true
+      },
+      "status": "pass",
+      "url": "https://github.com/ctxgov/ascr"
+    },
+    {
+      "http_status": 200,
+      "issue": null,
+      "name": "agent_context_evals_release",
+      "required_phrases": {
+        "Eval Hardening": true,
+        "v0.8.0": true
+      },
+      "status": "pass",
+      "url": "https://github.com/ctxgov/agent-context-evals/releases/tag/v0.8.0"
+    }
+  ],
+  "claim_boundary": {
+    "adoption_claim": false,
+    "cli_beta_claim": false,
+    "hosted_runtime_change": false,
+    "live_adapter_claim": false,
+    "package_publication": false,
+    "provider_model_call": false,
+    "public_benchmark_claim": false,
+    "security_claim": false
+  },
+  "schema": "ctxgov.public_live_link_verification.v0",
+  "status": "pass",
+  "target_count": 5
+}
