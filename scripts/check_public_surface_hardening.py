@@ -113,10 +113,10 @@ def _check_live_surface_text(issues: list[dict[str, Any]]) -> None:
 
 def _check_pyproject(issues: list[dict[str, Any]]) -> None:
     text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    if 'version = "0.6.11"' not in text:
-        issues.append(_issue("pyproject_version", ROOT / "pyproject.toml", "version must be 0.6.11"))
-    if "releases/tag/v0.6.11" not in text:
-        issues.append(_issue("pyproject_changelog", ROOT / "pyproject.toml", "Changelog must point to v0.6.11"))
+    if 'version = "0.6.11"' not in text and 'version = "0.6.12"' not in text:
+        issues.append(_issue("pyproject_version", ROOT / "pyproject.toml", "version must be v0.6.11 or newer public source metadata"))
+    if "releases/tag/v0.6.11" not in text and "releases/tag/v0.6.12" not in text:
+        issues.append(_issue("pyproject_changelog", ROOT / "pyproject.toml", "Changelog must point to v0.6.11 or newer public source metadata"))
 
 
 def _check_self_audit_receipts(issues: list[dict[str, Any]]) -> None:

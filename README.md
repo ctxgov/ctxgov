@@ -9,8 +9,8 @@ CtxGov is an agent context health and memory-governance project. It treats
 README text, AGENTS instructions, terminal transcripts, saved memory summaries,
 release notes, and tool receipts as context that can shape the next agent run.
 Memory X-Ray turns that context into a report with finding types, evidence
-spans, and explicit release boundaries. v0.6.10 aligns that report shape to
-ASCR: Agent State & Context Runtime Contract.
+spans, and explicit release boundaries. v0.6.12 adds optional live-link
+verification for the public release surface.
 
 ## 30-Second View
 
@@ -19,12 +19,13 @@ ASCR: Agent State & Context Runtime Contract.
 - Product surface: a Memory X-Ray report that points at the context span and
   says what is risky before the agent acts.
 - Contract alignment: CtxGov is the ASCR-aligned evidence surface; ASCR is the
-  separate framework-neutral contract/toolkit repo.
+  separate framework-neutral Agent State & Context Runtime Contract toolkit
+  repo.
 - Evidence posture: public-safe report-shape and local release-control
   readiness, not a public benchmark or adoption claim.
-- Current release pack: `release/v0.6.11/` records public-surface hardening,
-  self-audit evidence, and deterministic report-preview rendering. `release/v0.6.10/`
-  remains the ASCR-aligned evidence update.
+- Current release pack: `release/v0.6.12/` adds optional live-link verification
+  for public release integrity. `release/v0.6.11/` remains the public-surface
+  hardening and self-audit release.
 
 ## Run Locally
 
@@ -32,14 +33,23 @@ ASCR: Agent State & Context Runtime Contract.
 python3 scripts/check_public_evidence_release_pack.py
 python3 scripts/check_ascr_aligned_release_pack.py
 python3 scripts/check_public_surface_hardening.py
+python3 -m unittest tests.test_public_live_links -v
 python3 scripts/render_public_memory_xray_preview.py \
   --input release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json \
   --output /tmp/ctxgov-memory-xray-preview.md
 ```
 
-The public v0.6.11 surface is a hardening release layered on the v0.6.10 ASCR
-alignment and v0.6.9 Memory X-Ray report-shape release. The report preview
-renderer is deterministic public-safe example rendering only. It is not a Memory X-Ray CLI beta and does not scan arbitrary target repositories.
+The public v0.6.12 surface is a release-integrity update layered on the v0.6.11
+hardening release, v0.6.10 ASCR alignment, and v0.6.9 Memory X-Ray report-shape
+release. The report preview renderer is deterministic public-safe example
+rendering only. It is not a Memory X-Ray CLI beta and does not scan arbitrary
+target repositories.
+
+Optional network verification after offline checks pass:
+
+```bash
+python3 scripts/check_public_live_links.py --release-tag v0.6.12
+```
 
 ## Example Report Shape
 
@@ -75,6 +85,8 @@ boundary=no_public_benchmark_claim,no_provider_call,no_target_write
   [`release/v0.6.11/RELEASE_NOTES.md`](release/v0.6.11/RELEASE_NOTES.md)
 - Self-audit public report:
   [`release/v0.6.11/self-audit-public-report/`](release/v0.6.11/self-audit-public-report/)
+- v0.6.12 release notes:
+  [`release/v0.6.12/RELEASE_NOTES.md`](release/v0.6.12/RELEASE_NOTES.md)
 - Self-audit case study:
   [`docs/case-studies/v0.6.9-self-audit.md`](docs/case-studies/v0.6.9-self-audit.md)
 - v0.6.9 release notes:
@@ -96,6 +108,9 @@ claim lint, leak scan, link check, and publication receipts.
 The v0.6.11 evidence pack records a public-safe self-audit of post-publication
 context drift and a deterministic preview renderer for the L1 public examples.
 
+The v0.6.12 release adds an optional live-link verifier for public URLs after
+offline release-pack checks pass.
+
 ## Claim Boundary
 
 Allowed public claims:
@@ -107,6 +122,8 @@ Allowed public claims:
 - CtxGov v0.6.10 is aligned to ASCR v0.1 contract surfaces.
 - CtxGov v0.6.11 renders public-safe Memory X-Ray examples deterministically
   and records a self-audit case study for public-surface drift.
+- CtxGov v0.6.12 provides an optional live-link verifier for public release
+  URLs after offline checks pass.
 
 Not claimed:
 
@@ -138,7 +155,8 @@ The public-safe release path is now:
    update.
 3. v0.6.11 adds public-surface consistency, self-audit, public-surface CI, and
    deterministic report preview rendering.
-4. Public claims remain scoped to report shape, contract alignment, and
+4. v0.6.12 adds optional network verification of public release URLs.
+5. Public claims remain scoped to report shape, contract alignment, and
    local/public-safe receipts.
 
 Formal benchmark, adoption, provider compatibility, package, live adapter,

@@ -388,8 +388,8 @@
           <h1>CtxGov</h1>
           <p class="lede">
             Find stale, conflicting, unsupported, unsafe, and memory-risky
-            AI-facing context before agents act. v0.6.11 hardens the public
-            surface with a self-audit, deterministic preview rendering, and
+            AI-facing context before agents act. v0.6.12 adds optional
+            live-link verification for the public release surface while keeping
             ASCR-aligned release-control receipts for Agent State & Context Runtime Contract.
           </p>
           <div class="actions">
@@ -464,12 +464,13 @@
         <pre><code>python3 scripts/check_public_evidence_release_pack.py
 python3 scripts/check_ascr_aligned_release_pack.py
 python3 scripts/check_public_surface_hardening.py
+python3 -m unittest tests.test_public_live_links -v
 python3 scripts/render_public_memory_xray_preview.py \
   --input release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json \
   --output /tmp/ctxgov-memory-xray-preview.md</code></pre>
         <pre><code>{
   "issue_count": 0,
-  "release": "v0.6.11",
+  "release": "v0.6.12",
   "status": "pass"
 }</code></pre>
       </section>
@@ -484,6 +485,16 @@ python3 scripts/render_public_memory_xray_preview.py \
           claims.
         </p>
         <div class="grid">
+          <article class="card">
+            <h3>v0.6.12 Live Links</h3>
+            <p>
+              Optional network verifier for Pages, release, ASCR, and companion
+              eval URLs after offline release-pack checks pass.
+            </p>
+            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.12">
+              Open v0.6.12 notes
+            </a>
+          </article>
           <article class="card">
             <h3>v0.6.11 Self-Audit</h3>
             <p>
@@ -586,10 +597,10 @@ python3 scripts/render_public_memory_xray_preview.py \
         <h2>Limits</h2>
         <p class="section-copy">
           The highest-trust release is the one that says exactly what is known
-          and what is not known. CtxGov v0.6.11 is a public-safe
-          public-surface hardening release layered on the v0.6.10 ASCR-aligned
-          evidence update, not a formal public benchmark, provider-compatibility,
-          stable-standard, or adoption release.
+          and what is not known. CtxGov v0.6.12 is a public-safe release
+          integrity update layered on the v0.6.11 hardening release and v0.6.10
+          ASCR-aligned evidence update, not a formal public benchmark,
+          provider-compatibility, stable-standard, or adoption release.
         </p>
         <div class="boundary">
           <article class="card">
@@ -618,7 +629,7 @@ python3 scripts/render_public_memory_xray_preview.py \
     </main>
 
     <footer class="shell">
-      CtxGov v0.6.11 public-surface hardening. Published through an
+      CtxGov v0.6.12 release-integrity update. Published through an
       owner-approved public repo patch, GitHub release, and Pages verification.
     </footer>
   </body>

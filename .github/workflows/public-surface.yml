@@ -29,7 +29,7 @@ jobs:
         run: python3 scripts/check_public_surface_hardening.py
 
       - name: Run narrow public-surface tests
-        run: python3 -m unittest tests.test_public_surface_hardening tests.test_render_public_memory_xray_preview tests.test_ascr_aligned_release_pack tests.test_public_evidence_release_pack -v
+        run: python3 -m unittest tests.test_public_surface_hardening tests.test_render_public_memory_xray_preview tests.test_public_live_links tests.test_ascr_aligned_release_pack tests.test_public_evidence_release_pack -v
 
       - name: Render deterministic preview smoke artifact
         run: |
