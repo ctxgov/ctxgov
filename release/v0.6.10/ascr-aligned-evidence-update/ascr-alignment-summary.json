@@ -1,0 +1,50 @@
+{
+  "schema": "ctxgov.ascr_alignment_summary.v0",
+  "release": "v0.6.10",
+  "checked_at": "2026-06-05T05:55:10Z",
+  "status": "ready_for_owner_approved_publication",
+  "positioning": "agent_context_health_memory_governance_report_shape_aligned_to_ascr_contract",
+  "ascr": {
+    "name": "Agent State & Context Runtime Contract",
+    "public_repo": "https://github.com/ctxgov/ascr",
+    "repo": "ctxgov/ascr",
+    "main_commit": "86ba2ac2aa32a8d78df8ca56ad0289abcfe90efc",
+    "scope": "framework-neutral contract/toolkit",
+    "stable_standard_claim": false
+  },
+  "ctxgov_relationship": {
+    "role": "first public ASCR-aligned evidence/report-shape surface",
+    "defines_ascr_standard": false,
+    "inherits_private_ascr_state": false,
+    "publishes_private_ctxgov_traces": false
+  },
+  "ascr_surfaces": [
+    "ascr.run_event.v0.1",
+    "ascr.context_manifest.v0.1",
+    "ascr.memory_record.v0.1",
+    "ascr.artifact_manifest.v0.1",
+    "ascr.capability_manifest.v0.1",
+    "ascr.approval_event.v0.1",
+    "ascr.eval_case.v0.1"
+  ],
+  "claim_boundary": {
+    "public_benchmark_claim": false,
+    "security_guarantee": false,
+    "provider_model_compatibility_claim": false,
+    "adoption_claim": false,
+    "package_publication_claim": false,
+    "hosted_runtime_claim": false,
+    "live_adapter_claim": false,
+    "public_spec_stability_claim": false,
+    "stable_ascr_standard_claim": false,
+    "ctxgov_cli_beta_claim": false
+  },
+  "side_effect_boundary": {
+    "provider_model_call": false,
+    "memory_backend_write": false,
+    "external_target_write": false,
+    "package_publication": false,
+    "hosted_runtime_change": false,
+    "proactive_outreach": false
+  }
+}

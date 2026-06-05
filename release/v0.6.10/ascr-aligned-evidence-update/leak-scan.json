@@ -1,0 +1,11 @@
+{
+  "schema": "ctxgov.public_leak_scan_receipt.v0",
+  "release": "v0.6.10",
+  "checked_at": "2026-06-05T05:55:10Z",
+  "status": "pass",
+  "private_absolute_paths_found": false,
+  "private_trace_or_fixture_internals_published": false,
+  "provider_secrets_found": false,
+  "memory_backend_credentials_found": false,
+  "violations": []
+}

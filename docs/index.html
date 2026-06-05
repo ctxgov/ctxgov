@@ -375,6 +375,7 @@
         <a href="#demo">Demo</a>
         <a href="#evidence">Evidence</a>
         <a href="#limits">Limits</a>
+        <a href="https://github.com/ctxgov/ascr">ASCR</a>
         <a href="https://github.com/ctxgov/ctxgov">GitHub</a>
       </nav>
     </header>
@@ -382,11 +383,12 @@
     <main>
       <section class="shell hero">
         <div>
-          <p class="eyebrow">Agent context health / memory governance</p>
+          <p class="eyebrow">Agent context health / ASCR-aligned memory governance</p>
           <h1>CtxGov</h1>
           <p class="lede">
             Find stale, conflicting, unsupported, unsafe, and memory-risky
-            AI-facing context before agents act.
+            AI-facing context before agents act. v0.6.10 aligns the report
+            shape to ASCR: Agent State & Context Runtime Contract.
           </p>
           <div class="actions">
             <a class="button primary" href="#run">Run locally</a>
@@ -395,7 +397,7 @@
           </div>
           <div class="proof-row" aria-label="Release boundary facts">
             <div class="proof"><strong>5</strong><span>finding families</span></div>
-            <div class="proof"><strong>10</strong><span>L2 negative modes</span></div>
+            <div class="proof"><strong>ASCR</strong><span>v0.1 aligned</span></div>
             <div class="proof"><strong>0</strong><span>public benchmark claims</span></div>
             <div class="proof"><strong>0</strong><span>provider/model calls</span></div>
           </div>
@@ -404,7 +406,7 @@
         <div class="demo-board" id="demo" aria-label="Before and after context report demo">
           <div class="demo-head">
             <span>Memory X-Ray report preview</span>
-            <span>public-safe</span>
+            <span>ASCR-aligned public-safe</span>
           </div>
           <div class="demo-body">
             <div class="pane before">
@@ -453,14 +455,14 @@
         <h2>Run Locally</h2>
         <p class="section-copy">
           Start with the public evidence-pack check. It verifies the release
-          structure, claim boundary, local links, and publication boundary
-          without calling a provider, writing to a memory backend, or updating
-          an external target.
+          structure, ASCR relationship, claim boundary, local links, and
+          publication boundary without calling a provider, writing to a memory
+          backend, or updating an external target.
         </p>
-        <pre><code>python3 scripts/check_public_evidence_release_pack.py</code></pre>
+        <pre><code>python3 scripts/check_ascr_aligned_release_pack.py</code></pre>
         <pre><code>{
   "issue_count": 0,
-  "release": "v0.6.9",
+  "release": "v0.6.10",
   "status": "pass"
 }</code></pre>
       </section>
@@ -468,31 +470,32 @@
       <section class="shell" id="evidence">
         <h2>Evidence, Not Overclaim</h2>
         <p class="section-copy">
-          This release is scoped to report shape and local release-control
-          readiness. It shows what the tool can surface and where the evidence
-          boundary is, while avoiding benchmark, security, provider, adoption,
-          package, and spec-stability claims.
+          This release is scoped to report shape, local release-control
+          readiness, and ASCR-aligned contract posture. It shows what the tool
+          can surface and where the evidence boundary is, while avoiding
+          benchmark, security, provider, adoption, package, and spec-stability
+          claims.
         </p>
         <div class="grid">
           <article class="card">
-            <h3>L1 Public Preview</h3>
+            <h3>ASCR Contract</h3>
             <p>
-              Sanitized Memory X-Ray examples and readiness receipts for the
-              report shape.
+              A separate framework-neutral repo for agent event logs, context
+              manifests, memory records, artifacts, capabilities, approvals,
+              and eval cases.
             </p>
-            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.7.0/memory-xray-l1-public-preview">
-              Open L1 preview
+            <a href="https://github.com/ctxgov/ascr">
+              Open ASCR
             </a>
           </article>
           <article class="card">
-            <h3>L2 Release Control</h3>
+            <h3>v0.6.10 Evidence</h3>
             <p>
-              Local summary for release ledger, repeat-run history, no-op
-              handoff replay, rollback refs, blocked lanes, and fail-closed
-              negatives.
+              ASCR relationship summary, claim lint, leak scan, link check,
+              publication readiness, and execution receipts.
             </p>
-            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.9/memory-xray-public-evidence-preview">
-              Open evidence pack
+            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.10/ascr-aligned-evidence-update">
+              Open v0.6.10 pack
             </a>
           </article>
           <article class="card">
@@ -539,8 +542,9 @@
         <h2>Limits</h2>
         <p class="section-copy">
           The highest-trust release is the one that says exactly what is known
-          and what is not known. CtxGov v0.6.9 is a public-safe evidence release
-          preview, not a formal public benchmark or adoption release.
+          and what is not known. CtxGov v0.6.10 is a public-safe
+          ASCR-aligned evidence update, not a formal public benchmark,
+          provider-compatibility, stable-standard, or adoption release.
         </p>
         <div class="boundary">
           <article class="card">
@@ -549,6 +553,7 @@
               <li>Agent context health report shape.</li>
               <li>Memory X-Ray public-safe examples.</li>
               <li>Local release-control readiness summary.</li>
+              <li>ASCR-aligned v0.1 contract posture.</li>
               <li>Claim lint, leak scan, and rollback boundary.</li>
             </ul>
           </article>
@@ -558,6 +563,7 @@
               <li>No public benchmark claim.</li>
               <li>No security guarantee.</li>
               <li>No provider/model compatibility claim.</li>
+              <li>No stable ASCR standard claim.</li>
               <li>No hosted runtime, package, or adoption claim.</li>
               <li>No CLI beta claim.</li>
             </ul>
@@ -567,7 +573,7 @@
     </main>
 
     <footer class="shell">
-      CtxGov v0.6.9 public evidence preview. Published through an
+      CtxGov v0.6.10 ASCR-aligned evidence update. Published through an
       owner-approved public repo patch, GitHub release, and Pages verification.
     </footer>
   </body>

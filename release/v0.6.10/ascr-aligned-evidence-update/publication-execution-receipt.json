@@ -1,0 +1,38 @@
+{
+  "schema": "ctxgov.publication_execution_receipt.v0",
+  "release": "v0.6.10",
+  "checked_at": "2026-06-05T05:55:10Z",
+  "status": "prepared_not_published",
+  "owner_approval": {
+    "scope": "public-safe ASCR-aligned evidence update",
+    "license": "Apache-2.0",
+    "claim_boundary": "no public benchmark, security, provider/model compatibility, adoption, package, hosted runtime, live adapter, public spec-stability, stable ASCR standard, or CtxGov CLI beta claim",
+    "outreach": "no proactive outreach"
+  },
+  "public_repository": "ctxgov/ctxgov",
+  "ascr_public_repository": "ctxgov/ascr",
+  "release_url": "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.10",
+  "pages_url": "https://ctxgov.github.io/ctxgov/",
+  "github_about_updated": false,
+  "github_release_created": false,
+  "github_pages_fetch": {
+    "status": null,
+    "ascr_phrase_found": false,
+    "phrase": "Agent State & Context Runtime Contract"
+  },
+  "release_page_fetch": {
+    "status": null
+  },
+  "ascr_repo_fetch": {
+    "status": 200,
+    "url": "https://github.com/ctxgov/ascr"
+  },
+  "side_effect_boundary": {
+    "provider_model_call": false,
+    "memory_backend_write": false,
+    "external_target_write": false,
+    "package_publication": false,
+    "hosted_runtime_change": false,
+    "proactive_outreach": false
+  }
+}
