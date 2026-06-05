@@ -41,8 +41,11 @@ compatibility claim. No package publication claim. No hosted runtime claim. No
 adoption claim. No live adapter claim. No public spec-stability claim. No CLI
 beta claim.
 
-No provider/model call, memory-backend write, external target write, GitHub
-push, release publication, or outreach is part of this local evidence pack.
+No provider/model call, memory-backend write, external target write, package
+publication, hosted runtime change, or outreach is part of this release.
+
+The public GitHub push, release, metadata update, and Pages verification are
+owner-approved publication actions for this public-safe scope.
 
 ## Rollback
 

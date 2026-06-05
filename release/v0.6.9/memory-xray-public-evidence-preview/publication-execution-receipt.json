@@ -1,0 +1,34 @@
+{
+  "schema": "ctxgov.publication_execution_receipt.v0",
+  "release": "v0.6.9",
+  "checked_at": "2026-06-05T05:14:03Z",
+  "status": "published_and_verified",
+  "owner_approval": {
+    "scope": "agent_context_health_memory_governance_report_shape_release",
+    "license": "Apache-2.0",
+    "claim_boundary": "no public benchmark, security, provider/model compatibility, adoption, package, hosted runtime, live adapter, public spec-stability, or CLI beta claim",
+    "outreach": "no proactive outreach"
+  },
+  "public_repository": "ctxgov/ctxgov",
+  "main_commit": "ec33dab683faea39982d1f14cdf3cfe72540ab88",
+  "release_url": "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.9",
+  "pages_url": "https://ctxgov.github.io/ctxgov/",
+  "github_about_updated": true,
+  "github_release_created": true,
+  "github_pages_fetch": {
+    "status": 200,
+    "first_viewport_phrase_found": true,
+    "phrase": "Find stale, conflicting, unsupported, unsafe, and memory-risky AI-facing context before agents act."
+  },
+  "release_page_fetch": {
+    "status": 200
+  },
+  "side_effect_boundary": {
+    "provider_model_call": false,
+    "memory_backend_write": false,
+    "external_target_write": false,
+    "package_publication": false,
+    "hosted_runtime_change": false,
+    "proactive_outreach": false
+  }
+}

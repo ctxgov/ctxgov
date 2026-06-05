@@ -25,6 +25,7 @@ REQUIRED_FILES = [
     PACK / "leak-scan.json",
     PACK / "link-check.json",
     PACK / "publication-readiness.json",
+    PACK / "publication-execution-receipt.json",
     PACK / "owner-approval-minimal-matrix.md",
     PACK / "60-second-demo-script.md",
     PACK / "technical-note.md",
@@ -59,6 +60,7 @@ REQUIRED_PACK_ROLES = {
     "public_leak_scan_receipt",
     "local_link_check_receipt",
     "publication_readiness_receipt",
+    "publication_execution_receipt",
     "owner_approval_minimal_matrix",
     "demo_script",
     "technical_note",
@@ -105,6 +107,7 @@ def main() -> int:
     leak_scan = _load_json(PACK / "leak-scan.json", issues)
     link_check = _load_json(PACK / "link-check.json", issues)
     publication_readiness = _load_json(PACK / "publication-readiness.json", issues)
+    publication_execution = _load_json(PACK / "publication-execution-receipt.json", issues)
     manifest = _load_json(PACK / "manifest.json", issues)
 
     _check_evidence_summary(evidence_summary, issues)
@@ -112,6 +115,7 @@ def main() -> int:
     _check_receipt("leak_scan", leak_scan, issues)
     _check_link_receipt(link_check, issues)
     _check_publication_readiness(publication_readiness, issues)
+    _check_publication_execution(publication_execution, issues)
     _check_manifest(manifest, issues)
     _check_homepage(issues)
     _check_local_links(issues)
@@ -175,35 +179,64 @@ def _check_manifest(manifest: dict[str, Any], issues: list[dict[str, Any]]) -> N
 
 def _check_link_receipt(receipt: dict[str, Any], issues: list[dict[str, Any]]) -> None:
     path = PACK / "link-check.json"
-    if receipt.get("status") != "pass_local_remote_fetch_pending_owner_approval":
-        issues.append(_issue("link_check_status", path, "Remote fetch must stay pending until publication."))
-    if receipt.get("remote_fetch_executed") is not False:
-        issues.append(_issue("link_check_remote_fetch", path, "remote_fetch_executed must be false."))
-    if receipt.get("pages_fetch_verification_executed") is not False:
-        issues.append(_issue("link_check_pages_fetch", path, "pages_fetch_verification_executed must be false."))
+    if receipt.get("status") not in {
+        "pass_local_remote_fetch_pending_owner_approval",
+        "pass_live_pages_and_release_verified",
+    }:
+        issues.append(_issue("link_check_status", path, "Unexpected link-check status."))
+    if receipt.get("status") == "pass_live_pages_and_release_verified":
+        if receipt.get("remote_fetch_executed") is not True:
+            issues.append(_issue("link_check_remote_fetch", path, "remote_fetch_executed must be true after publication."))
+        if receipt.get("pages_fetch_verification_executed") is not True:
+            issues.append(_issue("link_check_pages_fetch", path, "pages_fetch_verification_executed must be true after publication."))
     if receipt.get("violations") not in ([], None):
         issues.append(_issue("link_check_violations", path, "Receipt must have no violations."))
 
 
 def _check_publication_readiness(receipt: dict[str, Any], issues: list[dict[str, Any]]) -> None:
     path = PACK / "publication-readiness.json"
-    if receipt.get("status") != "ready_for_owner_approved_public_repo_patch":
-        issues.append(_issue("publication_readiness_status", path, "Publication must remain approval-gated."))
-    required_false = [
-        "github_push_executed",
-        "github_release_executed",
-        "github_pages_update_executed",
-        "pages_fetch_verification_executed",
+    if receipt.get("status") not in {
+        "ready_for_owner_approved_public_repo_patch",
+        "published_owner_approved_public_write_bundle",
+    }:
+        issues.append(_issue("publication_readiness_status", path, "Unexpected publication readiness status."))
+    required_never = [
         "provider_model_call_executed",
         "memory_backend_write_executed",
         "external_target_write_executed",
         "outreach_executed",
     ]
-    for key in required_false:
+    for key in required_never:
         if receipt.get(key) is not False:
             issues.append(_issue("publication_side_effect_boundary", path, f"{key} must be false."))
+    if receipt.get("status") == "published_owner_approved_public_write_bundle":
+        for key in [
+            "github_push_executed",
+            "github_release_executed",
+            "github_metadata_updated",
+            "github_pages_update_executed",
+            "pages_fetch_verification_executed",
+        ]:
+            if receipt.get(key) is not True:
+                issues.append(_issue("publication_execution_status", path, f"{key} must be true after publication."))
     if receipt.get("owner_approval_required") is not True:
         issues.append(_issue("publication_owner_approval", path, "owner_approval_required must be true."))
+
+
+def _check_publication_execution(receipt: dict[str, Any], issues: list[dict[str, Any]]) -> None:
+    path = PACK / "publication-execution-receipt.json"
+    if receipt.get("status") != "published_and_verified":
+        issues.append(_issue("publication_execution_status", path, "Publication execution receipt must be published_and_verified."))
+    pages = receipt.get("github_pages_fetch", {})
+    release = receipt.get("release_page_fetch", {})
+    if pages.get("status") != 200 or not pages.get("first_viewport_phrase_found"):
+        issues.append(_issue("publication_pages_verification", path, "Pages verification must show HTTP 200 and expected first-viewport phrase."))
+    if release.get("status") != 200:
+        issues.append(_issue("publication_release_verification", path, "Release page verification must show HTTP 200."))
+    boundary = receipt.get("side_effect_boundary", {})
+    for key, value in boundary.items():
+        if value is not False:
+            issues.append(_issue("publication_execution_side_effect", path, f"{key} must be false."))
 
 
 def _check_homepage(issues: list[dict[str, Any]]) -> None:

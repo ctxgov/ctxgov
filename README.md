@@ -89,8 +89,10 @@ Not claimed:
 - No memory-backend write.
 - No CLI beta claim.
 
-This release pack does not execute provider/model calls, memory-backend writes,
-external target writes, GitHub push, release publication, or outreach.
+This release does not execute provider/model calls, memory-backend writes,
+external target writes, package publication, hosted runtime changes, or
+outreach. The public GitHub push, release, metadata update, and Pages
+verification are recorded as owner-approved publication actions.
 
 ## Release Status
 

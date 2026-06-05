@@ -29,6 +29,10 @@
       "role": "publication_readiness_receipt"
     },
     {
+      "path": "publication-execution-receipt.json",
+      "role": "publication_execution_receipt"
+    },
+    {
       "path": "owner-approval-minimal-matrix.md",
       "role": "owner_approval_minimal_matrix"
     },

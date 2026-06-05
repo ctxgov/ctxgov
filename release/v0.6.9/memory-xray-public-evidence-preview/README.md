@@ -56,4 +56,6 @@ runtime claim. No live adapter claim. No public spec-stability claim. No CLI
 beta claim.
 
 This pack does not execute provider/model calls, memory-backend writes, external
-target writes, GitHub push, release publication, or outreach.
+target writes, package publication, hosted runtime changes, or outreach. The
+public GitHub push, release, metadata update, and Pages verification are
+owner-approved publication actions for this public-safe scope.
