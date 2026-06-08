@@ -83,6 +83,13 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def display_output_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def build_receipt(repo_url: str, ref: str) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="ctxgov-fresh-clone-product-") as tmp_name:
         tmp_root = Path(tmp_name)
@@ -203,7 +210,7 @@ def main() -> int:
     output = args.output if args.output.is_absolute() else ROOT / args.output
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(output.relative_to(ROOT)), "status": receipt["status"]}, sort_keys=True))
+    print(json.dumps({"output": display_output_path(output), "status": receipt["status"]}, sort_keys=True))
     return 0 if receipt["status"] == "pass_fresh_clone_product_receipt" else 1
 
 

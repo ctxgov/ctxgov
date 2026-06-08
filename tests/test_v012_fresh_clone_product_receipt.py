@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import importlib.util
 import subprocess
 import sys
 import unittest
@@ -8,6 +9,16 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def load_receipt_generator():
+    path = ROOT / "scripts" / "run_v012_fresh_clone_product_receipt.py"
+    spec = importlib.util.spec_from_file_location("ctxgov_v012_receipt_generator", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot load {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def run_local(*args: object) -> subprocess.CompletedProcess[str]:
@@ -86,6 +97,14 @@ class V012FreshCloneProductReceiptTest(unittest.TestCase):
         index = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
         self.assertIn("try-in-5-minutes.html", index)
         self.assertIn("v0.12.0", index)
+
+    def test_receipt_generator_can_report_output_path_outside_repo(self) -> None:
+        module = load_receipt_generator()
+
+        self.assertEqual(
+            module.display_output_path(Path("/tmp/ctxgov-v012-post-release.json")),
+            "/tmp/ctxgov-v012-post-release.json",
+        )
 
 
 if __name__ == "__main__":
