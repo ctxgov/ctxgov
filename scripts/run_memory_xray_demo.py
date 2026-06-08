@@ -196,6 +196,11 @@ def render_html(report: dict[str, Any]) -> str:
     <meta charset=\"utf-8\" />
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
     <title>Memory X-Ray Demo Report</title>
+    <meta property=\"og:title\" content=\"Memory X-Ray Demo Report\" />
+    <meta property=\"og:description\" content=\"Public-safe before/after Memory X-Ray report preview.\" />
+    <meta property=\"og:image\" content=\"https://ctxgov.github.io/ctxgov/og.png\" />
+    <meta name=\"twitter:card\" content=\"summary_large_image\" />
+    <meta name=\"twitter:image\" content=\"https://ctxgov.github.io/ctxgov/og.png\" />
     <style>
       :root {{
         --bg: #f7f8fb;

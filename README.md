@@ -114,10 +114,14 @@ boundary=no_public_benchmark_claim,no_provider_call,no_target_write
   [`docs/memory-xray-demo-report.md`](docs/memory-xray-demo-report.md)
 - Try in 5 minutes:
   [`docs/try-in-5-minutes.html`](docs/try-in-5-minutes.html)
+- Tiny fixture Memory X-Ray demo:
+  [`docs/tiny-fixture-memory-xray-demo.html`](docs/tiny-fixture-memory-xray-demo.html)
 - Companion fresh-clone reproducibility eval v0.11.0:
   <https://github.com/ctxgov/agent-context-evals/releases/tag/v0.11.0>
 - 5-minute companion local eval path:
   <https://github.com/ctxgov/agent-context-evals/blob/main/docs/5-minute-local-run.md>
+- 5-minute feedback request:
+  <https://github.com/ctxgov/agent-context-evals/issues/22>
 
 The v0.6.9 evidence pack includes a machine-readable summary, claim lint,
 leak scan, 60-second demo script, technical note, reviewer packet, and

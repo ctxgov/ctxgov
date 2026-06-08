@@ -4,6 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Try CtxGov in 5 minutes</title>
+    <meta property="og:title" content="Try CtxGov in 5 minutes" />
+    <meta property="og:description" content="Run the public-safe one-command Memory X-Ray preview and leave short feedback." />
+    <meta property="og:image" content="https://ctxgov.github.io/ctxgov/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://ctxgov.github.io/ctxgov/og.png" />
     <style>
       :root {
         --bg: #f7f8fb;
@@ -28,7 +33,7 @@
       h1 { margin: 0; font-size: 48px; line-height: 1.02; }
       .lede { max-width: 760px; color: var(--muted); font-size: 19px; }
       .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 28px 0; }
-      .step, .boundary {
+      .step, .boundary, .feedback, .fixture-demo {
         border: 1px solid var(--line);
         border-radius: 8px;
         background: var(--panel);
@@ -46,6 +51,7 @@
         padding: 14px;
         font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
       }
+      .feedback, .fixture-demo { margin-top: 18px; }
       .boundary ul { margin: 10px 0 0; padding-left: 20px; color: var(--muted); }
       @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
       @media (max-width: 620px) { .steps { grid-template-columns: 1fr; } h1 { font-size: 36px; } }
@@ -98,10 +104,37 @@ cd ctxgov</code></pre>
           <li>No public benchmark claim.</li>
           <li>No provider/model call.</li>
           <li>No security guarantee.</li>
-          <li>No adoption or downstream production-use claim.</li>
+          <li>No adoption claim or downstream production-use claim.</li>
           <li>No package publication claim.</li>
           <li>No arbitrary target repository scan.</li>
         </ul>
+      </section>
+
+      <section class="fixture-demo">
+        <h2>Tiny fixture repo demo</h2>
+        <p>
+          See a fixed public-safe fixture that shows file input to Memory X-Ray
+          report shape. It is not an arbitrary repo scanner.
+        </p>
+        <p><a href="tiny-fixture-memory-xray-demo.html">Open tiny fixture demo</a></p>
+      </section>
+
+      <section class="feedback">
+        <h2>Copy/paste feedback</h2>
+        <p>
+          Paste this into
+          <a href="https://github.com/ctxgov/agent-context-evals/issues/22">GitHub issue #22</a>.
+          One short comment is enough.
+        </p>
+        <pre><code>Run path clear? yes/no:
+Report useful? yes/no:
+Missing field:
+Integration shape:
+Confusing wording:</code></pre>
+        <p>
+          Boundary: No public benchmark claim. No adoption claim. No security
+          claim. No provider/model compatibility claim.
+        </p>
       </section>
     </main>
   </body>

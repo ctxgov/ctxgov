@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import re
+import struct
 import subprocess
 import sys
 import tempfile
@@ -23,16 +24,25 @@ REQUIRED_FILES = [
     ROOT / "docs" / "memory-xray-demo-report.json",
     ROOT / "docs" / "memory-xray-demo-report.html",
     ROOT / "docs" / "try-in-5-minutes.html",
+    ROOT / "docs" / "tiny-fixture-memory-xray-demo.html",
+    ROOT / "docs" / "tiny-fixture-memory-xray-demo.json",
+    ROOT / "docs" / "og.png",
+    ROOT / "fixtures" / "memory_xray_tiny_repo" / "README.md",
+    ROOT / "fixtures" / "memory_xray_tiny_repo" / "AGENTS.md",
+    ROOT / "fixtures" / "memory_xray_tiny_repo" / "terminal.log",
+    ROOT / "fixtures" / "memory_xray_tiny_repo" / "memory-summary.md",
     ROOT / "docs" / "case-studies" / "v0.6.9-self-audit.md",
     ROOT / ".github" / "workflows" / "public-surface.yml",
     ROOT / "scripts" / "render_public_memory_xray_preview.py",
     ROOT / "scripts" / "run_memory_xray_demo.py",
+    ROOT / "scripts" / "run_tiny_fixture_memory_xray_demo.py",
     ROOT / "scripts" / "run_v012_fresh_clone_product_receipt.py",
     ROOT / "scripts" / "check_v012_fresh_clone_product_receipt.py",
     ROOT / "scripts" / "check_public_surface_hardening.py",
     ROOT / "tests" / "test_render_public_memory_xray_preview.py",
     ROOT / "tests" / "test_run_memory_xray_demo.py",
     ROOT / "tests" / "test_v012_fresh_clone_product_receipt.py",
+    ROOT / "tests" / "test_v013_feedback_og_fixture_demo.py",
     ROOT / "tests" / "test_public_surface_hardening.py",
     ROOT / "release" / "v0.12.0" / "RELEASE_NOTES.md",
     ROOT / "release" / "v0.12.0" / "github-release.md",
@@ -49,7 +59,7 @@ REQUIRED_FILES = [
     PACK / "manifest.json",
 ]
 
-TEXT_FILES = [path for path in REQUIRED_FILES if path.suffix.lower() not in {".json"}]
+TEXT_FILES = [path for path in REQUIRED_FILES if path.suffix.lower() not in {".json", ".png"}]
 
 LIVE_SURFACE_FILES = [
     ROOT / "README.md",
@@ -57,6 +67,7 @@ LIVE_SURFACE_FILES = [
     ROOT / "pyproject.toml",
     ROOT / "docs" / "index.html",
     ROOT / "docs" / "try-in-5-minutes.html",
+    ROOT / "docs" / "tiny-fixture-memory-xray-demo.html",
     ROOT / "docs" / "public-repo-metadata.md",
     ROOT / "docs" / "case-studies" / "v0.6.9-self-audit.md",
     RELEASE / "RELEASE_NOTES.md",
@@ -102,6 +113,7 @@ def main() -> int:
     _check_local_links(issues)
     _check_preview_renderer(issues)
     _check_memory_xray_demo(issues)
+    _check_feedback_og_and_fixture_demo(issues)
     _check_claim_boundaries(issues)
 
     return _finish(issues)
@@ -173,6 +185,7 @@ def _check_workflow(issues: list[dict[str, Any]]) -> None:
         "python3 scripts/check_ascr_aligned_release_pack.py",
         "python3 scripts/check_public_surface_hardening.py",
         "python3 scripts/check_v012_fresh_clone_product_receipt.py",
+        "tests.test_v013_feedback_og_fixture_demo",
         "python3 -m unittest tests.test_public_surface_hardening tests.test_render_public_memory_xray_preview",
     ]:
         if phrase not in workflow:
@@ -268,6 +281,73 @@ def _check_memory_xray_demo(issues: list[dict[str, Any]]) -> None:
     for phrase in ["Try in 5 minutes", "Clone", "Run", "Read report", "Optional eval", "No public benchmark claim", "No provider/model call"]:
         if phrase not in try_page:
             issues.append(_issue("try_page_missing_phrase", ROOT / "docs" / "try-in-5-minutes.html", phrase))
+
+
+def _png_size(path: Path) -> tuple[int, int] | None:
+    data = path.read_bytes()
+    if data[:8] != b"\x89PNG\r\n\x1a\n":
+        return None
+    return struct.unpack(">II", data[16:24])
+
+
+def _check_feedback_og_and_fixture_demo(issues: list[dict[str, Any]]) -> None:
+    og_path = ROOT / "docs" / "og.png"
+    if _png_size(og_path) != (1200, 630):
+        issues.append(_issue("og_image_size", og_path, "Expected 1200x630 PNG."))
+    if og_path.stat().st_size <= 50_000:
+        issues.append(_issue("og_image_size", og_path, "Expected non-trivial report UI screenshot."))
+
+    for path in [
+        ROOT / "docs" / "index.html",
+        ROOT / "docs" / "memory-xray-demo-report.html",
+        ROOT / "docs" / "try-in-5-minutes.html",
+    ]:
+        text = path.read_text(encoding="utf-8")
+        for phrase in [
+            '<meta property="og:image" content="https://ctxgov.github.io/ctxgov/og.png" />',
+            '<meta name="twitter:image" content="https://ctxgov.github.io/ctxgov/og.png" />',
+        ]:
+            if phrase not in text:
+                issues.append(_issue("missing_og_metadata", path, phrase))
+
+    try_page = (ROOT / "docs" / "try-in-5-minutes.html").read_text(encoding="utf-8")
+    for phrase in [
+        "Copy/paste feedback",
+        "GitHub issue #22",
+        "Run path clear? yes/no:",
+        "Report useful? yes/no:",
+        "Missing field:",
+        "Integration shape:",
+        "Confusing wording:",
+        "No adoption claim",
+    ]:
+        if phrase not in try_page:
+            issues.append(_issue("try_page_feedback_missing_phrase", ROOT / "docs" / "try-in-5-minutes.html", phrase))
+
+    result = subprocess.run(
+        [sys.executable, "scripts/run_tiny_fixture_memory_xray_demo.py"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0:
+        issues.append(_issue("tiny_fixture_demo_failed", ROOT / "scripts" / "run_tiny_fixture_memory_xray_demo.py", result.stdout + result.stderr))
+        return
+    fixture_html = (ROOT / "docs" / "tiny-fixture-memory-xray-demo.html").read_text(encoding="utf-8")
+    for phrase in [
+        "Tiny fixture repo demo",
+        "File input",
+        "Memory X-Ray report",
+        "unsupported_claim",
+        "unsafe_instruction",
+        "terminal_failure",
+        "memory_claim_drift",
+        "not an arbitrary repo scanner",
+    ]:
+        if phrase not in fixture_html:
+            issues.append(_issue("tiny_fixture_demo_missing_phrase", ROOT / "docs" / "tiny-fixture-memory-xray-demo.html", phrase))
 
 
 def _check_claim_boundaries(issues: list[dict[str, Any]]) -> None:
