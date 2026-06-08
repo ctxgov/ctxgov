@@ -19,11 +19,16 @@ REQUIRED_FILES = [
     ROOT / "ROADMAP.md",
     ROOT / "pyproject.toml",
     ROOT / "docs" / "index.html",
+    ROOT / "docs" / "memory-xray-demo-report.md",
+    ROOT / "docs" / "memory-xray-demo-report.json",
+    ROOT / "docs" / "memory-xray-demo-report.html",
     ROOT / "docs" / "case-studies" / "v0.6.9-self-audit.md",
     ROOT / ".github" / "workflows" / "public-surface.yml",
     ROOT / "scripts" / "render_public_memory_xray_preview.py",
+    ROOT / "scripts" / "run_memory_xray_demo.py",
     ROOT / "scripts" / "check_public_surface_hardening.py",
     ROOT / "tests" / "test_render_public_memory_xray_preview.py",
+    ROOT / "tests" / "test_run_memory_xray_demo.py",
     ROOT / "tests" / "test_public_surface_hardening.py",
     RELEASE / "RELEASE_NOTES.md",
     RELEASE / "github-release.md",
@@ -88,6 +93,7 @@ def main() -> int:
     _check_workflow(issues)
     _check_local_links(issues)
     _check_preview_renderer(issues)
+    _check_memory_xray_demo(issues)
     _check_claim_boundaries(issues)
 
     return _finish(issues)
@@ -103,6 +109,7 @@ def _check_live_surface_text(issues: list[dict[str, Any]]) -> None:
     for phrase in [
         "release/v0.6.11/",
         "scripts/render_public_memory_xray_preview.py",
+        "scripts/run_memory_xray_demo.py",
         "not a Memory X-Ray CLI beta",
         "src/ctxgov/",
         "agent-context-evals` - separate companion repo",
@@ -210,6 +217,36 @@ def _check_preview_renderer(issues: list[dict[str, Any]]) -> None:
         for phrase in ["not a Memory X-Ray CLI beta", "No public benchmark claim", "No provider/model call"]:
             if phrase not in markdown:
                 issues.append(_issue("preview_missing_phrase", output, phrase))
+
+
+def _check_memory_xray_demo(issues: list[dict[str, Any]]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/run_memory_xray_demo.py",
+        ],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0:
+        issues.append(_issue("memory_xray_demo_failed", ROOT / "scripts" / "run_memory_xray_demo.py", result.stdout + result.stderr))
+        return
+    markdown = (ROOT / "docs" / "memory-xray-demo-report.md").read_text(encoding="utf-8")
+    html = (ROOT / "docs" / "memory-xray-demo-report.html").read_text(encoding="utf-8")
+    report = json.loads((ROOT / "docs" / "memory-xray-demo-report.json").read_text(encoding="utf-8"))
+    if report.get("schema") != "ctxgov.public_memory_xray_demo.v0":
+        issues.append(_issue("memory_xray_demo_schema", ROOT / "docs" / "memory-xray-demo-report.json", "Unexpected demo schema."))
+    if report.get("example_count") != 5:
+        issues.append(_issue("memory_xray_demo_example_count", ROOT / "docs" / "memory-xray-demo-report.json", "Expected 5 demo examples."))
+    for phrase in ["## Before", "## After", "No public benchmark claim", "not a Memory X-Ray CLI beta"]:
+        if phrase not in markdown:
+            issues.append(_issue("memory_xray_demo_missing_phrase", ROOT / "docs" / "memory-xray-demo-report.md", phrase))
+    for phrase in ["Memory X-Ray Demo Report", "Before", "After"]:
+        if phrase not in html:
+            issues.append(_issue("memory_xray_demo_html_missing_phrase", ROOT / "docs" / "memory-xray-demo-report.html", phrase))
 
 
 def _check_claim_boundaries(issues: list[dict[str, Any]]) -> None:

@@ -1,0 +1,161 @@
+{
+  "after": {
+    "findings": [
+      {
+        "blocked_effects": [
+          "act",
+          "adapter_route",
+          "cache_reuse",
+          "default",
+          "sampler_bias",
+          "train_or_publish"
+        ],
+        "consequence_ceiling": "inform_warn_only",
+        "evidence_span": "Memory store or revision file inspected as evidence",
+        "finding_family": "generic_memory_store_revision",
+        "finding_id": "memory_xray_public_shape_001_generic_memory_store_revision",
+        "risk_score": 63,
+        "rollback_evidence_present": true,
+        "severity": "medium",
+        "source_refs": {
+          "contradicted": 0,
+          "missing": 0,
+          "omitted": 1,
+          "selected": 3
+        }
+      },
+      {
+        "blocked_effects": [
+          "act",
+          "adapter_route",
+          "cache_reuse",
+          "default",
+          "sampler_bias",
+          "train_or_publish"
+        ],
+        "consequence_ceiling": "inform_warn_only",
+        "evidence_span": "Response state, cache metadata, or tool state inspected as evidence",
+        "finding_family": "generic_response_state_cache_receipt",
+        "finding_id": "memory_xray_public_shape_002_generic_response_state_cache_receipt",
+        "risk_score": 63,
+        "rollback_evidence_present": true,
+        "severity": "medium",
+        "source_refs": {
+          "contradicted": 0,
+          "missing": 0,
+          "omitted": 1,
+          "selected": 3
+        }
+      },
+      {
+        "blocked_effects": [
+          "act",
+          "adapter_route",
+          "cache_reuse",
+          "default",
+          "sampler_bias",
+          "train_or_publish"
+        ],
+        "consequence_ceiling": "inform_warn_only",
+        "evidence_span": "Graph memory episode or temporal edge inspected as evidence",
+        "finding_family": "generic_graph_memory_episode",
+        "finding_id": "memory_xray_public_shape_003_generic_graph_memory_episode",
+        "risk_score": 88,
+        "rollback_evidence_present": true,
+        "severity": "high",
+        "source_refs": {
+          "contradicted": 0,
+          "missing": 0,
+          "omitted": 1,
+          "selected": 3
+        }
+      },
+      {
+        "blocked_effects": [
+          "act",
+          "adapter_route",
+          "cache_reuse",
+          "default",
+          "sampler_bias",
+          "train_or_publish"
+        ],
+        "consequence_ceiling": "inform_warn_only",
+        "evidence_span": "Memory store or revision file inspected as evidence",
+        "finding_family": "generic_memory_store_revision",
+        "finding_id": "memory_xray_public_shape_004_generic_memory_store_revision",
+        "risk_score": 63,
+        "rollback_evidence_present": true,
+        "severity": "medium",
+        "source_refs": {
+          "contradicted": 0,
+          "missing": 0,
+          "omitted": 1,
+          "selected": 3
+        }
+      },
+      {
+        "blocked_effects": [
+          "act",
+          "adapter_route",
+          "cache_reuse",
+          "default",
+          "sampler_bias",
+          "train_or_publish"
+        ],
+        "consequence_ceiling": "inform_warn_only",
+        "evidence_span": "Response state, cache metadata, or tool state inspected as evidence",
+        "finding_family": "generic_response_state_cache_receipt",
+        "finding_id": "memory_xray_public_shape_005_generic_response_state_cache_receipt",
+        "risk_score": 83,
+        "rollback_evidence_present": true,
+        "severity": "high",
+        "source_refs": {
+          "contradicted": 0,
+          "missing": 0,
+          "omitted": 0,
+          "selected": 3
+        }
+      }
+    ],
+    "report_surface": "Memory X-Ray public-safe demo report"
+  },
+  "before": [
+    {
+      "context_span": "Memory store or revision file inspected as evidence",
+      "risk_hint": "generic_memory_store_revision",
+      "source": "redacted_private_saved_trace"
+    },
+    {
+      "context_span": "Response state, cache metadata, or tool state inspected as evidence",
+      "risk_hint": "generic_response_state_cache_receipt",
+      "source": "redacted_private_saved_trace"
+    },
+    {
+      "context_span": "Graph memory episode or temporal edge inspected as evidence",
+      "risk_hint": "generic_graph_memory_episode",
+      "source": "redacted_private_saved_trace"
+    },
+    {
+      "context_span": "Memory store or revision file inspected as evidence",
+      "risk_hint": "generic_memory_store_revision",
+      "source": "redacted_private_saved_trace"
+    },
+    {
+      "context_span": "Response state, cache metadata, or tool state inspected as evidence",
+      "risk_hint": "generic_response_state_cache_receipt",
+      "source": "redacted_private_saved_trace"
+    }
+  ],
+  "claim_boundary": {
+    "arbitrary_repo_scan": false,
+    "external_target_write": false,
+    "memory_backend_write": false,
+    "memory_xray_cli_beta_claim": false,
+    "provider_model_call": false,
+    "public_benchmark_claim": false,
+    "security_guarantee": false
+  },
+  "example_count": 5,
+  "schema": "ctxgov.public_memory_xray_demo.v0",
+  "source": "release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json"
+}

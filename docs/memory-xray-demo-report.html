@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Memory X-Ray Demo Report</title>
+    <style>
+      body { margin: 0; padding: 32px; background: #f7f8fb; color: #18202f; font: 16px/1.55 system-ui, sans-serif; }
+      main { max-width: 920px; margin: 0 auto; }
+      pre { white-space: pre-wrap; background: #fff; border: 1px solid #d8dde6; border-radius: 8px; padding: 20px; overflow-x: auto; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <pre># Memory X-Ray Demo Report
+
+This is a deterministic public-safe before/after demo. It renders the
+checked-in L1 examples pack and does not scan arbitrary target repositories.
+It is not a Memory X-Ray CLI beta.
+
+## Claim Boundary
+
+- No public benchmark claim.
+- No security guarantee.
+- No provider/model call.
+- No memory-backend write.
+- No external target write.
+- No arbitrary repo scan.
+
+## Before
+
+### generic_memory_store_revision
+
+- source: `redacted_private_saved_trace`
+- context span: Memory store or revision file inspected as evidence
+
+### generic_response_state_cache_receipt
+
+- source: `redacted_private_saved_trace`
+- context span: Response state, cache metadata, or tool state inspected as evidence
+
+### generic_graph_memory_episode
+
+- source: `redacted_private_saved_trace`
+- context span: Graph memory episode or temporal edge inspected as evidence
+
+### generic_memory_store_revision
+
+- source: `redacted_private_saved_trace`
+- context span: Memory store or revision file inspected as evidence
+
+### generic_response_state_cache_receipt
+
+- source: `redacted_private_saved_trace`
+- context span: Response state, cache metadata, or tool state inspected as evidence
+
+## After
+
+### memory_xray_public_shape_001_generic_memory_store_revision
+
+- family: `generic_memory_store_revision`
+- severity: `medium`
+- risk_score: `63`
+- evidence_span: Memory store or revision file inspected as evidence
+- consequence_ceiling: `inform_warn_only`
+- source_refs: selected=3 omitted=1 missing=0 contradicted=0
+- rollback_evidence_present: `true`
+- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
+
+### memory_xray_public_shape_002_generic_response_state_cache_receipt
+
+- family: `generic_response_state_cache_receipt`
+- severity: `medium`
+- risk_score: `63`
+- evidence_span: Response state, cache metadata, or tool state inspected as evidence
+- consequence_ceiling: `inform_warn_only`
+- source_refs: selected=3 omitted=1 missing=0 contradicted=0
+- rollback_evidence_present: `true`
+- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
+
+### memory_xray_public_shape_003_generic_graph_memory_episode
+
+- family: `generic_graph_memory_episode`
+- severity: `high`
+- risk_score: `88`
+- evidence_span: Graph memory episode or temporal edge inspected as evidence
+- consequence_ceiling: `inform_warn_only`
+- source_refs: selected=3 omitted=1 missing=0 contradicted=0
+- rollback_evidence_present: `true`
+- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
+
+### memory_xray_public_shape_004_generic_memory_store_revision
+
+- family: `generic_memory_store_revision`
+- severity: `medium`
+- risk_score: `63`
+- evidence_span: Memory store or revision file inspected as evidence
+- consequence_ceiling: `inform_warn_only`
+- source_refs: selected=3 omitted=1 missing=0 contradicted=0
+- rollback_evidence_present: `true`
+- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
+
+### memory_xray_public_shape_005_generic_response_state_cache_receipt
+
+- family: `generic_response_state_cache_receipt`
+- severity: `high`
+- risk_score: `83`
+- evidence_span: Response state, cache metadata, or tool state inspected as evidence
+- consequence_ceiling: `inform_warn_only`
+- source_refs: selected=3 omitted=0 missing=0 contradicted=0
+- rollback_evidence_present: `true`
+- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
+
+## Reproduce
+
+```bash
+python3 scripts/run_memory_xray_demo.py
+```
+</pre>
+    </main>
+  </body>
+</html>
