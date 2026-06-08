@@ -71,6 +71,19 @@ class V013FeedbackOgFixtureDemoTest(unittest.TestCase):
         self.assertIn("tiny-fixture-memory-xray-demo.html", try_page)
         self.assertIn("tiny-fixture-memory-xray-demo.html", index)
 
+    def test_try_page_has_local_tiny_fixture_run_entry(self) -> None:
+        page = (ROOT / "docs" / "try-in-5-minutes.html").read_text(encoding="utf-8")
+
+        for phrase in [
+            "Run fixed fixture",
+            "python3 scripts/run_tiny_fixture_memory_xray_demo.py",
+            "docs/tiny-fixture-memory-xray-demo.html",
+            "docs/tiny-fixture-memory-xray-demo.json",
+            "fixed public-safe fixture only",
+            "not an arbitrary repo scanner",
+        ]:
+            self.assertIn(phrase, page)
+
     def test_og_image_and_metadata_are_report_ui_specific(self) -> None:
         og = ROOT / "docs" / "og.png"
         self.assertEqual(png_size(og), (1200, 630))

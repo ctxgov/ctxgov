@@ -314,6 +314,11 @@ def _check_feedback_og_and_fixture_demo(issues: list[dict[str, Any]]) -> None:
     for phrase in [
         "Copy/paste feedback",
         "GitHub issue #22",
+        "Run fixed fixture",
+        "python3 scripts/run_tiny_fixture_memory_xray_demo.py",
+        "docs/tiny-fixture-memory-xray-demo.html",
+        "docs/tiny-fixture-memory-xray-demo.json",
+        "fixed public-safe fixture only",
         "Run path clear? yes/no:",
         "Report useful? yes/no:",
         "Missing field:",
