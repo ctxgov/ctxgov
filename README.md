@@ -104,8 +104,8 @@ boundary=no_public_benchmark_claim,no_provider_call,no_target_write
   [`release/v0.6.9/memory-xray-public-evidence-preview/`](release/v0.6.9/memory-xray-public-evidence-preview/)
 - L1 public preview:
   [`release/v0.7.0/memory-xray-l1-public-preview/`](release/v0.7.0/memory-xray-l1-public-preview/)
-- Companion local eval v0.8.0:
-  <https://github.com/ctxgov/agent-context-evals/releases/tag/v0.8.0>
+- Companion machine-evidence eval v0.9.0:
+  <https://github.com/ctxgov/agent-context-evals/releases/tag/v0.9.0>
 
 The v0.6.9 evidence pack includes a machine-readable summary, claim lint,
 leak scan, 60-second demo script, technical note, reviewer packet, and
@@ -125,10 +125,10 @@ minimal public release path: CtxGov repo patch, release tag, GitHub release,
 and Pages verification only. Its live-link verification asset SHA-256 is
 `64e2b8462cbb0c25e89d2f85ec32a665173e9fdda39b5f152d9289d7c59e51f7`.
 
-The companion `agent-context-evals` v0.8.0 release is linked as local
-eval-hardening evidence, not as a public benchmark, adoption, security,
-provider/model compatibility, package, hosted runtime, live adapter, or CLI beta
-claim.
+The companion `agent-context-evals` v0.9.0 release is linked as local
+machine-evidence and hidden-holdout custody evidence, not as a public
+benchmark, adoption, security, provider/model compatibility, package, hosted
+runtime, live adapter, human reviewer, or CLI beta claim.
 
 ## Claim Boundary
 
