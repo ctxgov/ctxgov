@@ -147,27 +147,174 @@ def render_markdown(report: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def render_html(markdown: str) -> str:
-    escaped = html.escape(markdown)
-    return f"""<!doctype html>
+def _badge_class(severity: str | None) -> str:
+    if severity == "high":
+        return "badge high"
+    if severity == "medium":
+        return "badge medium"
+    return "badge"
+
+
+def render_html(report: dict[str, Any]) -> str:
+    before_cards = []
+    for item in report["before"]:
+        before_cards.append(
+            f"""
+            <article class=\"context-card\">
+              <p class=\"card-kicker\">{html.escape(str(item["risk_hint"]))}</p>
+              <h2>{html.escape(str(item["context_span"]))}</h2>
+              <p><span>Source</span>{html.escape(str(item["source"]))}</p>
+            </article>"""
+        )
+
+    finding_cards = []
+    for finding in report["after"]["findings"]:
+        refs = finding["source_refs"]
+        blocked = ", ".join(finding["blocked_effects"])
+        finding_cards.append(
+            f"""
+            <article class=\"finding-card\">
+              <div class=\"finding-head\">
+                <p class=\"card-kicker\">{html.escape(str(finding["finding_family"]))}</p>
+                <span class=\"{_badge_class(finding.get("severity"))}\">{html.escape(str(finding["severity"]))}</span>
+              </div>
+              <h2>{html.escape(str(finding["finding_id"]))}</h2>
+              <dl>
+                <div><dt>Evidence span</dt><dd>{html.escape(str(finding["evidence_span"]))}</dd></div>
+                <div><dt>Risk score</dt><dd>{html.escape(str(finding["risk_score"]))}</dd></div>
+                <div><dt>Consequence ceiling</dt><dd>{html.escape(str(finding["consequence_ceiling"]))}</dd></div>
+                <div><dt>Source refs</dt><dd>selected={refs["selected"]} omitted={refs["omitted"]} missing={refs["missing"]} contradicted={refs["contradicted"]}</dd></div>
+                <div><dt>Rollback evidence</dt><dd>{html.escape(str(finding["rollback_evidence_present"]).lower())}</dd></div>
+                <div><dt>Blocked effects</dt><dd>{html.escape(blocked)}</dd></div>
+              </dl>
+            </article>"""
+        )
+
+    html_doc = f"""<!doctype html>
 <html lang=\"en\">
   <head>
     <meta charset=\"utf-8\" />
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
     <title>Memory X-Ray Demo Report</title>
     <style>
-      body {{ margin: 0; padding: 32px; background: #f7f8fb; color: #18202f; font: 16px/1.55 system-ui, sans-serif; }}
-      main {{ max-width: 920px; margin: 0 auto; }}
-      pre {{ white-space: pre-wrap; background: #fff; border: 1px solid #d8dde6; border-radius: 8px; padding: 20px; overflow-x: auto; }}
+      :root {{
+        --bg: #f7f8fb;
+        --panel: #ffffff;
+        --ink: #18202f;
+        --muted: #5d697a;
+        --line: #d8dde6;
+        --teal: #0b7f77;
+        --blue: #2458d3;
+        --amber: #9a5b00;
+        --red: #b42318;
+      }}
+      * {{ box-sizing: border-box; }}
+      body {{
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 16px/1.55 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;
+      }}
+      a {{ color: var(--blue); text-decoration: none; }}
+      a:hover {{ text-decoration: underline; }}
+      .report-shell {{ max-width: 1160px; margin: 0 auto; padding: 36px 24px 54px; }}
+      .topbar {{ display: flex; justify-content: space-between; gap: 16px; margin-bottom: 34px; }}
+      .eyebrow {{ margin: 0 0 10px; color: var(--teal); font-weight: 700; }}
+      h1 {{ margin: 0; max-width: 760px; font-size: 48px; line-height: 1.02; }}
+      .lede {{ max-width: 760px; color: var(--muted); font-size: 19px; }}
+      .boundary {{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin: 24px 0 36px;
+      }}
+      .boundary span {{
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 10px 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }}
+      .columns {{ display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 18px; align-items: start; }}
+      .panel-title {{ margin: 0 0 12px; font-size: 24px; }}
+      .stack {{ display: grid; gap: 12px; }}
+      .context-card,
+      .finding-card {{
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 16px;
+      }}
+      .card-kicker {{ margin: 0 0 8px; color: var(--teal); font-size: 12px; font-weight: 800; text-transform: uppercase; }}
+      .context-card h2,
+      .finding-card h2 {{ margin: 0 0 12px; font-size: 18px; line-height: 1.25; }}
+      .context-card p {{ margin: 0; color: var(--muted); }}
+      .context-card p span {{ display: block; color: var(--ink); font-weight: 700; }}
+      .finding-head {{ display: flex; align-items: center; justify-content: space-between; gap: 12px; }}
+      .badge {{ border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; color: var(--muted); font-size: 12px; font-weight: 800; }}
+      .badge.medium {{ border-color: #e3b341; color: var(--amber); }}
+      .badge.high {{ border-color: #e08478; color: var(--red); }}
+      dl {{ display: grid; gap: 8px; margin: 0; }}
+      dl div {{ display: grid; grid-template-columns: 150px 1fr; gap: 12px; }}
+      dt {{ color: var(--muted); }}
+      dd {{ margin: 0; }}
+      code {{ background: #edf1f7; border-radius: 6px; padding: 2px 5px; }}
+      .reproduce {{ margin-top: 28px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 16px; }}
+      @media (max-width: 860px) {{
+        .topbar,
+        .columns,
+        .boundary {{ grid-template-columns: 1fr; display: grid; }}
+        h1 {{ font-size: 36px; }}
+        dl div {{ grid-template-columns: 1fr; }}
+      }}
     </style>
   </head>
   <body>
-    <main>
-      <pre>{escaped}</pre>
+    <main class=\"report-shell\">
+      <div class=\"topbar\">
+        <div>
+          <p class=\"eyebrow\">Public-safe Memory X-Ray preview</p>
+          <h1>Memory X-Ray Demo Report</h1>
+          <p class=\"lede\">
+            A deterministic before/after report generated from checked-in L1
+            examples. It shows the report shape and evidence spans without
+            scanning arbitrary target repositories.
+          </p>
+        </div>
+        <p><a href=\"try-in-5-minutes.html\">Try in 5 minutes</a></p>
+      </div>
+      <div class=\"boundary\" aria-label=\"Claim boundary\">
+        <span>No public benchmark claim</span>
+        <span>No security guarantee</span>
+        <span>No provider/model call</span>
+        <span>No memory-backend write</span>
+        <span>No external target write</span>
+        <span>No arbitrary repo scan</span>
+      </div>
+      <div class=\"columns\">
+        <section>
+          <h2 class=\"panel-title\">Before Context</h2>
+          <div class=\"stack\">
+            {''.join(before_cards)}
+          </div>
+        </section>
+        <section>
+          <h2 class=\"panel-title\">After Report</h2>
+          <div class=\"stack\">
+            {''.join(finding_cards)}
+          </div>
+        </section>
+      </div>
+      <section class=\"reproduce\">
+        <h2>Reproduce</h2>
+        <p>Run <code>python3 scripts/run_memory_xray_demo.py</code> from a fresh clone.</p>
+      </section>
     </main>
   </body>
 </html>
 """
+    return "\n".join(line.rstrip() for line in html_doc.splitlines()) + "\n"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -182,7 +329,7 @@ def main(argv: list[str] | None = None) -> int:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(markdown, encoding="utf-8")
     json_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    html_path.write_text(render_html(markdown), encoding="utf-8")
+    html_path.write_text(render_html(report), encoding="utf-8")
     print(
         json.dumps(
             {

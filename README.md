@@ -9,8 +9,8 @@ CtxGov is an agent context health and memory-governance project. It treats
 README text, AGENTS instructions, terminal transcripts, saved memory summaries,
 release notes, and tool receipts as context that can shape the next agent run.
 Memory X-Ray turns that context into a report with finding types, evidence
-spans, and explicit release boundaries. v0.6.13 records an owner-approved
-minimal public release path for auto-publish research.
+spans, and explicit release boundaries. v0.12.0 records a public fresh-clone
+product receipt for the one-command Memory X-Ray preview path.
 
 ## 30-Second View
 
@@ -23,10 +23,9 @@ minimal public release path for auto-publish research.
   repo.
 - Evidence posture: public-safe report-shape and local release-control
   readiness, not a public benchmark or adoption claim.
-- Current release pack: `release/v0.6.13/` records the owner-approved
-  auto-publish research path. `release/v0.6.12/` remains the optional live-link
-  verifier; `release/v0.6.11/` remains the public-surface hardening and
-  self-audit release.
+- Current product receipt: `release/v0.12.0/` records fresh-clone execution of
+  the one-command Memory X-Ray preview path and report SHA. `release/v0.6.13/`
+  remains the owner-approved auto-publish research path.
 
 ## Run Locally
 
@@ -35,6 +34,7 @@ python3 scripts/check_public_evidence_release_pack.py
 python3 scripts/check_ascr_aligned_release_pack.py
 python3 scripts/check_public_surface_hardening.py
 python3 scripts/check_publication_intent.py
+python3 scripts/check_v012_fresh_clone_product_receipt.py
 python3 scripts/run_memory_xray_demo.py
 python3 -m unittest tests.test_public_live_links -v
 python3 scripts/render_public_memory_xray_preview.py \
@@ -45,9 +45,10 @@ python3 scripts/render_public_memory_xray_preview.py \
 The public v0.6.13 surface is an auto-publish research and release-integrity
 update layered on the v0.6.12 live-link verifier, v0.6.11 hardening release,
 v0.6.10 ASCR alignment, and v0.6.9 Memory X-Ray report-shape release. The
-report preview renderer is deterministic public-safe example rendering only.
-It is not a Memory X-Ray CLI beta and does not scan arbitrary target
-repositories.
+v0.12.0 product receipt adds a fresh-clone run of the one-command Memory X-Ray
+preview path. The report preview renderer is deterministic public-safe example
+rendering only. It is not a Memory X-Ray CLI beta and does not scan arbitrary
+target repositories.
 
 Optional network verification after offline checks pass:
 
@@ -95,6 +96,10 @@ boundary=no_public_benchmark_claim,no_provider_call,no_target_write
   [`release/v0.6.13/RELEASE_NOTES.md`](release/v0.6.13/RELEASE_NOTES.md)
 - v0.6.13 publication intent:
   [`release/v0.6.13/publication-intent.json`](release/v0.6.13/publication-intent.json)
+- v0.12.0 release notes:
+  [`release/v0.12.0/RELEASE_NOTES.md`](release/v0.12.0/RELEASE_NOTES.md)
+- v0.12.0 fresh-clone product receipt:
+  [`release/v0.12.0/fresh-clone-product-receipt.json`](release/v0.12.0/fresh-clone-product-receipt.json)
 - v0.6.13 live-link verification asset:
   <https://github.com/ctxgov/ctxgov/releases/download/v0.6.13-auto-publish-research/ctxgov-v0613-live-link-verification.json>
 - Self-audit case study:
@@ -107,6 +112,8 @@ boundary=no_public_benchmark_claim,no_provider_call,no_target_write
   [`release/v0.7.0/memory-xray-l1-public-preview/`](release/v0.7.0/memory-xray-l1-public-preview/)
 - Memory X-Ray demo report:
   [`docs/memory-xray-demo-report.md`](docs/memory-xray-demo-report.md)
+- Try in 5 minutes:
+  [`docs/try-in-5-minutes.html`](docs/try-in-5-minutes.html)
 - Companion fresh-clone reproducibility eval v0.11.0:
   <https://github.com/ctxgov/agent-context-evals/releases/tag/v0.11.0>
 - 5-minute companion local eval path:
@@ -130,6 +137,12 @@ minimal public release path: CtxGov repo patch, release tag, GitHub release,
 and Pages verification only. Its live-link verification asset SHA-256 is
 `64e2b8462cbb0c25e89d2f85ec32a665173e9fdda39b5f152d9289d7c59e51f7`.
 
+The v0.12.0 release records a fresh-clone run of
+`python3 scripts/run_memory_xray_demo.py`, command output, and the generated
+Memory X-Ray report SHA-256. It is product-path reproducibility evidence, not a
+benchmark, adoption, security, provider/model compatibility, package, hosted
+runtime, live adapter, human reviewer, or CLI beta claim.
+
 The companion `agent-context-evals` v0.11.0 release is linked as local
 fresh-clone reproducibility evidence for the v0.10.0 public saved-trace
 machine-evidence path, redaction, and hidden-holdout custody evidence, not as a
@@ -149,6 +162,8 @@ Allowed public claims:
 - Memory X-Ray public-safe examples show finding types and evidence spans.
 - `scripts/run_memory_xray_demo.py` renders the checked-in public-safe
   before/after report.
+- `release/v0.12.0/fresh-clone-product-receipt.json` records a fresh-clone
+  one-command Memory X-Ray preview run and report SHA.
 - Local release-control summaries cover repeat-run stability, no-op handoff
   replay, rollback refs, blocked lanes, and fail-closed negative modes.
 - CtxGov v0.6.10 is aligned to ASCR v0.1 contract surfaces.
@@ -158,6 +173,8 @@ Allowed public claims:
   URLs after offline checks pass.
 - CtxGov v0.6.13 records an owner-approved minimal public release path for
   auto-publish research, with deferred targets explicitly excluded.
+- CtxGov v0.12.0 records a public fresh-clone product receipt for the
+  one-command Memory X-Ray preview path.
 
 Not claimed:
 
@@ -194,7 +211,9 @@ The public-safe release path is now:
 4. v0.6.12 adds optional network verification of public release URLs.
 5. v0.6.13 records the owner-approved minimal public release path for
    auto-publish research.
-6. Public claims remain scoped to report shape, contract alignment, and
+6. v0.12.0 records the fresh-clone one-command Memory X-Ray product path and
+   report SHA.
+7. Public claims remain scoped to report shape, contract alignment, and
    local/public-safe receipts.
 
 Formal benchmark, adoption, provider compatibility, package, live adapter,

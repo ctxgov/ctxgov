@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Try CtxGov in 5 minutes</title>
+    <style>
+      :root {
+        --bg: #f7f8fb;
+        --panel: #ffffff;
+        --ink: #18202f;
+        --muted: #5d697a;
+        --line: #d8dde6;
+        --teal: #0b7f77;
+        --blue: #2458d3;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 16px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      a { color: var(--blue); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      main { max-width: 1080px; margin: 0 auto; padding: 36px 24px 54px; }
+      .eyebrow { margin: 0 0 10px; color: var(--teal); font-weight: 700; }
+      h1 { margin: 0; font-size: 48px; line-height: 1.02; }
+      .lede { max-width: 760px; color: var(--muted); font-size: 19px; }
+      .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 28px 0; }
+      .step, .boundary {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 18px;
+      }
+      .num { color: var(--teal); font-weight: 800; }
+      h2 { margin: 4px 0 10px; font-size: 20px; }
+      p { color: var(--muted); }
+      pre {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #101827;
+        color: #eaf0fb;
+        padding: 14px;
+        font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      }
+      .boundary ul { margin: 10px 0 0; padding-left: 20px; color: var(--muted); }
+      @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 620px) { .steps { grid-template-columns: 1fr; } h1 { font-size: 36px; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Public-safe local product path</p>
+      <h1>Try in 5 minutes</h1>
+      <p class="lede">
+        Clone CtxGov, run the one-command Memory X-Ray preview, read the report,
+        and optionally inspect the companion eval receipt. This path is for
+        product shape and reproducibility, not benchmark interpretation.
+      </p>
+
+      <section class="steps" aria-label="5-minute local path">
+        <article class="step">
+          <span class="num">01</span>
+          <h2>Clone</h2>
+          <pre><code>git clone https://github.com/ctxgov/ctxgov.git
+cd ctxgov</code></pre>
+        </article>
+        <article class="step">
+          <span class="num">02</span>
+          <h2>Run</h2>
+          <pre><code>python3 scripts/run_memory_xray_demo.py</code></pre>
+        </article>
+        <article class="step">
+          <span class="num">03</span>
+          <h2>Read report</h2>
+          <p>
+            Open <a href="memory-xray-demo-report.html">memory-xray-demo-report.html</a>
+            or inspect <code>docs/memory-xray-demo-report.md</code>.
+          </p>
+        </article>
+        <article class="step">
+          <span class="num">04</span>
+          <h2>Optional eval</h2>
+          <p>
+            Inspect the companion
+            <a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.11.0">v0.11.0 fresh-clone receipt</a>
+            for local evidence context.
+          </p>
+        </article>
+      </section>
+
+      <section class="boundary">
+        <h2>Boundary</h2>
+        <ul>
+          <li>No public benchmark claim.</li>
+          <li>No provider/model call.</li>
+          <li>No security guarantee.</li>
+          <li>No adoption or downstream production-use claim.</li>
+          <li>No package publication claim.</li>
+          <li>No arbitrary target repository scan.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

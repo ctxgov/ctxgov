@@ -5,118 +5,219 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Memory X-Ray Demo Report</title>
     <style>
-      body { margin: 0; padding: 32px; background: #f7f8fb; color: #18202f; font: 16px/1.55 system-ui, sans-serif; }
-      main { max-width: 920px; margin: 0 auto; }
-      pre { white-space: pre-wrap; background: #fff; border: 1px solid #d8dde6; border-radius: 8px; padding: 20px; overflow-x: auto; }
+      :root {
+        --bg: #f7f8fb;
+        --panel: #ffffff;
+        --ink: #18202f;
+        --muted: #5d697a;
+        --line: #d8dde6;
+        --teal: #0b7f77;
+        --blue: #2458d3;
+        --amber: #9a5b00;
+        --red: #b42318;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 16px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      a { color: var(--blue); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .report-shell { max-width: 1160px; margin: 0 auto; padding: 36px 24px 54px; }
+      .topbar { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 34px; }
+      .eyebrow { margin: 0 0 10px; color: var(--teal); font-weight: 700; }
+      h1 { margin: 0; max-width: 760px; font-size: 48px; line-height: 1.02; }
+      .lede { max-width: 760px; color: var(--muted); font-size: 19px; }
+      .boundary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin: 24px 0 36px;
+      }
+      .boundary span {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 10px 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .columns { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 18px; align-items: start; }
+      .panel-title { margin: 0 0 12px; font-size: 24px; }
+      .stack { display: grid; gap: 12px; }
+      .context-card,
+      .finding-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 16px;
+      }
+      .card-kicker { margin: 0 0 8px; color: var(--teal); font-size: 12px; font-weight: 800; text-transform: uppercase; }
+      .context-card h2,
+      .finding-card h2 { margin: 0 0 12px; font-size: 18px; line-height: 1.25; }
+      .context-card p { margin: 0; color: var(--muted); }
+      .context-card p span { display: block; color: var(--ink); font-weight: 700; }
+      .finding-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .badge { border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; color: var(--muted); font-size: 12px; font-weight: 800; }
+      .badge.medium { border-color: #e3b341; color: var(--amber); }
+      .badge.high { border-color: #e08478; color: var(--red); }
+      dl { display: grid; gap: 8px; margin: 0; }
+      dl div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; }
+      dt { color: var(--muted); }
+      dd { margin: 0; }
+      code { background: #edf1f7; border-radius: 6px; padding: 2px 5px; }
+      .reproduce { margin-top: 28px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 16px; }
+      @media (max-width: 860px) {
+        .topbar,
+        .columns,
+        .boundary { grid-template-columns: 1fr; display: grid; }
+        h1 { font-size: 36px; }
+        dl div { grid-template-columns: 1fr; }
+      }
     </style>
   </head>
   <body>
-    <main>
-      <pre># Memory X-Ray Demo Report
+    <main class="report-shell">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">Public-safe Memory X-Ray preview</p>
+          <h1>Memory X-Ray Demo Report</h1>
+          <p class="lede">
+            A deterministic before/after report generated from checked-in L1
+            examples. It shows the report shape and evidence spans without
+            scanning arbitrary target repositories.
+          </p>
+        </div>
+        <p><a href="try-in-5-minutes.html">Try in 5 minutes</a></p>
+      </div>
+      <div class="boundary" aria-label="Claim boundary">
+        <span>No public benchmark claim</span>
+        <span>No security guarantee</span>
+        <span>No provider/model call</span>
+        <span>No memory-backend write</span>
+        <span>No external target write</span>
+        <span>No arbitrary repo scan</span>
+      </div>
+      <div class="columns">
+        <section>
+          <h2 class="panel-title">Before Context</h2>
+          <div class="stack">
 
-This is a deterministic public-safe before/after demo. It renders the
-checked-in L1 examples pack and does not scan arbitrary target repositories.
-It is not a Memory X-Ray CLI beta.
+            <article class="context-card">
+              <p class="card-kicker">generic_memory_store_revision</p>
+              <h2>Memory store or revision file inspected as evidence</h2>
+              <p><span>Source</span>redacted_private_saved_trace</p>
+            </article>
+            <article class="context-card">
+              <p class="card-kicker">generic_response_state_cache_receipt</p>
+              <h2>Response state, cache metadata, or tool state inspected as evidence</h2>
+              <p><span>Source</span>redacted_private_saved_trace</p>
+            </article>
+            <article class="context-card">
+              <p class="card-kicker">generic_graph_memory_episode</p>
+              <h2>Graph memory episode or temporal edge inspected as evidence</h2>
+              <p><span>Source</span>redacted_private_saved_trace</p>
+            </article>
+            <article class="context-card">
+              <p class="card-kicker">generic_memory_store_revision</p>
+              <h2>Memory store or revision file inspected as evidence</h2>
+              <p><span>Source</span>redacted_private_saved_trace</p>
+            </article>
+            <article class="context-card">
+              <p class="card-kicker">generic_response_state_cache_receipt</p>
+              <h2>Response state, cache metadata, or tool state inspected as evidence</h2>
+              <p><span>Source</span>redacted_private_saved_trace</p>
+            </article>
+          </div>
+        </section>
+        <section>
+          <h2 class="panel-title">After Report</h2>
+          <div class="stack">
 
-## Claim Boundary
-
-- No public benchmark claim.
-- No security guarantee.
-- No provider/model call.
-- No memory-backend write.
-- No external target write.
-- No arbitrary repo scan.
-
-## Before
-
-### generic_memory_store_revision
-
-- source: `redacted_private_saved_trace`
-- context span: Memory store or revision file inspected as evidence
-
-### generic_response_state_cache_receipt
-
-- source: `redacted_private_saved_trace`
-- context span: Response state, cache metadata, or tool state inspected as evidence
-
-### generic_graph_memory_episode
-
-- source: `redacted_private_saved_trace`
-- context span: Graph memory episode or temporal edge inspected as evidence
-
-### generic_memory_store_revision
-
-- source: `redacted_private_saved_trace`
-- context span: Memory store or revision file inspected as evidence
-
-### generic_response_state_cache_receipt
-
-- source: `redacted_private_saved_trace`
-- context span: Response state, cache metadata, or tool state inspected as evidence
-
-## After
-
-### memory_xray_public_shape_001_generic_memory_store_revision
-
-- family: `generic_memory_store_revision`
-- severity: `medium`
-- risk_score: `63`
-- evidence_span: Memory store or revision file inspected as evidence
-- consequence_ceiling: `inform_warn_only`
-- source_refs: selected=3 omitted=1 missing=0 contradicted=0
-- rollback_evidence_present: `true`
-- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
-
-### memory_xray_public_shape_002_generic_response_state_cache_receipt
-
-- family: `generic_response_state_cache_receipt`
-- severity: `medium`
-- risk_score: `63`
-- evidence_span: Response state, cache metadata, or tool state inspected as evidence
-- consequence_ceiling: `inform_warn_only`
-- source_refs: selected=3 omitted=1 missing=0 contradicted=0
-- rollback_evidence_present: `true`
-- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
-
-### memory_xray_public_shape_003_generic_graph_memory_episode
-
-- family: `generic_graph_memory_episode`
-- severity: `high`
-- risk_score: `88`
-- evidence_span: Graph memory episode or temporal edge inspected as evidence
-- consequence_ceiling: `inform_warn_only`
-- source_refs: selected=3 omitted=1 missing=0 contradicted=0
-- rollback_evidence_present: `true`
-- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
-
-### memory_xray_public_shape_004_generic_memory_store_revision
-
-- family: `generic_memory_store_revision`
-- severity: `medium`
-- risk_score: `63`
-- evidence_span: Memory store or revision file inspected as evidence
-- consequence_ceiling: `inform_warn_only`
-- source_refs: selected=3 omitted=1 missing=0 contradicted=0
-- rollback_evidence_present: `true`
-- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
-
-### memory_xray_public_shape_005_generic_response_state_cache_receipt
-
-- family: `generic_response_state_cache_receipt`
-- severity: `high`
-- risk_score: `83`
-- evidence_span: Response state, cache metadata, or tool state inspected as evidence
-- consequence_ceiling: `inform_warn_only`
-- source_refs: selected=3 omitted=0 missing=0 contradicted=0
-- rollback_evidence_present: `true`
-- blocked_effects: `act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish`
-
-## Reproduce
-
-```bash
-python3 scripts/run_memory_xray_demo.py
-```
-</pre>
+            <article class="finding-card">
+              <div class="finding-head">
+                <p class="card-kicker">generic_memory_store_revision</p>
+                <span class="badge medium">medium</span>
+              </div>
+              <h2>memory_xray_public_shape_001_generic_memory_store_revision</h2>
+              <dl>
+                <div><dt>Evidence span</dt><dd>Memory store or revision file inspected as evidence</dd></div>
+                <div><dt>Risk score</dt><dd>63</dd></div>
+                <div><dt>Consequence ceiling</dt><dd>inform_warn_only</dd></div>
+                <div><dt>Source refs</dt><dd>selected=3 omitted=1 missing=0 contradicted=0</dd></div>
+                <div><dt>Rollback evidence</dt><dd>true</dd></div>
+                <div><dt>Blocked effects</dt><dd>act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish</dd></div>
+              </dl>
+            </article>
+            <article class="finding-card">
+              <div class="finding-head">
+                <p class="card-kicker">generic_response_state_cache_receipt</p>
+                <span class="badge medium">medium</span>
+              </div>
+              <h2>memory_xray_public_shape_002_generic_response_state_cache_receipt</h2>
+              <dl>
+                <div><dt>Evidence span</dt><dd>Response state, cache metadata, or tool state inspected as evidence</dd></div>
+                <div><dt>Risk score</dt><dd>63</dd></div>
+                <div><dt>Consequence ceiling</dt><dd>inform_warn_only</dd></div>
+                <div><dt>Source refs</dt><dd>selected=3 omitted=1 missing=0 contradicted=0</dd></div>
+                <div><dt>Rollback evidence</dt><dd>true</dd></div>
+                <div><dt>Blocked effects</dt><dd>act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish</dd></div>
+              </dl>
+            </article>
+            <article class="finding-card">
+              <div class="finding-head">
+                <p class="card-kicker">generic_graph_memory_episode</p>
+                <span class="badge high">high</span>
+              </div>
+              <h2>memory_xray_public_shape_003_generic_graph_memory_episode</h2>
+              <dl>
+                <div><dt>Evidence span</dt><dd>Graph memory episode or temporal edge inspected as evidence</dd></div>
+                <div><dt>Risk score</dt><dd>88</dd></div>
+                <div><dt>Consequence ceiling</dt><dd>inform_warn_only</dd></div>
+                <div><dt>Source refs</dt><dd>selected=3 omitted=1 missing=0 contradicted=0</dd></div>
+                <div><dt>Rollback evidence</dt><dd>true</dd></div>
+                <div><dt>Blocked effects</dt><dd>act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish</dd></div>
+              </dl>
+            </article>
+            <article class="finding-card">
+              <div class="finding-head">
+                <p class="card-kicker">generic_memory_store_revision</p>
+                <span class="badge medium">medium</span>
+              </div>
+              <h2>memory_xray_public_shape_004_generic_memory_store_revision</h2>
+              <dl>
+                <div><dt>Evidence span</dt><dd>Memory store or revision file inspected as evidence</dd></div>
+                <div><dt>Risk score</dt><dd>63</dd></div>
+                <div><dt>Consequence ceiling</dt><dd>inform_warn_only</dd></div>
+                <div><dt>Source refs</dt><dd>selected=3 omitted=1 missing=0 contradicted=0</dd></div>
+                <div><dt>Rollback evidence</dt><dd>true</dd></div>
+                <div><dt>Blocked effects</dt><dd>act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish</dd></div>
+              </dl>
+            </article>
+            <article class="finding-card">
+              <div class="finding-head">
+                <p class="card-kicker">generic_response_state_cache_receipt</p>
+                <span class="badge high">high</span>
+              </div>
+              <h2>memory_xray_public_shape_005_generic_response_state_cache_receipt</h2>
+              <dl>
+                <div><dt>Evidence span</dt><dd>Response state, cache metadata, or tool state inspected as evidence</dd></div>
+                <div><dt>Risk score</dt><dd>83</dd></div>
+                <div><dt>Consequence ceiling</dt><dd>inform_warn_only</dd></div>
+                <div><dt>Source refs</dt><dd>selected=3 omitted=0 missing=0 contradicted=0</dd></div>
+                <div><dt>Rollback evidence</dt><dd>true</dd></div>
+                <div><dt>Blocked effects</dt><dd>act, adapter_route, cache_reuse, default, sampler_bias, train_or_publish</dd></div>
+              </dl>
+            </article>
+          </div>
+        </section>
+      </div>
+      <section class="reproduce">
+        <h2>Reproduce</h2>
+        <p>Run <code>python3 scripts/run_memory_xray_demo.py</code> from a fresh clone.</p>
+      </section>
     </main>
   </body>
 </html>

@@ -22,14 +22,21 @@ REQUIRED_FILES = [
     ROOT / "docs" / "memory-xray-demo-report.md",
     ROOT / "docs" / "memory-xray-demo-report.json",
     ROOT / "docs" / "memory-xray-demo-report.html",
+    ROOT / "docs" / "try-in-5-minutes.html",
     ROOT / "docs" / "case-studies" / "v0.6.9-self-audit.md",
     ROOT / ".github" / "workflows" / "public-surface.yml",
     ROOT / "scripts" / "render_public_memory_xray_preview.py",
     ROOT / "scripts" / "run_memory_xray_demo.py",
+    ROOT / "scripts" / "run_v012_fresh_clone_product_receipt.py",
+    ROOT / "scripts" / "check_v012_fresh_clone_product_receipt.py",
     ROOT / "scripts" / "check_public_surface_hardening.py",
     ROOT / "tests" / "test_render_public_memory_xray_preview.py",
     ROOT / "tests" / "test_run_memory_xray_demo.py",
+    ROOT / "tests" / "test_v012_fresh_clone_product_receipt.py",
     ROOT / "tests" / "test_public_surface_hardening.py",
+    ROOT / "release" / "v0.12.0" / "RELEASE_NOTES.md",
+    ROOT / "release" / "v0.12.0" / "github-release.md",
+    ROOT / "release" / "v0.12.0" / "fresh-clone-product-receipt.json",
     RELEASE / "RELEASE_NOTES.md",
     RELEASE / "github-release.md",
     PACK / "README.md",
@@ -49,6 +56,7 @@ LIVE_SURFACE_FILES = [
     ROOT / "ROADMAP.md",
     ROOT / "pyproject.toml",
     ROOT / "docs" / "index.html",
+    ROOT / "docs" / "try-in-5-minutes.html",
     ROOT / "docs" / "public-repo-metadata.md",
     ROOT / "docs" / "case-studies" / "v0.6.9-self-audit.md",
     RELEASE / "RELEASE_NOTES.md",
@@ -110,6 +118,8 @@ def _check_live_surface_text(issues: list[dict[str, Any]]) -> None:
         "release/v0.6.11/",
         "scripts/render_public_memory_xray_preview.py",
         "scripts/run_memory_xray_demo.py",
+        "scripts/check_v012_fresh_clone_product_receipt.py",
+        "release/v0.12.0/",
         "not a Memory X-Ray CLI beta",
         "src/ctxgov/",
         "agent-context-evals` - separate companion repo",
@@ -162,6 +172,7 @@ def _check_workflow(issues: list[dict[str, Any]]) -> None:
         "python3 scripts/check_public_evidence_release_pack.py",
         "python3 scripts/check_ascr_aligned_release_pack.py",
         "python3 scripts/check_public_surface_hardening.py",
+        "python3 scripts/check_v012_fresh_clone_product_receipt.py",
         "python3 -m unittest tests.test_public_surface_hardening tests.test_render_public_memory_xray_preview",
     ]:
         if phrase not in workflow:
@@ -247,6 +258,16 @@ def _check_memory_xray_demo(issues: list[dict[str, Any]]) -> None:
     for phrase in ["Memory X-Ray Demo Report", "Before", "After"]:
         if phrase not in html:
             issues.append(_issue("memory_xray_demo_html_missing_phrase", ROOT / "docs" / "memory-xray-demo-report.html", phrase))
+    for phrase in ['<main class="report-shell">', "Before Context", "After Report", "finding-card"]:
+        if phrase not in html:
+            issues.append(_issue("memory_xray_demo_html_missing_phrase", ROOT / "docs" / "memory-xray-demo-report.html", phrase))
+    if "<pre># Memory X-Ray Demo Report" in html:
+        issues.append(_issue("memory_xray_demo_html_shape", ROOT / "docs" / "memory-xray-demo-report.html", "Markdown pre wrapper must not be used."))
+
+    try_page = (ROOT / "docs" / "try-in-5-minutes.html").read_text(encoding="utf-8")
+    for phrase in ["Try in 5 minutes", "Clone", "Run", "Read report", "Optional eval", "No public benchmark claim", "No provider/model call"]:
+        if phrase not in try_page:
+            issues.append(_issue("try_page_missing_phrase", ROOT / "docs" / "try-in-5-minutes.html", phrase))
 
 
 def _check_claim_boundaries(issues: list[dict[str, Any]]) -> None:

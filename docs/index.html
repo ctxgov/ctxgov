@@ -388,19 +388,20 @@
           <h1>CtxGov</h1>
           <p class="lede">
             Find stale, conflicting, unsupported, unsafe, and memory-risky
-            AI-facing context before agents act. v0.6.13 records the
-            owner-approved minimal public release path for auto-publish
-            research while keeping ASCR-aligned release-control receipts for
+            AI-facing context before agents act. v0.12.0 records a
+            fresh-clone product receipt for the one-command Memory X-Ray
+            preview while keeping ASCR-aligned release-control receipts for
             Agent State & Context Runtime Contract.
           </p>
           <div class="actions">
             <a class="button primary" href="#run">Run locally</a>
+            <a class="button" href="try-in-5-minutes.html">Try in 5 minutes</a>
             <a class="button" href="memory-xray-demo-report.html">See a report</a>
             <a class="button" href="#evidence">Read evidence</a>
             <a class="button" href="#limits">Review limits</a>
           </div>
           <div class="proof-row" aria-label="Release boundary facts">
-            <div class="proof"><strong>v0.6.13</strong><span>current CtxGov release</span></div>
+            <div class="proof"><strong>v0.12.0</strong><span>fresh-clone product receipt</span></div>
             <div class="proof"><strong>v0.11.0</strong><span>companion fresh-clone receipt</span></div>
             <div class="proof"><strong>0</strong><span>public benchmark claims</span></div>
             <div class="proof"><strong>0</strong><span>provider/model calls</span></div>
@@ -467,6 +468,7 @@
 python3 scripts/check_ascr_aligned_release_pack.py
 python3 scripts/check_public_surface_hardening.py
 python3 scripts/check_publication_intent.py
+python3 scripts/check_v012_fresh_clone_product_receipt.py
 python3 scripts/run_memory_xray_demo.py
 python3 -m unittest tests.test_public_live_links -v
 python3 scripts/render_public_memory_xray_preview.py \
@@ -474,7 +476,7 @@ python3 scripts/render_public_memory_xray_preview.py \
   --output /tmp/ctxgov-memory-xray-preview.md</code></pre>
         <pre><code>{
   "issue_count": 0,
-  "release": "v0.6.13",
+  "release": "v0.12.0",
   "status": "pass"
 }</code></pre>
       </section>
@@ -489,6 +491,17 @@ python3 scripts/render_public_memory_xray_preview.py \
           claims.
         </p>
         <div class="grid">
+          <article class="card">
+            <h3>v0.12.0 Product Receipt</h3>
+            <p>
+              Fresh-clone receipt for the one-command Memory X-Ray preview
+              path. It records command output and the generated report SHA,
+              without expanding into benchmark or adoption claims.
+            </p>
+            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.12.0">
+              Open v0.12.0 receipt
+            </a>
+          </article>
           <article class="card">
             <h3>v0.6.13 Auto-Publish</h3>
             <p>
@@ -545,16 +558,6 @@ python3 scripts/render_public_memory_xray_preview.py \
               Open ASCR
             </a>
           </article>
-          <article class="card">
-            <h3>v0.6.10 Evidence</h3>
-            <p>
-              ASCR relationship summary, claim lint, leak scan, link check,
-              publication readiness, and execution receipts.
-            </p>
-            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.10/ascr-aligned-evidence-update">
-              Open v0.6.10 pack
-            </a>
-          </article>
         </div>
       </section>
 
@@ -600,6 +603,7 @@ python3 scripts/render_public_memory_xray_preview.py \
               <li><code>python3 scripts/check_public_surface_hardening.py</code></li>
               <li><code>python3 scripts/check_ascr_aligned_release_pack.py</code></li>
               <li><code>python3 scripts/check_public_evidence_release_pack.py</code></li>
+              <li><code>python3 scripts/check_v012_fresh_clone_product_receipt.py</code></li>
               <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/docs/5-minute-local-run.md">5-minute companion local eval</a></li>
             </ul>
           </article>
@@ -607,6 +611,8 @@ python3 scripts/render_public_memory_xray_preview.py \
             <h3>Inspect</h3>
             <ul>
               <li><a href="memory-xray-demo-report.html">Memory X-Ray demo report</a></li>
+              <li><a href="try-in-5-minutes.html">Try in 5 minutes</a></li>
+              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.12.0">v0.12.0 fresh-clone product receipt</a></li>
               <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.13">v0.6.13 publication intent</a></li>
               <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.11.0">agent-context-evals v0.11.0</a></li>
               <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.11/self-audit-public-report">v0.6.11 self-audit report</a></li>
@@ -629,11 +635,11 @@ python3 scripts/render_public_memory_xray_preview.py \
         <h2>Limits</h2>
         <p class="section-copy">
           The highest-trust release is the one that says exactly what is known
-          and what is not known. CtxGov v0.6.13 is a public-safe auto-publish
-          research update layered on the v0.6.12 live-link verifier, v0.6.11
-          hardening release, and v0.6.10 ASCR-aligned evidence update, not a
-          formal public benchmark, provider-compatibility, stable-standard, or
-          adoption release.
+          and what is not known. CtxGov v0.12.0 is a public-safe fresh-clone
+          product receipt layered on the v0.6.13 auto-publish research update,
+          v0.6.12 live-link verifier, v0.6.11 hardening release, and v0.6.10
+          ASCR-aligned evidence update. It is not a formal public benchmark,
+          provider-compatibility, stable-standard, or adoption release.
         </p>
         <div class="boundary">
           <article class="card">
@@ -645,6 +651,7 @@ python3 scripts/render_public_memory_xray_preview.py \
               <li>ASCR-aligned v0.1 contract posture.</li>
               <li>Claim lint, leak scan, and rollback boundary.</li>
               <li>Owner-approved minimal public release path.</li>
+              <li>Fresh-clone one-command Memory X-Ray product receipt.</li>
             </ul>
           </article>
           <article class="card">
@@ -663,9 +670,8 @@ python3 scripts/render_public_memory_xray_preview.py \
     </main>
 
     <footer class="shell">
-      CtxGov v0.6.13 auto-publish research update. Published through an
-      owner-approved public repo patch, release tag, GitHub release, and Pages
-      verification.
+      CtxGov v0.12.0 fresh-clone product receipt. Public claims remain scoped
+      to report shape, local evidence, and release-control receipts.
     </footer>
   </body>
 </html>
