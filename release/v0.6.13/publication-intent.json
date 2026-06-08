@@ -1,0 +1,58 @@
+{
+  "schema": "ctxgov.publication_intent.v0",
+  "release": "v0.6.13",
+  "release_tag": "v0.6.13-auto-publish-research",
+  "status": "owner_approved_publication_intent",
+  "owner_approval_date": "2026-06-08",
+  "owner_visible_digest_sha256": "cfb94da58cdf0dbe439cc393952b084f939e4409823f410ce57b068936ea053b",
+  "owner_packet_v5_digest_sha256": "d4c0ff8f5a6e64e687c5c4ce865052196ac739e8ba1196d3304c7a8ba31ad584",
+  "approval_summary": {
+    "scope": "public-safe report-shape and release-integrity auto-publish research only",
+    "claims": "no benchmark, security, provider/model, adoption, package, hosted runtime, live adapter, stable spec, or CLI beta claim",
+    "side_effects": "ctxgov public repo patch, release tag, GitHub release, and Pages verification only",
+    "rollback": "revert repo patch, delete release tag, delete GitHub release, and restore previous Pages content from main"
+  },
+  "included_targets": [
+    "ctxgov_public_repo_patch",
+    "ctxgov_release_tag",
+    "ctxgov_github_release",
+    "ctxgov_pages"
+  ],
+  "excluded_targets": [
+    "agent_context_evals_public_repo_patch",
+    "org_profile_update",
+    "github_issue_or_comment",
+    "linkedin_x_manual_post"
+  ],
+  "claim_boundary": {
+    "public_benchmark_claim": false,
+    "security_claim": false,
+    "provider_model_call": false,
+    "provider_model_compatibility_claim": false,
+    "adoption_claim": false,
+    "package_publication": false,
+    "hosted_runtime_change": false,
+    "live_adapter_claim": false,
+    "stable_public_spec_claim": false,
+    "cli_beta_claim": false,
+    "memory_backend_write": false,
+    "social_outreach": false,
+    "companion_repo_write": false,
+    "issue_or_comment_write": false
+  },
+  "execution_policy": {
+    "execution_allowed": true,
+    "execution_performed_by_this_file": false,
+    "requires_clean_public_checkout": true,
+    "requires_matching_owner_digest": true,
+    "requires_offline_checks_before_public_write": true,
+    "requires_live_fetch_after_publication": true,
+    "post_publication_verification_target": "scripts/check_public_live_links.py --release-tag v0.6.13-auto-publish-research"
+  },
+  "rollback_targets": {
+    "repo_patch": "revert the v0.6.13 commit on main",
+    "release_tag": "delete tag v0.6.13-auto-publish-research",
+    "github_release": "delete release v0.6.13-auto-publish-research",
+    "pages": "restore previous main-branch docs/index.html content"
+  }
+}

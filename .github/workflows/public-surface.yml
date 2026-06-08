@@ -28,8 +28,11 @@ jobs:
       - name: Check v0.6.11 public-surface hardening
         run: python3 scripts/check_public_surface_hardening.py
 
+      - name: Check v0.6.13 publication intent
+        run: python3 scripts/check_publication_intent.py
+
       - name: Run narrow public-surface tests
-        run: python3 -m unittest tests.test_public_surface_hardening tests.test_render_public_memory_xray_preview tests.test_public_live_links tests.test_ascr_aligned_release_pack tests.test_public_evidence_release_pack -v
+        run: python3 -m unittest tests.test_public_surface_hardening tests.test_render_public_memory_xray_preview tests.test_public_live_links tests.test_publication_intent tests.test_ascr_aligned_release_pack tests.test_public_evidence_release_pack -v
 
       - name: Render deterministic preview smoke artifact
         run: |

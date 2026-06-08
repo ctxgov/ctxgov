@@ -32,13 +32,29 @@ class PublicLiveLinksTest(unittest.TestCase):
         self.assertEqual(report["status"], "pass")
         self.assertFalse(report["claim_boundary"]["provider_model_call"])
 
+    def test_v0613_targets_require_auto_publish_research_phrase(self) -> None:
+        from check_public_live_links import build_targets
+
+        targets = build_targets("v0.6.13-auto-publish-research")
+        current_release = next(target for target in targets if target.name == "ctxgov_current_release")
+
+        self.assertEqual(current_release.required_phrases, ("v0.6.13-auto-publish-research", "Auto-Publish Research"))
+
+    def test_v0612_targets_keep_live_link_verifier_phrase(self) -> None:
+        from check_public_live_links import build_targets
+
+        targets = build_targets("v0.6.12")
+        current_release = next(target for target in targets if target.name == "ctxgov_current_release")
+
+        self.assertEqual(current_release.required_phrases, ("v0.6.12", "Live Link Verifier"))
+
     def test_check_targets_fails_missing_phrase_without_network(self) -> None:
         from check_public_live_links import Target, check_targets
 
         report = check_targets(
-            [Target("release", "https://example.test/release", ("v0.6.12", "Live Link Verifier"))],
+            [Target("release", "https://example.test/release", ("v0.6.13-auto-publish-research", "Auto-Publish Research"))],
             timeout=1.0,
-            fetcher=lambda _url, _timeout: (200, "CtxGov v0.6.12"),
+            fetcher=lambda _url, _timeout: (200, "CtxGov v0.6.13-auto-publish-research"),
         )
         self.assertEqual(report["status"], "fail")
         self.assertIn("missing_required_phrase", report["checks"][0]["issue"])

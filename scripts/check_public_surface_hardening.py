@@ -113,9 +113,11 @@ def _check_live_surface_text(issues: list[dict[str, Any]]) -> None:
 
 def _check_pyproject(issues: list[dict[str, Any]]) -> None:
     text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    if 'version = "0.6.11"' not in text and 'version = "0.6.12"' not in text:
+    allowed_versions = ('version = "0.6.11"', 'version = "0.6.12"', 'version = "0.6.13"')
+    if not any(version in text for version in allowed_versions):
         issues.append(_issue("pyproject_version", ROOT / "pyproject.toml", "version must be v0.6.11 or newer public source metadata"))
-    if "releases/tag/v0.6.11" not in text and "releases/tag/v0.6.12" not in text:
+    allowed_changelogs = ("releases/tag/v0.6.11", "releases/tag/v0.6.12", "releases/tag/v0.6.13-auto-publish-research")
+    if not any(changelog in text for changelog in allowed_changelogs):
         issues.append(_issue("pyproject_changelog", ROOT / "pyproject.toml", "Changelog must point to v0.6.11 or newer public source metadata"))
 
 

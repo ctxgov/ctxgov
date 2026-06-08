@@ -18,9 +18,12 @@ class Target:
 
 
 def build_targets(release_tag: str) -> list[Target]:
+    release_phrases = (release_tag, "Auto-Publish Research")
+    if release_tag == "v0.6.12":
+        release_phrases = (release_tag, "Live Link Verifier")
     return [
         Target("ctxgov_pages", "https://ctxgov.github.io/ctxgov/", ("CtxGov", "Reviewer Mode")),
-        Target("ctxgov_current_release", f"https://github.com/ctxgov/ctxgov/releases/tag/{release_tag}", (release_tag, "Live Link Verifier")),
+        Target("ctxgov_current_release", f"https://github.com/ctxgov/ctxgov/releases/tag/{release_tag}", release_phrases),
         Target("ctxgov_previous_release", "https://github.com/ctxgov/ctxgov/releases/tag/v0.6.11", ("v0.6.11", "Public Surface Hardening")),
         Target("ascr_repo", "https://github.com/ctxgov/ascr", ("Agent State", "Context")),
         Target("agent_context_evals_release", "https://github.com/ctxgov/agent-context-evals/releases/tag/v0.8.0", ("v0.8.0", "Eval Hardening")),
@@ -28,7 +31,7 @@ def build_targets(release_tag: str) -> list[Target]:
 
 
 def fetch_url(url: str, timeout: float) -> tuple[int, str]:
-    request = urllib.request.Request(url, headers={"User-Agent": "ctxgov-live-link-verifier/0.6.12"})
+    request = urllib.request.Request(url, headers={"User-Agent": "ctxgov-live-link-verifier/0.6.13"})
     with urllib.request.urlopen(request, timeout=timeout) as response:
         body = response.read(300_000).decode("utf-8", errors="replace")
         return int(response.status), body
@@ -85,7 +88,7 @@ def check_targets(
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Verify public CtxGov links after offline release checks pass.")
-    parser.add_argument("--release-tag", default="v0.6.12")
+    parser.add_argument("--release-tag", default="v0.6.13-auto-publish-research")
     parser.add_argument("--timeout", type=float, default=10.0)
     parser.add_argument("--json-output", type=Path)
     args = parser.parse_args(argv)

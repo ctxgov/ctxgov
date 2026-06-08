@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.13 - 2026-06-08
+
+- Added the owner-approved auto-publish research publication intent for the
+  minimal public release path.
+- Added a local publication-intent verifier and tests.
+- Updated public README, project page, CI, release notes, and package metadata
+  to v0.6.13.
+- Preserved the no-benchmark, no-security-guarantee, no-provider/model-call,
+  no-adoption, no-package-publication, no-hosted-runtime, no-live-adapter,
+  no-CLI-beta, and no-stable-public-spec boundaries.
+
 ## v0.5.3 - 2026-05-13
 
 - Published the v0.5.3 Experience Evidence Pack.
