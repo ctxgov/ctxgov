@@ -123,8 +123,8 @@
       "sha256": "3af105dec3b17b243c854eaa340c3aeccd690f09508635eabdc00f3cc8a7f5a0"
     },
     "release/memory-state-governability-overlay/2026-06-11/public-checkout-readiness-receipt.md": {
-      "bytes": 3496,
-      "sha256": "ab0b6c76a343a877004620804fa91b1514e9bf8754eb1d161e44bf341eea2d88"
+      "bytes": 4406,
+      "sha256": "a443978c307fc2de586dd6000ac0360f32b3faa7c8e0b9b6a7481425fb8d1df5"
     },
     "release/memory-state-governability-overlay/2026-06-11/x-thread.md": {
       "bytes": 1165,
@@ -147,8 +147,8 @@
       "sha256": "c4c82e3e72aa1fae888616692d6d78a77d8478288f99a38b5ab028e64fc29c25"
     },
     "scripts/build_memory_state_influence_boundary_publication_bundle.py": {
-      "bytes": 16994,
-      "sha256": "20569b7b200f8ffb739a55194c7ed0232d59f672eef4c7781ce65167cfa238cd"
+      "bytes": 17154,
+      "sha256": "31896b02a3beb76234077d344edf5ed5a7b918ecbd791b5558bfaa008ba7a9ce"
     },
     "scripts/check_memory_state_governability_overlay_publish_pack.py": {
       "bytes": 36893,
@@ -249,7 +249,7 @@
   "private_marker_hits": {},
   "public_page": "https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html",
   "public_repo": "ctxgov/ctxgov",
-  "publication_bundle_sha256": "efdff77f74d6612d5391cd995d0b4766bab7855c627fd976188c2536a07304de",
+  "publication_bundle_sha256": "4a94c0e1e82b13c0fe7f942e266daca321ca53c98ce208a11b6b1780ae5257a0",
   "publication_executed": false,
   "publication_file_count": 52,
   "publication_files": [

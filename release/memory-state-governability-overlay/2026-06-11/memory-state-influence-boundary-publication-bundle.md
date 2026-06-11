@@ -1,10 +1,10 @@
 # Memory State Influence Boundary Publication Bundle
 
-Status: local bundle only. No branch, commit, push, PR, tag, release, Pages deploy, live URL check, or outreach has been executed.
+Status: publication bundle artifact. The bundle builder is local-only; public push, Pages deploy, and live check status are recorded in the readiness receipt.
 
 Milestone: `Local Memory State Influence Boundary Report`
 Status: `pass_memory_state_influence_boundary_publication_bundle`
-Bundle digest: `efdff77f74d6612d5391cd995d0b4766bab7855c627fd976188c2536a07304de`
+Bundle digest: `4a94c0e1e82b13c0fe7f942e266daca321ca53c98ce208a11b6b1780ae5257a0`
 Public page: https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html
 
 Fresh checkout command:
@@ -70,6 +70,6 @@ Publication files:
 - `scripts/run_memory_state_governability_overlay_demo.py`
 - `tests/test_memory_state_governability_overlay_demo.py`
 
-Required external actions remain manual and unexecuted.
+Outreach actions remain manual and unexecuted by this repository automation.
 
 Blocked claims remain false: benchmark, savings, adoption, compatibility/support, endorsement, security, and stable protocol.

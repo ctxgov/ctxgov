@@ -1,8 +1,9 @@
-# Public Checkout Readiness Receipt
+# Pre-Publication Public Checkout Readiness Receipt
 
-Status: local verification receipt only. No branch, commit, push, pull request,
-tag, release, GitHub Pages deployment, live URL pass, HN submission, X post, or
-LinkedIn post has been executed.
+Status: pre-publication local verification receipt. This receipt records the
+no-write readiness run that happened before the public push. It did not itself
+create a branch, commit, push, pull request, tag, release, GitHub Pages
+deployment, HN submission, X post, or LinkedIn post.
 
 Milestone: `Local Memory State Influence Boundary Report`
 
@@ -13,7 +14,7 @@ Verified public checkout base: `3a87b69`
 Publication bundle digest: recorded in
 `memory-state-influence-boundary-publication-bundle.json`.
 
-## Verification Performed
+## Pre-Publication Verification Performed
 
 The prepared publication bundle was materialized into a fresh public
 `ctxgov/ctxgov` checkout with:
@@ -38,7 +39,7 @@ Observed materialization result:
 - release created: `false`
 - GitHub Pages deployed: `false`
 - live URL checked by the readiness wrapper: `true`
-- live URL status: `HTTP 404 Not Found`
+- pre-publication live URL status: `HTTP 404 Not Found`
 - outreach performed: `false`
 
 Then the materialized public checkout passed:
@@ -74,24 +75,58 @@ architecture checker, so that optional full-source check was reported as
 `skipped_missing_optional_full_source_check` in the public checkout. The full
 source checkout still runs the docs information architecture gate.
 
-## External Actions Still Required
+## Post-Publication Verification
 
-- Commit and push the prepared public repo patch.
-- Wait for GitHub Pages deployment.
-- Clear the current live-page blocker:
-  `https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html`
-  still returns `HTTP 404 Not Found` before publication.
-- Run:
+After the user-approved public push, the public repository was updated on
+`main` with:
+
+- `c3a1610` `Add local memory state influence boundary report`
+- `30c4876` `Tighten memory state publication whitespace gate`
+
+The live publication check then passed:
 
 ```sh
 python3 scripts/check_memory_state_influence_boundary_live_publication.py --live
 ```
 
-- Manually post selected HN/X/LinkedIn copy only after the live URL passes.
+Observed live result:
+
+- status: `pass_memory_state_influence_boundary_live_publication_check`
+- live URL:
+  `https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html`
+- HTTP status: `200`
+- missing phrases: `[]`
+
+The public commit range also passed the whitespace gate:
+
+```sh
+git diff --check 3a87b69..HEAD
+```
+
+Observed whitespace result:
+
+- status: `pass`
+- output: empty
+
+No HN, X, LinkedIn, or other outreach was performed by this repository
+automation.
+
+## Publication Status
+
+- Completed: commit and push the prepared public repo patch.
+- Completed: wait for GitHub Pages deployment.
+- Completed: run the live publication check:
+
+```sh
+python3 scripts/check_memory_state_influence_boundary_live_publication.py --live
+```
+
+- Still manual: post selected HN/X/LinkedIn copy, if not already posted outside
+  this repository automation.
 
 ## Claim Boundary
 
 This receipt does not create a provider integration, runtime adapter,
 compatibility/support claim, endorsement, security guarantee, benchmark,
 savings claim, adoption claim, stable protocol claim, package publication,
-public release, or outreach claim.
+tagged GitHub release, or outreach claim.

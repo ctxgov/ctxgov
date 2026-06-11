@@ -279,6 +279,8 @@ def _check_readiness_receipt_counts(
         "release distinctness warnings: `0`",
         "social draft drift: `pass`",
         "owner publish packet contract: `pass`",
+        "status: `pass_memory_state_influence_boundary_live_publication_check`",
+        "HTTP status: `200`",
     ]
     for phrase in expected_phrases:
         if phrase not in text:
@@ -311,7 +313,7 @@ def _render_markdown(bundle: dict[str, Any]) -> str:
     lines = [
         "# Memory State Influence Boundary Publication Bundle",
         "",
-        "Status: local bundle only. No branch, commit, push, PR, tag, release, Pages deploy, live URL check, or outreach has been executed.",
+        "Status: publication bundle artifact. The bundle builder is local-only; public push, Pages deploy, and live check status are recorded in the readiness receipt.",
         "",
         f"Milestone: `{bundle['milestone']}`",
         f"Status: `{bundle['status']}`",
@@ -331,7 +333,7 @@ def _render_markdown(bundle: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            "Required external actions remain manual and unexecuted.",
+            "Outreach actions remain manual and unexecuted by this repository automation.",
             "",
             "Blocked claims remain false: benchmark, savings, adoption, compatibility/support, endorsement, security, and stable protocol.",
         ]
