@@ -1,0 +1,13 @@
+{
+  "thread_id": "sample-thread-001",
+  "checkpoint_id": "sample-checkpoint-001",
+  "channel_values": {
+    "memory": "sample project release state",
+    "policy": "inform-only unless a policy grant and rollback path exist"
+  },
+  "metadata": {
+    "workspace": "sample-workspace",
+    "user_id": "sample-user"
+  }
+}
+

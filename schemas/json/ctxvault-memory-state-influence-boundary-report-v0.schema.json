@@ -1,0 +1,710 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ctxvault-memory-state-influence-boundary-report-v0.schema.json",
+  "title": "CtxVault Memory State Influence Boundary Report",
+  "description": "Local v0 full report emitted by run_memory_state_influence_boundary_report.py. This is a local tooling contract for user-supplied memory/context/state files, not a stable protocol or provider compatibility claim.",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "status",
+    "milestone",
+    "mode",
+    "demo_command",
+    "sample_command",
+    "bring_your_own_commands",
+    "fresh_checkout_commands",
+    "input_path",
+    "input_kind",
+    "supported_input_suffixes",
+    "scan_limits",
+    "input_file_count",
+    "skipped_input_count",
+    "skipped_input_record_count",
+    "skipped_input_records_truncated",
+    "total_input_bytes",
+    "input_files",
+    "skipped_inputs",
+    "influence_boundary",
+    "integration_gate",
+    "findings",
+    "claim_boundary",
+    "side_effect_boundary",
+    "claim_boundary_note",
+    "publish_positioning",
+    "errors",
+    "output_files"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "ctxvault.memory-state-influence-boundary-report/v0"
+    },
+    "status": {
+      "enum": [
+        "pass_memory_state_influence_boundary_report",
+        "fail_memory_state_influence_boundary_report"
+      ]
+    },
+    "milestone": {
+      "const": "Local Memory State Influence Boundary Report"
+    },
+    "mode": {
+      "const": "user_input"
+    },
+    "demo_command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sample_command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bring_your_own_commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "fresh_checkout_commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "input_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_kind": {
+      "enum": [
+        "directory",
+        "file"
+      ]
+    },
+    "supported_input_suffixes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          ".json",
+          ".jsonl",
+          ".md",
+          ".mdx",
+          ".toml",
+          ".txt",
+          ".yaml",
+          ".yml"
+        ]
+      }
+    },
+    "scan_limits": {
+      "$ref": "#/$defs/scan_limits"
+    },
+    "input_file_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "skipped_input_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "skipped_input_record_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "skipped_input_records_truncated": {
+      "type": "boolean"
+    },
+    "total_input_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "input_files": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/input_file"
+      }
+    },
+    "skipped_inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/skipped_input"
+      }
+    },
+    "influence_boundary": {
+      "$ref": "#/$defs/influence_boundary"
+    },
+    "integration_gate": {
+      "$ref": "#/$defs/integration_gate"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "claim_boundary": {
+      "$ref": "#/$defs/claim_boundary"
+    },
+    "side_effect_boundary": {
+      "$ref": "#/$defs/side_effect_boundary"
+    },
+    "claim_boundary_note": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publish_positioning": {
+      "type": "string",
+      "minLength": 1
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "output_files": {
+      "$ref": "#/$defs/output_files"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "scan_limits": {
+      "type": "object",
+      "required": [
+        "max_input_files",
+        "max_input_file_bytes",
+        "max_total_input_bytes",
+        "max_skipped_input_records",
+        "raw_content_included"
+      ],
+      "properties": {
+        "max_input_files": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_input_file_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_total_input_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_skipped_input_records": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "raw_content_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "input_file": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "line_count",
+        "source_family",
+        "raw_content_included",
+        "json_parse_errors",
+        "toml_parse_errors",
+        "json_key_paths_sample",
+        "yaml_key_paths_sample",
+        "structured_key_paths_sample",
+        "signal_ids",
+        "signal_evidence",
+        "secret_like_evidence_count",
+        "decision"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "line_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "raw_content_included": {
+          "const": false
+        },
+        "json_parse_errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "toml_parse_errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "json_key_paths_sample": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "yaml_key_paths_sample": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "structured_key_paths_sample": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "signal_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "signal_evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/signal_evidence"
+          }
+        },
+        "secret_like_evidence_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "decision": {
+          "$ref": "#/$defs/influence_decision"
+        }
+      },
+      "additionalProperties": false
+    },
+    "signal_evidence": {
+      "type": "object",
+      "required": [
+        "ref",
+        "signal_id",
+        "label",
+        "matched",
+        "raw_content_included"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signal_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matched": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_kind": {
+          "enum": [
+            "structured_key",
+            "structured_value"
+          ]
+        },
+        "raw_content_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "influence_decision": {
+      "type": "object",
+      "required": [
+        "decision",
+        "authority_ceiling",
+        "reason"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_ceiling": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "skipped_input": {
+      "type": "object",
+      "required": [
+        "path",
+        "reason"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "enum": [
+            "max_input_file_bytes_exceeded",
+            "max_input_files_exceeded",
+            "max_total_input_bytes_exceeded",
+            "unsupported_suffix"
+          ]
+        },
+        "bytes_observed": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "influence_boundary": {
+      "type": "object",
+      "required": [
+        "selected_refs",
+        "selected_refs_note",
+        "candidate_influence_refs",
+        "inform_only_allowed_refs",
+        "omitted_refs",
+        "blocked_refs",
+        "stale_or_superseded_refs",
+        "imported_context_refs",
+        "source_refs",
+        "authority_ceiling",
+        "policy_grant",
+        "final_state_assertion",
+        "rollback_path",
+        "delete_or_forget_propagation",
+        "side_effect_boundary"
+      ],
+      "properties": {
+        "selected_refs": {
+          "$ref": "#/$defs/ref_array"
+        },
+        "selected_refs_note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_influence_refs": {
+          "$ref": "#/$defs/ref_array"
+        },
+        "inform_only_allowed_refs": {
+          "$ref": "#/$defs/ref_array"
+        },
+        "omitted_refs": {
+          "$ref": "#/$defs/ref_array"
+        },
+        "blocked_refs": {
+          "$ref": "#/$defs/ref_array"
+        },
+        "stale_or_superseded_refs": {
+          "$ref": "#/$defs/ref_array"
+        },
+        "imported_context_refs": {
+          "$ref": "#/$defs/ref_array"
+        },
+        "source_refs": {
+          "$ref": "#/$defs/ref_array"
+        },
+        "authority_ceiling": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy_grant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "final_state_assertion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rollback_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "delete_or_forget_propagation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "side_effect_boundary": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "ref_array": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "integration_gate": {
+      "type": "object",
+      "required": [
+        "schema_id",
+        "mode",
+        "passed",
+        "default_exit_code",
+        "fail_on_blocked_exit_code",
+        "blocked_ref_count",
+        "omitted_ref_count",
+        "stale_or_superseded_ref_count",
+        "imported_context_ref_count",
+        "raw_content_included",
+        "policy",
+        "recommendation"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "ctxvault.memory-state-influence-boundary-integration-gate/v0"
+        },
+        "mode": {
+          "const": "fail_on_blocked"
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "default_exit_code": {
+          "type": "integer",
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "fail_on_blocked_exit_code": {
+          "type": "integer",
+          "enum": [
+            0,
+            1,
+            2
+          ]
+        },
+        "blocked_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "omitted_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stale_or_superseded_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "imported_context_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "raw_content_included": {
+          "const": false
+        },
+        "policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommendation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "finding": {
+      "type": "object",
+      "required": [
+        "finding_id",
+        "severity",
+        "recommendation"
+      ],
+      "properties": {
+        "finding_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "medium",
+            "high"
+          ]
+        },
+        "path": {
+          "type": "string"
+        },
+        "decision": {
+          "type": "string"
+        },
+        "recommendation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "parse_errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "raw_content_included": {
+          "const": false
+        },
+        "omitted_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "omitted_record_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "omitted_records_truncated": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "claim_boundary": {
+      "type": "object",
+      "required": [
+        "public_adoption_claim_created",
+        "public_benchmark_claim_created",
+        "public_compatibility_claim_created",
+        "public_endorsement_claim_created",
+        "public_savings_claim_created",
+        "public_security_claim_created",
+        "public_support_claim_created",
+        "stable_protocol_claim_created"
+      ],
+      "properties": {
+        "public_adoption_claim_created": {
+          "const": false
+        },
+        "public_benchmark_claim_created": {
+          "const": false
+        },
+        "public_compatibility_claim_created": {
+          "const": false
+        },
+        "public_endorsement_claim_created": {
+          "const": false
+        },
+        "public_savings_claim_created": {
+          "const": false
+        },
+        "public_security_claim_created": {
+          "const": false
+        },
+        "public_support_claim_created": {
+          "const": false
+        },
+        "stable_protocol_claim_created": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "side_effect_boundary": {
+      "type": "object",
+      "required": [
+        "external_runtime_or_adapter_executed",
+        "memory_backend_written",
+        "network_access_performed",
+        "outreach_performed",
+        "provider_or_model_call_performed",
+        "public_release_created",
+        "sarif_uploaded",
+        "target_file_written"
+      ],
+      "properties": {
+        "external_runtime_or_adapter_executed": {
+          "const": false
+        },
+        "memory_backend_written": {
+          "const": false
+        },
+        "network_access_performed": {
+          "const": false
+        },
+        "outreach_performed": {
+          "const": false
+        },
+        "provider_or_model_call_performed": {
+          "const": false
+        },
+        "public_release_created": {
+          "const": false
+        },
+        "sarif_uploaded": {
+          "const": false
+        },
+        "target_file_written": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "output_files": {
+      "type": "object",
+      "required": [
+        "html",
+        "json",
+        "markdown"
+      ],
+      "properties": {
+        "html": {
+          "type": "string",
+          "minLength": 1
+        },
+        "json": {
+          "type": "string",
+          "minLength": 1
+        },
+        "markdown": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

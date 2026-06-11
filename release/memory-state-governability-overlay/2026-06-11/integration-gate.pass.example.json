@@ -1,0 +1,14 @@
+{
+  "blocked_ref_count": 0,
+  "default_exit_code": 0,
+  "fail_on_blocked_exit_code": 0,
+  "imported_context_ref_count": 0,
+  "mode": "fail_on_blocked",
+  "omitted_ref_count": 0,
+  "passed": true,
+  "policy": "exit 1 when the report fails; exit 2 when --fail-on-blocked is used and blocked refs exist; otherwise exit 0",
+  "raw_content_included": false,
+  "recommendation": "No blocked refs were detected by the local input audit.",
+  "schema_id": "ctxvault.memory-state-influence-boundary-integration-gate/v0",
+  "stale_or_superseded_ref_count": 0
+}

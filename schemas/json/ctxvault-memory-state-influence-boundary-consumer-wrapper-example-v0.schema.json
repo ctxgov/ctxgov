@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ctxvault-memory-state-influence-boundary-consumer-wrapper-example-v0.schema.json",
+  "title": "CtxVault Memory State Influence Boundary Consumer Wrapper Example",
+  "description": "Local v0 example wrapper payload for products consuming the influence-boundary report/gate. This is a local tooling contract only, not a stable protocol or provider compatibility claim.",
+  "type": "object",
+  "required": [
+    "schema_id",
+    "status",
+    "milestone",
+    "input",
+    "consumer_policy",
+    "decision",
+    "report_status",
+    "gate_returncode",
+    "gate",
+    "report_output_files",
+    "command_shapes",
+    "claim_boundary",
+    "side_effect_boundary",
+    "publication_executed",
+    "outreach_performed",
+    "errors"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "ctxvault.memory-state-influence-boundary-consumer-wrapper-example/v0"
+    },
+    "status": {
+      "enum": [
+        "pass_memory_state_influence_boundary_consumer_wrapper_example",
+        "fail_memory_state_influence_boundary_consumer_wrapper_example"
+      ]
+    },
+    "milestone": {
+      "const": "Local Memory State Influence Boundary Report"
+    },
+    "input": {
+      "type": "string",
+      "minLength": 1
+    },
+    "consumer_policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "object",
+      "required": [
+        "decision",
+        "reason",
+        "report_status",
+        "gate_passed",
+        "gate_returncode",
+        "blocked_ref_count",
+        "omitted_ref_count",
+        "raw_content_included",
+        "consumed_raw_content"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "block",
+            "allow_inform_only"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "report_failed",
+            "gate_failed",
+            "blocked_refs_present",
+            "gate_passed_no_blocked_refs"
+          ]
+        },
+        "report_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gate_passed": {
+          "type": "boolean"
+        },
+        "gate_returncode": {
+          "type": "integer",
+          "enum": [0, 2]
+        },
+        "blocked_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "omitted_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "raw_content_included": {
+          "const": false
+        },
+        "consumed_raw_content": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "report_status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "gate_returncode": {
+      "type": "integer",
+      "enum": [0, 2]
+    },
+    "gate": {
+      "type": "object",
+      "required": [
+        "schema_id",
+        "passed",
+        "default_exit_code",
+        "fail_on_blocked_exit_code",
+        "blocked_ref_count",
+        "omitted_ref_count",
+        "stale_or_superseded_ref_count",
+        "imported_context_ref_count",
+        "raw_content_included"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "ctxvault.memory-state-influence-boundary-integration-gate/v0"
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "default_exit_code": {
+          "type": "integer",
+          "enum": [0, 1]
+        },
+        "fail_on_blocked_exit_code": {
+          "type": "integer",
+          "enum": [0, 1, 2]
+        },
+        "blocked_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "omitted_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stale_or_superseded_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "imported_context_ref_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "raw_content_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "report_output_files": {
+      "type": "object",
+      "required": [
+        "html",
+        "json",
+        "markdown"
+      ],
+      "properties": {
+        "html": {
+          "type": "string",
+          "minLength": 1
+        },
+        "json": {
+          "type": "string",
+          "minLength": 1
+        },
+        "markdown": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "command_shapes": {
+      "type": "object",
+      "required": [
+        "report",
+        "gate"
+      ],
+      "properties": {
+        "report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gate": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "claim_boundary": {
+      "type": "object"
+    },
+    "side_effect_boundary": {
+      "type": "object"
+    },
+    "publication_executed": {
+      "const": false
+    },
+    "outreach_performed": {
+      "const": false
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

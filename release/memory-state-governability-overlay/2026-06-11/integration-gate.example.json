@@ -1,0 +1,14 @@
+{
+  "blocked_ref_count": 4,
+  "default_exit_code": 0,
+  "fail_on_blocked_exit_code": 2,
+  "imported_context_ref_count": 1,
+  "mode": "fail_on_blocked",
+  "omitted_ref_count": 0,
+  "passed": false,
+  "policy": "exit 1 when the report fails; exit 2 when --fail-on-blocked is used and blocked refs exist; otherwise exit 0",
+  "raw_content_included": false,
+  "recommendation": "Treat blocked refs as an integration stop until review, policy grant, final-state assertion, rollback, and deletion proof are available.",
+  "schema_id": "ctxvault.memory-state-influence-boundary-integration-gate/v0",
+  "stale_or_superseded_ref_count": 2
+}

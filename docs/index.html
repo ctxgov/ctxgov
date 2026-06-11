@@ -15,9 +15,7 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ctxgov.github.io/ctxgov/" />
-    <meta property="og:image" content="https://ctxgov.github.io/ctxgov/og.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://ctxgov.github.io/ctxgov/og.png" />
+    <meta name="twitter:card" content="summary" />
     <style>
       :root {
         --bg: #f7f8fb;
@@ -374,11 +372,11 @@
       </a>
       <nav class="links" aria-label="Primary">
         <a href="#run">Run</a>
+        <a href="#activation-xray">Activation X-Ray</a>
+        <a href="#memory-state">Memory State</a>
         <a href="#demo">Demo</a>
         <a href="#evidence">Evidence</a>
-        <a href="#reviewer">Reviewer</a>
         <a href="#limits">Limits</a>
-        <a href="https://github.com/ctxgov/ascr">ASCR</a>
         <a href="https://github.com/ctxgov/ctxgov">GitHub</a>
       </nav>
     </header>
@@ -386,25 +384,22 @@
     <main>
       <section class="shell hero">
         <div>
-          <p class="eyebrow">Agent context health / ASCR-aligned memory governance</p>
+          <p class="eyebrow">Agent context health / memory governance</p>
           <h1>CtxGov</h1>
           <p class="lede">
             Find stale, conflicting, unsupported, unsafe, and memory-risky
-            AI-facing context before agents act. v0.12.0 records a
-            fresh-clone product receipt for the one-command Memory X-Ray
-            preview while keeping ASCR-aligned release-control receipts for
-            Agent State & Context Runtime Contract.
+            AI-facing context before agents act.
           </p>
           <div class="actions">
             <a class="button primary" href="#run">Run locally</a>
-            <a class="button" href="try-in-5-minutes.html">Try in 5 minutes</a>
-            <a class="button" href="memory-xray-demo-report.html">See a report</a>
+            <a class="button" href="./activation-xray-try-in-5-minutes.html">Try Activation X-Ray</a>
+            <a class="button" href="./memory-state-influence-boundary-try-in-5-minutes.html">Audit Memory State</a>
             <a class="button" href="#evidence">Read evidence</a>
             <a class="button" href="#limits">Review limits</a>
           </div>
           <div class="proof-row" aria-label="Release boundary facts">
-            <div class="proof"><strong>v0.12.0</strong><span>fresh-clone product receipt</span></div>
-            <div class="proof"><strong>v0.11.0</strong><span>companion fresh-clone receipt</span></div>
+            <div class="proof"><strong>v0.6.13</strong><span>current CtxGov release</span></div>
+            <div class="proof"><strong>v0.8.0</strong><span>companion local eval</span></div>
             <div class="proof"><strong>0</strong><span>public benchmark claims</span></div>
             <div class="proof"><strong>0</strong><span>provider/model calls</span></div>
           </div>
@@ -413,7 +408,7 @@
         <div class="demo-board" id="demo" aria-label="Before and after context report demo">
           <div class="demo-head">
             <span>Memory X-Ray report preview</span>
-            <span>ASCR-aligned public-safe</span>
+            <span>public-safe</span>
           </div>
           <div class="demo-body">
             <div class="pane before">
@@ -461,103 +456,215 @@
       <section class="shell" id="run">
         <h2>Run Locally</h2>
         <p class="section-copy">
-          Start with the public evidence-pack check. It verifies the release
-          structure, ASCR relationship, claim boundary, local links, and
-          publication boundary without calling a provider, writing to a memory
-          backend, or updating an external target.
+          Start with the public evidence-pack check and the v0.6.13 release
+          integrity verifier. They verify release structure, claim boundary,
+          local links, and publication integrity without calling a provider,
+          writing to a memory backend, or updating an external target.
         </p>
         <pre><code>python3 scripts/check_public_evidence_release_pack.py
-python3 scripts/check_ascr_aligned_release_pack.py
-python3 scripts/check_public_surface_hardening.py
-python3 scripts/check_publication_intent.py
-python3 scripts/check_v012_fresh_clone_product_receipt.py
-python3 scripts/run_memory_xray_demo.py
-python3 -m unittest tests.test_public_live_links -v
-python3 scripts/render_public_memory_xray_preview.py \
-  --input release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json \
-  --output /tmp/ctxgov-memory-xray-preview.md</code></pre>
+python3 scripts/verify_release_integrity.py \
+  --manifest release/auto-publish-research/2026-06-07/release-integrity-verification-plan.materialized.json \
+  --output &lt;tmp-dir&gt;/ctxgov-v0613-release-integrity.json</code></pre>
         <pre><code>{
-  "issue_count": 0,
-  "release": "v0.12.0",
+  "candidate_version": "v0.6.13-auto-publish-research",
   "status": "pass"
 }</code></pre>
+      </section>
+
+      <section class="shell" id="activation-xray">
+        <h2>Activation X-Ray Try-in-5-Minutes</h2>
+        <p class="section-copy">
+          The next user-operable milestone checks whether remembered or
+          retrieved state was allowed to influence behavior across local, team,
+          and cluster scale profiles. It writes local JSON, Markdown, and HTML
+          reports without provider/model calls, memory-backend writes, target
+          writes, package publication, or outreach.
+        </p>
+        <pre><code>python3 scripts/run_activation_xray_scale_profile_demo.py</code></pre>
+        <div class="grid">
+          <article class="card">
+            <h3>24 Local Cases</h3>
+            <p>
+              Twelve accepted cases and twelve fail-closed negative cases cover
+              local single-user, team project, and cluster / multi-tenant
+              memory-state surfaces.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Influence Receipts</h3>
+            <p>
+              Accepted cases require source refs, selected and omitted state,
+              blocked stale or contradicted state, authority ceilings, policy
+              grants, final-state assertions, and rollback paths.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Claim Boundary</h3>
+            <p>
+              No public benchmark, savings, compatibility, adoption, support,
+              security, endorsement, or stable-protocol claim is created.
+            </p>
+          </article>
+        </div>
+        <p>
+          <a href="./activation-xray-try-in-5-minutes.html">
+            Open the Activation X-Ray demo page
+          </a>
+        </p>
+        <p class="section-copy">
+          Owner review can run the final local preflight
+          <code>python3 scripts/check_activation_xray_final_preflight.py</code>
+          as the single command covering focused tests, <code>py_compile</code>,
+          and <code>git diff --check</code>. In the full source checkout it also
+          runs docs checks and HN skip-live preflight; public slim checkouts
+          report those absent full-source checks as skipped.
+          The release-candidate gate is
+          <code>python3 scripts/check_activation_xray_next_milestone_release_candidate.py</code>
+          before external posting.
+          The consolidated owner go/no-go gate is
+          <code>python3 scripts/check_activation_xray_publication_go_no_go.py</code>.
+          Social copy readiness is checked by
+          <code>python3 scripts/check_activation_xray_social_copy_ready.py</code>.
+          Local repeatability evidence is checked by
+          <code>python3 scripts/benchmark_activation_xray_scale_profile_demo.py</code>;
+          the runtime smoke evidence is local-only and does not create a
+          public benchmark claim.
+          Structured HN/X/LinkedIn payloads are rendered by
+          <code>python3 scripts/render_activation_xray_social_post_payload.py</code>.
+          The owner publish packet is rendered by
+          <code>python3 scripts/render_activation_xray_owner_publish_packet.py</code>.
+          The dry-run public patch publisher is
+          <code>python3 scripts/publish_activation_xray_public_patch.py --checkout &lt;clean-ctxgov-checkout&gt;</code>.
+          The gate writes a minimal public publication bundle with file digests
+          under <code>release/activation-xray-scale-profile-demo/2026-06-10/</code>.
+          To apply it into a clean local public checkout without commit or push,
+          run
+          <code>python3 scripts/materialize_activation_xray_publication_bundle.py --checkout &lt;clean-ctxgov-checkout&gt;</code>.
+          The exact publish commands are rendered by
+          <code>python3 scripts/render_activation_xray_publish_command_envelope.py</code>,
+          and the post-publish Pages check is
+          <code>python3 scripts/check_activation_xray_live_publication.py --live</code>.
+        </p>
+      </section>
+
+      <section class="shell" id="memory-state">
+        <h2>Local Memory State Influence Boundary Report</h2>
+        <p class="section-copy">
+          The next user-operable milestone audits local memory/context/state
+          files before they are allowed to influence behavior. It reads a
+          sample directory in a fresh checkout, then lets users swap in their
+          own <code>CLAUDE.md</code>, <code>AGENTS.md</code>, project notes,
+          JSON, JSONL, YAML, TOML, or MDX checkpoint/state exports.
+        </p>
+        <pre><code>python3 scripts/run_memory_state_influence_boundary_report.py --input examples/memory-state-influence-boundary/</code></pre>
+        <div class="grid">
+          <article class="card">
+            <h3>User-Supplied State</h3>
+            <p>
+              Supported local inputs include Markdown, MDX, text, JSON, JSONL,
+              YAML, YML, and TOML files. Directory scans are bounded by file
+              count, file size, and total bytes.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Influence Boundary</h3>
+            <p>
+              Reports classify candidate influence refs, inform-only refs,
+              blocked refs, omitted refs, stale or superseded refs, and
+              imported context refs.
+            </p>
+          </article>
+          <article class="card">
+            <h3>No Raw Content</h3>
+            <p>
+              Reports include hashes, paths, line refs, signal ids, and
+              decisions. Raw file content is not included in the generated
+              report.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Product Gate</h3>
+            <p>
+              A wrapper can consume <code>--format gate --fail-on-blocked</code>
+              and map blocked refs to <code>block</code>, while clean
+              inform-only inputs map to <code>allow_inform_only</code>.
+            </p>
+          </article>
+        </div>
+        <p>
+          <a href="./memory-state-influence-boundary-try-in-5-minutes.html">
+            Open the Memory State influence-boundary page
+          </a>
+        </p>
+        <p>
+          <a href="https://github.com/ctxgov/ctxgov/blob/main/release/memory-state-governability-overlay/2026-06-11/product-integration-quickstart.md">
+            Open the product integration quickstart
+          </a>
+        </p>
+        <p class="section-copy">
+          The local release gate is
+          <code>python3 scripts/check_memory_state_influence_boundary_final_preflight.py</code>.
+          The publication bundle and command envelope are rendered by
+          <code>python3 scripts/build_memory_state_influence_boundary_publication_bundle.py</code>
+          and
+          <code>python3 scripts/render_memory_state_influence_boundary_publish_command_envelope.py</code>.
+          The owner publish packet contract is checked by
+          <code>python3 scripts/check_memory_state_influence_boundary_owner_publish_packet_contract.py</code>.
+          The final preflight also smoke-tests that publisher dry-run mode keeps
+          the target checkout clean and performs no commit, push, release, or
+          outreach.
+          To dry-run the owner publication flow without writing a target
+          checkout, run
+          <code>python3 scripts/publish_memory_state_influence_boundary_public_patch.py --checkout &lt;clean-ctxgov-checkout&gt;</code>.
+          Add <code>--materialize</code> to copy the bundle and rerun target
+          preflight without commit or push.
+          The post-deploy Pages check is
+          <code>python3 scripts/check_memory_state_influence_boundary_live_publication.py --live</code>.
+          The boundary remains unchanged: no provider integration, runtime
+          adapter, compatibility matrix, support claim, endorsement, security
+          guarantee, benchmark, savings claim, adoption claim, or stable
+          protocol.
+        </p>
       </section>
 
       <section class="shell" id="evidence">
         <h2>Evidence, Not Overclaim</h2>
         <p class="section-copy">
-          This release is scoped to report shape, local release-control
-          readiness, and ASCR-aligned contract posture. It shows what the tool
-          can surface and where the evidence boundary is, while avoiding
-          benchmark, security, provider, adoption, package, and spec-stability
-          claims.
+          This release is scoped to report shape and local release-control
+          readiness. It shows what the tool can surface and where the evidence
+          boundary is, while avoiding benchmark, security, provider, adoption,
+          package, and spec-stability claims.
         </p>
         <div class="grid">
           <article class="card">
-            <h3>v0.12.0 Product Receipt</h3>
+            <h3>Current Release Integrity</h3>
             <p>
-              Fresh-clone receipt for the one-command Memory X-Ray preview
-              path. It records command output and the generated report SHA,
-              without expanding into benchmark or adoption claims.
+              Owner-approved v0.6.13 public-safe auto-publish research fixture
+              with live-link verification and rollback material.
             </p>
-            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.12.0">
-              Open v0.12.0 receipt
+            <a href="https://github.com/ctxgov/ctxgov/releases/tag/v0.6.13-auto-publish-research">
+              Open v0.6.13
             </a>
           </article>
           <article class="card">
-            <h3>v0.6.13 Auto-Publish</h3>
+            <h3>Memory X-Ray Evidence</h3>
             <p>
-              Owner-approved publication intent for the minimal public release
-              path: repo patch, release tag, GitHub release, and Pages
-              verification only.
+              Prior v0.6.9 report-shape evidence pack plus the L1 public
+              preview remain available as scoped evidence, not as stronger
+              public claims.
             </p>
-            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.13">
-              Open v0.6.13 notes
+            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.9/memory-xray-public-evidence-preview">
+              Open evidence pack
             </a>
           </article>
           <article class="card">
-            <h3>v0.6.12 Live Links</h3>
+            <h3>Companion Local Eval</h3>
             <p>
-              Optional network verifier for Pages, release, ASCR, and companion
-              eval URLs after offline release-pack checks pass.
+              Public companion artifact for local evaluation work. It is linked
+              as evidence context, not as a public benchmark claim.
             </p>
-            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.12">
-              Open v0.6.12 notes
-            </a>
-          </article>
-          <article class="card">
-            <h3>Companion v0.11.0</h3>
-            <p>
-              Public fresh-clone reproducibility receipt for the v0.10.0
-              saved-trace machine-evidence path, with redaction receipt, clean
-              controls, sealed hidden holdout custody, and CI gates. It is
-              linked as evidence context, not as a public benchmark or human
-              reviewer claim.
-            </p>
-            <a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.11.0">
-              Open v0.11.0
-            </a>
-          </article>
-          <article class="card">
-            <h3>v0.6.11 Self-Audit</h3>
-            <p>
-              Public-surface hardening, drift findings, claim lint, leak scan,
-              link check, deterministic preview rendering, and execution
-              receipts.
-            </p>
-            <a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.11/self-audit-public-report">
-              Open v0.6.11 report
-            </a>
-          </article>
-          <article class="card">
-            <h3>ASCR Contract</h3>
-            <p>
-              A separate framework-neutral repo for agent event logs, context
-              manifests, memory records, artifacts, capabilities, approvals,
-              and eval cases.
-            </p>
-            <a href="https://github.com/ctxgov/ascr">
-              Open ASCR
+            <a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.8.0">
+              Open v0.8.0
             </a>
           </article>
         </div>
@@ -590,59 +697,13 @@ python3 scripts/render_public_memory_xray_preview.py \
         </div>
       </section>
 
-      <section class="shell" id="reviewer">
-        <h2>Reviewer Mode</h2>
-        <p class="section-copy">
-          Review CtxGov as an agent context health and ASCR-aligned
-          memory-governance report-shape release. The fastest review path is to
-          inspect the receipts, render the deterministic preview, and check that
-          every public claim stays inside the recorded boundary.
-        </p>
-        <div class="grid">
-          <article class="card">
-            <h3>Run</h3>
-            <ul>
-              <li><code>python3 scripts/check_public_surface_hardening.py</code></li>
-              <li><code>python3 scripts/check_ascr_aligned_release_pack.py</code></li>
-              <li><code>python3 scripts/check_public_evidence_release_pack.py</code></li>
-              <li><code>python3 scripts/check_v012_fresh_clone_product_receipt.py</code></li>
-              <li><a href="https://github.com/ctxgov/agent-context-evals/blob/main/docs/5-minute-local-run.md">5-minute companion local eval</a></li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Inspect</h3>
-            <ul>
-              <li><a href="memory-xray-demo-report.html">Memory X-Ray demo report</a></li>
-              <li><a href="try-in-5-minutes.html">Try in 5 minutes</a></li>
-              <li><a href="tiny-fixture-memory-xray-demo.html">Tiny fixture repo demo</a></li>
-              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.12.0">v0.12.0 fresh-clone product receipt</a></li>
-              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.13">v0.6.13 publication intent</a></li>
-              <li><a href="https://github.com/ctxgov/agent-context-evals/releases/tag/v0.11.0">agent-context-evals v0.11.0</a></li>
-              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.11/self-audit-public-report">v0.6.11 self-audit report</a></li>
-              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.10/ascr-aligned-evidence-update">v0.6.10 ASCR evidence pack</a></li>
-              <li><a href="https://github.com/ctxgov/ctxgov/tree/main/release/v0.6.9/memory-xray-public-evidence-preview">v0.6.9 Memory X-Ray evidence pack</a></li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Do Not Infer</h3>
-            <ul>
-              <li>No public benchmark claim.</li>
-              <li>No security guarantee or provider/model compatibility claim.</li>
-              <li>No package, hosted runtime, live adapter, adoption, or CLI beta claim.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
       <section class="shell" id="limits">
         <h2>Limits</h2>
         <p class="section-copy">
           The highest-trust release is the one that says exactly what is known
-          and what is not known. CtxGov v0.12.0 is a public-safe fresh-clone
-          product receipt layered on the v0.6.13 auto-publish research update,
-          v0.6.12 live-link verifier, v0.6.11 hardening release, and v0.6.10
-          ASCR-aligned evidence update. It is not a formal public benchmark,
-          provider-compatibility, stable-standard, or adoption release.
+          and what is not known. CtxGov v0.6.13-auto-publish-research is a
+          public-safe release-integrity fixture, not a formal public benchmark
+          or adoption release.
         </p>
         <div class="boundary">
           <article class="card">
@@ -651,10 +712,7 @@ python3 scripts/render_public_memory_xray_preview.py \
               <li>Agent context health report shape.</li>
               <li>Memory X-Ray public-safe examples.</li>
               <li>Local release-control readiness summary.</li>
-              <li>ASCR-aligned v0.1 contract posture.</li>
               <li>Claim lint, leak scan, and rollback boundary.</li>
-              <li>Owner-approved minimal public release path.</li>
-              <li>Fresh-clone one-command Memory X-Ray product receipt.</li>
             </ul>
           </article>
           <article class="card">
@@ -663,7 +721,6 @@ python3 scripts/render_public_memory_xray_preview.py \
               <li>No public benchmark claim.</li>
               <li>No security guarantee.</li>
               <li>No provider/model compatibility claim.</li>
-              <li>No stable ASCR standard claim.</li>
               <li>No hosted runtime, package, or adoption claim.</li>
               <li>No CLI beta claim.</li>
             </ul>
@@ -673,8 +730,8 @@ python3 scripts/render_public_memory_xray_preview.py \
     </main>
 
     <footer class="shell">
-      CtxGov v0.12.0 fresh-clone product receipt. Public claims remain scoped
-      to report shape, local evidence, and release-control receipts.
+      CtxGov v0.6.13-auto-publish-research. Published through an owner-approved
+      public repo patch, GitHub release, and Pages verification.
     </footer>
   </body>
 </html>

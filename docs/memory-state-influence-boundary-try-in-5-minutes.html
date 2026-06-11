@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html">
+  <title>Local Memory State Influence Boundary Report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202f;
+      --muted: #526070;
+      --line: #d8dee8;
+      --panel: #f7f9fc;
+      --accent: #0c6b58;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      line-height: 1.55;
+      background: #ffffff;
+    }
+    main {
+      width: min(980px, calc(100vw - 40px));
+      margin: 0 auto;
+      padding: 48px 0 64px;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.05;
+      margin: 0 0 16px;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin-top: 40px;
+      font-size: 1.45rem;
+      letter-spacing: 0;
+    }
+    p {
+      max-width: 760px;
+    }
+    .lead {
+      color: var(--muted);
+      font-size: 1.18rem;
+    }
+    pre {
+      overflow-x: auto;
+      background: #101923;
+      color: #edf7f3;
+      padding: 18px;
+      border-radius: 8px;
+      font-size: .96rem;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .tile {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: var(--panel);
+    }
+    .tile strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    ul {
+      padding-left: 1.25rem;
+    }
+    a {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Local Memory State Influence Boundary Report</h1>
+    <p class="lead">
+      Audit user-supplied local AI memory/context/state files and report which
+      refs are inform-only, blocked, omitted, stale, imported, or unsupported
+      before they are allowed to influence behavior.
+    </p>
+
+    <h2>Run It</h2>
+    <pre><code>git clone https://github.com/ctxgov/ctxgov.git
+cd ctxgov
+python3 scripts/run_memory_state_influence_boundary_report.py --input examples/memory-state-influence-boundary/</code></pre>
+
+    <p>Then point it at your own local file or directory:</p>
+
+    <pre><code>python3 scripts/run_memory_state_influence_boundary_report.py --input ./CLAUDE.md</code></pre>
+
+    <p>Bounded directory scans are also supported:</p>
+
+    <pre><code>python3 scripts/run_memory_state_influence_boundary_report.py --input ./memory-state/</code></pre>
+
+    <p>For CI or product integration, fail the command when blocked refs are found:</p>
+
+    <pre><code>python3 scripts/run_memory_state_influence_boundary_report.py --input ./memory-state/ --fail-on-blocked</code></pre>
+
+    <p>To emit only the machine-readable gate for a wrapper or CI step:</p>
+
+    <pre><code>python3 scripts/run_memory_state_influence_boundary_report.py --input ./memory-state/ --format gate --fail-on-blocked</code></pre>
+
+    <p>
+      The v0 gate contract is documented at
+      <code>schemas/json/ctxvault-memory-state-influence-boundary-integration-gate-v0.schema.json</code>,
+      with blocked and passing sample outputs at
+      <code>release/memory-state-governability-overlay/2026-06-11/integration-gate.example.json</code>
+      and
+      <code>release/memory-state-governability-overlay/2026-06-11/integration-gate.pass.example.json</code>.
+      The full report contract is documented at
+      <code>schemas/json/ctxvault-memory-state-influence-boundary-report-v0.schema.json</code>.
+      The copyable consumer wrapper example contract is documented at
+      <code>schemas/json/ctxvault-memory-state-influence-boundary-consumer-wrapper-example-v0.schema.json</code>,
+      with blocked/pass sample outputs at
+      <code>release/memory-state-governability-overlay/2026-06-11/consumer-wrapper.example.json</code>
+      and
+      <code>release/memory-state-governability-overlay/2026-06-11/consumer-wrapper.pass.example.json</code>.
+      The product integration quickstart is documented at
+      <code>release/memory-state-governability-overlay/2026-06-11/product-integration-quickstart.md</code>.
+      This is a local tooling contract, not a stable protocol or provider
+      compatibility claim.
+    </p>
+
+    <p>
+      To check the local gate contract, sample output, stdout JSON shape, and
+      <code>--fail-on-blocked</code> exit-code behavior together:
+    </p>
+
+    <pre><code>python3 scripts/check_memory_state_influence_boundary_integration_gate_contract.py</code></pre>
+
+    <p>
+      To check the full report contract, raw-content boundary, and embedded
+      gate counts together:
+    </p>
+
+    <pre><code>python3 scripts/check_memory_state_influence_boundary_report_contract.py</code></pre>
+
+    <p>
+      To run a consumer integration smoke test for a product wrapper consuming
+      the report/gate and making block-vs-allow decisions without raw content:
+    </p>
+
+    <pre><code>python3 scripts/check_memory_state_influence_boundary_consumer_integration.py</code></pre>
+
+    <p>
+      To check the copyable consumer wrapper output schema, blocked/pass
+      example drift, decision mapping, and no-raw-content boundary:
+    </p>
+
+    <pre><code>python3 scripts/check_memory_state_influence_boundary_consumer_wrapper_contract.py</code></pre>
+
+    <p>
+      To run a copyable consumer wrapper example that calls the report/gate
+      CLI and emits a <code>block</code> decision for blocked inputs:
+    </p>
+
+    <pre><code>python3 scripts/run_memory_state_influence_boundary_consumer_wrapper_example.py</code></pre>
+
+    <p>
+      To run the same wrapper against a clean inform-only input and see an
+      <code>allow_inform_only</code> decision:
+    </p>
+
+    <pre><code>python3 scripts/run_memory_state_influence_boundary_consumer_wrapper_example.py --input examples/memory-state-influence-boundary/state-policy.toml</code></pre>
+
+    <p>
+      To check that the prepared HN/LinkedIn/X release is distinct from the
+      prior claim-firewall and Activation X-Ray launches:
+    </p>
+
+    <pre><code>python3 scripts/check_memory_state_influence_boundary_release_distinctness.py</code></pre>
+
+    <p>
+      To render the owner publish packet with final preflight digest, publish
+      commands, and HN/LinkedIn/X copy without posting:
+    </p>
+
+    <pre><code>python3 scripts/render_memory_state_influence_boundary_owner_publish_packet.py</code></pre>
+
+    <p>
+      To check that the owner publish packet still matches the bundle digest,
+      command envelope, social payload, and no-side-effect boundary:
+    </p>
+
+    <pre><code>python3 scripts/check_memory_state_influence_boundary_owner_publish_packet_contract.py</code></pre>
+
+    <p>
+      To smoke-test the BYO path with a temporary repo-external memory-state
+      directory, blocked/pass gate exit codes, input-relative paths, omitted
+      inputs, and secret-like redaction:
+    </p>
+
+    <pre><code>python3 scripts/check_memory_state_influence_boundary_byo_smoke.py</code></pre>
+
+    <p>
+      The blocked-ref gate still writes the JSON, Markdown, and HTML report; it
+      only changes the process exit code for automation.
+    </p>
+
+    <p>
+      The JSON report also includes an <code>integration_gate</code> object with
+      <code>default_exit_code</code>, <code>fail_on_blocked_exit_code</code>,
+      blocked/omitted/stale/imported counts, and
+      <code>raw_content_included=false</code> for product integration.
+    </p>
+
+    <p>
+      The command writes JSON, Markdown, and HTML reports under
+      <code>.ctxvault/memory-state-governability-overlay/</code>. It performs no
+      provider or model call, no runtime adapter execution, no memory/backend
+      write, no target write, no SARIF upload, and no outreach.
+    </p>
+
+    <h2>What It Checks</h2>
+    <div class="grid">
+      <div class="tile"><strong>User Input</strong><code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>MEMORY.md</code>, project notes, MDX context files, JSON/JSONL exports, YAML/YML state files, and TOML state profiles.</div>
+      <div class="tile"><strong>Influence Boundary</strong>Candidate refs, inform-only allowed refs, omitted refs, blocked refs, stale or superseded state, and imported context refs.</div>
+      <div class="tile"><strong>Action Boundary</strong>Authority ceiling, final-state assertion, rollback path, deletion propagation, and side-effect boundary.</div>
+    </div>
+
+    <h2>Output</h2>
+    <p>The input mode writes:</p>
+    <ul>
+      <li><code>influence-boundary-report.json</code></li>
+      <li><code>influence-boundary-report.md</code></li>
+      <li><code>influence-boundary-report.html</code></li>
+    </ul>
+    <p>
+      Reports include paths, line refs, structured JSON/TOML/YAML key/value path refs,
+      hashes, signal ids, and decisions. Raw file content is not included.
+      Inputs outside the repository are rendered with input-relative paths such
+      as <code>input/CLAUDE.md</code>, so reports do not default to exposing
+      local absolute paths.
+      Findings include recommendations for the next local review step.
+      Unsupported or over-limit inputs are counted as omitted, with a bounded
+      skipped-input sample retained for review. Malformed JSON/JSONL/TOML state exports are blocked
+      until the export is parseable.
+    </p>
+
+    <h2>Verify</h2>
+    <pre><code>python3 scripts/check_memory_state_influence_boundary_final_preflight.py</code></pre>
+
+    <h2>Built-In Sample</h2>
+    <p>
+      The no-argument command remains available as a built-in sample, but this
+      release is about user-supplied memory/context/state files:
+    </p>
+    <pre><code>python3 scripts/run_memory_state_governability_overlay_demo.py</code></pre>
+
+    <h2>Boundary</h2>
+    <p>
+      This is not a provider integration, runtime adapter, compatibility matrix,
+      support claim, endorsement, security guarantee, benchmark, savings claim,
+      adoption claim, or stable protocol. It is a local influence-boundary audit
+      for reasoning about what proof is missing before memory/context/state
+      becomes operational state.
+      This release is distinct from the prior claim-firewall and Activation
+      X-Ray launches because the user supplies the memory/context/state files.
+    </p>
+  </main>
+</body>
+</html>

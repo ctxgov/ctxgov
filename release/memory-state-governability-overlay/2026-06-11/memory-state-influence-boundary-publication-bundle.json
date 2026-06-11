@@ -1,0 +1,341 @@
+{
+  "branch_created": false,
+  "bring_your_own_commands": [
+    "python3 scripts/run_memory_state_influence_boundary_report.py --input ./CLAUDE.md",
+    "python3 scripts/run_memory_state_influence_boundary_report.py --input ./memory-state/"
+  ],
+  "bundle_outputs": {
+    "json": "release/memory-state-governability-overlay/2026-06-11/memory-state-influence-boundary-publication-bundle.json",
+    "markdown": "release/memory-state-governability-overlay/2026-06-11/memory-state-influence-boundary-publication-bundle.md"
+  },
+  "claim_boundary": {
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_compatibility_claim_created": false,
+    "public_endorsement_claim_created": false,
+    "public_savings_claim_created": false,
+    "public_security_claim_created": false,
+    "public_support_claim_created": false,
+    "stable_protocol_claim_created": false
+  },
+  "commit_created": false,
+  "demo_output_files": {
+    "html": ".ctxvault/memory-state-governability-overlay/influence-boundary-report.html",
+    "json": ".ctxvault/memory-state-governability-overlay/influence-boundary-report.json",
+    "markdown": ".ctxvault/memory-state-governability-overlay/influence-boundary-report.md"
+  },
+  "errors": [],
+  "file_digests": {
+    "README.md": {
+      "bytes": 18995,
+      "sha256": "8a0506bf1190f66923f67526b04c7ed7f2c1f74a1a775f6e11abc98c58a1b546"
+    },
+    "docs/index.html": {
+      "bytes": 24442,
+      "sha256": "14131b8dccc9c8484c8ca65b5d1da016c4cb9c5eba9d376e8810afbf601a1bf2"
+    },
+    "docs/memory-state-governability-overlay-try-in-5-minutes.html": {
+      "bytes": 10485,
+      "sha256": "0131c1f81e6c34d2bc9b766707eb80c429bfbcabc76753f6f43b2da644bc7565"
+    },
+    "docs/memory-state-influence-boundary-try-in-5-minutes.html": {
+      "bytes": 10485,
+      "sha256": "0131c1f81e6c34d2bc9b766707eb80c429bfbcabc76753f6f43b2da644bc7565"
+    },
+    "examples/memory-state-influence-boundary/AGENTS.md": {
+      "bytes": 318,
+      "sha256": "767d91d2a71ebbb93442d3a8aeb1553aeb1384bc4f26dc5a9a0e4011129db99e"
+    },
+    "examples/memory-state-influence-boundary/CLAUDE.md": {
+      "bytes": 604,
+      "sha256": "23ce17b93297193fd803975bf194a199141b49032fd395017e45cbf55b1f31f6"
+    },
+    "examples/memory-state-influence-boundary/README.md": {
+      "bytes": 1409,
+      "sha256": "3969580f2faebd4dff73274c91c58afeece3f37cdd59eea4f986ac330a379977"
+    },
+    "examples/memory-state-influence-boundary/checkpoint.json": {
+      "bytes": 318,
+      "sha256": "51ff7c84cb20eb2721962c7684b184f21b7ec90694d782b83b33810ccde2a4e9"
+    },
+    "examples/memory-state-influence-boundary/context-note.mdx": {
+      "bytes": 143,
+      "sha256": "a916172329e3b7ff62bf20fa1c5ae066c789717c6faac17f55656a73df14366c"
+    },
+    "examples/memory-state-influence-boundary/memory-store.jsonl": {
+      "bytes": 313,
+      "sha256": "848ad71c400aa4b577a89e7c5cbf2bedfdb0c571af2d139b7560bc88f5894d7c"
+    },
+    "examples/memory-state-influence-boundary/project-notes.md": {
+      "bytes": 338,
+      "sha256": "589bdcd8fc7b0362d9ad67078df00bd106d84b938e39316f17509e0a14914fd4"
+    },
+    "examples/memory-state-influence-boundary/state-policy.toml": {
+      "bytes": 134,
+      "sha256": "ea3a3a6b10307523e4719dc8b56b6c5fc25cec209b3241ac1bc0966e58af8e45"
+    },
+    "examples/memory-state-influence-boundary/state-profile.yaml": {
+      "bytes": 146,
+      "sha256": "e0859186855c4030f484cfe5c82a2d7363a7d05981d978a6f126d917346188e9"
+    },
+    "fixtures/v0.7.0-mgp-sidecar/memory-xray/memory-state-governability-overlays-20260611.json": {
+      "bytes": 10621,
+      "sha256": "f4b1d29f8faa7e469683507699b2653d112418c3c65cbcaac9b1e5e133a1df32"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/README.md": {
+      "bytes": 11560,
+      "sha256": "8011c679319b44b1213c70ebae4b93646f7ea0ede66645e222e44d73b9dcc380"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/consumer-wrapper.example.json": {
+      "bytes": 2657,
+      "sha256": "e86a3f6720213fa0ffdac1b6c2b1dd8100773c562e73c82bb2b4f877eae677d6"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/consumer-wrapper.pass.example.json": {
+      "bytes": 2692,
+      "sha256": "11c5eb7befd07cf6ed971a350c5bf2d9bb5c6cf4bf93815933869490a1ee6ce0"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/hn-post.md": {
+      "bytes": 2072,
+      "sha256": "a5b1681b8e2aa62b2e2efdcf73608fd1db46e887c11657d505ab947cba6e09bd"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/integration-gate.example.json": {
+      "bytes": 632,
+      "sha256": "663df7f6fd6429e2c0b35b1b42de8810d06ca9ca68203fe2bc7b52f6c71e5e65"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/integration-gate.pass.example.json": {
+      "bytes": 550,
+      "sha256": "1744c9d27b9c71c098395c06d6d2f9c77314bcb61063abe2838b2d8b0ce5a5e1"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/linkedin-post.md": {
+      "bytes": 3909,
+      "sha256": "4cd8a96e9e36bfe9b233e3da23fdadd31797464586a71ff4db215e644e26bb5d"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/memory-state-governability-overlay-social-payload.json": {
+      "bytes": 8243,
+      "sha256": "932e4137d2d6cb72b65a8d6127d09f573a61e7bb56b951648165153acce4d345"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/memory-state-governability-overlay-social-payload.md": {
+      "bytes": 5503,
+      "sha256": "75747bb8f816fe42735ca4460df7f903dbd2c6b3b32c64529e76d2b82464a216"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/product-integration-quickstart.md": {
+      "bytes": 4390,
+      "sha256": "3af105dec3b17b243c854eaa340c3aeccd690f09508635eabdc00f3cc8a7f5a0"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/public-checkout-readiness-receipt.md": {
+      "bytes": 3496,
+      "sha256": "ab0b6c76a343a877004620804fa91b1514e9bf8754eb1d161e44bf341eea2d88"
+    },
+    "release/memory-state-governability-overlay/2026-06-11/x-thread.md": {
+      "bytes": 1165,
+      "sha256": "ef1ece0439264e0976b88a3cda29d41a60d66747a1c2dcec5797052463b025b8"
+    },
+    "schemas/README.md": {
+      "bytes": 6977,
+      "sha256": "efd5987f27e3b1026f7da40fe8be38eede47e33fe0dcd8e72a24884fc471b88b"
+    },
+    "schemas/json/ctxvault-memory-state-influence-boundary-consumer-wrapper-example-v0.schema.json": {
+      "bytes": 5207,
+      "sha256": "b49305fd17cf5230bf4f83425b20f8bcf1f5ff00dc5ca9c29cffb872ec1dc34b"
+    },
+    "schemas/json/ctxvault-memory-state-influence-boundary-integration-gate-v0.schema.json": {
+      "bytes": 1687,
+      "sha256": "982a2c71ce06d3ef2e4af351213ed78b68e6f7b6ccdd2ae1cddabaf3df79112f"
+    },
+    "schemas/json/ctxvault-memory-state-influence-boundary-report-v0.schema.json": {
+      "bytes": 16361,
+      "sha256": "c4c82e3e72aa1fae888616692d6d78a77d8478288f99a38b5ab028e64fc29c25"
+    },
+    "scripts/build_memory_state_influence_boundary_publication_bundle.py": {
+      "bytes": 16496,
+      "sha256": "8fbb11f52f3f006379b153a4b87bf5493872f325333b82725d5ca57896ad6034"
+    },
+    "scripts/check_memory_state_governability_overlay_publish_pack.py": {
+      "bytes": 36893,
+      "sha256": "6771f9937e016d4834632bf38c4f357c2acc1dfbc903f148c453e07c17fea8c1"
+    },
+    "scripts/check_memory_state_influence_boundary_byo_smoke.py": {
+      "bytes": 13690,
+      "sha256": "fbe7bb6b39ba8e525957b2bec32e79fc0d1ae3e335fc79412006c544befaf5f9"
+    },
+    "scripts/check_memory_state_influence_boundary_consumer_integration.py": {
+      "bytes": 14360,
+      "sha256": "a1c95f048b5520692f10fabcd3edf682807e57e9f0fa1b9f9735d60d6982b3e6"
+    },
+    "scripts/check_memory_state_influence_boundary_consumer_wrapper_contract.py": {
+      "bytes": 14350,
+      "sha256": "d262afa8728efd0b3f931cb28a0d666b58c5ba2ed8bf5be06467de65e1cb5bf4"
+    },
+    "scripts/check_memory_state_influence_boundary_final_preflight.py": {
+      "bytes": 47504,
+      "sha256": "be665aa3e43c8df390735faf5d14c4aaefcef46b67372ae468c853f9dccddfc7"
+    },
+    "scripts/check_memory_state_influence_boundary_integration_gate_contract.py": {
+      "bytes": 12505,
+      "sha256": "74f78ba02ee8da8bba6c9509d0d0c898916ea3d9a96e48438bfb9b2ec5734115"
+    },
+    "scripts/check_memory_state_influence_boundary_live_publication.py": {
+      "bytes": 4063,
+      "sha256": "732d8e909009765d4515a0a5f057eeaca195ca85526377f43007edf26135c6e2"
+    },
+    "scripts/check_memory_state_influence_boundary_owner_publish_packet_contract.py": {
+      "bytes": 21750,
+      "sha256": "f387e9f60058681241380ba45823251f2763629d6174fd1ce17408be7c1b24f7"
+    },
+    "scripts/check_memory_state_influence_boundary_public_checkout_readiness.py": {
+      "bytes": 12165,
+      "sha256": "d595323552c97e5b3ae73d13a2723db9b22f1ccdd425030d3395a2967d08a217"
+    },
+    "scripts/check_memory_state_influence_boundary_release_distinctness.py": {
+      "bytes": 10437,
+      "sha256": "3df354fb0496f7874e2f472056586f4ded7f2426503c083ecf62ee764e0df446"
+    },
+    "scripts/check_memory_state_influence_boundary_report_contract.py": {
+      "bytes": 26140,
+      "sha256": "731c9847a928f463f4354bae1238cc0665b40dd85a8d25e051bb17df11c92874"
+    },
+    "scripts/check_memory_state_influence_boundary_social_draft_drift.py": {
+      "bytes": 11991,
+      "sha256": "1ea0d70d891068203f16aa655761479aa512a11ac2a23cf4f4679e07462a1c67"
+    },
+    "scripts/materialize_memory_state_influence_boundary_publication_bundle.py": {
+      "bytes": 5591,
+      "sha256": "4bcb5f4f32accada5d964a55d3267470aa30dd8e367ea239fd87689bf6b34d04"
+    },
+    "scripts/publish_memory_state_influence_boundary_public_patch.py": {
+      "bytes": 12547,
+      "sha256": "7d0dba39c502a8e3a30cb70ba06c7c9edaaa16cad977bdd9d54bbb3ac7df63df"
+    },
+    "scripts/render_memory_state_governability_overlay_social_payload.py": {
+      "bytes": 14193,
+      "sha256": "c25cc557447986d53f510ae6152efc6f4e3820255b75b4d0beb24be1f026df12"
+    },
+    "scripts/render_memory_state_influence_boundary_owner_publish_packet.py": {
+      "bytes": 13220,
+      "sha256": "4a73b07d1480fe0b55057aa1dbc438d2c238d02012bc79aeba8a01950ff708bc"
+    },
+    "scripts/render_memory_state_influence_boundary_publish_command_envelope.py": {
+      "bytes": 9757,
+      "sha256": "ed6a958d6e628ecef456d6a400ce16c8ec10f59e7cd65574b92a35d09123b995"
+    },
+    "scripts/run_memory_state_governability_overlay_demo.py": {
+      "bytes": 68208,
+      "sha256": "0b3a71d325cc0ee794522dc66978774c7600b89d06365c2ade021909bf9a7d77"
+    },
+    "scripts/run_memory_state_influence_boundary_consumer_wrapper_example.py": {
+      "bytes": 7877,
+      "sha256": "b2c3b26ff74ea5cc38c4b8a9c5a62291f17072642843b47b9d6a64a40fa9c2c6"
+    },
+    "scripts/run_memory_state_influence_boundary_report.py": {
+      "bytes": 2424,
+      "sha256": "0021fdae45cb02cb77e679beecb42926411c0fd459747cc7331c50cb6ecb59b5"
+    },
+    "tests/test_memory_state_governability_overlay_demo.py": {
+      "bytes": 108876,
+      "sha256": "dce46cdf630a282e17c4dbcb64f54e97e8cb94b2814a730b79e114ee94801766"
+    }
+  },
+  "final_preflight_status": "checked_by_outer_preflight",
+  "fresh_checkout_commands": [
+    "git clone https://github.com/ctxgov/ctxgov.git",
+    "cd ctxgov",
+    "python3 scripts/run_memory_state_influence_boundary_report.py --input examples/memory-state-influence-boundary"
+  ],
+  "github_pages_deployed": false,
+  "live_url_checked": false,
+  "manual_review_required": "minimal_owner_publish_action_only",
+  "milestone": "Local Memory State Influence Boundary Report",
+  "outreach_performed": false,
+  "private_marker_hits": {},
+  "public_page": "https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html",
+  "public_repo": "ctxgov/ctxgov",
+  "publication_bundle_sha256": "84a046428510c7dbc834119c4c5b1957006a512984b9b89cc57b2b193a88b3c7",
+  "publication_executed": false,
+  "publication_file_count": 52,
+  "publication_files": [
+    "README.md",
+    "docs/index.html",
+    "docs/memory-state-influence-boundary-try-in-5-minutes.html",
+    "docs/memory-state-governability-overlay-try-in-5-minutes.html",
+    "schemas/README.md",
+    "schemas/json/ctxvault-memory-state-influence-boundary-integration-gate-v0.schema.json",
+    "schemas/json/ctxvault-memory-state-influence-boundary-report-v0.schema.json",
+    "schemas/json/ctxvault-memory-state-influence-boundary-consumer-wrapper-example-v0.schema.json",
+    "examples/memory-state-influence-boundary/README.md",
+    "examples/memory-state-influence-boundary/CLAUDE.md",
+    "examples/memory-state-influence-boundary/AGENTS.md",
+    "examples/memory-state-influence-boundary/project-notes.md",
+    "examples/memory-state-influence-boundary/context-note.mdx",
+    "examples/memory-state-influence-boundary/checkpoint.json",
+    "examples/memory-state-influence-boundary/memory-store.jsonl",
+    "examples/memory-state-influence-boundary/state-profile.yaml",
+    "examples/memory-state-influence-boundary/state-policy.toml",
+    "fixtures/v0.7.0-mgp-sidecar/memory-xray/memory-state-governability-overlays-20260611.json",
+    "release/memory-state-governability-overlay/2026-06-11/README.md",
+    "release/memory-state-governability-overlay/2026-06-11/product-integration-quickstart.md",
+    "release/memory-state-governability-overlay/2026-06-11/integration-gate.example.json",
+    "release/memory-state-governability-overlay/2026-06-11/integration-gate.pass.example.json",
+    "release/memory-state-governability-overlay/2026-06-11/consumer-wrapper.example.json",
+    "release/memory-state-governability-overlay/2026-06-11/consumer-wrapper.pass.example.json",
+    "release/memory-state-governability-overlay/2026-06-11/public-checkout-readiness-receipt.md",
+    "release/memory-state-governability-overlay/2026-06-11/hn-post.md",
+    "release/memory-state-governability-overlay/2026-06-11/linkedin-post.md",
+    "release/memory-state-governability-overlay/2026-06-11/x-thread.md",
+    "release/memory-state-governability-overlay/2026-06-11/memory-state-governability-overlay-social-payload.json",
+    "release/memory-state-governability-overlay/2026-06-11/memory-state-governability-overlay-social-payload.md",
+    "scripts/build_memory_state_influence_boundary_publication_bundle.py",
+    "scripts/materialize_memory_state_influence_boundary_publication_bundle.py",
+    "scripts/render_memory_state_influence_boundary_owner_publish_packet.py",
+    "scripts/check_memory_state_influence_boundary_owner_publish_packet_contract.py",
+    "scripts/render_memory_state_influence_boundary_publish_command_envelope.py",
+    "scripts/publish_memory_state_influence_boundary_public_patch.py",
+    "scripts/check_memory_state_governability_overlay_publish_pack.py",
+    "scripts/check_memory_state_influence_boundary_byo_smoke.py",
+    "scripts/check_memory_state_influence_boundary_integration_gate_contract.py",
+    "scripts/check_memory_state_influence_boundary_report_contract.py",
+    "scripts/check_memory_state_influence_boundary_consumer_integration.py",
+    "scripts/check_memory_state_influence_boundary_consumer_wrapper_contract.py",
+    "scripts/run_memory_state_influence_boundary_consumer_wrapper_example.py",
+    "scripts/check_memory_state_influence_boundary_release_distinctness.py",
+    "scripts/check_memory_state_influence_boundary_final_preflight.py",
+    "scripts/check_memory_state_influence_boundary_public_checkout_readiness.py",
+    "scripts/check_memory_state_influence_boundary_live_publication.py",
+    "scripts/render_memory_state_governability_overlay_social_payload.py",
+    "scripts/check_memory_state_influence_boundary_social_draft_drift.py",
+    "scripts/run_memory_state_influence_boundary_report.py",
+    "scripts/run_memory_state_governability_overlay_demo.py",
+    "tests/test_memory_state_governability_overlay_demo.py"
+  ],
+  "publish_pack_status": "pass_memory_state_governability_overlay_publish_pack",
+  "pull_request_created": false,
+  "push_executed": false,
+  "release_created": false,
+  "required_external_actions": [
+    "copy the listed publication files into a clean ctxgov/ctxgov checkout",
+    "or run python3 scripts/materialize_memory_state_influence_boundary_publication_bundle.py --checkout <clean-checkout>",
+    "run python3 scripts/check_memory_state_influence_boundary_final_preflight.py in that checkout",
+    "review python3 scripts/render_memory_state_influence_boundary_owner_publish_packet.py output",
+    "run python3 scripts/check_memory_state_influence_boundary_owner_publish_packet_contract.py",
+    "review python3 scripts/render_memory_state_influence_boundary_publish_command_envelope.py output",
+    "commit and push the public repo patch",
+    "wait for GitHub Pages to deploy and run python3 scripts/check_memory_state_influence_boundary_live_publication.py --live",
+    "manually post the selected HN/X/LinkedIn copy"
+  ],
+  "sample_blocked_ref_count": 4,
+  "sample_input_file_count": 9,
+  "sample_report_status": "pass_memory_state_influence_boundary_report",
+  "sample_stale_ref_count": 2,
+  "schema_id": "ctxvault.memory-state-influence-boundary-publication-bundle/v0",
+  "side_effect_boundary": {
+    "external_runtime_or_adapter_executed": false,
+    "memory_backend_written": false,
+    "network_access_performed": false,
+    "outreach_performed": false,
+    "provider_or_model_call_performed": false,
+    "public_release_created": false,
+    "sarif_uploaded": false,
+    "target_file_written": false
+  },
+  "status": "pass_memory_state_influence_boundary_publication_bundle",
+  "tag_created": false
+}
