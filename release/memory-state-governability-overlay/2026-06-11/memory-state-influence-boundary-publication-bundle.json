@@ -43,32 +43,32 @@
       "sha256": "0131c1f81e6c34d2bc9b766707eb80c429bfbcabc76753f6f43b2da644bc7565"
     },
     "examples/memory-state-influence-boundary/AGENTS.md": {
-      "bytes": 318,
-      "sha256": "767d91d2a71ebbb93442d3a8aeb1553aeb1384bc4f26dc5a9a0e4011129db99e"
+      "bytes": 317,
+      "sha256": "2c83fb876f8225348a07d8f821274c8de73ce9a24bd706f62bfc228f285d6094"
     },
     "examples/memory-state-influence-boundary/CLAUDE.md": {
-      "bytes": 604,
-      "sha256": "23ce17b93297193fd803975bf194a199141b49032fd395017e45cbf55b1f31f6"
+      "bytes": 603,
+      "sha256": "3e150e36ab4eba6d242eec3de684b66efd6f9684d5311babcc39bc9e1e681d10"
     },
     "examples/memory-state-influence-boundary/README.md": {
       "bytes": 1409,
       "sha256": "3969580f2faebd4dff73274c91c58afeece3f37cdd59eea4f986ac330a379977"
     },
     "examples/memory-state-influence-boundary/checkpoint.json": {
-      "bytes": 318,
-      "sha256": "51ff7c84cb20eb2721962c7684b184f21b7ec90694d782b83b33810ccde2a4e9"
+      "bytes": 317,
+      "sha256": "a62bce6cbf3c05734b8deac26b822886dbdc7f7671dcb96f3c9167ee051a11c7"
     },
     "examples/memory-state-influence-boundary/context-note.mdx": {
       "bytes": 143,
       "sha256": "a916172329e3b7ff62bf20fa1c5ae066c789717c6faac17f55656a73df14366c"
     },
     "examples/memory-state-influence-boundary/memory-store.jsonl": {
-      "bytes": 313,
-      "sha256": "848ad71c400aa4b577a89e7c5cbf2bedfdb0c571af2d139b7560bc88f5894d7c"
+      "bytes": 312,
+      "sha256": "293801c62898fe68d88931d0a4ab1ed1f01b3de8eac9a5542e3c8bda7779f815"
     },
     "examples/memory-state-influence-boundary/project-notes.md": {
-      "bytes": 338,
-      "sha256": "589bdcd8fc7b0362d9ad67078df00bd106d84b938e39316f17509e0a14914fd4"
+      "bytes": 337,
+      "sha256": "fe28dc5e4b3a38b46f6d99f6293dc2cac049f106f8713205573b4e9a7562128d"
     },
     "examples/memory-state-influence-boundary/state-policy.toml": {
       "bytes": 134,
@@ -147,8 +147,8 @@
       "sha256": "c4c82e3e72aa1fae888616692d6d78a77d8478288f99a38b5ab028e64fc29c25"
     },
     "scripts/build_memory_state_influence_boundary_publication_bundle.py": {
-      "bytes": 16496,
-      "sha256": "8fbb11f52f3f006379b153a4b87bf5493872f325333b82725d5ca57896ad6034"
+      "bytes": 16994,
+      "sha256": "20569b7b200f8ffb739a55194c7ed0232d59f672eef4c7781ce65167cfa238cd"
     },
     "scripts/check_memory_state_governability_overlay_publish_pack.py": {
       "bytes": 36893,
@@ -199,8 +199,8 @@
       "sha256": "1ea0d70d891068203f16aa655761479aa512a11ac2a23cf4f4679e07462a1c67"
     },
     "scripts/materialize_memory_state_influence_boundary_publication_bundle.py": {
-      "bytes": 5591,
-      "sha256": "4bcb5f4f32accada5d964a55d3267470aa30dd8e367ea239fd87689bf6b34d04"
+      "bytes": 5590,
+      "sha256": "99cb69f40ae1686b86f2be8d08bf43a11cdd28edcce93d2bbecf8732add3a1a7"
     },
     "scripts/publish_memory_state_influence_boundary_public_patch.py": {
       "bytes": 12547,
@@ -249,7 +249,7 @@
   "private_marker_hits": {},
   "public_page": "https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html",
   "public_repo": "ctxgov/ctxgov",
-  "publication_bundle_sha256": "84a046428510c7dbc834119c4c5b1957006a512984b9b89cc57b2b193a88b3c7",
+  "publication_bundle_sha256": "efdff77f74d6612d5391cd995d0b4766bab7855c627fd976188c2536a07304de",
   "publication_executed": false,
   "publication_file_count": 52,
   "publication_files": [

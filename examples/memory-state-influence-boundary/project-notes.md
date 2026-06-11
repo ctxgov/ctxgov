@@ -6,4 +6,3 @@ remembered state is allowed to influence behavior.
 
 Deletion path: if a local note is removed, derived reports under `.ctxvault/`
 must be regenerated before reuse.
-

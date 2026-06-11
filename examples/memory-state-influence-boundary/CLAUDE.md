@@ -14,4 +14,3 @@ Rollback note: remove the generated report under `.ctxvault/` and rerun the
 local preflight before any external publication.
 
 @./project-notes.md
-

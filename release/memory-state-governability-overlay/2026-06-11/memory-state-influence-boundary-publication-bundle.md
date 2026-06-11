@@ -4,7 +4,7 @@ Status: local bundle only. No branch, commit, push, PR, tag, release, Pages depl
 
 Milestone: `Local Memory State Influence Boundary Report`
 Status: `pass_memory_state_influence_boundary_publication_bundle`
-Bundle digest: `84a046428510c7dbc834119c4c5b1957006a512984b9b89cc57b2b193a88b3c7`
+Bundle digest: `efdff77f74d6612d5391cd995d0b4766bab7855c627fd976188c2536a07304de`
 Public page: https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html
 
 Fresh checkout command:

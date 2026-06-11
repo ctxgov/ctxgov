@@ -126,6 +126,7 @@ def build_memory_state_influence_boundary_publication_bundle(
         if hits:
             private_marker_hits[rel] = hits
             errors.append(f"publication file {rel} contains private marker(s): {', '.join(hits)}")
+        errors.extend(_publication_whitespace_errors(rel, text))
         file_digests[rel] = {"bytes": len(data), "sha256": _sha256_bytes(data)}
 
     _check_readiness_receipt_counts(
@@ -245,6 +246,16 @@ def _private_marker_hits(rel_path: str, text: str) -> list[str]:
     if rel_path == "scripts/check_memory_state_influence_boundary_public_checkout_readiness.py":
         hits = [marker for marker in hits if marker != READINESS_TEMP_PREFIX_MARKER]
     return hits
+
+
+def _publication_whitespace_errors(rel_path: str, text: str) -> list[str]:
+    errors: list[str] = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        if line.rstrip(" \t") != line:
+            errors.append(f"publication file {rel_path}:{lineno} contains trailing whitespace")
+    if text.endswith("\n\n"):
+        errors.append(f"publication file {rel_path} contains a blank line at EOF")
+    return errors
 
 
 def _check_readiness_receipt_counts(

@@ -6,4 +6,3 @@ publication, or outreach.
 
 Stale note: an earlier draft called this a compatibility matrix. That wording is
 superseded and must be blocked.
-
