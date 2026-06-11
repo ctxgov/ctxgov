@@ -4,7 +4,7 @@ Status: publication bundle artifact. The bundle builder is local-only; public pu
 
 Milestone: `Local Memory State Influence Boundary Report`
 Status: `pass_memory_state_influence_boundary_publication_bundle`
-Bundle digest: `4a94c0e1e82b13c0fe7f942e266daca321ca53c98ce208a11b6b1780ae5257a0`
+Bundle digest: `7f61c9a9f1f1acb4a4ccb248625d41875da8bbc711379b940ce3f3befb61b3bf`
 Public page: https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html
 
 Fresh checkout command:
@@ -19,6 +19,7 @@ Publication files:
 
 - `README.md`
 - `docs/index.html`
+- `docs/activation-xray-try-in-5-minutes.html`
 - `docs/memory-state-influence-boundary-try-in-5-minutes.html`
 - `docs/memory-state-governability-overlay-try-in-5-minutes.html`
 - `schemas/README.md`
@@ -47,8 +48,12 @@ Publication files:
 - `release/memory-state-governability-overlay/2026-06-11/x-thread.md`
 - `release/memory-state-governability-overlay/2026-06-11/memory-state-governability-overlay-social-payload.json`
 - `release/memory-state-governability-overlay/2026-06-11/memory-state-governability-overlay-social-payload.md`
+- `release/auto-publish-research/2026-06-07/README.md`
+- `release/auto-publish-research/2026-06-07/post-publication-summary.md`
+- `release/auto-publish-research/2026-06-07/release-integrity-verification-plan.materialized.json`
 - `scripts/build_memory_state_influence_boundary_publication_bundle.py`
 - `scripts/materialize_memory_state_influence_boundary_publication_bundle.py`
+- `scripts/verify_release_integrity.py`
 - `scripts/render_memory_state_influence_boundary_owner_publish_packet.py`
 - `scripts/check_memory_state_influence_boundary_owner_publish_packet_contract.py`
 - `scripts/render_memory_state_influence_boundary_publish_command_envelope.py`

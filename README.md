@@ -35,6 +35,18 @@ The public v0.6.13 surface is a release-integrity and auto-publish research
 fixture. The older v0.6.9 surface remains a report-shape evidence pack. Neither
 release publishes a Memory X-Ray CLI beta.
 
+Compatibility note for the current public surface: this is not a Memory X-Ray CLI beta.
+The v0.6.10 ASCR-aligned update remains available under
+`release/v0.6.10/`; ASCR means Agent State & Context Runtime Contract and points
+to the separate framework-neutral contract/toolkit at
+<https://github.com/ctxgov/ascr>. The v0.6.11 public-surface hardening pack
+remains under `release/v0.6.11/`. The v0.12.0 fresh-clone product receipt
+remains under `release/v0.12.0/` and is checked by
+`scripts/check_v012_fresh_clone_product_receipt.py`. The deterministic preview
+and local Memory X-Ray demo commands remain
+`scripts/render_public_memory_xray_preview.py` and
+`scripts/run_memory_xray_demo.py`.
+
 ## Activation X-Ray Try-in-5-Minutes
 
 The HN/X/LinkedIn-published milestone after the claim-firewall launch is a
@@ -404,6 +416,12 @@ boundary=no_public_benchmark_claim,no_provider_call,no_target_write
   [`release/auto-publish-research/2026-06-07/post-publication-summary.md`](release/auto-publish-research/2026-06-07/post-publication-summary.md)
 - Prior v0.6.9 release notes:
   [`release/v0.6.9/RELEASE_NOTES.md`](release/v0.6.9/RELEASE_NOTES.md)
+- Prior v0.6.10 ASCR-aligned update:
+  [`release/v0.6.10/`](release/v0.6.10/)
+- Prior v0.6.11 public-surface hardening pack:
+  [`release/v0.6.11/`](release/v0.6.11/)
+- Prior v0.12.0 fresh-clone product receipt:
+  [`release/v0.12.0/`](release/v0.12.0/)
 - Prior Memory X-Ray public evidence pack:
   [`release/v0.6.9/memory-xray-public-evidence-preview/`](release/v0.6.9/memory-xray-public-evidence-preview/)
 - L1 public preview:
@@ -465,16 +483,16 @@ rollback/claim-lint receipts.
 
 ## Repo Map
 
-- `src/ctxvault/` - CLI and local report-generation code.
+- `src/ctxgov/` - CLI and local report-generation code in the public repo.
 - `schemas/json/` - JSON schemas for reports and receipts.
 - `fixtures/` - local fixtures and private-sidecar evidence.
 - `release/` - public-safe release packs and release notes.
 - `docs/` - project page and release planning documents.
-- `companion/agent-context-evals/` - companion local-eval artifact.
+- `agent-context-evals` - separate companion repo for local-eval artifacts.
 
 ## License And Governance
 
 [`SECURITY.md`](SECURITY.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md) are part
-of the public repo hygiene surface. License selection remains an owner decision
-before public release. OpenSSF/GitHub hygiene is treated as trust posture, not
-as a security certification.
+of the public repo hygiene surface. License decisions remain owner-governed.
+OpenSSF/GitHub hygiene is treated as trust posture, not as a security
+certification.

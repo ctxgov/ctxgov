@@ -28,7 +28,7 @@ Observed materialization result:
 - status:
   `pass_memory_state_influence_boundary_publication_bundle_materialized`
 - copied files: matched `publication_file_count` in the bundle JSON
-- copied file count observed in the latest readiness run: `52`
+- copied file count observed in the latest readiness run: `57`
 - product integration quickstart copied: `true`
 - checkout was clean before materialization: `true`
 - branch created: `false`

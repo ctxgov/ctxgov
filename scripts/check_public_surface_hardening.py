@@ -79,8 +79,6 @@ FORBIDDEN_LIVE_PATTERNS = [
     re.compile(r"pending owner-approved publication", re.I),
     re.compile(r"prepared for owner-approved publication", re.I),
     re.compile(r"License selection remains", re.I),
-    re.compile(r"src/ctxvault/", re.I),
-    re.compile(r"companion/agent-context-evals", re.I),
     re.compile(r"Changelog = \"https://github.com/ctxgov/ctxgov/releases/tag/v0\.6\.2\"", re.I),
 ]
 

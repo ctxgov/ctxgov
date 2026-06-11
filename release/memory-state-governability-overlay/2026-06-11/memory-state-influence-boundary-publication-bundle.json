@@ -27,12 +27,16 @@
   "errors": [],
   "file_digests": {
     "README.md": {
-      "bytes": 18995,
-      "sha256": "8a0506bf1190f66923f67526b04c7ed7f2c1f74a1a775f6e11abc98c58a1b546"
+      "bytes": 19936,
+      "sha256": "400d0b5efeb523de9c65494c1a4a1e2dddf56165c6cf879f8d2b17737cfeb8ef"
+    },
+    "docs/activation-xray-try-in-5-minutes.html": {
+      "bytes": 9141,
+      "sha256": "92eea7dffc98a0d3fcd263110f2d223a014ac9a20a9c56dd6d93b6b66d1c4418"
     },
     "docs/index.html": {
-      "bytes": 24442,
-      "sha256": "14131b8dccc9c8484c8ca65b5d1da016c4cb9c5eba9d376e8810afbf601a1bf2"
+      "bytes": 25931,
+      "sha256": "ec8422b9e33e5b9c08ae33f212ea74a40b3aab0c18153bee370340a6358da017"
     },
     "docs/memory-state-governability-overlay-try-in-5-minutes.html": {
       "bytes": 10485,
@@ -82,6 +86,18 @@
       "bytes": 10621,
       "sha256": "f4b1d29f8faa7e469683507699b2653d112418c3c65cbcaac9b1e5e133a1df32"
     },
+    "release/auto-publish-research/2026-06-07/README.md": {
+      "bytes": 5977,
+      "sha256": "b0dcc1584b9c1e26a94309dddd1834d0b9c310c31c4fd802f33129079177113e"
+    },
+    "release/auto-publish-research/2026-06-07/post-publication-summary.md": {
+      "bytes": 1674,
+      "sha256": "76bf6d16eaad451f830da7552842ed14f000d91b4ea6465e2d6b56c90d96e84b"
+    },
+    "release/auto-publish-research/2026-06-07/release-integrity-verification-plan.materialized.json": {
+      "bytes": 1292,
+      "sha256": "f1e36335187fa3f731be49373b2429a85292b9d7302b47500c92fe3cb14bdb1a"
+    },
     "release/memory-state-governability-overlay/2026-06-11/README.md": {
       "bytes": 11560,
       "sha256": "8011c679319b44b1213c70ebae4b93646f7ea0ede66645e222e44d73b9dcc380"
@@ -124,7 +140,7 @@
     },
     "release/memory-state-governability-overlay/2026-06-11/public-checkout-readiness-receipt.md": {
       "bytes": 4406,
-      "sha256": "a443978c307fc2de586dd6000ac0360f32b3faa7c8e0b9b6a7481425fb8d1df5"
+      "sha256": "c3241bc3e9fde625ed244b98539f1669be7d532ecca1c162fef02e662bc92923"
     },
     "release/memory-state-governability-overlay/2026-06-11/x-thread.md": {
       "bytes": 1165,
@@ -147,8 +163,8 @@
       "sha256": "c4c82e3e72aa1fae888616692d6d78a77d8478288f99a38b5ab028e64fc29c25"
     },
     "scripts/build_memory_state_influence_boundary_publication_bundle.py": {
-      "bytes": 17154,
-      "sha256": "31896b02a3beb76234077d344edf5ed5a7b918ecbd791b5558bfaa008ba7a9ce"
+      "bytes": 17483,
+      "sha256": "2e95c5f438766f1ec9abff99054eb8f842a50f83fc14fd2e9cfb82fdcc95b30d"
     },
     "scripts/check_memory_state_governability_overlay_publish_pack.py": {
       "bytes": 36893,
@@ -230,6 +246,10 @@
       "bytes": 2424,
       "sha256": "0021fdae45cb02cb77e679beecb42926411c0fd459747cc7331c50cb6ecb59b5"
     },
+    "scripts/verify_release_integrity.py": {
+      "bytes": 4638,
+      "sha256": "c043b771784b446cb7fa71d01d4943aa03cf81e7ab13b0a2073a2e180f12be6a"
+    },
     "tests/test_memory_state_governability_overlay_demo.py": {
       "bytes": 108876,
       "sha256": "dce46cdf630a282e17c4dbcb64f54e97e8cb94b2814a730b79e114ee94801766"
@@ -249,12 +269,13 @@
   "private_marker_hits": {},
   "public_page": "https://ctxgov.github.io/ctxgov/memory-state-influence-boundary-try-in-5-minutes.html",
   "public_repo": "ctxgov/ctxgov",
-  "publication_bundle_sha256": "4a94c0e1e82b13c0fe7f942e266daca321ca53c98ce208a11b6b1780ae5257a0",
+  "publication_bundle_sha256": "7f61c9a9f1f1acb4a4ccb248625d41875da8bbc711379b940ce3f3befb61b3bf",
   "publication_executed": false,
-  "publication_file_count": 52,
+  "publication_file_count": 57,
   "publication_files": [
     "README.md",
     "docs/index.html",
+    "docs/activation-xray-try-in-5-minutes.html",
     "docs/memory-state-influence-boundary-try-in-5-minutes.html",
     "docs/memory-state-governability-overlay-try-in-5-minutes.html",
     "schemas/README.md",
@@ -283,8 +304,12 @@
     "release/memory-state-governability-overlay/2026-06-11/x-thread.md",
     "release/memory-state-governability-overlay/2026-06-11/memory-state-governability-overlay-social-payload.json",
     "release/memory-state-governability-overlay/2026-06-11/memory-state-governability-overlay-social-payload.md",
+    "release/auto-publish-research/2026-06-07/README.md",
+    "release/auto-publish-research/2026-06-07/post-publication-summary.md",
+    "release/auto-publish-research/2026-06-07/release-integrity-verification-plan.materialized.json",
     "scripts/build_memory_state_influence_boundary_publication_bundle.py",
     "scripts/materialize_memory_state_influence_boundary_publication_bundle.py",
+    "scripts/verify_release_integrity.py",
     "scripts/render_memory_state_influence_boundary_owner_publish_packet.py",
     "scripts/check_memory_state_influence_boundary_owner_publish_packet_contract.py",
     "scripts/render_memory_state_influence_boundary_publish_command_envelope.py",
