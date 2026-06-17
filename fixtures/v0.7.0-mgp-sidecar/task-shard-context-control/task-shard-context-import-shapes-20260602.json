@@ -1,0 +1,357 @@
+{
+  "schema_id": "ctxvault.task-shard-context-import-shapes/v0",
+  "object_type": "TaskShardContextImportShapes",
+  "version": "post-v0.7.0",
+  "status": "private_import_shape_only_no_runtime",
+  "created_at": "2026-06-02T19:20:00-07:00",
+  "product_line": "Task Shard Context Control",
+  "purpose": "Saved-trace/import fixture shape for long-task task splitting and context admission surfaces. This fixture inspects expected artifacts only and does not execute workflows.",
+  "source_refs": [
+    "docs/post-v0.7.0-task-shard-context-control-roadmap-2026-06-02.md",
+    "docs/session-continuity-current-capability-matrix-2026-05-30.md",
+    "docs/post-v0.7.0-oss-efficiency-benchmark-and-telemetry-receipt-2026-05-31.md"
+  ],
+  "import_shapes": [
+    {
+      "import_surface_id": "claude_dynamic_workflows",
+      "surface_family": "claude-code-workflow-script",
+      "adapter_layer": "offline_import_shape_only",
+      "runtime_execution_allowed": false,
+      "expected_artifacts": [
+        "workflow_script",
+        "subagent_task_manifest",
+        "progress_state",
+        "verification_summary",
+        "merge_summary"
+      ],
+      "mapped_read_models": [
+        "WorkflowScriptPassport",
+        "TaskShardPlan",
+        "ShardContextVisa",
+        "ShardResultReceipt",
+        "ShardMergeReceipt",
+        "ReplanTriggerReceipt"
+      ],
+      "minimum_fields": [
+        "workflow_id",
+        "script_hash",
+        "declared_subtasks",
+        "checkpoint_refs",
+        "verifier_refs",
+        "merge_refs",
+        "omitted_context_refs"
+      ],
+      "blocked_authority": [
+        "script_success_as_governance_success",
+        "subagent_summary_as_source_truth",
+        "cache_hit_as_authority"
+      ],
+      "context_ref_contract": {
+        "selected_source_ref_fields": [
+          "workflow_id",
+          "script_hash",
+          "verifier_refs"
+        ],
+        "omitted_context_ref_fields": [
+          "omitted_context_refs",
+          "unselected_subtask_refs"
+        ],
+        "source_recovery_required": true,
+        "omitted_context_visible": true
+      },
+      "side_effect_boundary": {
+        "live_workflow_executed": false,
+        "worktree_created": false,
+        "provider_or_model_call_performed": false,
+        "runtime_or_adapter_executed": false,
+        "target_file_written": false,
+        "memory_backend_written": false,
+        "memory_promotion_performed": false,
+        "public_claim_created": false
+      },
+      "claim_gate": {
+        "public_benchmark_claim_allowed": false,
+        "public_efficiency_claim_allowed": false,
+        "public_adoption_claim_allowed": false,
+        "public_compatibility_claim_allowed": false,
+        "stable_mgp_claim_allowed": false
+      }
+    },
+    {
+      "import_surface_id": "cline_task_history",
+      "surface_family": "cline-task-history-and-checkpoints",
+      "adapter_layer": "offline_import_shape_only",
+      "runtime_execution_allowed": false,
+      "expected_artifacts": [
+        "task_history",
+        "checkpoint_refs",
+        "context_compression_events",
+        "tool_call_summaries",
+        "human_resume_boundary"
+      ],
+      "mapped_read_models": [
+        "TaskShardPlan",
+        "ShardContextVisa",
+        "ContextBudgetLedger",
+        "CompactionLossCard",
+        "ShardResultReceipt"
+      ],
+      "minimum_fields": [
+        "task_id",
+        "checkpoint_id",
+        "compression_event_id",
+        "selected_context_refs",
+        "omitted_context_refs",
+        "blocked_live_operation_refs"
+      ],
+      "blocked_authority": [
+        "compressed_summary_as_complete_history",
+        "task_history_as_memory_write_permission"
+      ],
+      "context_ref_contract": {
+        "selected_source_ref_fields": [
+          "task_id",
+          "checkpoint_id",
+          "selected_context_refs"
+        ],
+        "omitted_context_ref_fields": [
+          "omitted_context_refs",
+          "blocked_live_operation_refs"
+        ],
+        "source_recovery_required": true,
+        "omitted_context_visible": true
+      },
+      "side_effect_boundary": {
+        "live_workflow_executed": false,
+        "worktree_created": false,
+        "provider_or_model_call_performed": false,
+        "runtime_or_adapter_executed": false,
+        "target_file_written": false,
+        "memory_backend_written": false,
+        "memory_promotion_performed": false,
+        "public_claim_created": false
+      },
+      "claim_gate": {
+        "public_benchmark_claim_allowed": false,
+        "public_efficiency_claim_allowed": false,
+        "public_adoption_claim_allowed": false,
+        "public_compatibility_claim_allowed": false,
+        "stable_mgp_claim_allowed": false
+      }
+    },
+    {
+      "import_surface_id": "openhands_condenser_trace",
+      "surface_family": "openhands-condenser-and-event-history",
+      "adapter_layer": "offline_import_shape_only",
+      "runtime_execution_allowed": false,
+      "expected_artifacts": [
+        "event_history",
+        "condenser_summary",
+        "observation_window",
+        "tool_result_refs",
+        "compaction_policy"
+      ],
+      "mapped_read_models": [
+        "ContextBudgetLedger",
+        "CompactionLossCard",
+        "ShardContextVisa",
+        "ShardResultReceipt",
+        "SourceRecoverabilityCard"
+      ],
+      "minimum_fields": [
+        "event_ids_preserved",
+        "event_ids_compacted",
+        "source_refs_preserved",
+        "blockers_preserved",
+        "decision_refs_preserved"
+      ],
+      "blocked_authority": [
+        "condenser_output_as_lossless_history",
+        "tool_result_without_source_ref"
+      ],
+      "context_ref_contract": {
+        "selected_source_ref_fields": [
+          "event_ids_preserved",
+          "source_refs_preserved",
+          "tool_result_refs"
+        ],
+        "omitted_context_ref_fields": [
+          "event_ids_compacted",
+          "observation_window_excluded_refs"
+        ],
+        "source_recovery_required": true,
+        "omitted_context_visible": true
+      },
+      "side_effect_boundary": {
+        "live_workflow_executed": false,
+        "worktree_created": false,
+        "provider_or_model_call_performed": false,
+        "runtime_or_adapter_executed": false,
+        "target_file_written": false,
+        "memory_backend_written": false,
+        "memory_promotion_performed": false,
+        "public_claim_created": false
+      },
+      "claim_gate": {
+        "public_benchmark_claim_allowed": false,
+        "public_efficiency_claim_allowed": false,
+        "public_adoption_claim_allowed": false,
+        "public_compatibility_claim_allowed": false,
+        "stable_mgp_claim_allowed": false
+      }
+    },
+    {
+      "import_surface_id": "aider_repo_map",
+      "surface_family": "aider-repo-map-and-selected-snippets",
+      "adapter_layer": "offline_import_shape_only",
+      "runtime_execution_allowed": false,
+      "expected_artifacts": [
+        "repo_map",
+        "selected_file_refs",
+        "symbol_refs",
+        "chat_context_refs",
+        "ignored_file_refs"
+      ],
+      "mapped_read_models": [
+        "ContextBudgetLedger",
+        "ContextMinimalityProof",
+        "ShardContextVisa",
+        "OmittedContextFinding"
+      ],
+      "minimum_fields": [
+        "repo_map_hash",
+        "selected_symbols",
+        "selected_files",
+        "omitted_files",
+        "budget_limit"
+      ],
+      "blocked_authority": [
+        "repo_map_as_complete_codebase_context",
+        "symbol_selection_as_permission_to_write"
+      ],
+      "context_ref_contract": {
+        "selected_source_ref_fields": [
+          "repo_map_hash",
+          "selected_symbols",
+          "selected_files"
+        ],
+        "omitted_context_ref_fields": [
+          "omitted_files",
+          "ignored_file_refs"
+        ],
+        "source_recovery_required": true,
+        "omitted_context_visible": true
+      },
+      "side_effect_boundary": {
+        "live_workflow_executed": false,
+        "worktree_created": false,
+        "provider_or_model_call_performed": false,
+        "runtime_or_adapter_executed": false,
+        "target_file_written": false,
+        "memory_backend_written": false,
+        "memory_promotion_performed": false,
+        "public_claim_created": false
+      },
+      "claim_gate": {
+        "public_benchmark_claim_allowed": false,
+        "public_efficiency_claim_allowed": false,
+        "public_adoption_claim_allowed": false,
+        "public_compatibility_claim_allowed": false,
+        "stable_mgp_claim_allowed": false
+      }
+    },
+    {
+      "import_surface_id": "plandex_context_map",
+      "surface_family": "plandex-context-map-and-plan-state",
+      "adapter_layer": "offline_import_shape_only",
+      "runtime_execution_allowed": false,
+      "expected_artifacts": [
+        "plan_state",
+        "context_map",
+        "file_selection_refs",
+        "pending_change_refs",
+        "review_summary"
+      ],
+      "mapped_read_models": [
+        "TaskShardPlan",
+        "ShardContextVisa",
+        "ContextBudgetLedger",
+        "ShardMergeReceipt",
+        "ReplanTriggerReceipt"
+      ],
+      "minimum_fields": [
+        "plan_id",
+        "context_map_hash",
+        "selected_context_refs",
+        "pending_change_refs",
+        "merge_decision_refs",
+        "replan_reason_refs"
+      ],
+      "blocked_authority": [
+        "plan_state_as_merge_approval",
+        "context_map_as_memory_activation_permission"
+      ],
+      "context_ref_contract": {
+        "selected_source_ref_fields": [
+          "plan_id",
+          "context_map_hash",
+          "selected_context_refs"
+        ],
+        "omitted_context_ref_fields": [
+          "omitted_context_refs",
+          "replan_reason_refs"
+        ],
+        "source_recovery_required": true,
+        "omitted_context_visible": true
+      },
+      "side_effect_boundary": {
+        "live_workflow_executed": false,
+        "worktree_created": false,
+        "provider_or_model_call_performed": false,
+        "runtime_or_adapter_executed": false,
+        "target_file_written": false,
+        "memory_backend_written": false,
+        "memory_promotion_performed": false,
+        "public_claim_created": false
+      },
+      "claim_gate": {
+        "public_benchmark_claim_allowed": false,
+        "public_efficiency_claim_allowed": false,
+        "public_adoption_claim_allowed": false,
+        "public_compatibility_claim_allowed": false,
+        "stable_mgp_claim_allowed": false
+      }
+    }
+  ],
+  "claim_gate": {
+    "public_benchmark_claim_allowed": false,
+    "public_efficiency_claim_allowed": false,
+    "public_adoption_claim_allowed": false,
+    "public_compatibility_claim_allowed": false,
+    "stable_mgp_claim_allowed": false
+  },
+  "side_effect_boundary": {
+    "fixture_pack_created": true,
+    "schema_created": true,
+    "local_files_read": true,
+    "live_workflow_executed": false,
+    "worktree_created": false,
+    "provider_or_model_call_performed": false,
+    "runtime_or_adapter_executed": false,
+    "target_file_written": false,
+    "memory_backend_written": false,
+    "memory_promotion_performed": false,
+    "public_claim_created": false
+  },
+  "rollback": {
+    "mode": "delete_import_shape_schema_and_fixture",
+    "delete_paths": [
+      "schemas/json/ctxvault-task-shard-context-import-shapes-v0.schema.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-context-import-shapes-20260602.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-import-shape-negative-fixtures-20260602.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-saved-trace-imports-20260602.json"
+    ],
+    "external_state_to_revert": "none",
+    "notes": "No workflow, provider, worktree, target file, memory backend, public claim, or stable MGP state is created."
+  }
+}

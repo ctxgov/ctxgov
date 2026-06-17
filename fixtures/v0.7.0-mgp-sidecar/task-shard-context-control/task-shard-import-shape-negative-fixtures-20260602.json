@@ -1,0 +1,70 @@
+{
+  "schema_id": "ctxvault.task-shard-import-shape-negative-fixtures/v0",
+  "object_type": "TaskShardImportShapeNegativeFixtures",
+  "version": "post-v0.7.0",
+  "status": "private_negative_fixture_only_no_runtime",
+  "created_at": "2026-06-02T20:10:00-07:00",
+  "product_line": "Task Shard Context Control",
+  "source_import_shapes_path": "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-context-import-shapes-20260602.json",
+  "variant_count": 8,
+  "variants": [
+    {
+      "variant_id": "missing_expected_surface",
+      "mutation": "Remove the Plandex context-map import shape.",
+      "expected_error": "missing expected import surface"
+    },
+    {
+      "variant_id": "runtime_allowed_flip",
+      "mutation": "Set one import shape runtime_execution_allowed to true.",
+      "expected_error": "runtime_execution_allowed must be false"
+    },
+    {
+      "variant_id": "side_effect_flip",
+      "mutation": "Set provider_or_model_call_performed to true on one shape.",
+      "expected_error": "side_effect_boundary.provider_or_model_call_performed must remain false"
+    },
+    {
+      "variant_id": "missing_top_level_source_refs",
+      "mutation": "Remove top-level source_refs from the import-shapes fixture.",
+      "expected_error": "source_refs required"
+    },
+    {
+      "variant_id": "missing_selected_source_ref_fields",
+      "mutation": "Remove selected_source_ref_fields from one context_ref_contract.",
+      "expected_error": "context_ref_contract.selected_source_ref_fields required"
+    },
+    {
+      "variant_id": "missing_omitted_context_ref_fields",
+      "mutation": "Remove omitted_context_ref_fields from one context_ref_contract.",
+      "expected_error": "context_ref_contract.omitted_context_ref_fields required"
+    },
+    {
+      "variant_id": "source_recovery_disabled",
+      "mutation": "Set source_recovery_required to false on one context_ref_contract.",
+      "expected_error": "context_ref_contract.source_recovery_required must be true"
+    },
+    {
+      "variant_id": "omitted_context_invisible",
+      "mutation": "Set omitted_context_visible to false on one context_ref_contract.",
+      "expected_error": "context_ref_contract.omitted_context_visible must be true"
+    }
+  ],
+  "side_effect_boundary": {
+    "fixture_pack_created": true,
+    "live_workflow_executed": false,
+    "worktree_created": false,
+    "provider_or_model_call_performed": false,
+    "runtime_or_adapter_executed": false,
+    "target_file_written": false,
+    "memory_backend_written": false,
+    "memory_promotion_performed": false,
+    "public_claim_created": false
+  },
+  "rollback": {
+    "mode": "delete_negative_fixture_contract",
+    "delete_paths": [
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-import-shape-negative-fixtures-20260602.json"
+    ],
+    "external_state_to_revert": "none"
+  }
+}

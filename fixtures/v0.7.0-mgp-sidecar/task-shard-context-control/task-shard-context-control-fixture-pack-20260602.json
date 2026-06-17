@@ -1,0 +1,393 @@
+{
+  "schema_id": "ctxvault.task-shard-context-control-fixture-pack/v0",
+  "object_type": "TaskShardContextControlFixturePack",
+  "version": "post-v0.7.0",
+  "status": "private_fixture_schema_only_no_runtime",
+  "created_at": "2026-06-02T18:00:00-07:00",
+  "product_line": "Task Shard Context Control",
+  "context_execution_gate": "ContextExecutionAdmission",
+  "source_refs": {
+    "selected": [
+      "docs/post-v0.7.0-task-shard-context-control-roadmap-2026-06-02.md",
+      "docs/session-continuity-current-capability-matrix-2026-05-30.md",
+      "docs/post-v0.7.0-memory-xray-mvp-and-roadmap-evidence-2026-05-31.md",
+      "docs/post-v0.7.0-oss-efficiency-benchmark-and-telemetry-receipt-2026-05-31.md"
+    ],
+    "omitted": [
+      "live Claude workflow traces",
+      "live Cline task histories",
+      "live OpenHands runs"
+    ],
+    "blocked": [
+      "provider/model calls",
+      "live worktree execution",
+      "target writes",
+      "memory backend writes"
+    ],
+    "caveated": [
+      "external workflow internals remain partially public",
+      "benchmark scores from papers are not CtxGov benchmark results"
+    ]
+  },
+  "external_import_shape_refs": [
+    {
+      "schema_id": "ctxvault.task-shard-context-import-shapes/v0",
+      "path": "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-context-import-shapes-20260602.json",
+      "role": "saved-trace import fixture shape",
+      "surface_ids": [
+        "claude_dynamic_workflows",
+        "cline_task_history",
+        "openhands_condenser_trace",
+        "aider_repo_map",
+        "plandex_context_map"
+      ],
+      "runtime_execution_allowed": false
+    }
+  ],
+  "task_shard_plan": {
+    "object_type": "TaskShardPlan",
+    "task_id": "post_v070_task_shard_context_control_fixture_start",
+    "plan_id": "task_shard_plan_20260602_private_fixture_01",
+    "plan_status": "planned_not_executed",
+    "split_strategy": "dependency_aware_context_minimality",
+    "shard_count": 3,
+    "split_quality_checks": [
+      "dependencies_explicit",
+      "owned_paths_do_not_overlap_without_merge_review",
+      "selected_context_has_source_refs",
+      "omitted_context_is_visible",
+      "failed_shard_can_replan_without_replaying_unrelated_work"
+    ],
+    "live_execution_allowed": false
+  },
+  "shard_context_visas": [
+    {
+      "object_type": "ShardContextVisa",
+      "shard_id": "shard_context_budget",
+      "split_reason": "Analyze token, cache, compaction, and source-recovery pressure without running a workflow.",
+      "dependency_refs": [],
+      "owned_paths": [
+        "schemas/json/ctxvault-task-shard-context-control-fixture-pack-v0.schema.json"
+      ],
+      "shared_paths": [
+        "docs/product-line-ledger.md"
+      ],
+      "read_only_paths": [
+        "docs/session-continuity-current-capability-matrix-2026-05-30.md",
+        "docs/post-v0.7.0-oss-efficiency-benchmark-and-telemetry-receipt-2026-05-31.md"
+      ],
+      "selected_context_refs": [
+        "session_continuity_context_injection_rehearsal",
+        "oss_efficiency_same_or_better_gate"
+      ],
+      "omitted_context_refs": [
+        "live workflow token telemetry"
+      ],
+      "searchable_only_refs": [
+        "external dynamic workflow docs",
+        "open-source condenser docs"
+      ],
+      "compacted_event_refs": [
+        "long_task_context_research_summary"
+      ],
+      "context_budget": {
+        "max_tokens": 2400,
+        "estimated_tokens": 1450,
+        "budget_status": "within_budget"
+      },
+      "cache_stability": {
+        "prefix_stability_required": true,
+        "cache_hit_is_authority": false,
+        "risk": "medium"
+      },
+      "compaction_loss": {
+        "decision_refs_preserved": true,
+        "blockers_preserved": true,
+        "source_refs_preserved": true,
+        "loss_risk": "low"
+      },
+      "maximum_consequence": "warn",
+      "approval_ceiling": "auto_warn",
+      "live_execution_allowed": false,
+      "rollback": {
+        "mode": "delete_fixture_pack",
+        "external_state_to_revert": "none"
+      }
+    },
+    {
+      "object_type": "ShardContextVisa",
+      "shard_id": "shard_memory_activation",
+      "split_reason": "Check whether memory or context candidates may be activated for a long-task shard.",
+      "dependency_refs": [
+        "shard_context_budget"
+      ],
+      "owned_paths": [
+        "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-context-control-fixture-pack-20260602.json"
+      ],
+      "shared_paths": [
+        "schemas/json/ctxvault-task-shard-context-control-fixture-pack-v0.schema.json"
+      ],
+      "read_only_paths": [
+        "docs/post-v0.7.0-memory-xray-mvp-and-roadmap-evidence-2026-05-31.md",
+        "docs/post-v0.7.0-mgp-automation-and-memory-benchmark-plan-2026-06-02.md"
+      ],
+      "selected_context_refs": [
+        "memory_xray_consequence_ceiling",
+        "memory_policy_grant_category"
+      ],
+      "omitted_context_refs": [
+        "unreviewed durable memory proposals",
+        "agent self-evaluation only"
+      ],
+      "searchable_only_refs": [
+        "provider memory export examples",
+        "external memory benchmark papers"
+      ],
+      "compacted_event_refs": [
+        "memory_framework_cross_validation_summary"
+      ],
+      "context_budget": {
+        "max_tokens": 2200,
+        "estimated_tokens": 1320,
+        "budget_status": "within_budget"
+      },
+      "cache_stability": {
+        "prefix_stability_required": false,
+        "cache_hit_is_authority": false,
+        "risk": "low"
+      },
+      "compaction_loss": {
+        "decision_refs_preserved": true,
+        "blockers_preserved": true,
+        "source_refs_preserved": true,
+        "loss_risk": "low"
+      },
+      "maximum_consequence": "suggest",
+      "approval_ceiling": "auto_suggest",
+      "live_execution_allowed": false,
+      "rollback": {
+        "mode": "delete_fixture_pack",
+        "external_state_to_revert": "none"
+      }
+    },
+    {
+      "object_type": "ShardContextVisa",
+      "shard_id": "shard_merge_replan",
+      "split_reason": "Evaluate merge safety and replan triggers for shard results.",
+      "dependency_refs": [
+        "shard_context_budget",
+        "shard_memory_activation"
+      ],
+      "owned_paths": [
+        "tests/test_task_shard_context_control_fixture.py"
+      ],
+      "shared_paths": [
+        "docs/product-line-ledger.md"
+      ],
+      "read_only_paths": [
+        "docs/post-v0.7.0-task-shard-context-control-roadmap-2026-06-02.md"
+      ],
+      "selected_context_refs": [
+        "task_shard_roadmap_merge_safety",
+        "runtime_structured_task_decomposition_retry_isolation"
+      ],
+      "omitted_context_refs": [
+        "unverified live merge logs"
+      ],
+      "searchable_only_refs": [
+        "external workflow script docs"
+      ],
+      "compacted_event_refs": [
+        "long_task_governance_benchmark_metrics"
+      ],
+      "context_budget": {
+        "max_tokens": 2600,
+        "estimated_tokens": 1575,
+        "budget_status": "within_budget"
+      },
+      "cache_stability": {
+        "prefix_stability_required": true,
+        "cache_hit_is_authority": false,
+        "risk": "medium"
+      },
+      "compaction_loss": {
+        "decision_refs_preserved": true,
+        "blockers_preserved": true,
+        "source_refs_preserved": true,
+        "loss_risk": "medium"
+      },
+      "maximum_consequence": "warn",
+      "approval_ceiling": "auto_warn",
+      "live_execution_allowed": false,
+      "rollback": {
+        "mode": "delete_fixture_pack",
+        "external_state_to_revert": "none"
+      }
+    }
+  ],
+  "context_budget_ledger": {
+    "object_type": "ContextBudgetLedger",
+    "budget_status": "within_budget",
+    "total_estimated_tokens": 4345,
+    "total_max_tokens": 7200,
+    "cache_stability_policy": "stable prefixes are useful for cost but never grant authority",
+    "larger_context_window_is_not_authority": true,
+    "source_recovery_required": true,
+    "selected_context_ref_count": 6,
+    "omitted_context_ref_count": 4,
+    "searchable_only_ref_count": 5,
+    "compacted_event_ref_count": 3
+  },
+  "shard_result_receipts": [
+    {
+      "object_type": "ShardResultReceipt",
+      "shard_id": "shard_context_budget",
+      "receipt_status": "fixture_expected_result_not_executed",
+      "execution_performed": false,
+      "result_refs": [
+        "context_budget_ledger"
+      ],
+      "unverified_claim_refs": [],
+      "requires_merge_review": false
+    },
+    {
+      "object_type": "ShardResultReceipt",
+      "shard_id": "shard_memory_activation",
+      "receipt_status": "fixture_expected_result_not_executed",
+      "execution_performed": false,
+      "result_refs": [
+        "shard_context_visa"
+      ],
+      "unverified_claim_refs": [
+        "memory_policy_grant_effectiveness_not_benchmarked"
+      ],
+      "requires_merge_review": true
+    },
+    {
+      "object_type": "ShardResultReceipt",
+      "shard_id": "shard_merge_replan",
+      "receipt_status": "fixture_expected_result_not_executed",
+      "execution_performed": false,
+      "result_refs": [
+        "shard_merge_receipt",
+        "replan_trigger_receipt"
+      ],
+      "unverified_claim_refs": [],
+      "requires_merge_review": true
+    }
+  ],
+  "shard_merge_receipts": [
+    {
+      "object_type": "ShardMergeReceipt",
+      "merge_id": "merge_private_fixture_01",
+      "merge_status": "blocked_pending_replan",
+      "input_shard_ids": [
+        "shard_context_budget",
+        "shard_memory_activation",
+        "shard_merge_replan"
+      ],
+      "merge_conflict_refs": [
+        "memory_policy_grant_effectiveness_not_benchmarked"
+      ],
+      "replan_trigger": {
+        "object_type": "ReplanTriggerReceipt",
+        "trigger_id": "replan_memory_policy_effectiveness_unverified",
+        "triggered": true,
+        "reason": "A shard result references unbenchmarked policy-grant effectiveness.",
+        "next_plan_change": "Add benchmark fixture before allowing merge into public or runtime-facing claims."
+      },
+      "merge_approved": false
+    }
+  ],
+  "benchmark_gate": {
+    "object_type": "LongTaskGovernanceBenchmarkGate",
+    "private_benchmark_only": true,
+    "required_metrics": [
+      "split_quality",
+      "context_minimality",
+      "omitted_critical_context",
+      "compaction_fidelity",
+      "replan_accuracy",
+      "merge_safety",
+      "retry_isolation",
+      "context_rot_resistance",
+      "cache_stability"
+    ],
+    "savings_counted_only_when_quality_passes": true
+  },
+  "negative_fixture_contract": {
+    "object_type": "TaskShardContextNegativeFixtureContract",
+    "variant_count": 6,
+    "variants": [
+      {
+        "variant_id": "over_budget_shard",
+        "mutation": "Set one shard estimated_tokens above max_tokens.",
+        "expected_error": "estimated_tokens must be <= max_tokens"
+      },
+      {
+        "variant_id": "live_execution_flip",
+        "mutation": "Set a shard live_execution_allowed to true.",
+        "expected_error": "live execution must remain false"
+      },
+      {
+        "variant_id": "missing_selected_context",
+        "mutation": "Remove selected_context_refs from a shard.",
+        "expected_error": "selected context refs required"
+      },
+      {
+        "variant_id": "merge_conflict_without_replan",
+        "mutation": "Keep merge_conflict_refs but set replan_trigger.triggered false.",
+        "expected_error": "conflicts require replan trigger"
+      },
+      {
+        "variant_id": "public_claim_flip",
+        "mutation": "Set public_benchmark_claim_allowed to true.",
+        "expected_error": "claim_gate.public_benchmark_claim_allowed must remain false"
+      },
+      {
+        "variant_id": "cache_hit_as_authority",
+        "mutation": "Set cache_hit_is_authority to true.",
+        "expected_error": "cache hits never grant authority"
+      }
+    ]
+  },
+  "claim_gate": {
+    "public_benchmark_claim_allowed": false,
+    "public_efficiency_claim_allowed": false,
+    "public_adoption_claim_allowed": false,
+    "public_compatibility_claim_allowed": false,
+    "stable_mgp_claim_allowed": false
+  },
+  "side_effect_boundary": {
+    "fixture_pack_created": true,
+    "schema_created": true,
+    "local_files_read": true,
+    "live_workflow_executed": false,
+    "worktree_created": false,
+    "provider_or_model_call_performed": false,
+    "runtime_or_adapter_executed": false,
+    "target_file_written": false,
+    "memory_backend_written": false,
+    "memory_promotion_performed": false,
+    "public_claim_created": false
+  },
+  "rollback": {
+    "mode": "delete_fixture_schema_and_tests",
+    "delete_paths": [
+      "src/ctxvault/task_shard_context.py",
+      "scripts/check_task_shard_private_gate.py",
+      "docs/task-shard-context-control-next-session-playbook-2026-06-02.md",
+      "schemas/json/ctxvault-task-shard-context-control-fixture-pack-v0.schema.json",
+      "schemas/json/ctxvault-task-shard-context-import-shapes-v0.schema.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-context-control-fixture-pack-20260602.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-context-import-shapes-20260602.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-import-shape-negative-fixtures-20260602.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-saved-trace-imports-20260602.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-context-rehearsal-20260602.json",
+      "fixtures/v0.7.0-mgp-sidecar/task-shard-context-control/task-shard-context-budget-ledger-report-20260602.json",
+      "tests/test_task_shard_context_control_fixture.py"
+    ],
+    "external_state_to_revert": "none",
+    "notes": "No runtime, provider, worktree, target file, memory backend, public claim, or stable MGP state is created."
+  }
+}

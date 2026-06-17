@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ctxvault.local/schemas/ctxvault-task-shard-context-control-fixture-pack-v0.schema.json",
+  "title": "CtxGov Task Shard Context Control Fixture Pack v0",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_id",
+    "object_type",
+    "version",
+    "status",
+    "created_at",
+    "product_line",
+    "context_execution_gate",
+    "source_refs",
+    "task_shard_plan",
+    "shard_context_visas",
+    "context_budget_ledger",
+    "shard_result_receipts",
+    "shard_merge_receipts",
+    "benchmark_gate",
+    "negative_fixture_contract",
+    "claim_gate",
+    "side_effect_boundary",
+    "rollback"
+  ],
+  "properties": {
+    "schema_id": { "const": "ctxvault.task-shard-context-control-fixture-pack/v0" },
+    "object_type": { "const": "TaskShardContextControlFixturePack" },
+    "version": { "const": "post-v0.7.0" },
+    "status": { "const": "private_fixture_schema_only_no_runtime" },
+    "product_line": { "const": "Task Shard Context Control" },
+    "context_execution_gate": { "const": "ContextExecutionAdmission" },
+    "task_shard_plan": {
+      "type": "object",
+      "required": [
+        "object_type",
+        "task_id",
+        "plan_id",
+        "plan_status",
+        "split_strategy",
+        "shard_count",
+        "split_quality_checks",
+        "live_execution_allowed"
+      ],
+      "properties": {
+        "object_type": { "const": "TaskShardPlan" },
+        "plan_status": { "const": "planned_not_executed" },
+        "split_strategy": { "enum": ["dependency_aware_context_minimality"] },
+        "shard_count": { "type": "integer", "minimum": 2 },
+        "live_execution_allowed": { "const": false }
+      },
+      "additionalProperties": true
+    },
+    "external_import_shape_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "schema_id",
+          "path",
+          "role",
+          "surface_ids",
+          "runtime_execution_allowed"
+        ],
+        "properties": {
+          "schema_id": { "const": "ctxvault.task-shard-context-import-shapes/v0" },
+          "surface_ids": { "type": "array", "minItems": 1 },
+          "runtime_execution_allowed": { "const": false }
+        },
+        "additionalProperties": true
+      }
+    },
+    "shard_context_visas": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "object_type",
+          "shard_id",
+          "split_reason",
+          "dependency_refs",
+          "owned_paths",
+          "shared_paths",
+          "read_only_paths",
+          "selected_context_refs",
+          "omitted_context_refs",
+          "searchable_only_refs",
+          "compacted_event_refs",
+          "context_budget",
+          "cache_stability",
+          "compaction_loss",
+          "maximum_consequence",
+          "approval_ceiling",
+          "live_execution_allowed",
+          "rollback"
+        ],
+        "properties": {
+          "object_type": { "const": "ShardContextVisa" },
+          "selected_context_refs": { "type": "array", "minItems": 1 },
+          "omitted_context_refs": { "type": "array" },
+          "searchable_only_refs": { "type": "array" },
+          "maximum_consequence": {
+            "enum": ["inform", "cite", "warn", "suggest", "default", "act"]
+          },
+          "approval_ceiling": {
+            "enum": ["observe_only", "auto_warn", "auto_suggest", "owner_required"]
+          },
+          "live_execution_allowed": { "const": false }
+        },
+        "additionalProperties": true
+      }
+    },
+    "context_budget_ledger": {
+      "type": "object",
+      "required": [
+        "object_type",
+        "budget_status",
+        "total_estimated_tokens",
+        "total_max_tokens",
+        "cache_stability_policy",
+        "larger_context_window_is_not_authority",
+        "source_recovery_required"
+      ],
+      "properties": {
+        "object_type": { "const": "ContextBudgetLedger" },
+        "budget_status": { "enum": ["within_budget", "over_budget_blocked"] },
+        "larger_context_window_is_not_authority": { "const": true },
+        "source_recovery_required": { "const": true }
+      },
+      "additionalProperties": true
+    },
+    "shard_result_receipts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "object_type",
+          "shard_id",
+          "receipt_status",
+          "execution_performed",
+          "result_refs",
+          "unverified_claim_refs",
+          "requires_merge_review"
+        ],
+        "properties": {
+          "object_type": { "const": "ShardResultReceipt" },
+          "receipt_status": { "const": "fixture_expected_result_not_executed" },
+          "execution_performed": { "const": false },
+          "requires_merge_review": { "type": "boolean" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "shard_merge_receipts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "object_type",
+          "merge_id",
+          "merge_status",
+          "input_shard_ids",
+          "merge_conflict_refs",
+          "replan_trigger",
+          "merge_approved"
+        ],
+        "properties": {
+          "object_type": { "const": "ShardMergeReceipt" },
+          "merge_status": { "enum": ["safe_to_merge", "blocked_pending_replan"] },
+          "merge_approved": { "const": false }
+        },
+        "additionalProperties": true
+      }
+    },
+    "benchmark_gate": {
+      "type": "object",
+      "required": [
+        "object_type",
+        "private_benchmark_only",
+        "required_metrics",
+        "savings_counted_only_when_quality_passes"
+      ],
+      "properties": {
+        "object_type": { "const": "LongTaskGovernanceBenchmarkGate" },
+        "private_benchmark_only": { "const": true },
+        "savings_counted_only_when_quality_passes": { "const": true }
+      },
+      "additionalProperties": true
+    },
+    "claim_gate": {
+      "type": "object",
+      "properties": {
+        "public_benchmark_claim_allowed": { "const": false },
+        "public_efficiency_claim_allowed": { "const": false },
+        "public_adoption_claim_allowed": { "const": false },
+        "stable_mgp_claim_allowed": { "const": false }
+      },
+      "additionalProperties": true
+    },
+    "side_effect_boundary": {
+      "type": "object",
+      "properties": {
+        "fixture_pack_created": { "const": true },
+        "live_workflow_executed": { "const": false },
+        "worktree_created": { "const": false },
+        "provider_or_model_call_performed": { "const": false },
+        "target_file_written": { "const": false },
+        "memory_backend_written": { "const": false },
+        "public_claim_created": { "const": false }
+      },
+      "additionalProperties": true
+    }
+  }
+}

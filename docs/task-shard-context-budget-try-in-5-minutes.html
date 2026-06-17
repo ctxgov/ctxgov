@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CtxGov Task Shard Context Budget</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #111827;
+      background: #f9fafb;
+      line-height: 1.5;
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 0 0 12px;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin-top: 32px;
+      font-size: 1.25rem;
+      letter-spacing: 0;
+    }
+    pre {
+      overflow-x: auto;
+      background: #111827;
+      color: #f9fafb;
+      padding: 14px;
+      border-radius: 6px;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.95em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: #ffffff;
+    }
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f3f4f6;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>CtxGov Task Shard Context Budget</h1>
+    <p>
+      Audit a saved long-agent task plan locally. The report shows which
+      context each shard may see, which refs were omitted, which refs are
+      searchable-only, which events were compacted, and where budget, cache,
+      merge, or replan risk needs review.
+    </p>
+
+    <h2>Run Locally</h2>
+    <pre><code>python3 scripts/run_task_shard_context_budget_demo.py --input examples/task-shard-context-budget/</code></pre>
+
+    <h2>What The Report Covers</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>selected context refs</td>
+          <td>Refs admitted into the shard's local context budget.</td>
+        </tr>
+        <tr>
+          <td>omitted context refs</td>
+          <td>Refs kept visible as omitted evidence rather than silently lost.</td>
+        </tr>
+        <tr>
+          <td>searchable-only refs</td>
+          <td>Refs that may be rediscovered but are not injected as authority.</td>
+        </tr>
+        <tr>
+          <td>compacted event refs</td>
+          <td>Summary boundaries that may hide detail and need source recovery.</td>
+        </tr>
+        <tr>
+          <td>per-shard token budget</td>
+          <td>Local budget pressure per task shard.</td>
+        </tr>
+        <tr>
+          <td>cache-hit-is-not-authority rule</td>
+          <td>Cache reuse can lower cost, but grants no answer or action authority.</td>
+        </tr>
+        <tr>
+          <td>merge/replan gates</td>
+          <td>Downstream reliance requires explicit review evidence.</td>
+        </tr>
+        <tr>
+          <td>blocked side effects</td>
+          <td>No workflow, worktree, provider, target, or memory backend side effects.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Claim Boundary</h2>
+    <p>
+      This page is a local/offline report-shape demo. It is not a benchmark,
+      savings result, adoption claim, security claim, provider compatibility
+      claim, support claim, package, SARIF upload, workflow runtime, worktree
+      executor, target writer, memory backend, or stable protocol.
+    </p>
+  </main>
+</body>
+</html>
