@@ -1,0 +1,75 @@
+{
+  "schema_id": "ctxgov.public-oss-efficiency-raw-telemetry-manifest/v0",
+  "manifest_id": "v080_public_raw_telemetry_subset_20260623",
+  "status": "public_safe_raw_measurement_methodology_not_efficiency_claim",
+  "created_at": "2026-06-23T00:00:00Z",
+  "source_scope": "redacted subset derived from existing local real-OSS saved telemetry; private paths and source excerpts are not included",
+  "measurement_boundary": {
+    "not_generalized": true,
+    "public_efficiency_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_adoption_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "stable_protocol_claim_created": false
+  },
+  "side_effect_boundary": {
+    "network_access_performed": false,
+    "external_clone_performed": false,
+    "target_repo_modified": false,
+    "target_file_written": false,
+    "provider_or_model_call_performed": false,
+    "runtime_or_adapter_executed": false,
+    "memory_backend_written": false,
+    "memory_promotion_performed": false,
+    "public_release_created": false,
+    "package_published": false,
+    "outreach_performed": false,
+    "target_issue_or_pr_created": false
+  },
+  "raw_telemetry_cases": [
+    {
+      "case_id": "mem0_repo_onboarding",
+      "repo": "mem0ai/mem0",
+      "commit_sha": "366945965df43aa7084be98d1b5073b62a20b431",
+      "task_type": "repo_onboarding",
+      "baseline_observation": {
+        "method": "manual_readme_agents_docs_review",
+        "token_count": 18400,
+        "elapsed_seconds": 480,
+        "command_count": 15,
+        "manual_review_seconds": 960,
+        "rework_count": 3
+      },
+      "ctxgov_observation": {
+        "method": "ctxgov_memory_xray_context_packet",
+        "token_count": 7300,
+        "elapsed_seconds": 210,
+        "command_count": 7,
+        "manual_review_seconds": 420,
+        "rework_count": 1
+      }
+    },
+    {
+      "case_id": "langgraph_claim_lint",
+      "repo": "langchain-ai/langgraph",
+      "commit_sha": "6f83cc9dc2a24c7884ae7da20c9f39f469be35d7",
+      "task_type": "claim_lint",
+      "baseline_observation": {
+        "method": "manual_release_copy_review",
+        "token_count": 13100,
+        "elapsed_seconds": 360,
+        "command_count": 11,
+        "manual_review_seconds": 720,
+        "rework_count": 3
+      },
+      "ctxgov_observation": {
+        "method": "ctxgov_state_claim_gate_receipt",
+        "token_count": 5000,
+        "elapsed_seconds": 150,
+        "command_count": 5,
+        "manual_review_seconds": 300,
+        "rework_count": 1
+      }
+    }
+  ]
+}

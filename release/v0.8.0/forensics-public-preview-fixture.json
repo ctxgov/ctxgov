@@ -1,0 +1,42 @@
+{
+  "schema_id": "ctxgov.public-forensics-fixture/v0",
+  "fixture_id": "v080_public_forensics_preview_20260623",
+  "status": "public_safe_read_only_fixture",
+  "runs": [
+    {
+      "run_id": "run-public-change-gate-001",
+      "created_at": "2026-06-23T00:00:00Z",
+      "decision": "review_required",
+      "triggered_by": "public_fixture",
+      "root_path": "examples/change-gate-public-preview/head",
+      "finding_count": 1,
+      "findings": [
+        {
+          "finding_id": "finding-public-authority-001",
+          "finding_type": "authority_language_changed",
+          "severity": "medium",
+          "source_ref": "AGENTS.md",
+          "reason": "Head fixture adds stronger agent authority wording that should be reviewed before use."
+        }
+      ]
+    }
+  ],
+  "dispositions": [
+    {
+      "disposition_id": "disp-public-authority-001",
+      "finding_id": "finding-public-authority-001",
+      "created_at": "2026-06-23T00:10:00Z",
+      "decision": "REVIEWED",
+      "reviewer": "public-fixture",
+      "reason": "Recorded as a demonstration review receipt."
+    }
+  ],
+  "side_effect_boundary": {
+    "network_access_performed": false,
+    "target_file_written": false,
+    "provider_or_model_call_performed": false,
+    "runtime_or_adapter_executed": false,
+    "memory_backend_written": false,
+    "public_claim_created": false
+  }
+}

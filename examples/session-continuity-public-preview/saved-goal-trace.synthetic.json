@@ -8,14 +8,14 @@
       "role": "user",
       "event_kind": "goal",
       "timestamp": "2026-05-29T10:00:00-07:00",
-      "content": "/goal Build a local Session Continuity Sidecar preview. It must read only a saved trace, segment long runs, extract source-backed decisions, produce MemoryEvidencePacket, ConsequenceVisa, ModelStateSurfacePassport, and plan next-session context injection."
+      "content": "/goal Build a local Session Continuity Sidecar preview. It must read only a saved trace, segment long runs, extract source-backed decisions, produce MemoryEvidencePacket, ConsequenceVisa, ModelStateSurfacePassport, and render a next-session context packet."
     },
     {
       "event_id": "synthetic_002",
       "role": "assistant",
       "event_kind": "decision",
       "timestamp": "2026-05-29T10:08:00-07:00",
-      "content": "Decision: public preview is limited to local evidence compilation because no independent downstream adoption artifact exists. Therefore block public adoption, major significance, stable protocol, compatibility, benchmark, privacy, safety, and package claims."
+      "content": "Decision: public preview is limited to local evidence compilation. It does not create public adoption, major significance, stable protocol, compatibility, benchmark, privacy, safety, or package claims."
     },
     {
       "event_id": "synthetic_003",
@@ -36,14 +36,14 @@
       "role": "user",
       "event_kind": "release_scope",
       "timestamp": "2026-05-29T10:31:00-07:00",
-      "content": "Owner requirement: prepare a research preview reviewer packet and synthetic demo only. Do not publish, do not push a tag, do not publish to PyPI, do not do outreach, and do not claim stable protocol or compatibility."
+      "content": "Release boundary: this synthetic fixture demonstrates the local preview shape only. It does not imply tag publication, package-registry publication, outreach, stable protocol status, or compatibility support."
     },
     {
       "event_id": "synthetic_006",
       "role": "assistant",
-      "event_kind": "followup",
+      "event_kind": "review_boundary",
       "timestamp": "2026-05-29T10:38:00-07:00",
-      "content": "Next session follow-up: inject the smallest source-backed items, keep lower-priority details searchable only, and collect adoption evidence via reviewer checklist before any public adoption or major-significance language."
+      "content": "Review boundary: generated next-session context should include only source-backed items, keep lower-priority details out of the visible packet, and treat feedback as reviewer signal rather than adoption proof."
     }
   ]
 }

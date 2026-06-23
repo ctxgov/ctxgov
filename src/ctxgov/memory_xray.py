@@ -43,7 +43,7 @@ def validate_memory_xray_file(path: Path) -> dict[str, Any]:
     return {
         "schema_id": MEMORY_XRAY_VALIDATE_RESULT_SCHEMA_ID,
         "object_type": "MemoryXRayValidateResult",
-        "version": "v0.7.0",
+        "version": "v0.8.0",
         "status": "valid" if valid else "invalid",
         "valid": valid,
         "path": str(resolved_path),

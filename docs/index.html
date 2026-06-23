@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CtxGov v0.7.0 - Agent Context Health</title>
-  <meta name="description" content="CtxGov checks local agent session-continuity and memory-state evidence before the next agent session acts." />
+  <title>CtxGov v0.8.0 - Read-Only Governance Evaluation</title>
+  <meta name="description" content="CtxGov checks local agent context surfaces, saved OSS evidence, raw telemetry, and forensics fixtures without writes or network calls." />
   <style>
     body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; background: #f7f8fb; color: #18202f; }
     main { max-width: 960px; margin: 0 auto; padding: 48px 20px; }
@@ -16,23 +16,28 @@
 </head>
 <body>
   <main>
-    <p class="eyebrow">Public-only v0.7.0 package</p>
+    <p class="eyebrow">Public-only v0.8.0 package</p>
     <h1>CtxGov</h1>
-    <p>Local-first agent context health and session-continuity diagnostics before agents act.</p>
+    <p>Local-first read-only governance evaluation before agent-facing context becomes authority.</p>
     <section>
       <h2>Run Locally</h2>
       <pre><code>ctxgov continuity compile examples/session-continuity-public-preview/saved-goal-trace.synthetic.json
 ctxgov continuity render examples/session-continuity-public-preview/saved-goal-trace.synthetic.json
 ctxgov continuity apply --mode dry-run examples/session-continuity-public-preview/saved-goal-trace.synthetic.json
-ctxgov memory-xray validate release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json</code></pre>
+ctxgov memory-xray validate release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json
+ctxgov change-gate-check --baseline-root examples/change-gate-public-preview/baseline --head-root examples/change-gate-public-preview/head
+ctxgov change-gate-federate --base-path examples/federation-public-preview --no-git-required
+ctxgov oss-case-study-preview --target-name mem0 --repo-url https://github.com/mem0ai/mem0 --pinned-ref 366945965df43aa7084be98d1b5073b62a20b431 --source-path examples/oss-case-study-public-preview/mem0-source.md
+ctxgov oss-efficiency evaluate --manifest release/v0.8.0/oss-efficiency-raw-telemetry-manifest.json
+ctxgov forensics-timeline --fixture release/v0.8.0/forensics-public-preview-fixture.json</code></pre>
     </section>
     <section>
       <h2>What It Shows</h2>
-      <p>A saved trace can be compiled into source-backed continuity evidence, rendered for review, and checked with dry-run or sandbox-only apply boundaries.</p>
+      <p>Explicit local files can be inspected as Change Gate reports, Federation inventories, OSS case-study previews, raw telemetry methodology receipts, and read-only Forensics previews.</p>
     </section>
     <section>
       <h2>Limits</h2>
-      <p>No public benchmark claim, adoption claim, security certification, provider compatibility claim, hosted runtime, PyPI publication claim, stable protocol, provider/model call, target write, scheduler, daemon, or outreach is included.</p>
+      <p>No network/API call, provider/model call, scheduler, daemon, target write, public write, package-registry publish, outreach, efficiency claim, adoption claim, provider compatibility claim, hosted runtime, PyPI publication claim, or stable protocol claim is included.</p>
     </section>
   </main>
 </body>

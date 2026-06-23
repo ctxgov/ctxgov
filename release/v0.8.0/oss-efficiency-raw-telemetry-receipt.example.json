@@ -1,0 +1,33 @@
+{
+  "schema_id": "ctxgov.public-oss-efficiency-raw-telemetry-receipt/v0",
+  "created_at": "2026-06-23T00:00:00Z",
+  "status": "public_raw_measurement_methodology_not_efficiency_claim",
+  "manifest": {
+    "path": "release/v0.8.0/oss-efficiency-raw-telemetry-manifest.json",
+    "sha256": "example",
+    "case_count": 2
+  },
+  "case_results": [],
+  "measurement_boundary": {
+    "not_generalized": true,
+    "public_efficiency_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_adoption_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "stable_protocol_claim_created": false
+  },
+  "side_effect_boundary": {
+    "network_access_performed": false,
+    "external_clone_performed": false,
+    "target_repo_modified": false,
+    "target_file_written": false,
+    "provider_or_model_call_performed": false,
+    "runtime_or_adapter_executed": false,
+    "memory_backend_written": false,
+    "memory_promotion_performed": false,
+    "public_release_created": false,
+    "package_published": false,
+    "outreach_performed": false,
+    "target_issue_or_pr_created": false
+  }
+}

@@ -74,7 +74,7 @@ def compile_session_continuity_sidecar(
     return {
         "schema_id": SESSION_CONTINUITY_SCHEMA_ID,
         "object_type": "SessionContinuitySidecar",
-        "version": "v0.7.0",
+        "version": "v0.8.0",
         "status": "public_safe_saved_trace_compiler_output",
         "created_at": checked_at,
         "source": {

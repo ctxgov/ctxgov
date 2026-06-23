@@ -4,7 +4,7 @@ title: "[Session Continuity Preview] "
 labels:
   - session-continuity
   - public-preview
-  - adoption-evidence
+  - review-feedback
 body:
   - type: markdown
     attributes:
@@ -14,7 +14,7 @@ body:
     id: reviewer_role
     attributes:
       label: Reviewer role
-      placeholder: Maintainer, researcher, infrastructure engineer, design partner
+      placeholder: Maintainer, researcher, infrastructure engineer, independent reviewer
     validations:
       required: true
   - type: input
@@ -48,17 +48,17 @@ body:
     validations:
       required: true
   - type: textarea
-    id: replaced_workflow
+    id: reviewed_workflow
     attributes:
-      label: Workflow replaced or shortened
-      description: What manual reread, handoff note, memory cleanup, support step, or review process could this replace or shorten?
+      label: Workflow reviewed
+      description: What manual reread, handoff note, memory cleanup, support step, or review process did this help you inspect?
     validations:
       required: true
   - type: textarea
-    id: measurable_value_signal
+    id: review_signal
     attributes:
-      label: Measurable value signal
-      description: Estimate time saved, errors avoided, review effort reduced, or confidence gained. Qualitative answers are acceptable if concrete.
+      label: Review signal
+      description: Describe concrete review observations. Qualitative answers are acceptable if they are specific.
     validations:
       required: true
   - type: textarea
@@ -81,26 +81,26 @@ body:
   - type: textarea
     id: blockers
     attributes:
-      label: Adoption blockers
-      description: What would block you from using this on a real sanitized trace?
+      label: Use blockers
+      description: What would block you from reviewing this on a real sanitized trace?
     validations:
       required: true
   - type: dropdown
     id: public_citation_permission
     attributes:
-      label: Public citation permission
+      label: Public summary permission
       options:
-        - No public citation
+        - No public summary
         - Anonymized summary allowed
         - Project name allowed
-        - Named quote allowed
+        - Named review summary allowed
     validations:
       required: true
   - type: textarea
     id: quotable_summary
     attributes:
       label: Quotable summary
-      description: Optional. Provide only text you are comfortable with us quoting under the permission selected above.
+      description: Optional. Provide only text you are comfortable making public under the permission selected above.
     validations:
       required: false
   - type: checkboxes
