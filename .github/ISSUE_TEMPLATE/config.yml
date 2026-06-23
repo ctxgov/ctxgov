@@ -1,23 +1,26 @@
 blank_issues_enabled: false
 contact_links:
   - name: v0.4.0 First-Run Feedback
-    url: https://github.com/ctxgov/ctxgov/issues/new?template=v0.4.0-first-run-feedback.yml
+    url: https://github.com/ctxvault/ctxvault/issues/new?template=v0.4.0-first-run-feedback.yml
     about: Use this for Day 0 feedback after trying the v0.4.0 demo, gallery, receipts, or core quick start.
   - name: v0.4.0 First 10 Minutes Trial
-    url: https://github.com/ctxgov/ctxgov/issues/new?template=v0.4.0-first-10-minutes-trial.yml
+    url: https://github.com/ctxvault/ctxvault/issues/new?template=v0.4.0-first-10-minutes-trial.yml
     about: Use this for first 10 minutes trial reports without mixing them with ordinary feedback.
   - name: Mac App Alpha Feedback
-    url: https://github.com/ctxgov/ctxgov/issues/new?template=mac-app-alpha-feedback.yml
+    url: https://github.com/ctxvault/ctxvault/issues/new?template=mac-app-alpha-feedback.yml
     about: Use this for notarized Mac App Alpha launch, Gatekeeper, first-run, or feedback-bundle notes.
   - name: v0.2/M2 Developer Framework Feedback
-    url: https://github.com/ctxgov/ctxgov/issues/new?template=v0.2-m2-feedback.yml
+    url: https://github.com/ctxvault/ctxvault/issues/new?template=v0.2-m2-feedback.yml
     about: Use this for projection healthchecks, runtime receipts, review ergonomics, local backup wording, and v0.2 developer-framework feedback.
   - name: M1 Quick Feedback
-    url: https://github.com/ctxgov/ctxgov/issues/new?template=m1-quick-feedback.yml
+    url: https://github.com/ctxvault/ctxvault/issues/new?template=m1-quick-feedback.yml
     about: Use this for first-run Context Injection M1 feedback after trying the README, deterministic checks, or golden path.
+  - name: Session Continuity Preview Feedback
+    url: https://github.com/ctxvault/ctxvault/issues/new?template=session-continuity-preview-feedback.yml
+    about: Use this for local-only Session Continuity Sidecar preview feedback and adoption-evidence receipts.
   - name: Public Positioning
-    url: https://github.com/ctxgov/ctxgov/discussions
+    url: https://github.com/ctxvault/ctxvault/discussions
     about: Use Discussions for positioning, messaging, and public framing feedback.
   - name: Plugin And Adapter Ideas
-    url: https://github.com/ctxgov/ctxgov/discussions
+    url: https://github.com/ctxvault/ctxvault/discussions
     about: Use Discussions for early plugin, projection, and adapter proposals.

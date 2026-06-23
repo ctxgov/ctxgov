@@ -1,5 +1,0 @@
-profile:
-  memory: project release stance
-  authority: inform only
-  rollback: required before release decision
-  retention: expires after review

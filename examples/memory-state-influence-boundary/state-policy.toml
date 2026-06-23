@@ -1,5 +1,0 @@
-[profile]
-memory = "team release state"
-policy = "inform_only"
-rollback = "required before review"
-retention = "expires after review"

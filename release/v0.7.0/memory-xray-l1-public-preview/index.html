@@ -198,11 +198,11 @@
       <div>
         <div class="status"><span class="dot"></span>L1 public-safe report-shape example</div>
         <h1>Memory X-Ray Report</h1>
-        <p class="lead">A source-backed, rollbackable, consequence-bounded shape for reviewing memory candidates before they change future behavior.</p>
+        <p class="lead">A source-backed, rollbackable, consequence-bounded shape for reviewing memory candidates before they affect downstream behavior.</p>
         <div class="metrics" aria-label="L1 report metrics">
           <div class="metric"><strong>5</strong><span>sanitized examples</span></div>
           <div class="metric"><strong>5/5</strong><span>source/rollback/consequence ready</span></div>
-          <div class="metric"><strong>yes</strong><span>private paths redacted</span></div>
+          <div class="metric"><strong>yes</strong><span>absolute paths redacted</span></div>
           <div class="metric"><strong>yes</strong><span>provider names redacted</span></div>
         </div>
       </div>
@@ -210,7 +210,7 @@
         <h2>Report Shape</h2>
         <div class="flow">
           <div class="flow-row"><span class="badge">1</span><div><strong>Source coverage</strong><span>Selected, omitted, missing, and contradicted refs stay visible.</span></div></div>
-          <div class="flow-row"><span class="badge">2</span><div><strong>Consequence ceiling</strong><span>Future behavior impact is bounded before promotion.</span></div></div>
+          <div class="flow-row"><span class="badge">2</span><div><strong>Consequence ceiling</strong><span>Downstream behavior impact is bounded before promotion.</span></div></div>
           <div class="flow-row"><span class="badge">3</span><div><strong>Rollback template</strong><span>Every candidate has a discard or supersede path.</span></div></div>
           <div class="flow-row"><span class="badge">4</span><div><strong>Model-state surface</strong><span>The report names the kind of state inspected.</span></div></div>
         </div>
@@ -291,13 +291,8 @@
         </ul>
       </div>
       <div class="boundary-box missing">
-        <h2>Missing For A Full Product Release</h2>
-        <ul>
-          <li><strong>L2:</strong> permission, source freshness, downstream citation or reviewer feedback, claim lint, rollback.</li>
-          <li><strong>L3:</strong> stable schema, deterministic validation, failure-mode docs, no backend writes.</li>
-          <li><strong>L4:</strong> real telemetry, holdout, negative controls, reproducible methodology.</li>
-          <li><strong>L5:</strong> downstream uses, migration/versioning, compatibility policy, public spec review.</li>
-        </ul>
+        <h2>Release Boundary</h2>
+        <p>This v0.7.0 package includes report-shape examples only. Do not treat it as a benchmark, compatibility matrix, hosted runtime, or stable protocol.</p>
       </div>
     </section>
     <footer>

@@ -117,9 +117,8 @@
         ],
         "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
       },
-      "private_source_index": 1,
-      "private_source_ref": "redacted_private_saved_trace",
       "provider_or_framework": "redacted",
+      "redacted_source_ref": "redacted_saved_trace",
       "risk_band": "medium",
       "risk_score": 63,
       "rollback_template": {
@@ -135,6 +134,7 @@
         "selected_ref_count": 3,
         "source_event_count": 4
       },
+      "source_index": 1,
       "source_path": "redacted",
       "source_rollback_consequence_evidence": {
         "blocked_effect_count": 6,
@@ -259,9 +259,8 @@
         ],
         "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
       },
-      "private_source_index": 2,
-      "private_source_ref": "redacted_private_saved_trace",
       "provider_or_framework": "redacted",
+      "redacted_source_ref": "redacted_saved_trace",
       "risk_band": "medium",
       "risk_score": 63,
       "rollback_template": {
@@ -277,6 +276,7 @@
         "selected_ref_count": 3,
         "source_event_count": 4
       },
+      "source_index": 2,
       "source_path": "redacted",
       "source_rollback_consequence_evidence": {
         "blocked_effect_count": 6,
@@ -399,9 +399,8 @@
         ],
         "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
       },
-      "private_source_index": 3,
-      "private_source_ref": "redacted_private_saved_trace",
       "provider_or_framework": "redacted",
+      "redacted_source_ref": "redacted_saved_trace",
       "risk_band": "high",
       "risk_score": 88,
       "rollback_template": {
@@ -417,6 +416,7 @@
         "selected_ref_count": 3,
         "source_event_count": 4
       },
+      "source_index": 3,
       "source_path": "redacted",
       "source_rollback_consequence_evidence": {
         "blocked_effect_count": 6,
@@ -541,9 +541,8 @@
         ],
         "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
       },
-      "private_source_index": 4,
-      "private_source_ref": "redacted_private_saved_trace",
       "provider_or_framework": "redacted",
+      "redacted_source_ref": "redacted_saved_trace",
       "risk_band": "medium",
       "risk_score": 63,
       "rollback_template": {
@@ -559,6 +558,7 @@
         "selected_ref_count": 3,
         "source_event_count": 4
       },
+      "source_index": 4,
       "source_path": "redacted",
       "source_rollback_consequence_evidence": {
         "blocked_effect_count": 6,
@@ -678,9 +678,8 @@
         ],
         "schema_id": "ctxvault.memory-xray-mgp-receipt/v0"
       },
-      "private_source_index": 5,
-      "private_source_ref": "redacted_private_saved_trace",
       "provider_or_framework": "redacted",
+      "redacted_source_ref": "redacted_saved_trace",
       "risk_band": "high",
       "risk_score": 83,
       "rollback_template": {
@@ -696,6 +695,7 @@
         "selected_ref_count": 3,
         "source_event_count": 3
       },
+      "source_index": 5,
       "source_path": "redacted",
       "source_rollback_consequence_evidence": {
         "blocked_effect_count": 6,
@@ -725,11 +725,11 @@
     },
     "product_line": "OSS Efficiency Benchmark",
     "quality_metrics": {
+      "absolute_path_redaction_passed": true,
       "consequence_evidence_present_count": 5,
       "example_count": 5,
       "model_state_surface_present_count": 5,
       "oss_efficiency_ready_example_count": 5,
-      "private_path_redaction_passed": true,
       "provider_name_redaction_passed": true,
       "public_claim_boundary_passed": true,
       "quality_claim_boundary": "L1 sanitized report-shape quality only; not a public benchmark, adoption claim, compatibility claim, safety claim, or stable-MGP claim.",
@@ -745,7 +745,7 @@
     "rollback_path": "discard_or_supersede_sanitized_public_examples_pack",
     "source_evidence": {
       "present_count": 5,
-      "required_for_gate": "Every sanitized example must expose selected/omitted/missing/contradicted source-ref counts without private paths."
+      "required_for_gate": "Every sanitized example must expose selected/omitted/missing/contradicted source-ref counts without absolute user paths."
     }
   },
   "policy_profile": "team-coding-research",
@@ -753,11 +753,12 @@
     "delete_paths": [],
     "external_state_to_revert": "none",
     "mode": "discard_or_supersede_sanitized_public_examples_pack",
-    "notes": "Examples are generated from already-saved private reports with provider names, paths, trace ids, and contents redacted."
+    "notes": "Examples are generated from already-saved saved reports with provider names, paths, trace ids, and contents redacted."
   },
   "schema_id": "ctxvault.memory-xray-public-examples-pack/v0",
   "side_effect_boundary": {
     "cache_control_performed": false,
+    "external_party_contacted": false,
     "graph_index_built": false,
     "live_adapter_created": false,
     "local_file_read": true,
@@ -779,22 +780,22 @@
     "vector_index_built": false
   },
   "source": {
-    "private_example_count": 20,
-    "private_manifest_schema_id": "ctxvault.memory-xray-private-adapter-sidecar-examples/v0.1",
-    "private_source_paths_redacted": true
+    "redacted_source_example_count": 20,
+    "redacted_source_manifest_schema_id": "redacted",
+    "source_paths_redacted": true
   },
-  "status": "sanitized_examples_private_preview_no_public_spec_no_compatibility_claim",
+  "status": "sanitized_examples_public_safe_preview_no_public_spec_no_compatibility_claim",
   "summary": {
-    "all_private_paths_redacted": true,
+    "all_absolute_paths_redacted": true,
     "all_provider_names_redacted": true,
     "claim_boundary": "Sanitized shapes only; not a public spec, compatibility matrix, provider support claim, adoption claim, benchmark, or stable-MGP claim.",
     "example_count": 5,
     "quality_metrics": {
+      "absolute_path_redaction_passed": true,
       "consequence_evidence_present_count": 5,
       "example_count": 5,
       "model_state_surface_present_count": 5,
       "oss_efficiency_ready_example_count": 5,
-      "private_path_redaction_passed": true,
       "provider_name_redaction_passed": true,
       "public_claim_boundary_passed": true,
       "quality_claim_boundary": "L1 sanitized report-shape quality only; not a public benchmark, adoption claim, compatibility claim, safety claim, or stable-MGP claim.",

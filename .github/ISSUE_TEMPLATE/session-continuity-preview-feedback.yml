@@ -1,0 +1,114 @@
+name: Session Continuity preview feedback
+description: Report a local-only Session Continuity Sidecar preview trial.
+title: "[Session Continuity Preview] "
+labels:
+  - session-continuity
+  - public-preview
+  - adoption-evidence
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for public preview feedback only. Do not include secrets, sensitive traces, credentials, or customer data.
+  - type: input
+    id: reviewer_role
+    attributes:
+      label: Reviewer role
+      placeholder: Maintainer, researcher, infrastructure engineer, design partner
+    validations:
+      required: true
+  - type: input
+    id: downstream_project_or_use_case
+    attributes:
+      label: Downstream project or use case
+      description: Name the project only if it is safe to mention publicly.
+    validations:
+      required: true
+  - type: input
+    id: exact_version_or_commit
+    attributes:
+      label: Exact version or commit
+      description: Include the commit, branch, preview artifact, or artifact version you reviewed.
+    validations:
+      required: true
+  - type: textarea
+    id: command_run
+    attributes:
+      label: Command run
+      description: Paste the exact command, with secrets and sensitive paths removed.
+      placeholder: PYTHONPATH=src python3 -m ctxgov.cli continuity compile ...
+    validations:
+      required: true
+  - type: textarea
+    id: trace_shape
+    attributes:
+      label: Trace shape
+      description: Describe the saved trace shape without pasting private content.
+      placeholder: Synthetic fixture, sanitized conversation JSON, checkpoint summary, exported support run
+    validations:
+      required: true
+  - type: textarea
+    id: replaced_workflow
+    attributes:
+      label: Workflow replaced or shortened
+      description: What manual reread, handoff note, memory cleanup, support step, or review process could this replace or shorten?
+    validations:
+      required: true
+  - type: textarea
+    id: measurable_value_signal
+    attributes:
+      label: Measurable value signal
+      description: Estimate time saved, errors avoided, review effort reduced, or confidence gained. Qualitative answers are acceptable if concrete.
+    validations:
+      required: true
+  - type: textarea
+    id: output_usefulness
+    attributes:
+      label: Output usefulness
+      description: Which output fields were useful, confusing, missing, or too verbose?
+    validations:
+      required: true
+  - type: dropdown
+    id: observed_side_effects
+    attributes:
+      label: Observed side effects
+      options:
+        - No side effects observed
+        - Unsure
+        - Possible side effect observed
+    validations:
+      required: true
+  - type: textarea
+    id: blockers
+    attributes:
+      label: Adoption blockers
+      description: What would block you from using this on a real sanitized trace?
+    validations:
+      required: true
+  - type: dropdown
+    id: public_citation_permission
+    attributes:
+      label: Public citation permission
+      options:
+        - No public citation
+        - Anonymized summary allowed
+        - Project name allowed
+        - Named quote allowed
+    validations:
+      required: true
+  - type: textarea
+    id: quotable_summary
+    attributes:
+      label: Quotable summary
+      description: Optional. Provide only text you are comfortable with us quoting under the permission selected above.
+    validations:
+      required: false
+  - type: checkboxes
+    id: claim_ceiling_acknowledgement
+    attributes:
+      label: Claim ceiling acknowledgement
+      options:
+        - label: This feedback does not by itself prove public adoption, major significance, compatibility support, safety, privacy, security, benchmark performance, or stable protocol status.
+          required: true
+        - label: I did not include secrets, sensitive traces, credentials, or customer data.
+          required: true

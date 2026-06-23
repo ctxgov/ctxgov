@@ -1,4 +1,0 @@
-$ python3 scripts/check_memory_xray_formal_release_readiness.py
-running formal readiness checks...
-no output for 4 minutes
-process killed by operator

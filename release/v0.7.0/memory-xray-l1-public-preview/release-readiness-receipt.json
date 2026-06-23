@@ -6,9 +6,9 @@
     "artifact_count": 5,
     "artifacts": [
       {
-        "bytes": 2434,
+        "bytes": 1790,
         "path": "release/v0.7.0/memory-xray-l1-public-preview/README.md",
-        "sha256": "0466570dbfa8b50fa761dd30398fe774bb42cf5f318e7b2c4447288c4841fd50"
+        "sha256": "886e50f09eae17f4fc99033fbf4a4140e14f92400c0c9c6dfb896721256ce701"
       },
       {
         "bytes": 487,
@@ -16,9 +16,9 @@
         "sha256": "ec26ec1fa954af581aca59842f841717518b6fe896067b440908118b404b1dc9"
       },
       {
-        "bytes": 9802,
+        "bytes": 9444,
         "path": "release/v0.7.0/memory-xray-l1-public-preview/index.html",
-        "sha256": "c87789f5af2853ddf4381a4390e58e5dbcaae5b098b5806e9c6fe1aa17b9b2d0"
+        "sha256": "478e46376f01e8c92fae159a6e00f5d4636eacd0215d35719625620e8de95daa"
       },
       {
         "bytes": 165,
@@ -26,9 +26,9 @@
         "sha256": "010923f10d0aa311d0f12300cdf6140a2358e4fb48542c570c35876c03ca6192"
       },
       {
-        "bytes": 25571,
+        "bytes": 25504,
         "path": "release/v0.7.0/memory-xray-l1-public-preview/memory-xray-l1-examples-pack.json",
-        "sha256": "45dfd7eef21610e7a660e1f05a97c4058e1b177b9480bd998a22fb562a918db1"
+        "sha256": "4d5f045ea4a377bcf7a8facb2f38e014446b892b972f059df1412788256499ba"
       }
     ],
     "claim_boundary": "report_shape_only",

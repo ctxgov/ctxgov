@@ -1,0 +1,49 @@
+{
+  "schema_id": "ctxvault.session-continuity-saved-goal-trace/v0",
+  "trace_id": "public_safe_synthetic_session_continuity_preview_20260529",
+  "description": "Public-safe synthetic saved goal trace for local-only Session Continuity Sidecar preview review.",
+  "trace_events": [
+    {
+      "event_id": "synthetic_001",
+      "role": "user",
+      "event_kind": "goal",
+      "timestamp": "2026-05-29T10:00:00-07:00",
+      "content": "/goal Build a local Session Continuity Sidecar preview. It must read only a saved trace, segment long runs, extract source-backed decisions, produce MemoryEvidencePacket, ConsequenceVisa, ModelStateSurfacePassport, and plan next-session context injection."
+    },
+    {
+      "event_id": "synthetic_002",
+      "role": "assistant",
+      "event_kind": "decision",
+      "timestamp": "2026-05-29T10:08:00-07:00",
+      "content": "Decision: public preview is limited to local evidence compilation because no independent downstream adoption artifact exists. Therefore block public adoption, major significance, stable protocol, compatibility, benchmark, privacy, safety, and package claims."
+    },
+    {
+      "event_id": "synthetic_003",
+      "role": "tool",
+      "event_kind": "command_result",
+      "timestamp": "2026-05-29T10:18:00-07:00",
+      "content": "Command result: deterministic fixture checks passed for schemas/json/ctxvault-session-continuity-sidecar-v0.schema.json and tests/test_session_continuity_sidecar.py. No provider/model calls, runtime adapter execution, target writes, memory backend writes, or memory promotion occurred."
+    },
+    {
+      "event_id": "synthetic_004",
+      "role": "assistant",
+      "event_kind": "uncertainty",
+      "timestamp": "2026-05-29T10:24:00-07:00",
+      "content": "Uncertainty: opaque provider compaction, prompt cache hits, checkpoint state, and vector/RAG memories can preserve state that is not visible. Treat them as ModelStateSurfacePassport observations only; cache_reuse, adapter_route, sampler_bias, and act remain blocked."
+    },
+    {
+      "event_id": "synthetic_005",
+      "role": "user",
+      "event_kind": "release_scope",
+      "timestamp": "2026-05-29T10:31:00-07:00",
+      "content": "Owner requirement: prepare a research preview reviewer packet and synthetic demo only. Do not publish, do not push a tag, do not publish to PyPI, do not do outreach, and do not claim stable protocol or compatibility."
+    },
+    {
+      "event_id": "synthetic_006",
+      "role": "assistant",
+      "event_kind": "followup",
+      "timestamp": "2026-05-29T10:38:00-07:00",
+      "content": "Next session follow-up: inject the smallest source-backed items, keep lower-priority details searchable only, and collect adoption evidence via reviewer checklist before any public adoption or major-significance language."
+    }
+  ]
+}

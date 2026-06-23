@@ -7,3 +7,5 @@ __pycache__/
 .ctxvault/
 .staging/
 build/
+dist/
+src/*.egg-info/

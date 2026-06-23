@@ -1,9 +1,0 @@
-{
-  "id": "evid_20260419_ctxvault_001",
-  "claim_id": "claim_20260419_ctxvault_001",
-  "evidence_ref": "repo://ctxvault/docs/p0-scope.md",
-  "relation": "supports",
-  "excerpt": "ctxvault must provide useful P0 value with no local LLM, no remote LLM, and no shell-specific background model service.",
-  "confidence": 0.98,
-  "created_at": "2026-04-19T13:03:00+08:00"
-}
