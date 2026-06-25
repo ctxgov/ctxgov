@@ -25,9 +25,8 @@ OSS evidence.
   `ctxgov continuity apply --mode sandbox` path, which writes only to a sandbox
   file and is not a target repository write.
 - OSS Efficiency artifacts publish raw saved-run measurements and methodology
-  receipts only. They are not a speedup claim, productivity claim, adoption
-  claim, public benchmark claim, provider compatibility claim, production
-  readiness claim, or stable protocol claim.
+  receipts only. They do not derive comparative, productivity, uptake,
+  benchmark, coverage, deployment-readiness, or stable protocol conclusions.
 - No derived delta or aggregate comparison conclusion is published.
 - No adoption claim is made.
 - OSS Case Study Preview is source-descriptive only. It does not claim maintainer

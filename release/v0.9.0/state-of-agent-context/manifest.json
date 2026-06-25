@@ -1,0 +1,276 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "created_at": "2026-06-24T00:00:00Z",
+  "object_type": "StateOfAgentContextReport",
+  "project_count": 8,
+  "projects": [
+    {
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "highest_authority": "override",
+      "name": "mem0",
+      "pinned_ref": "1678e682ee70bae5c3302de5c0e39b71dfc919e0",
+      "repo_url": "https://github.com/mem0ai/mem0",
+      "scopes": [
+        "project",
+        "system",
+        "user"
+      ],
+      "sensitivity_counts": {
+        "internal": 48,
+        "public": 16,
+        "sensitive": 8
+      },
+      "surface_count": 72,
+      "surface_kinds": {
+        "agent_instruction": 1,
+        "claude_instruction": 1,
+        "mcp_config": 4,
+        "readme": 25,
+        "skill": 41
+      }
+    },
+    {
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "highest_authority": "override",
+      "name": "cline",
+      "pinned_ref": "864419d8b0c2467ec37ccb8837ddd08f96ea31f9",
+      "repo_url": "https://github.com/cline/cline",
+      "scopes": [
+        "project",
+        "session",
+        "system",
+        "user",
+        "workspace"
+      ],
+      "sensitivity_counts": {
+        "internal": 53,
+        "public": 14,
+        "sensitive": 3
+      },
+      "surface_count": 70,
+      "surface_kinds": {
+        "agent_instruction": 2,
+        "claude_instruction": 1,
+        "cline_rule": 13,
+        "github_copilot_instruction": 1,
+        "mcp_config": 3,
+        "readme": 46,
+        "skill": 4
+      }
+    },
+    {
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "highest_authority": "review_required",
+      "name": "langgraph",
+      "pinned_ref": "8c9d59c842454e7f4531f5e69ff9dab0af3c660f",
+      "repo_url": "https://github.com/langchain-ai/langgraph",
+      "scopes": [
+        "project",
+        "user"
+      ],
+      "sensitivity_counts": {
+        "internal": 4,
+        "public": 11
+      },
+      "surface_count": 15,
+      "surface_kinds": {
+        "agent_instruction": 1,
+        "claude_instruction": 1,
+        "readme": 13
+      }
+    },
+    {
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "highest_authority": "override",
+      "name": "graphiti",
+      "pinned_ref": "413b9b2e140e22f4a6d155b30ddc9779a3d47fe2",
+      "repo_url": "https://github.com/getzep/graphiti",
+      "scopes": [
+        "project",
+        "system",
+        "user"
+      ],
+      "sensitivity_counts": {
+        "internal": 9,
+        "public": 4
+      },
+      "surface_count": 13,
+      "surface_kinds": {
+        "agent_instruction": 1,
+        "claude_instruction": 1,
+        "mcp_config": 1,
+        "readme": 10
+      }
+    },
+    {
+      "capabilities": [
+        "execute",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "highest_authority": "block",
+      "name": "smolagents",
+      "pinned_ref": "526069c1ead958b36d9fd09a6b1ef37f68ed6ade",
+      "repo_url": "https://github.com/huggingface/smolagents",
+      "scopes": [
+        "project",
+        "user"
+      ],
+      "sensitivity_counts": {
+        "internal": 4,
+        "public": 2,
+        "restricted": 1
+      },
+      "surface_count": 7,
+      "surface_kinds": {
+        "agent_instruction": 1,
+        "readme": 6
+      }
+    },
+    {
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "highest_authority": "override",
+      "name": "continue",
+      "pinned_ref": "d0a3c0b626b5bebc3bef4742eec05a0242be0bab",
+      "repo_url": "https://github.com/continuedev/continue",
+      "scopes": [
+        "project",
+        "system",
+        "user"
+      ],
+      "sensitivity_counts": {
+        "internal": 27,
+        "public": 4
+      },
+      "surface_count": 31,
+      "surface_kinds": {
+        "agent_instruction": 1,
+        "readme": 28,
+        "skill": 2
+      }
+    },
+    {
+      "capabilities": [
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "highest_authority": "block",
+      "name": "aider",
+      "pinned_ref": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "repo_url": "https://github.com/Aider-AI/aider",
+      "scopes": [
+        "project"
+      ],
+      "sensitivity_counts": {
+        "internal": 2,
+        "public": 3
+      },
+      "surface_count": 5,
+      "surface_kinds": {
+        "readme": 5
+      }
+    },
+    {
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "highest_authority": "override",
+      "name": "autogen",
+      "pinned_ref": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "repo_url": "https://github.com/microsoft/autogen",
+      "scopes": [
+        "project",
+        "system",
+        "user"
+      ],
+      "sensitivity_counts": {
+        "internal": 34,
+        "public": 14,
+        "restricted": 1,
+        "sensitive": 2
+      },
+      "surface_count": 51,
+      "surface_kinds": {
+        "github_copilot_instruction": 1,
+        "readme": 50
+      }
+    }
+  ],
+  "report_id": "soc_3464617b59c82591",
+  "schema_id": "ctxgov.state-of-agent-context-report/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "version": "v0"
+}

@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ctxgov.local/schemas/ctxgov-governance-replay-trace-v0.schema.json",
+  "title": "CtxGov Governance Replay Trace v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "object_type",
+    "version",
+    "created_at",
+    "trace_id",
+    "replay_mode",
+    "without_governance_run",
+    "with_governance_run",
+    "replay_observation",
+    "claim_boundary",
+    "side_effect_boundary",
+    "rollback_ref"
+  ],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "ctxgov.governance-replay-trace/v0",
+      "enum": ["ctxgov.governance-replay-trace/v0"]
+    },
+    "object_type": {
+      "type": "string",
+      "const": "GovernanceReplayTrace",
+      "enum": ["GovernanceReplayTrace"]
+    },
+    "version": {
+      "type": "string",
+      "const": "v0",
+      "enum": ["v0"]
+    },
+    "created_at": { "$ref": "#/$defs/Timestamp" },
+    "trace_id": { "$ref": "#/$defs/NonEmptyString" },
+    "replay_mode": {
+      "type": "string",
+      "enum": ["saved-trace-deterministic"]
+    },
+    "without_governance_run": { "$ref": "#/$defs/WithoutGovernanceRun" },
+    "with_governance_run": { "$ref": "#/$defs/WithGovernanceRun" },
+    "replay_observation": { "$ref": "#/$defs/ReplayObservation" },
+    "claim_boundary": { "$ref": "#/$defs/ClaimBoundary" },
+    "side_effect_boundary": { "$ref": "#/$defs/SideEffectBoundary" },
+    "rollback_ref": { "$ref": "#/$defs/NonEmptyString" }
+  },
+  "$defs": {
+    "NonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "Timestamp": {
+      "type": "string",
+      "minLength": 1
+    },
+    "CategoryName": {
+      "type": "string",
+      "enum": ["authority", "capability", "scope", "lifecycle", "evidence", "structural"]
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "sha256"],
+      "properties": {
+        "ref": { "$ref": "#/$defs/NonEmptyString" },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "WithoutGovernanceRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "governance_enabled", "input_ref", "output_ref", "source_refs"],
+      "properties": {
+        "run_id": { "$ref": "#/$defs/NonEmptyString" },
+        "governance_enabled": {
+          "type": "boolean",
+          "enum": [false]
+        },
+        "input_ref": { "$ref": "#/$defs/NonEmptyString" },
+        "output_ref": { "$ref": "#/$defs/NonEmptyString" },
+        "source_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SourceRef" }
+        }
+      }
+    },
+    "WithGovernanceRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "governance_enabled", "input_ref", "output_ref", "source_refs"],
+      "properties": {
+        "run_id": { "$ref": "#/$defs/NonEmptyString" },
+        "governance_enabled": {
+          "type": "boolean",
+          "enum": [true]
+        },
+        "input_ref": { "$ref": "#/$defs/NonEmptyString" },
+        "output_ref": { "$ref": "#/$defs/NonEmptyString" },
+        "source_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SourceRef" }
+        }
+      }
+    },
+    "ReplayObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coverage_receipt_ref",
+        "context_delta_raw_telemetry_ref",
+        "changed_categories",
+        "interpretation_boundary"
+      ],
+      "properties": {
+        "coverage_receipt_ref": { "$ref": "#/$defs/NonEmptyString" },
+        "context_delta_raw_telemetry_ref": { "$ref": "#/$defs/NonEmptyString" },
+        "changed_categories": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/CategoryName" }
+        },
+        "interpretation_boundary": {
+          "type": "string",
+          "enum": ["deterministic_replay_observation_only"]
+        }
+      }
+    },
+    "ClaimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "public_claim_created",
+        "comparative_outcome_claim_created",
+        "external_use_claim_created",
+        "readiness_or_certification_claim_created",
+        "universal_fit_claim_created",
+        "result_authority_claim_created",
+        "protocol_guarantee_claim_created"
+      ],
+      "properties": {
+        "public_claim_created": { "type": "boolean", "enum": [false] },
+        "comparative_outcome_claim_created": { "type": "boolean", "enum": [false] },
+        "external_use_claim_created": { "type": "boolean", "enum": [false] },
+        "readiness_or_certification_claim_created": { "type": "boolean", "enum": [false] },
+        "universal_fit_claim_created": { "type": "boolean", "enum": [false] },
+        "result_authority_claim_created": { "type": "boolean", "enum": [false] },
+        "protocol_guarantee_claim_created": { "type": "boolean", "enum": [false] }
+      }
+    },
+    "SideEffectBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_call_performed",
+        "provider_model_call_performed",
+        "api_call_performed",
+        "live_model_call_performed",
+        "scheduler_or_daemon_started",
+        "target_file_written",
+        "public_repo_written",
+        "package_published"
+      ],
+      "properties": {
+        "network_call_performed": { "type": "boolean", "enum": [false] },
+        "provider_model_call_performed": { "type": "boolean", "enum": [false] },
+        "api_call_performed": { "type": "boolean", "enum": [false] },
+        "live_model_call_performed": { "type": "boolean", "enum": [false] },
+        "scheduler_or_daemon_started": { "type": "boolean", "enum": [false] },
+        "target_file_written": { "type": "boolean", "enum": [false] },
+        "public_repo_written": { "type": "boolean", "enum": [false] },
+        "package_published": { "type": "boolean", "enum": [false] }
+      }
+    }
+  }
+}

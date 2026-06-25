@@ -7,9 +7,9 @@
 - Keeps all new public commands local-file-only with no network/API calls,
   provider/model calls, target writes, schedulers, daemons, public writes,
   package-registry publishing, or outreach.
-- Publishes raw saved-run measurements only as receipt data, not as speedup,
-  productivity, adoption, compatibility, public benchmark, or stable protocol
-  claims.
+- Publishes raw saved-run measurements only as receipt data, without deriving
+  comparative, productivity, uptake, coverage, public benchmark, or stable
+  protocol conclusions.
 
 ## v0.7.0
 

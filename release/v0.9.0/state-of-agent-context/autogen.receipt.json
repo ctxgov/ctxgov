@@ -1,0 +1,1407 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "created_at": "2026-06-24T00:00:00Z",
+  "object_type": "StateOfAgentContextProjectReceipt",
+  "project": {
+    "name": "autogen",
+    "pinned_ref": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+    "repo_url": "https://github.com/microsoft/autogen"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-project-receipt/v0",
+  "semantic_inventory": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "highest_authority": "override",
+    "scopes": [
+      "project",
+      "system",
+      "user"
+    ],
+    "sensitivity_counts": {
+      "internal": 34,
+      "public": 14,
+      "restricted": 1,
+      "sensitive": 2
+    },
+    "surface_count": 51,
+    "surface_kinds": {
+      "github_copilot_instruction": 1,
+      "readme": 50
+    }
+  },
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "caf74d956b02245da02aade7a8ecd4ca668e410d95968d8837583c0c94d07ba5"
+  },
+  "surfaces": [
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "inform",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "restricted",
+      "sha256": "b64a92953d70aa1edea7dde480d6607a6757b4b575dc513b4a503cd4ca024c01",
+      "source_ref": "file://.github/copilot-instructions.md",
+      "surface_kind": "github_copilot_instruction"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "989b8f12c479365cfe6690133a411ecc64729cb25e95d772f24b3ea0ba557e63",
+      "source_ref": "file://docs/dotnet/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "a7c148e4241c7a277260bc24aa3c0015bd13e2d07d6b4fe673bb5ee1dffb4f4d",
+      "source_ref": "file://dotnet/nuget/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "de03b95792c94f4e7f3c684b88e4bde26a1d65d5a232a74bc57e8214897f6d73",
+      "source_ref": "file://dotnet/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "37f7e70fa7e794ff07345d221a45f63eca54de31c657ee21ff8857208489360a",
+      "source_ref": "file://dotnet/samples/dev-team/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "7211b718d5f60410d3588b9255f65427f605fd95414a87a5d9dfc0374382852d",
+      "source_ref": "file://dotnet/samples/dev-team/seed-memory/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "6e7ebdeca98217b7bf7daf39b3a68fbb61be4870d76c691d56794c415584be10",
+      "source_ref": "file://dotnet/samples/Hello/HelloAgent/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "9c17602aa7e870d60d7e107b5f04658c9d8065cfa0bb72186dea75be668ab68e",
+      "source_ref": "file://dotnet/samples/Hello/HelloAgentState/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "f7cc16487c197eabb3602664ce94e9d55302c53120082d46e880ba9d88bb8893",
+      "source_ref": "file://dotnet/samples/Hello/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "df47db1b85d0be2309127850aca82f148431155b85ab85bb3a5f4cb03134e7de",
+      "source_ref": "file://dotnet/src/AutoGen.LMStudio/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "04e6f4699d1ac7f891a14387676420b74b9e9793bdeb478f06e0194f0cbc48c2",
+      "source_ref": "file://dotnet/src/AutoGen.SourceGenerator/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "4a11ad8d40d0ab2a61aa2300a3a127eafa91249da756ad3a6f1f9974942dc973",
+      "source_ref": "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/core_xlang_hello_python_agent/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "6e7ebdeca98217b7bf7daf39b3a68fbb61be4870d76c691d56794c415584be10",
+      "source_ref": "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/HelloAgentTests/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "5fceeb0697c48f07d842c05009a090c43c527a3303e99f7783c81d992a49eace",
+      "source_ref": "file://dotnet/website/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "6515f38ca860dfa83a005d6d7521c7a072c4cab5054f6f28b24c1b61705ea999",
+      "source_ref": "file://python/docs/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "62727a7429a966d36cece7288699fde0f4f45a286561addcf440eca3786d3601",
+      "source_ref": "file://python/packages/agbench/benchmarks/GAIA/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "b30acaca34fff0b8a824277f774e07d481308f92dfef7d79a3a302bf324ebbbd",
+      "source_ref": "file://python/packages/agbench/benchmarks/HumanEval/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "e9a4ca5f2a0bd3883750408146f50afea431dc9e168c4abc2f4b03ce4028685d",
+      "source_ref": "file://python/packages/agbench/benchmarks/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "4bed50113a402ccb40b9bdc50ab5a6bf5364bccc4df930d2a003fe982db6839a",
+      "source_ref": "file://python/packages/agbench/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "b719202872caa12bfde45711dc2e0de4f6177bf42a0a8ba4d6339e235cc9b4c7",
+      "source_ref": "file://python/packages/autogen-agentchat/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "2acbb256c285abb1112665c4fa0a4eaf1efad810facb077ab371f80377b21575",
+      "source_ref": "file://python/packages/autogen-core/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "0b2d429a62e86a10ea12d4dd6d9de23641b4e761e6258debb4815aba5a621999",
+      "source_ref": "file://python/packages/autogen-ext/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "ed63a56b3d248e1aa7a66358c3d45bd68baee83805ec3c089946a1d9114fedec",
+      "source_ref": "file://python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "9e17e05bf609a8691e2c37edfff7ea9aa771f9256dd92d04e86cfebdc4e97e9b",
+      "source_ref": "file://python/packages/autogen-ext/src/autogen_ext/tools/mcp/_host/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": true,
+        "highest_effect": "read_only",
+        "override_priority": null,
+        "owner_ref": "{adam"
+      },
+      "capabilities": [
+        "inform",
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "841f904f96d57a8ca829e0642ebecc1a3165efbf662281c29c199bae3356fde5",
+      "source_ref": "file://python/packages/autogen-magentic-one/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "75b97f8fad021e2265c5c5122eb974bdf82f24dbaed986a3cc9591f3b498042c",
+      "source_ref": "file://python/packages/autogen-studio/frontend/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "allow",
+        "override_priority": null
+      },
+      "capabilities": [
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "de6d04aa070dd2b3b977963c7ba5c21feb254dbce0c0e08d873a217dd7d91312",
+      "source_ref": "file://python/packages/autogen-studio/frontend/src/components/shared/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "1a732d02375646f5620310938446cfa86be9ff4875abe04d55b9472c8c9da109",
+      "source_ref": "file://python/packages/autogen-studio/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "2cf6fea3b4b3f6b19ded1d0d5b5640f55ee2852bdf13544f3f469a7cbc422418",
+      "source_ref": "file://python/packages/autogen-test-utils/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "e75c0f013bb6eaaf4c1998d4615890806ffa1019546ba985cbb66a524f369457",
+      "source_ref": "file://python/packages/component-schema-gen/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "b930cbbe4b3c21335a787ba9588891dee77418328b54a6ec395daf3977a0e936",
+      "source_ref": "file://python/packages/magentic-one-cli/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "8d3f901d2311d815592db485ff26b08c0de3f1c115381a7917c7b1484c546401",
+      "source_ref": "file://python/packages/pyautogen/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "098c8467e3b9a28e506e87bd78eb0078bb1205175b4e375bf8e5f525cd759e08",
+      "source_ref": "file://python/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "b61347663d30dff1a172bd188fa30519a4f073db2f3e207ee6aab38f359146d1",
+      "source_ref": "file://python/samples/agentchat_azure_postgresql/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "31ff569b4ca18318bd0240fddae0d61a291ea7ed7045a999a2159e6a20ab4ff7",
+      "source_ref": "file://python/samples/agentchat_chainlit/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "7e008c968f05a0cd6c1ef558495eab62088b9be936d6b8ef3c1fa6fec6b3d825",
+      "source_ref": "file://python/samples/agentchat_chess_game/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "allow",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "6420dce19921c92163c50b6b558857dbb125ffb00e340dfce9ac660fa33f1423",
+      "source_ref": "file://python/samples/agentchat_fastapi/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "d05af6ca08f785a3e453b8166c8ed79b3b66d78f9c9bbef074d748884147dc06",
+      "source_ref": "file://python/samples/agentchat_graphrag/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "inform",
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "e8aca070d0d7ce198c0df36d8dc0a4392ca62146e58bb8dcb235410419195beb",
+      "source_ref": "file://python/samples/agentchat_streamlit/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "8a7add85654be9505655939492d02f4df208a9d79c05515f65e768631fb632d6",
+      "source_ref": "file://python/samples/core_async_human_in_the_loop/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "6644aa804c1bc514664a5f6720e037ac487ebedfda595199cd4f8efdc25ddbe5",
+      "source_ref": "file://python/samples/core_chainlit/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "28ef6743407095311fc73314ae3a41d68398a5a55692c708369427e3ff7751a2",
+      "source_ref": "file://python/samples/core_chess_game/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "public",
+      "sha256": "3046e66aecd4c2a9382ae3fc57e6142339ed2fceba23e0e8f0e3ae1a982e0276",
+      "source_ref": "file://python/samples/core_distributed-group-chat/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "111d125b1cca6f4c2be6321465989671de376f24b00980e2ff379aef7235f731",
+      "source_ref": "file://python/samples/core_semantic_router/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "56c06a120796696cbb65bc42d1c23287921c47fb66623d1deaa1870d34798267",
+      "source_ref": "file://python/samples/core_streaming_handoffs_fastapi/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "56579117465d4af1fd62aae534ea0b439a37e509b250e7b9733b85ba1335cb0a",
+      "source_ref": "file://python/samples/core_streaming_response_fastapi/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "4a11ad8d40d0ab2a61aa2300a3a127eafa91249da756ad3a6f1f9974942dc973",
+      "source_ref": "file://python/samples/core_xlang_hello_python_agent/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "454d5fdc01f0dffda3172348fd746c34042e1f8f57d5c14b5ad96c31edbbc0b1",
+      "source_ref": "file://python/samples/gitty/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "0ce2ef2639ad341423dd75fa37fada929a4ca27dcb340222a929848811c4fb9e",
+      "source_ref": "file://python/samples/task_centric_memory/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "78a1a106e6f07503373f668a76c2fa04327faf220cb35fdaca9ea7a741f636d2",
+      "source_ref": "file://python/templates/new-package/{{cookiecutter.package_name}}/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "explicitly_scoped"
+        ],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "5d300aa3304aeecf1a48f68ac76a1af255b8645d666b8aa154790cb30f1dbb94",
+      "source_ref": "file://README.md",
+      "surface_kind": "readme"
+    }
+  ],
+  "version": "v0"
+}

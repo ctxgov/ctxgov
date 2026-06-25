@@ -1,0 +1,1956 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "created_at": "2026-06-24T00:00:00Z",
+  "object_type": "StateOfAgentContextProjectReceipt",
+  "project": {
+    "name": "cline",
+    "pinned_ref": "864419d8b0c2467ec37ccb8837ddd08f96ea31f9",
+    "repo_url": "https://github.com/cline/cline"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-project-receipt/v0",
+  "semantic_inventory": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "highest_authority": "override",
+    "scopes": [
+      "project",
+      "session",
+      "system",
+      "user",
+      "workspace"
+    ],
+    "sensitivity_counts": {
+      "internal": 53,
+      "public": 14,
+      "sensitive": 3
+    },
+    "surface_count": 70,
+    "surface_kinds": {
+      "agent_instruction": 2,
+      "claude_instruction": 1,
+      "cline_rule": 13,
+      "github_copilot_instruction": 1,
+      "mcp_config": 3,
+      "readme": 46,
+      "skill": 4
+    }
+  },
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "32a8c7ac4ac8c1dabe7c1c4760f2768519feb1a89c6bb51825ae93927509ca37"
+  },
+  "surfaces": [
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "1b0a8daf4bed889a3ea0285453003c4989048a0745524d9c40db271fb7fe0706",
+      "source_ref": "file://sdk/AGENTS.md",
+      "surface_kind": "agent_instruction"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "allow",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "ad60eac360450b712380416c71b0a9e59c835782175f2052bdb95631cae3a1c0",
+      "source_ref": "file://sdk/packages/llms/AGENTS.md",
+      "surface_kind": "agent_instruction"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "a6173deede31e86d28400fda0773ab0681542788dacb44943d79e2c8e4190add",
+      "source_ref": "file://CLAUDE.md",
+      "surface_kind": "claude_instruction"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "40f98d4f051aa952d9d8eefee38136a0152d894f1f1d2d85493edccf9b5fc981",
+      "source_ref": "file://.clinerules/cline-overview.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "b5a82a603070a0c572e33534e0998a172e6be4e1e5376a4dd7dcb3f2a08a74ea",
+      "source_ref": "file://.clinerules/general.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "explicitly_scoped"
+        ],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "4f93bc38b2be84f508de5edef645bf44a0c636405230037fe1c5efcf3889716e",
+      "source_ref": "file://.clinerules/hooks/README.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "e8eab854b5dc81255127d6574cf5a56aa42e5f02e9efb675f5b42d370e83f52a",
+      "source_ref": "file://.clinerules/network.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "6a58243418532da002217288402fc2a0a88f750f85cb4d589a45c5760ea0d8c3",
+      "source_ref": "file://.clinerules/protobuf-development.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "fc55429d30e2c4c9ba133fbb5c7fe19737a1a53e70654bc5b8da3d3f5e375fdb",
+      "source_ref": "file://.clinerules/storage.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "7ec22a394e05751c43ed2bb217a55746d3000ac294f57f227d4a5ebe2f30e104",
+      "source_ref": "file://.clinerules/workflows/address-pr-comments.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "c1de82d867c5b9208c4081c615d2065c4aadc4caeb2463696e13d7d29fbeb739",
+      "source_ref": "file://.clinerules/workflows/find-pr-reviewers.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "ffea56629bd2a6a28835cb23a6de4e38c87898f64747ef48bad876c428fad5b2",
+      "source_ref": "file://.clinerules/workflows/git-branch-analysis.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "allow",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "e1796fbc5622cb7d8526931abd2d27bca690364b8a86d17d04cfc6cfc413c4f8",
+      "source_ref": "file://.clinerules/workflows/hotfix-release.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "0fbd206ba1794bdfa3608a99e798b765bb965848d7577b53f97acb8788de7464",
+      "source_ref": "file://.clinerules/workflows/pr-review.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "aa0a0a351680008d4ebac5b70bb56a32e3702fc3ad2b830ca0885d641e11fcc7",
+      "source_ref": "file://.clinerules/workflows/release.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "1ef6f89969a10aeb0e85952dce320e2053ed5cb4a70ca740930f25d150be5a5b",
+      "source_ref": "file://.clinerules/workflows/writing-documentation.md",
+      "surface_kind": "cline_rule"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "ccc872ee0253b9df3a7a058acf64a6ace6f98357c361682da1a7343829fae7b6",
+      "source_ref": "file://.github/copilot-instructions.md",
+      "surface_kind": "github_copilot_instruction"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "c8cd6bf4e4dedba06e770dfdaa2e1be4e8becd75896bae95d6ed07762456aa8f",
+      "source_ref": "file://apps/cli/src/tests/configs/claude-sonnet-4.6/data/settings/cline_mcp_settings.json",
+      "surface_kind": "mcp_config"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "c8cd6bf4e4dedba06e770dfdaa2e1be4e8becd75896bae95d6ed07762456aa8f",
+      "source_ref": "file://apps/cli/src/tests/configs/default/data/settings/cline_mcp_settings.json",
+      "surface_kind": "mcp_config"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "c8cd6bf4e4dedba06e770dfdaa2e1be4e8becd75896bae95d6ed07762456aa8f",
+      "source_ref": "file://apps/cli/src/tests/configs/unauthenticated/data/settings/cline_mcp_settings.json",
+      "surface_kind": "mcp_config"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": true,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "3e5ccdb3ced4a27ccdf21f882ea9b8cfeaee59e3623e610b5af456e965d5062e",
+      "source_ref": "file://apps/cli/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "8e3563d2a1240619e4e7677fe6f5c4e7f84ae759249da99293809c3a6504a862",
+      "source_ref": "file://apps/cli/src/tests/configs/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "fbe75a767fe5cd70844cda47c45b9a69f07065d9309468062ea714139302e1ed",
+      "source_ref": "file://apps/cline-hub/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "ea73f6cf63dfad63387ffda134aa9177702438007ab2c2798011f98525a9a680",
+      "source_ref": "file://apps/examples/cli-agent/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "22886d9f5aff50cdc983dc3db18ba77afedd2e66f916cf415f2e08e085645e5d",
+      "source_ref": "file://apps/examples/cline-core-cli-agent/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "7120f5b21294d7ba044da97f09e560a325a80d74abafdfe15b02ac314e439ccd",
+      "source_ref": "file://apps/examples/code-review-bot/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "workspace"
+      },
+      "sensitivity": "public",
+      "sha256": "80163c4763322ab2a07ee60ae6cf6c86fb63330a08c485c3649ab11aacfc75d9",
+      "source_ref": "file://apps/examples/desktop-app/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "fa8bece0155039c387ca5e19fd00a1f451e16f68ca2debaeff1e3d16a18a53f6",
+      "source_ref": "file://apps/examples/menubar/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "f2b88d30152671b6b58c169f678698f60cacc24c4c08805326d3842d497cc016",
+      "source_ref": "file://apps/examples/multi-agent/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "70c970efa6208ec238da24325fd5df642909195f0d2f8b661f9d7e098e535f69",
+      "source_ref": "file://apps/examples/quickstart/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "8032720218e9e058dedcdfee0debad9c1ec4636ca9ff49ed0688f0662e209437",
+      "source_ref": "file://apps/examples/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "session"
+      },
+      "sensitivity": "public",
+      "sha256": "eefe581fba820408a60662c193f5f4cfdb98f2f6d4bbf220abb5c1e0b9a89f9d",
+      "source_ref": "file://apps/examples/vscode/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "8dc9e0ee2281acb3324624fbe6eb7e1377cc626f616ea4dc90e3a90ae094374d",
+      "source_ref": "file://apps/examples/vscode/src/webview/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_ref": "file://apps/vscode/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "be5c2c0e8cc6fa6ee40c6f0fe606595a3e823859e4f82b492ffb89b3cf12784c",
+      "source_ref": "file://apps/vscode/src/core/hooks/__tests__/fixtures/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "workspace"
+      },
+      "sensitivity": "internal",
+      "sha256": "65b54026c85886b7d368e32a773dd410c2a72f81ddb0567dcae6b0ba1f513968",
+      "source_ref": "file://apps/vscode/src/core/hooks/__tests__/fixtures/template/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "f172a22a25c493dcb11805dc78e29d4054db60e0e6768d6e661a77008134f19c",
+      "source_ref": "file://apps/vscode/src/core/prompts/system-prompt/__tests__/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "68d84064200f452813fa2f17e1929a37b634a6aa4465cb666003aebc800c12d3",
+      "source_ref": "file://apps/vscode/src/core/prompts/system-prompt/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "ff01b61e9f2faa5a98e556e9e6dd09ff190d083d5fabcfb50004e90a2a4eb64f",
+      "source_ref": "file://apps/vscode/src/core/prompts/system-prompt/tools/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "508a029ce604970a1c302d14ff60f8c680eb4c951e3dcfe5f1b0f214888b342f",
+      "source_ref": "file://apps/vscode/src/core/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "eb5a4b81213d25e0907aaeeb985977932e4fea2a04c524c2af293ff9799a0180",
+      "source_ref": "file://apps/vscode/src/exports/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "workspace"
+      },
+      "sensitivity": "internal",
+      "sha256": "ddb255528ec319a4ec895392ed36dc1150687b2bbf323e538b6f8e8e409c4925",
+      "source_ref": "file://apps/vscode/src/test/e2e/fixtures/workspace/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "workspace"
+      },
+      "sensitivity": "internal",
+      "sha256": "bffc46999b7e1f21121042999195d592a78154ce24f2a4fabd34015275f0f5ff",
+      "source_ref": "file://apps/vscode/src/test/e2e/fixtures/workspace_2/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "allow",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "ba04d83de09a44184e4b9401a9337534cc328f3ab0c3256a44b57b7387c31144",
+      "source_ref": "file://apps/vscode/src/test/e2e/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "3e3a081fcf6d37ffd83e1b49b5dba233de3b3c87a7551df16665c53ce713277f",
+      "source_ref": "file://apps/vscode/testing-platform/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "cf6b905902091fb8e227642fba1115474bead70af969e90354bd1ecf95491b19",
+      "source_ref": "file://apps/vscode/webview-ui/.storybook/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "4bf64eccfe75d0e0b5729ecfd2722da36c5a97627dd73e6cc896ad50cb09619a",
+      "source_ref": "file://apps/vscode/webview-ui/src/components/settings/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "aba014e9284d6e2ccf87d0504eeb822ed74c2fe68edf401c51a8a0de87c087c0",
+      "source_ref": "file://evals/e2e/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "a12f2848fadad5418379e84d624c3256c575cef134fce5ad912226dcb06f6fa2",
+      "source_ref": "file://evals/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "778435f86f9e7dce5e68773aa5c704fa3596595f891a514f69470bf1888d79fd",
+      "source_ref": "file://evals/smoke-tests/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": true,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "6985b2187ef11cf93778f706b845d1110605df310672f1050fd5fac7ddaa4096",
+      "source_ref": "file://README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "match"
+        ],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "dd8883a64c622dc8aeb7749a71b84d7fb3bd2a559ec73a2a7b6dcd0a3f694b22",
+      "source_ref": "file://sdk/examples/cron/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "6ba717b4c2581830756e06bd643e33882c904715fc99babc45b1597405ba8862",
+      "source_ref": "file://sdk/examples/hooks/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "explicitly_scoped",
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "17e3aae61a03bb6db1f0440fb6464a3c53e1421b141e7a5b9e3b3dd6fa677055",
+      "source_ref": "file://sdk/examples/plugins/agents-squad/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "c6334f610f273fd29ef8f9618de11483e04c8743cd595b5dd845ac1e16e368ac",
+      "source_ref": "file://sdk/examples/plugins/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "da72afa22749402112ec792b83bba3257f9b21a3ddf2f543e92aaf625a087849",
+      "source_ref": "file://sdk/examples/plugins/typescript-lsp/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "ae7ef1098bbf00b28a6afdbdb770647ce00eed056779d380ecedd4c02594d6d6",
+      "source_ref": "file://sdk/examples/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "541375a9a1d90a19af6a96ddaa77e17f49b7ba11bb2bd4f0e5686bf67c70c2de",
+      "source_ref": "file://sdk/packages/agents/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "c89407fbd30ae79618e17ec60240e13f0c1ef2b72a7c3fb16f880033c211562d",
+      "source_ref": "file://sdk/packages/core/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "a722c47613c75642cd480d255867f625aefce51a7b2660b529617cd399ff1b82",
+      "source_ref": "file://sdk/packages/llms/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "d87fc7ce580a139e957aa79607391fe7efad4d47511f93cf82af05361d26dee2",
+      "source_ref": "file://sdk/packages/llms/src/catalog/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "242e494f800bc30135c1168afbcb683b6b1b0c79761a5749dfd9ac2ace6daaad",
+      "source_ref": "file://sdk/packages/llms/src/providers/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "9a02758eba51e856ea5fe4474f98c91af92e9572932e0098aa2099d110d2cf79",
+      "source_ref": "file://sdk/packages/llms/src/tests/provider-vcr/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "session"
+      },
+      "sensitivity": "internal",
+      "sha256": "0495837d75260f872b1bab35f2a99c704f978a91a423aecf682264dc00213e53",
+      "source_ref": "file://sdk/packages/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "c51655ffa79fae43c613e270e308df4d3e15dfe0d886e5c5183bf4610da5f523",
+      "source_ref": "file://sdk/packages/shared/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "d4daead680e34dc95fcda57cc4eed910ca17057e54acd47b343deeffd4743534",
+      "source_ref": "file://sdk/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "execute",
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "39f17d3575843c00deccf8419460a7469b87f1f8cf82434cdafd8de104dd374a",
+      "source_ref": "file://.agents/skills/cline-sdk/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "1d49400f76874ca05a277397e510a77c7cad68ac7477638b1c39d4e3e17d99f9",
+      "source_ref": "file://.agents/skills/create-pull-request/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "c7126cca7366f7d30755c53aeba34e16d3e19b4756e0fc7e6775e1a02bcedec5",
+      "source_ref": "file://.agents/skills/opentui/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "fd393a4fade748fb46afb2806f450686aaad5512238751db333c2ef0a676069b",
+      "source_ref": "file://.cline/skills/publish-cli/SKILL.md",
+      "surface_kind": "skill"
+    }
+  ],
+  "version": "v0"
+}

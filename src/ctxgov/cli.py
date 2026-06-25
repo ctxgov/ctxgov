@@ -6,9 +6,10 @@ from pathlib import Path
 import sys
 
 from . import __version__
-from .change_analysis import build_change_gate_report_for_roots
+from .change_analysis import build_change_gate_report_for_roots, render_change_gate_report_summary
 from .federation import federate, federate_auto_discover
 from .forensics import build_forensic_timeline, identify_evidence_gaps, trace_evidence_path
+from .governance_eval import build_governance_replay_receipts
 from .memory_xray import validate_memory_xray_file
 from .oss_case_study import build_oss_case_study_preview
 from .oss_efficiency import evaluate_oss_efficiency_manifest, validate_oss_efficiency_receipt_file
@@ -27,7 +28,7 @@ def _json(payload: dict) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="ctxgov",
-        description="CtxGov v0.8.0 public CLI: local read-only governance evaluation and session-continuity commands.",
+        description="CtxGov v0.9.0 public CLI: local governance evaluation and session-continuity commands.",
     )
     parser.add_argument("--version", action="version", version=f"ctxgov {__version__}")
     subcommands = parser.add_subparsers(dest="command", required=True)
@@ -68,6 +69,7 @@ def build_parser() -> argparse.ArgumentParser:
     change_gate.add_argument("--head-root", type=Path)
     change_gate.add_argument("--max-files", type=int, default=64)
     change_gate.add_argument("--max-bytes-per-file", type=int, default=262144)
+    change_gate.add_argument("--format", choices=("json", "summary"), default="json")
 
     federation = subcommands.add_parser("change-gate-federate", help="Run read-only Change Gate inventory over explicit local repositories")
     federation.add_argument("--base-path", type=Path)
@@ -95,6 +97,10 @@ def build_parser() -> argparse.ArgumentParser:
     oss_eval.add_argument("--checked-at")
     oss_validate = oss_efficiency_subcommands.add_parser("validate", help="Validate one raw telemetry methodology receipt")
     oss_validate.add_argument("path", type=Path)
+
+    governance_replay = subcommands.add_parser("governance-replay", help="Replay a saved local governance trace without model/provider calls")
+    governance_replay.add_argument("--trace", type=Path, required=True)
+    governance_replay.add_argument("--checked-at")
 
     forensics_timeline = subcommands.add_parser("forensics-timeline", help="Print a read-only timeline from an explicit fixture")
     forensics_timeline.add_argument("--fixture", type=Path, default=Path("release/v0.8.0/forensics-public-preview-fixture.json"))
@@ -156,15 +162,17 @@ def main(argv: list[str] | None = None) -> int:
         if (args.baseline_root is None) ^ (args.head_root is None):
             print("error: --baseline-root and --head-root must be provided together", file=sys.stderr)
             return 2
-        _json(
-            build_change_gate_report_for_roots(
-                root=args.root,
-                baseline_root=args.baseline_root,
-                head_root=args.head_root,
-                max_files=args.max_files,
-                max_bytes_per_file=args.max_bytes_per_file,
-            )
+        report = build_change_gate_report_for_roots(
+            root=args.root,
+            baseline_root=args.baseline_root,
+            head_root=args.head_root,
+            max_files=args.max_files,
+            max_bytes_per_file=args.max_bytes_per_file,
         )
+        if args.format == "summary":
+            print(render_change_gate_report_summary(report))
+        else:
+            _json(report)
         return 0
 
     if args.command == "change-gate-federate":
@@ -214,6 +222,10 @@ def main(argv: list[str] | None = None) -> int:
             result = validate_oss_efficiency_receipt_file(args.path)
             _json(result)
             return 0 if result.get("valid") else 1
+
+    if args.command == "governance-replay":
+        _json(build_governance_replay_receipts(args.trace, checked_at=args.checked_at))
+        return 0
 
     if args.command == "forensics-timeline":
         _json(build_forensic_timeline(args.fixture, limit=args.limit))

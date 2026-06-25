@@ -1,0 +1,2092 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "created_at": "2026-06-24T00:00:00Z",
+  "object_type": "StateOfAgentContextProjectReceipt",
+  "project": {
+    "name": "mem0",
+    "pinned_ref": "1678e682ee70bae5c3302de5c0e39b71dfc919e0",
+    "repo_url": "https://github.com/mem0ai/mem0"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-project-receipt/v0",
+  "semantic_inventory": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "highest_authority": "override",
+    "scopes": [
+      "project",
+      "system",
+      "user"
+    ],
+    "sensitivity_counts": {
+      "internal": 48,
+      "public": 16,
+      "sensitive": 8
+    },
+    "surface_count": 72,
+    "surface_kinds": {
+      "agent_instruction": 1,
+      "claude_instruction": 1,
+      "mcp_config": 4,
+      "readme": 25,
+      "skill": 41
+    }
+  },
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "4225c077ac139ee8d0ddbfdf5a3bfa2297cf44ad026e7034fc029d9993ad2bf4"
+  },
+  "surfaces": [
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "8bc6f67cba818ebadd368b302dc95536c9eb25e73c32faf2b3dcb8584159cb6c",
+      "source_ref": "file://AGENTS.md",
+      "surface_kind": "agent_instruction"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "8bc6f67cba818ebadd368b302dc95536c9eb25e73c32faf2b3dcb8584159cb6c",
+      "source_ref": "file://CLAUDE.md",
+      "surface_kind": "claude_instruction"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "4e6da00d36424d4e1a07439a198d01bccc66fe60fcb6edb22f309e9754b9605b",
+      "source_ref": "file://integrations/mem0-plugin/.codex-mcp.json",
+      "surface_kind": "mcp_config"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "6b25f4f9f9303d890f5df0abac50348a19986db7e983e90036e835d2d2a51d99",
+      "source_ref": "file://integrations/mem0-plugin/.cursor-mcp.json",
+      "surface_kind": "mcp_config"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "8c945fb0aa9f8d07b9e6d1d8f6af0ab9a1d822320015efafa3e31ba494d493eb",
+      "source_ref": "file://integrations/mem0-plugin/.mcp.json",
+      "surface_kind": "mcp_config"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "641a0b9553c2adcd24263103c4e421c15b4983f72d186adb27035b3c807f5844",
+      "source_ref": "file://integrations/mem0-plugin/mcp_config.json",
+      "surface_kind": "mcp_config"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "4cf1516f71c51bc9c683adcb1546139ff7bfcf3031ac11b577bf04f812bd1f14",
+      "source_ref": "file://cli/node/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "db4e48c969f5034546ec615a3013b556e8cf0ca7bf2370e23f7dd65b3aac2336",
+      "source_ref": "file://cli/python/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "b34fbd97eb558c9602f78a703511eb50e21e75d40643e72cd2e21ab6776ce9f5",
+      "source_ref": "file://cli/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "deploy",
+        "network",
+        "publish"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "d80ee810a334d79cdb20938925b457d8fcb3b1beb99fd47fb961020c69dfa81f",
+      "source_ref": "file://docs/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "35e795329bedaa27a9681e9e58562ae06bda9185cc63ef8daa4856d76ff299ac",
+      "source_ref": "file://examples/yt-assistant-chrome/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "\"global\"`"
+        ],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "00362abd7805afb1b6e168ea74fef1fa9e3f99947257578306fc3acdf98dfc13",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "deploy",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "04d4b23ab99f2689e8b409f7f016e45705819689bb3deb8bf41d8728ae17c6db",
+      "source_ref": "file://integrations/mem0-plugin/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "15f0378861d21c0a177d8f180a848f1cebf4432c648fa4412e3d5ada0e089239",
+      "source_ref": "file://integrations/mem0-plugin/skills/mem0/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "explicitly_scoped"
+        ],
+        "scope_kind": "user"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "b70eadeed0f193aa7231e35f8254f09799705d77841efcccb5ffda87392e20dc",
+      "source_ref": "file://integrations/openclaw/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "6f525d4d94a28b77c5330d4dc202ee4d901de8a93ceb83a6297eb0f654373ccb",
+      "source_ref": "file://integrations/pi-agent-plugin/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "aed8a019f1b10c37fb1ea025ed4ff8cca97977dff98a6afcddd4525c6dc832a4",
+      "source_ref": "file://integrations/vercel-ai-sdk/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "allow",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "259a138a484cb03f1a1b6a1bc0be1a280e44390972e513f49589df8487f40fe3",
+      "source_ref": "file://mem0-ts/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "c41ff86670c1ab65938641d665306e94ba4bda99a509eebb067cd6b6c42c8d5b",
+      "source_ref": "file://mem0-ts/src/oss/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "31595cf53626af9ed16e15c44fa43183209cc163fbc3ebcb904b22ac436a8884",
+      "source_ref": "file://openmemory/api/alembic/README",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "9e7ebe15782d3383676db3b84ef39d1ff9a36071fe14536a1b7431a319bb219e",
+      "source_ref": "file://openmemory/api/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "cbef52d5e7514bd226ae210e424ed45fa9c2f5255ce09d563c9579e5e9dd4278",
+      "source_ref": "file://openmemory/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": true,
+        "highest_effect": "read_only",
+        "override_priority": null,
+        "owner_ref": "{chhikara,"
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "fe5211cfd7c3d565b3d35ded3ff7f4ad4f9820dfcc27bbe2b54d6a63cb9f1eb9",
+      "source_ref": "file://README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": true,
+        "is_revokable": true,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "ac1f98f647c67e042cae05aac4187be791b0012a3d95866a55d3d6470ae13a44",
+      "source_ref": "file://server/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "92a8e530b79eb26290010c721694b27e6ebd82ccc66f4f78d787a38b4c799274",
+      "source_ref": "file://skills/mem0-cli/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "78af00b7cc3656edf0db012bf80af34cae6c4263bc16560c03017d4011947598",
+      "source_ref": "file://skills/mem0-integrate/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "explicitly_scoped",
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "49328c109dae8ee20d3a976517fdfe3d4d1bbe4c310b5960d642a6a970b67bed",
+      "source_ref": "file://skills/mem0-oss-to-platform/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "24fc7dc447263616bf597421d50af893f987af655c73f7e0c2dc57cf3689c8a0",
+      "source_ref": "file://skills/mem0-test-integration/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "5f948ca8c6021b86c591a3550ceec8d39cd0254c54168c8d6b02347dfd9a30a4",
+      "source_ref": "file://skills/mem0-vercel-ai-sdk/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "27a348951e4b8c635d09f7a67ade5955d42354f584a1c5aa36e4d81325090cba",
+      "source_ref": "file://skills/mem0/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "f988b0ad75e23f09eccb86a5da4ad577a9ce0d4e501638fee95dd08aec1cf21f",
+      "source_ref": "file://skills/README.md",
+      "surface_kind": "readme"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "6a9b93f29d1fa241c447786961650fb14fe553a9eed85837a87ae829abca922a",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-context-loader/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": true,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "42dd0e5857d774cca00eb8c43a69c8554f6d4377d63fdf6333e740d3935b6817",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-dream/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": true,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "bcdcfcfa250b63613e45817dd157fb40d8c8e8dee4b6c0c90ae1fd12a8a49ca6",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-forget/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "fe581720ce4fa7e1363ceaa2ebd39f21a58e0fddcf7b7e4de730806d3e8478ee",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-pin/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "899a91086e1ad2f27ef0a46005016c69e842e6c94b19384b9846a64dbff1c478",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-remember/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": true,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "explicitly_scoped",
+          "\"<current>\"`,",
+          "<current>",
+          "<n>`",
+          "global",
+          "deleting",
+          "\"global\"`,"
+        ],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "61e857edf7243016fabc1632bb4ce2a833b91224d768c73bb1f9a809ab6eef31",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-scope/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "44b879077e7dd37c2bb0c6a680a273ebb348e361d2800b138602fb19cb0342d9",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-search/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "460ddd1d9fab496f9a7bec2e6551a5f91911f6b437d66b7e05ca8bce8e3aee26",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-status/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "456199748ff493d322bb1383d972e1cdad49947fefa0e24c6e7184e434d35ce1",
+      "source_ref": "file://integrations/mem0-plugin/.opencode-plugin/opencode-skills/mem0-tour/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "a00f2b0f33917c43d528ce8d0983de40951e3c810bf89e0361a9b4323182c2b5",
+      "source_ref": "file://integrations/mem0-plugin/skills/context-loader/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": true,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "3ced9e6466338e7b19db7578eb8199c0886515a5d20a40d8b32d23d20feb12b5",
+      "source_ref": "file://integrations/mem0-plugin/skills/dream/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "e308fd0de8c33327194e5df0976ce35027f75f2396c4ea597af98c0f73656b39",
+      "source_ref": "file://integrations/mem0-plugin/skills/export/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": true,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "97564eea13ceb53eaa31203c7155baa35f581994b5f4e7eb9c66a4dd1fb93c1a",
+      "source_ref": "file://integrations/mem0-plugin/skills/forget/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "408a2aef8b335eb335b6012ff10ba1f37c7b14ef59d6b70994f82e903ab2abad",
+      "source_ref": "file://integrations/mem0-plugin/skills/health/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "inform",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "ba1cbdcc81417a04356b687d8861b7d3652eba11292a8628d4f4f893dca8c464",
+      "source_ref": "file://integrations/mem0-plugin/skills/import/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "5d0f5e04e47d05c6400dbf251310d743a1ca11f136933debce35b2a4872a5c13",
+      "source_ref": "file://integrations/mem0-plugin/skills/list-projects/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": true,
+        "highest_effect": "read_only",
+        "override_priority": null,
+        "owner_ref": "mem0ai"
+      },
+      "capabilities": [
+        "delete",
+        "deploy",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "606620c3f149baf9a34515c0f5114d486c73b5a551e61cd5af7b8a5fcc623bf1",
+      "source_ref": "file://integrations/mem0-plugin/skills/mem0/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "0353048bdf8affa174062efa318c7c002b7828555a19e81ce8403b085c5707c6",
+      "source_ref": "file://integrations/mem0-plugin/skills/memory-reviewer/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "ad867718f8cb09603173a9dc6918e7000e2b1c146a60236599b37c82725364e6",
+      "source_ref": "file://integrations/mem0-plugin/skills/onboard/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "1c0796029f80949251730c5ea1775e482c32982b328234b43e128a7ba4577425",
+      "source_ref": "file://integrations/mem0-plugin/skills/peek/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "7f957673a1792fbf296af424432882edb624522af454b2b78647d31cdd54400b",
+      "source_ref": "file://integrations/mem0-plugin/skills/pin/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "e85055b3c12191dda94dadf1e9c29c29dccaf7cec95c63cff21bee0e70244b16",
+      "source_ref": "file://integrations/mem0-plugin/skills/remember/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "de987418433f22934c50215c1ffc467fb4ac958c74336c4db161a37f3fd92dbd",
+      "source_ref": "file://integrations/mem0-plugin/skills/stats/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "explicitly_scoped"
+        ],
+        "scope_kind": "project"
+      },
+      "sensitivity": "public",
+      "sha256": "72b629dd486eaae99a79b08813dc96042ce0e0a50eb97375dad9d39714ab0c64",
+      "source_ref": "file://integrations/mem0-plugin/skills/switch-project/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "internal",
+      "sha256": "64c10665611b66f2167506e09963b3fb4ab6f2fff83d9cc28c62548c3365ee22",
+      "source_ref": "file://integrations/mem0-plugin/skills/tour/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": true,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "1f7abb2151b7644408df3e3003169bb46b8bf09b8fd49d2ac9c2589c9443a4d4",
+      "source_ref": "file://integrations/openclaw/skills/memory-dream/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "override",
+        "override_priority": "high"
+      },
+      "capabilities": [
+        "delete",
+        "deploy",
+        "execute",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": true,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "df46208fe56fa5f3df388db51e16a795200715a8b0587f21f68ea31b1813ef1a",
+      "source_ref": "file://integrations/openclaw/skills/memory-triage/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "a9ae8be53dedea10e10ccbd0f3de8aff9c72eb0ab0349c74baa7bc2fbec70db5",
+      "source_ref": "file://integrations/pi-agent-plugin/skills/context-loader/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "3ec2c84129559884c4adb7528b09c5af0b459166f29c811c731bd277def5009c",
+      "source_ref": "file://integrations/pi-agent-plugin/skills/dream/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "02a529dbf540d00a5f24c529cdf30f563fcd33c2e2f9d76587048802236db204",
+      "source_ref": "file://integrations/pi-agent-plugin/skills/forget/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "86c90ee6bf8ce3bb9544ef8aaac6d96124d14aaca68f379310f0887e6d4c85fd",
+      "source_ref": "file://integrations/pi-agent-plugin/skills/pin/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "10e0aeffa6b662417172249c805b3e064d7104f8ffb89fe8030d3eeb56a8553b",
+      "source_ref": "file://integrations/pi-agent-plugin/skills/remember/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "inform",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "a26350dcc175a7acf064044a34194dc9364ee8781aad506f717c73d4a52a0124",
+      "source_ref": "file://integrations/pi-agent-plugin/skills/search/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "read_only",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "3221803238f0505a6041ef25da2889db3494d78050f9fa49a63b3c8d757906a1",
+      "source_ref": "file://integrations/pi-agent-plugin/skills/status/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": false,
+        "highest_effect": "review_required",
+        "override_priority": null
+      },
+      "capabilities": [
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "\"global\"`"
+        ],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "a2af4a47beb4633154e1789b30b984aacd3a668f47693ab655e5de8803dd1ef0",
+      "source_ref": "file://integrations/pi-agent-plugin/skills/tour/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": true,
+        "highest_effect": "read_only",
+        "override_priority": null,
+        "owner_ref": "mem0ai"
+      },
+      "capabilities": [
+        "delete",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "01ea8176f62a54b391a49515f6579e5d338ba1d997e9cde99f2cf0534bd673be",
+      "source_ref": "file://skills/mem0-cli/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": true,
+        "highest_effect": "override",
+        "override_priority": "high",
+        "owner_ref": "mem0ai"
+      },
+      "capabilities": [
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": true,
+        "is_revokable": true,
+        "lifecycle_state": "declared"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "**",
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "01effa3eec6bba5ee5e2abf9abaa9e03b4928338046bd86ac9e5ace9a2ad4b70",
+      "source_ref": "file://skills/mem0-integrate/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": false,
+        "highest_effect": "block",
+        "override_priority": null
+      },
+      "capabilities": [
+        "delete",
+        "execute",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [
+          "explicitly_scoped",
+          "universal"
+        ],
+        "scope_kind": "system"
+      },
+      "sensitivity": "public",
+      "sha256": "2fb695051ada2a8e48c44f52050bc7c91bfa0a387b5bf2deb8ac6fcb40b312fd",
+      "source_ref": "file://skills/mem0-oss-to-platform/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": true,
+        "has_explicit_owner": true,
+        "highest_effect": "block",
+        "override_priority": null,
+        "owner_ref": "mem0ai"
+      },
+      "capabilities": [
+        "delete",
+        "inform",
+        "network",
+        "publish",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": true,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "project"
+      },
+      "sensitivity": "internal",
+      "sha256": "d7ffd46f9493f443a4b29a3ea259008bb1f5c971313efc08ede586210c44c920",
+      "source_ref": "file://skills/mem0-test-integration/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": true,
+        "highest_effect": "block",
+        "override_priority": null,
+        "owner_ref": "mem0ai"
+      },
+      "capabilities": [
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "internal",
+      "sha256": "0745976ea6d086323f9a41efcc6095d714531111c66f2c685ad0c3621c42d764",
+      "source_ref": "file://skills/mem0-vercel-ai-sdk/SKILL.md",
+      "surface_kind": "skill"
+    },
+    {
+      "allowed_effects": [],
+      "authority": {
+        "has_approval_gate": false,
+        "has_explicit_owner": true,
+        "highest_effect": "read_only",
+        "override_priority": null,
+        "owner_ref": "mem0ai"
+      },
+      "capabilities": [
+        "delete",
+        "deploy",
+        "network",
+        "read",
+        "write"
+      ],
+      "lifecycle": {
+        "has_expiry": false,
+        "is_revokable": false,
+        "lifecycle_state": "unknown"
+      },
+      "scope": {
+        "scope_boundaries": [],
+        "scope_kind": "user"
+      },
+      "sensitivity": "sensitive",
+      "sha256": "cbf173d9eefd4bee0d474edbcdf81244f01e39c8a2ec92bf4942b2da62e291a1",
+      "source_ref": "file://skills/mem0/SKILL.md",
+      "surface_kind": "skill"
+    }
+  ],
+  "version": "v0"
+}

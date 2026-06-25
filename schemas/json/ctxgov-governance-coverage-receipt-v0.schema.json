@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ctxgov.local/schemas/ctxgov-governance-coverage-receipt-v0.schema.json",
+  "title": "CtxGov Governance Coverage Receipt v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "object_type",
+    "version",
+    "created_at",
+    "run_id",
+    "target",
+    "source_manifest",
+    "category_counts",
+    "coverage_summary",
+    "claim_boundary",
+    "side_effect_boundary",
+    "rollback_ref"
+  ],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "ctxgov.governance-coverage-receipt/v0",
+      "enum": ["ctxgov.governance-coverage-receipt/v0"]
+    },
+    "object_type": {
+      "type": "string",
+      "const": "GovernanceCoverageReceipt",
+      "enum": ["GovernanceCoverageReceipt"]
+    },
+    "version": {
+      "type": "string",
+      "const": "v0",
+      "enum": ["v0"]
+    },
+    "created_at": { "$ref": "#/$defs/Timestamp" },
+    "run_id": { "$ref": "#/$defs/NonEmptyString" },
+    "target": { "$ref": "#/$defs/Target" },
+    "source_manifest": { "$ref": "#/$defs/SourceManifest" },
+    "category_counts": { "$ref": "#/$defs/CategoryCounts" },
+    "coverage_summary": { "$ref": "#/$defs/CoverageSummary" },
+    "claim_boundary": { "$ref": "#/$defs/ClaimBoundary" },
+    "side_effect_boundary": { "$ref": "#/$defs/SideEffectBoundary" },
+    "rollback_ref": { "$ref": "#/$defs/NonEmptyString" }
+  },
+  "$defs": {
+    "NonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "Timestamp": {
+      "type": "string",
+      "minLength": 1
+    },
+    "CategoryName": {
+      "type": "string",
+      "enum": ["authority", "capability", "scope", "lifecycle", "evidence", "structural"]
+    },
+    "Target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_id", "target_kind", "target_ref"],
+      "properties": {
+        "target_id": { "$ref": "#/$defs/NonEmptyString" },
+        "target_kind": {
+          "type": "string",
+          "enum": ["local-project", "public-oss-clone", "saved-trace-fixture"]
+        },
+        "target_ref": { "$ref": "#/$defs/NonEmptyString" }
+      }
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "sha256", "redaction_state"],
+      "properties": {
+        "ref": { "$ref": "#/$defs/NonEmptyString" },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "redaction_state": {
+          "type": "string",
+          "enum": ["none", "redacted", "withheld"]
+        }
+      }
+    },
+    "SourceManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_kind", "source_refs", "raw_source_copied"],
+      "properties": {
+        "source_kind": {
+          "type": "string",
+          "enum": ["saved-local-source", "user-provided-local-path", "user-provided-public-oss-clone"]
+        },
+        "source_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SourceRef" }
+        },
+        "raw_source_copied": {
+          "type": "boolean",
+          "enum": [false]
+        }
+      }
+    },
+    "CoverageCategoryCount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["covered_count", "expected_count", "missing_count", "evidence_refs"],
+      "properties": {
+        "covered_count": { "type": "integer", "minimum": 0 },
+        "expected_count": { "type": "integer", "minimum": 0 },
+        "missing_count": { "type": "integer", "minimum": 0 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/NonEmptyString" }
+        }
+      }
+    },
+    "CategoryCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "capability", "scope", "lifecycle", "evidence", "structural"],
+      "properties": {
+        "authority": { "$ref": "#/$defs/CoverageCategoryCount" },
+        "capability": { "$ref": "#/$defs/CoverageCategoryCount" },
+        "scope": { "$ref": "#/$defs/CoverageCategoryCount" },
+        "lifecycle": { "$ref": "#/$defs/CoverageCategoryCount" },
+        "evidence": { "$ref": "#/$defs/CoverageCategoryCount" },
+        "structural": { "$ref": "#/$defs/CoverageCategoryCount" }
+      }
+    },
+    "CoverageSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category_count",
+        "total_covered_count",
+        "total_expected_count",
+        "total_missing_count",
+        "public_metric_boundary"
+      ],
+      "properties": {
+        "category_count": {
+          "type": "integer",
+          "minimum": 6,
+          "maximum": 6
+        },
+        "total_covered_count": { "type": "integer", "minimum": 0 },
+        "total_expected_count": { "type": "integer", "minimum": 0 },
+        "total_missing_count": { "type": "integer", "minimum": 0 },
+        "public_metric_boundary": {
+          "type": "string",
+          "enum": ["bounded_six_category_counts_only"]
+        }
+      }
+    },
+    "ClaimBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "public_claim_created",
+        "comparative_outcome_claim_created",
+        "external_use_claim_created",
+        "readiness_or_certification_claim_created",
+        "universal_fit_claim_created",
+        "result_authority_claim_created",
+        "protocol_guarantee_claim_created"
+      ],
+      "properties": {
+        "public_claim_created": { "type": "boolean", "enum": [false] },
+        "comparative_outcome_claim_created": { "type": "boolean", "enum": [false] },
+        "external_use_claim_created": { "type": "boolean", "enum": [false] },
+        "readiness_or_certification_claim_created": { "type": "boolean", "enum": [false] },
+        "universal_fit_claim_created": { "type": "boolean", "enum": [false] },
+        "result_authority_claim_created": { "type": "boolean", "enum": [false] },
+        "protocol_guarantee_claim_created": { "type": "boolean", "enum": [false] }
+      }
+    },
+    "SideEffectBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_call_performed",
+        "provider_model_call_performed",
+        "api_call_performed",
+        "live_model_call_performed",
+        "scheduler_or_daemon_started",
+        "target_file_written",
+        "public_repo_written",
+        "package_published"
+      ],
+      "properties": {
+        "network_call_performed": { "type": "boolean", "enum": [false] },
+        "provider_model_call_performed": { "type": "boolean", "enum": [false] },
+        "api_call_performed": { "type": "boolean", "enum": [false] },
+        "live_model_call_performed": { "type": "boolean", "enum": [false] },
+        "scheduler_or_daemon_started": { "type": "boolean", "enum": [false] },
+        "target_file_written": { "type": "boolean", "enum": [false] },
+        "public_repo_written": { "type": "boolean", "enum": [false] },
+        "package_published": { "type": "boolean", "enum": [false] }
+      }
+    }
+  }
+}

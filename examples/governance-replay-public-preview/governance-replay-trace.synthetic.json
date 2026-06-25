@@ -1,0 +1,112 @@
+{
+  "expected_coverage": {
+    "authority": [
+      "approval-gate"
+    ],
+    "capability": [
+      "no-network"
+    ],
+    "evidence": [
+      "source-ref"
+    ],
+    "lifecycle": [
+      "rollback"
+    ],
+    "scope": [
+      "repo-boundary"
+    ],
+    "structural": [
+      "manifest"
+    ]
+  },
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "live_model_call_performed": false,
+    "network_call_performed": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_repo_written": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false
+  },
+  "source_refs": [
+    {
+      "redaction_state": "none",
+      "ref": "source://public-preview/1",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "target": {
+    "target_id": "public-preview-target",
+    "target_kind": "saved-trace-fixture",
+    "target_ref": "trace://public-preview-target"
+  },
+  "trace_id": "trace-v090-public-preview",
+  "with_governance": {
+    "context_units": [
+      {
+        "id": "u1",
+        "source_ref": "source://public-preview/1",
+        "text": "The task asks for a repository change."
+      },
+      {
+        "id": "u2",
+        "source_ref": "source://public-preview/1",
+        "text": "Governance records approval, no-network, repo-boundary, rollback, source-ref, and manifest coverage."
+      },
+      {
+        "id": "u3",
+        "source_ref": "source://public-preview/1",
+        "text": "The result remains a saved local replay receipt."
+      }
+    ],
+    "covered": {
+      "authority": [
+        "approval-gate"
+      ],
+      "capability": [
+        "no-network"
+      ],
+      "evidence": [
+        "source-ref"
+      ],
+      "lifecycle": [
+        "rollback"
+      ],
+      "scope": [
+        "repo-boundary"
+      ],
+      "structural": [
+        "manifest"
+      ]
+    },
+    "input_ref": "trace://input/public-preview",
+    "output_ref": "trace://output/with-governance",
+    "run_id": "with-governance"
+  },
+  "without_governance": {
+    "context_units": [
+      {
+        "id": "u1",
+        "source_ref": "source://public-preview/1",
+        "text": "The task asks for a repository change."
+      },
+      {
+        "id": "u2",
+        "source_ref": "source://public-preview/1",
+        "text": "No explicit governance coverage is recorded."
+      }
+    ],
+    "covered": {
+      "authority": [],
+      "capability": [],
+      "evidence": [],
+      "lifecycle": [],
+      "scope": [],
+      "structural": []
+    },
+    "input_ref": "trace://input/public-preview",
+    "output_ref": "trace://output/without-governance",
+    "run_id": "without-governance"
+  }
+}

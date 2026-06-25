@@ -1,4 +1,4 @@
-# v0.8.0 Public Release Boundary
+# v0.9.0 Public Release Boundary
 
 Included:
 
@@ -8,6 +8,9 @@ Included:
 - Federation over explicit local repository paths or an explicit base path.
 - OSS Case Study Preview over an explicit saved local public-source excerpt.
 - OSS Efficiency raw saved-run telemetry methodology receipt evaluation.
+- Governance Replay over explicit saved local traces.
+- State Of Agent Context pathless semantic inventory receipts for selected public OSS repositories at pinned commits.
+- Public Evidence Core contracts and explicit local evidence-store primitives.
 - Forensics read-only preview over explicit local fixtures.
 - Synthetic public-safe fixtures.
 - Local public package checks.
@@ -15,10 +18,12 @@ Included:
 Excluded:
 
 - Non-public development docs and session exports.
-- App bundles, publication automation, real target writes, external state mutation flows, schedulers, daemons, API calls, network calls, and provider/model calls.
-- Efficiency, productivity, benchmark generality, adoption, security, compatibility, hosted runtime, PyPI, stable protocol, or autonomous-remediation claims.
+- App bundles, publication automation, real target writes, external state mutation flows, schedulers, daemons, API calls, network calls, runtime adapters, and provider/model calls.
+- Efficiency, productivity, benchmark generality, adoption, security, compatibility, hosted runtime, PyPI, stable API/protocol, or autonomous-remediation claims.
 
 Write exception:
 
 - `ctxgov continuity apply --mode sandbox` may write one local sandbox file. The
-  v0.8.0 governance evaluation commands are read-only.
+  v0.9.0 default governance evaluation CLI smoke commands avoid target writes.
+- Evidence Core library calls may write CAS/SQLite state only under explicit
+  local evidence-store paths chosen by the caller.
