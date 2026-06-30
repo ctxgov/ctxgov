@@ -1,0 +1,408 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "instruction_config_only": 1,
+      "mixed_instruction_config_and_readme_docs": 4
+    },
+    "finding_count": 5,
+    "finding_type_counts": {
+      "execution_conflict": 1,
+      "network_conflict": 1,
+      "scope_conflict": 1,
+      "sensitivity_boundary_conflict": 1,
+      "target_write_conflict": 1
+    },
+    "severity_counts": {
+      "high": 3,
+      "medium": 2
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.github/copilot-instructions.md",
+          "file://AGENTS.md",
+          "file://README.md",
+          "file://crates/goose-providers/src/canonical/README.md",
+          "file://crates/goose-sdk/README.md",
+          "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+          "file://crates/goose/tests/mcp_replays/uvxmcp-server-fetch.results.json",
+          "file://documentation/README.md",
+          "file://documentation/automation/cli-command-tracking/README.md",
+          "file://documentation/automation/recipe-schema-tracking/README.md",
+          "file://documentation/blog/README.md",
+          "file://evals/harbor/README.md",
+          "file://evals/open-model-gym/README.md",
+          "file://examples/mcp-wiki/README.md",
+          "file://examples/plugins/hello-hooks/README.md",
+          "file://oidc-proxy/README.md",
+          "file://scripts/provider-error-proxy/README.md",
+          "file://ui/.changeset/README.md",
+          "file://ui/sdk/README.md",
+          "file://ui/text/AGENTS.md",
+          "file://ui/text/README.md"
+        ],
+        "denied_refs": [
+          "file://evals/open-model-gym/mcp-harness/README.md",
+          "file://ui/desktop/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://AGENTS.md",
+        "file://README.md",
+        "file://crates/goose-providers/src/canonical/README.md",
+        "file://crates/goose-sdk/README.md",
+        "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+        "file://crates/goose/tests/mcp_replays/uvxmcp-server-fetch.results.json",
+        "file://documentation/README.md",
+        "file://documentation/automation/cli-command-tracking/README.md",
+        "file://documentation/automation/recipe-schema-tracking/README.md",
+        "file://documentation/blog/README.md",
+        "file://evals/harbor/README.md",
+        "file://evals/open-model-gym/README.md",
+        "file://evals/open-model-gym/mcp-harness/README.md",
+        "file://examples/mcp-wiki/README.md",
+        "file://examples/plugins/hello-hooks/README.md",
+        "file://oidc-proxy/README.md",
+        "file://scripts/provider-error-proxy/README.md",
+        "file://ui/.changeset/README.md",
+        "file://ui/desktop/README.md",
+        "file://ui/sdk/README.md",
+        "file://ui/text/AGENTS.md",
+        "file://ui/text/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 5,
+        "readme_or_docs": 18
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.github/copilot-instructions.md",
+          "file://README.md",
+          "file://crates/goose-providers/src/canonical/README.md",
+          "file://crates/goose-sdk/README.md",
+          "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+          "file://documentation/AGENTS.md",
+          "file://documentation/README.md",
+          "file://documentation/automation/README.md",
+          "file://documentation/automation/cli-command-tracking/README.md",
+          "file://documentation/automation/recipe-schema-tracking/README.md",
+          "file://documentation/blog/README.md",
+          "file://documentation/src/pages/community/data/README.md",
+          "file://evals/harbor/.agents/skills/compare_tasks/SKILL.md",
+          "file://evals/harbor/README.md",
+          "file://evals/open-model-gym/README.md",
+          "file://evals/open-model-gym/mcp-harness/README.md",
+          "file://examples/mcp-wiki/README.md",
+          "file://examples/plugins/hello-hooks/README.md",
+          "file://oidc-proxy/README.md",
+          "file://scripts/provider-error-proxy/README.md",
+          "file://ui/.changeset/README.md",
+          "file://ui/desktop/README.md",
+          "file://ui/goose-binary/README.md",
+          "file://ui/sdk/README.md",
+          "file://ui/text/AGENTS.md",
+          "file://ui/text/README.md"
+        ],
+        "denied_refs": [
+          "file://AGENTS.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_target_write_conflict",
+      "finding_type": "target_write_conflict",
+      "reason": "At least one surface denies repository writes while another declares write-like capability.",
+      "recommended_next_check": "Choose one repository write policy and link lower-priority instruction files to it.",
+      "severity": "high",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://AGENTS.md",
+        "file://README.md",
+        "file://crates/goose-providers/src/canonical/README.md",
+        "file://crates/goose-sdk/README.md",
+        "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+        "file://documentation/AGENTS.md",
+        "file://documentation/README.md",
+        "file://documentation/automation/README.md",
+        "file://documentation/automation/cli-command-tracking/README.md",
+        "file://documentation/automation/recipe-schema-tracking/README.md",
+        "file://documentation/blog/README.md",
+        "file://documentation/src/pages/community/data/README.md",
+        "file://evals/harbor/.agents/skills/compare_tasks/SKILL.md",
+        "file://evals/harbor/README.md",
+        "file://evals/open-model-gym/README.md",
+        "file://evals/open-model-gym/mcp-harness/README.md",
+        "file://examples/mcp-wiki/README.md",
+        "file://examples/plugins/hello-hooks/README.md",
+        "file://oidc-proxy/README.md",
+        "file://scripts/provider-error-proxy/README.md",
+        "file://ui/.changeset/README.md",
+        "file://ui/desktop/README.md",
+        "file://ui/goose-binary/README.md",
+        "file://ui/sdk/README.md",
+        "file://ui/text/AGENTS.md",
+        "file://ui/text/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 5,
+        "other_context": 1,
+        "readme_or_docs": 21
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+          "file://documentation/automation/cli-command-tracking/README.md",
+          "file://documentation/automation/recipe-schema-tracking/README.md",
+          "file://evals/open-model-gym/mcp-harness/README.md",
+          "file://scripts/README.md"
+        ],
+        "denied_refs": [
+          "file://.github/copilot-instructions.md",
+          "file://evals/harbor/.agents/skills/compare_tasks/SKILL.md",
+          "file://evals/harbor/README.md",
+          "file://evals/open-model-gym/README.md",
+          "file://scripts/provider-error-proxy/README.md",
+          "file://ui/desktop/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0003_execution_conflict",
+      "finding_type": "execution_conflict",
+      "reason": "At least one surface denies command execution while another declares execution capability.",
+      "recommended_next_check": "Resolve shell/tool execution policy before relying on the combined context.",
+      "severity": "high",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+        "file://documentation/automation/cli-command-tracking/README.md",
+        "file://documentation/automation/recipe-schema-tracking/README.md",
+        "file://evals/harbor/.agents/skills/compare_tasks/SKILL.md",
+        "file://evals/harbor/README.md",
+        "file://evals/open-model-gym/README.md",
+        "file://evals/open-model-gym/mcp-harness/README.md",
+        "file://scripts/README.md",
+        "file://scripts/provider-error-proxy/README.md",
+        "file://ui/desktop/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 1,
+        "readme_or_docs": 8
+      }
+    },
+    {
+      "evidence": {
+        "scope_by_ref": {
+          "file://.github/copilot-instructions.md": "project",
+          "file://AGENTS.md": "user",
+          "file://CLAUDE.md": "project",
+          "file://README.md": "project",
+          "file://crates/goose-mcp/README.md": "project",
+          "file://crates/goose-providers/src/canonical/README.md": "project",
+          "file://crates/goose-sdk/README.md": "project",
+          "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json": "project",
+          "file://crates/goose/tests/mcp_replays/uvrun--withfastmcp==2.14.4fastmcpruntests_fastmcp_test_server.py.results.json": "project",
+          "file://crates/goose/tests/mcp_replays/uvxmcp-server-fetch.results.json": "project",
+          "file://documentation/AGENTS.md": "user",
+          "file://documentation/CLAUDE.md": "project",
+          "file://documentation/README.md": "user",
+          "file://documentation/automation/README.md": "project",
+          "file://documentation/automation/cli-command-tracking/README.md": "project",
+          "file://documentation/automation/recipe-schema-tracking/README.md": "project",
+          "file://documentation/blog/README.md": "project",
+          "file://documentation/src/pages/community/data/README.md": "user",
+          "file://evals/harbor/.agents/skills/compare_tasks/SKILL.md": "project",
+          "file://evals/harbor/README.md": "user",
+          "file://evals/open-model-gym/README.md": "system",
+          "file://evals/open-model-gym/mcp-harness/README.md": "project",
+          "file://examples/mcp-wiki/README.md": "project",
+          "file://examples/plugins/hello-hooks/README.md": "project",
+          "file://oidc-proxy/README.md": "project",
+          "file://scripts/README.md": "project",
+          "file://scripts/provider-error-proxy/README.md": "project",
+          "file://ui/.changeset/README.md": "project",
+          "file://ui/desktop/README.md": "project",
+          "file://ui/desktop/scripts/README.md": "project",
+          "file://ui/desktop/src/platform/windows/bin/README.md": "project",
+          "file://ui/goose-binary/README.md": "project",
+          "file://ui/sdk/README.md": "project",
+          "file://ui/text/AGENTS.md": "system",
+          "file://ui/text/CLAUDE.md": "project",
+          "file://ui/text/README.md": "project"
+        }
+      },
+      "evidence_tier": "instruction_config_only",
+      "finding_id": "ccm_0004_scope_conflict",
+      "finding_type": "scope_conflict",
+      "reason": "High-authority surfaces declare multiple scope levels: project, system, user.",
+      "recommended_next_check": "State whether project, workspace, user, or system scope takes precedence for agent instructions.",
+      "severity": "medium",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+        "file://crates/goose/tests/mcp_replays/uvrun--withfastmcp==2.14.4fastmcpruntests_fastmcp_test_server.py.results.json",
+        "file://crates/goose/tests/mcp_replays/uvxmcp-server-fetch.results.json",
+        "file://documentation/AGENTS.md",
+        "file://documentation/CLAUDE.md",
+        "file://ui/text/AGENTS.md",
+        "file://ui/text/CLAUDE.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 10
+      }
+    },
+    {
+      "evidence": {
+        "public_refs": [
+          "file://AGENTS.md",
+          "file://README.md",
+          "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+          "file://documentation/blog/README.md",
+          "file://evals/open-model-gym/README.md",
+          "file://examples/mcp-wiki/README.md",
+          "file://examples/plugins/hello-hooks/README.md",
+          "file://ui/desktop/scripts/README.md"
+        ],
+        "sensitive_or_restricted_refs": [
+          "file://.github/copilot-instructions.md",
+          "file://documentation/src/pages/community/data/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0005_sensitivity_boundary_conflict",
+      "finding_type": "sensitivity_boundary_conflict",
+      "reason": "Public and sensitive/restricted instruction surfaces are both present without a declared boundary in the detected surfaces.",
+      "recommended_next_check": "Declare which sensitive instruction sources may influence public-facing agent behavior.",
+      "severity": "medium",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://AGENTS.md",
+        "file://README.md",
+        "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+        "file://documentation/blog/README.md",
+        "file://documentation/src/pages/community/data/README.md",
+        "file://evals/open-model-gym/README.md",
+        "file://examples/mcp-wiki/README.md",
+        "file://examples/plugins/hello-hooks/README.md",
+        "file://ui/desktop/scripts/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 3,
+        "readme_or_docs": 7
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [
+      "file://.github/copilot-instructions.md",
+      "file://evals/harbor/.agents/skills/compare_tasks/SKILL.md",
+      "file://ui/text/AGENTS.md"
+    ],
+    "declared": true,
+    "high_authority_surface_kinds": [
+      "agent_instruction",
+      "claude_instruction",
+      "github_copilot_instruction",
+      "mcp_config"
+    ],
+    "high_authority_surface_refs": [
+      "file://.github/copilot-instructions.md",
+      "file://AGENTS.md",
+      "file://CLAUDE.md",
+      "file://crates/goose/tests/mcp_replays/github-mcp-serverstdio.results.json",
+      "file://crates/goose/tests/mcp_replays/uvrun--withfastmcp==2.14.4fastmcpruntests_fastmcp_test_server.py.results.json",
+      "file://crates/goose/tests/mcp_replays/uvxmcp-server-fetch.results.json",
+      "file://documentation/AGENTS.md",
+      "file://documentation/CLAUDE.md",
+      "file://ui/text/AGENTS.md",
+      "file://ui/text/CLAUDE.md"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "goose",
+    "pinned_ref": "2cc1140dc1e8d8dc8576bb41bdd5f9c5631a36d6",
+    "repo_url": "https://github.com/block/goose"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "c5f0eae47f9b739f894b14dddf3d81807c3461ce612881d5e1322426804810b8"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 10,
+    "scope_counts": {
+      "project": 29,
+      "system": 2,
+      "user": 5
+    },
+    "sensitivity_counts": {
+      "internal": 26,
+      "public": 8,
+      "sensitive": 2
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 10,
+      "other_context": 1,
+      "readme_or_docs": 25
+    },
+    "surface_count": 36,
+    "surface_kinds": {
+      "agent_instruction": 3,
+      "claude_instruction": 3,
+      "github_copilot_instruction": 1,
+      "mcp_config": 3,
+      "readme": 25,
+      "skill": 1
+    }
+  },
+  "version": "v0"
+}

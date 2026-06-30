@@ -1,0 +1,353 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "instruction_config_only": 1,
+      "mixed_instruction_config_and_readme_docs": 4
+    },
+    "finding_count": 5,
+    "finding_type_counts": {
+      "execution_conflict": 1,
+      "network_conflict": 1,
+      "scope_conflict": 1,
+      "sensitivity_boundary_conflict": 1,
+      "target_write_conflict": 1
+    },
+    "severity_counts": {
+      "high": 3,
+      "medium": 2
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://AGENTS.md",
+          "file://CLAUDE.md",
+          "file://README.md",
+          "file://browser_use/README.md",
+          "file://browser_use/actor/README.md",
+          "file://browser_use/llm/README.md",
+          "file://browser_use/skill_cli/README.md",
+          "file://browser_use/skills/README.md",
+          "file://examples/apps/ad-use/README.md",
+          "file://examples/apps/msg-use/README.md",
+          "file://examples/apps/news-use/README.md",
+          "file://examples/cloud/README.md",
+          "file://examples/integrations/README.md",
+          "file://examples/integrations/slack/README.md",
+          "file://skills/cloud/SKILL.md",
+          "file://skills/remote-browser/SKILL.md"
+        ],
+        "denied_refs": [
+          "file://browser_use/llm/oci_raw/README.md",
+          "file://skills/browser-use/SKILL.md",
+          "file://skills/open-source/SKILL.md",
+          "file://skills/qa/SKILL.md",
+          "file://skills/x402/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://README.md",
+        "file://browser_use/README.md",
+        "file://browser_use/actor/README.md",
+        "file://browser_use/llm/README.md",
+        "file://browser_use/llm/oci_raw/README.md",
+        "file://browser_use/skill_cli/README.md",
+        "file://browser_use/skills/README.md",
+        "file://examples/apps/ad-use/README.md",
+        "file://examples/apps/msg-use/README.md",
+        "file://examples/apps/news-use/README.md",
+        "file://examples/cloud/README.md",
+        "file://examples/integrations/README.md",
+        "file://examples/integrations/slack/README.md",
+        "file://skills/browser-use/SKILL.md",
+        "file://skills/cloud/SKILL.md",
+        "file://skills/open-source/SKILL.md",
+        "file://skills/qa/SKILL.md",
+        "file://skills/remote-browser/SKILL.md",
+        "file://skills/x402/SKILL.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 6,
+        "readme_or_docs": 13
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://AGENTS.md",
+          "file://README.md",
+          "file://browser_use/actor/README.md",
+          "file://browser_use/llm/oci_raw/README.md",
+          "file://browser_use/skill_cli/README.md",
+          "file://browser_use/skills/README.md",
+          "file://examples/apps/ad-use/README.md",
+          "file://examples/apps/msg-use/README.md",
+          "file://examples/apps/news-use/README.md",
+          "file://examples/cloud/README.md",
+          "file://examples/integrations/slack/README.md",
+          "file://examples/models/langchain/README.md",
+          "file://skills/browser-use/SKILL.md",
+          "file://skills/cloud/SKILL.md",
+          "file://skills/open-source/SKILL.md",
+          "file://skills/qa/SKILL.md",
+          "file://skills/x402/SKILL.md"
+        ],
+        "denied_refs": [
+          "file://CLAUDE.md",
+          "file://examples/integrations/README.md",
+          "file://skills/remote-browser/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_target_write_conflict",
+      "finding_type": "target_write_conflict",
+      "reason": "At least one surface denies repository writes while another declares write-like capability.",
+      "recommended_next_check": "Choose one repository write policy and link lower-priority instruction files to it.",
+      "severity": "high",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://README.md",
+        "file://browser_use/actor/README.md",
+        "file://browser_use/llm/oci_raw/README.md",
+        "file://browser_use/skill_cli/README.md",
+        "file://browser_use/skills/README.md",
+        "file://examples/apps/ad-use/README.md",
+        "file://examples/apps/msg-use/README.md",
+        "file://examples/apps/news-use/README.md",
+        "file://examples/cloud/README.md",
+        "file://examples/integrations/README.md",
+        "file://examples/integrations/slack/README.md",
+        "file://examples/models/langchain/README.md",
+        "file://skills/browser-use/SKILL.md",
+        "file://skills/cloud/SKILL.md",
+        "file://skills/open-source/SKILL.md",
+        "file://skills/qa/SKILL.md",
+        "file://skills/remote-browser/SKILL.md",
+        "file://skills/x402/SKILL.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 6,
+        "readme_or_docs": 12
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://AGENTS.md",
+          "file://CLAUDE.md",
+          "file://browser_use/actor/README.md",
+          "file://browser_use/skills/README.md"
+        ],
+        "denied_refs": [
+          "file://browser_use/skill_cli/README.md",
+          "file://skills/browser-use/SKILL.md",
+          "file://skills/qa/SKILL.md",
+          "file://skills/remote-browser/SKILL.md",
+          "file://skills/x402/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0003_execution_conflict",
+      "finding_type": "execution_conflict",
+      "reason": "At least one surface denies command execution while another declares execution capability.",
+      "recommended_next_check": "Resolve shell/tool execution policy before relying on the combined context.",
+      "severity": "high",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://browser_use/actor/README.md",
+        "file://browser_use/skill_cli/README.md",
+        "file://browser_use/skills/README.md",
+        "file://skills/browser-use/SKILL.md",
+        "file://skills/qa/SKILL.md",
+        "file://skills/remote-browser/SKILL.md",
+        "file://skills/x402/SKILL.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 4,
+        "readme_or_docs": 3
+      }
+    },
+    {
+      "evidence": {
+        "scope_by_ref": {
+          "file://AGENTS.md": "system",
+          "file://CLAUDE.md": "project",
+          "file://README.md": "project",
+          "file://browser_use/README.md": "project",
+          "file://browser_use/actor/README.md": "system",
+          "file://browser_use/llm/README.md": "project",
+          "file://browser_use/llm/oci_raw/README.md": "project",
+          "file://browser_use/skill_cli/README.md": "user",
+          "file://browser_use/skills/README.md": "project",
+          "file://docker/README.md": "system",
+          "file://examples/apps/ad-use/README.md": "project",
+          "file://examples/apps/msg-use/README.md": "project",
+          "file://examples/apps/news-use/README.md": "project",
+          "file://examples/cloud/README.md": "project",
+          "file://examples/integrations/README.md": "project",
+          "file://examples/integrations/slack/README.md": "project",
+          "file://examples/models/langchain/README.md": "project",
+          "file://examples/ui/README.md": "user",
+          "file://skills/browser-use/SKILL.md": "user",
+          "file://skills/cloud/SKILL.md": "user",
+          "file://skills/open-source/SKILL.md": "user",
+          "file://skills/qa/SKILL.md": "project",
+          "file://skills/remote-browser/SKILL.md": "user",
+          "file://skills/x402/SKILL.md": "project",
+          "file://tests/agent_tasks/README.md": "system"
+        }
+      },
+      "evidence_tier": "instruction_config_only",
+      "finding_id": "ccm_0004_scope_conflict",
+      "finding_type": "scope_conflict",
+      "reason": "High-authority surfaces declare multiple scope levels: project, system, user.",
+      "recommended_next_check": "State whether project, workspace, user, or system scope takes precedence for agent instructions.",
+      "severity": "medium",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2
+      }
+    },
+    {
+      "evidence": {
+        "public_refs": [
+          "file://README.md",
+          "file://browser_use/skill_cli/README.md",
+          "file://skills/browser-use/SKILL.md",
+          "file://skills/cloud/SKILL.md",
+          "file://skills/qa/SKILL.md",
+          "file://skills/remote-browser/SKILL.md",
+          "file://skills/x402/SKILL.md"
+        ],
+        "sensitive_or_restricted_refs": [
+          "file://AGENTS.md",
+          "file://skills/open-source/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0005_sensitivity_boundary_conflict",
+      "finding_type": "sensitivity_boundary_conflict",
+      "reason": "Public and sensitive/restricted instruction surfaces are both present without a declared boundary in the detected surfaces.",
+      "recommended_next_check": "Declare which sensitive instruction sources may influence public-facing agent behavior.",
+      "severity": "medium",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://README.md",
+        "file://browser_use/skill_cli/README.md",
+        "file://skills/browser-use/SKILL.md",
+        "file://skills/cloud/SKILL.md",
+        "file://skills/open-source/SKILL.md",
+        "file://skills/qa/SKILL.md",
+        "file://skills/remote-browser/SKILL.md",
+        "file://skills/x402/SKILL.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "other_context": 6,
+        "readme_or_docs": 2
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [
+      "file://AGENTS.md"
+    ],
+    "declared": true,
+    "high_authority_surface_kinds": [
+      "agent_instruction",
+      "claude_instruction"
+    ],
+    "high_authority_surface_refs": [
+      "file://AGENTS.md",
+      "file://CLAUDE.md"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "browser-use",
+    "pinned_ref": "2454d3e2551705232333c906ded8fc31ab0fc9f2",
+    "repo_url": "https://github.com/browser-use/browser-use"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "aee0902020b9e691371510dfdff75cedb899e4d9cac1527f719ec63405d20f71"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 2,
+    "scope_counts": {
+      "project": 15,
+      "system": 4,
+      "user": 6
+    },
+    "sensitivity_counts": {
+      "internal": 16,
+      "public": 7,
+      "restricted": 1,
+      "sensitive": 1
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 2,
+      "other_context": 6,
+      "readme_or_docs": 17
+    },
+    "surface_count": 25,
+    "surface_kinds": {
+      "agent_instruction": 1,
+      "claude_instruction": 1,
+      "readme": 17,
+      "skill": 6
+    }
+  },
+  "version": "v0"
+}

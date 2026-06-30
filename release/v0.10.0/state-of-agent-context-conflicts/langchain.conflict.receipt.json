@@ -1,0 +1,203 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "mixed_instruction_config_and_readme_docs": 2
+    },
+    "finding_count": 2,
+    "finding_type_counts": {
+      "network_conflict": 1,
+      "publish_conflict": 1
+    },
+    "severity_counts": {
+      "high": 2
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.devcontainer/README.md",
+          "file://.mcp.json",
+          "file://README.md",
+          "file://libs/README.md",
+          "file://libs/core/README.md",
+          "file://libs/langchain/README.md",
+          "file://libs/langchain_v1/README.md",
+          "file://libs/model-profiles/README.md",
+          "file://libs/partners/README.md",
+          "file://libs/partners/anthropic/README.md",
+          "file://libs/partners/chroma/README.md",
+          "file://libs/partners/deepseek/README.md",
+          "file://libs/partners/exa/README.md",
+          "file://libs/partners/fireworks/README.md",
+          "file://libs/partners/groq/README.md",
+          "file://libs/partners/huggingface/README.md",
+          "file://libs/partners/mistralai/README.md",
+          "file://libs/partners/nomic/README.md",
+          "file://libs/partners/ollama/README.md",
+          "file://libs/partners/openai/README.md",
+          "file://libs/partners/openrouter/README.md",
+          "file://libs/partners/perplexity/README.md",
+          "file://libs/partners/qdrant/README.md",
+          "file://libs/partners/xai/README.md",
+          "file://libs/standard-tests/README.md",
+          "file://libs/text-splitters/README.md"
+        ],
+        "denied_refs": [
+          "file://AGENTS.md",
+          "file://CLAUDE.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://.devcontainer/README.md",
+        "file://.mcp.json",
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://README.md",
+        "file://libs/README.md",
+        "file://libs/core/README.md",
+        "file://libs/langchain/README.md",
+        "file://libs/langchain_v1/README.md",
+        "file://libs/model-profiles/README.md",
+        "file://libs/partners/README.md",
+        "file://libs/partners/anthropic/README.md",
+        "file://libs/partners/chroma/README.md",
+        "file://libs/partners/deepseek/README.md",
+        "file://libs/partners/exa/README.md",
+        "file://libs/partners/fireworks/README.md",
+        "file://libs/partners/groq/README.md",
+        "file://libs/partners/huggingface/README.md",
+        "file://libs/partners/mistralai/README.md",
+        "file://libs/partners/nomic/README.md",
+        "file://libs/partners/ollama/README.md",
+        "file://libs/partners/openai/README.md",
+        "file://libs/partners/openrouter/README.md",
+        "file://libs/partners/perplexity/README.md",
+        "file://libs/partners/qdrant/README.md",
+        "file://libs/partners/xai/README.md",
+        "file://libs/standard-tests/README.md",
+        "file://libs/text-splitters/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 3,
+        "readme_or_docs": 25
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://libs/standard-tests/README.md",
+          "file://libs/text-splitters/README.md"
+        ],
+        "denied_refs": [
+          "file://AGENTS.md",
+          "file://CLAUDE.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_publish_conflict",
+      "finding_type": "publish_conflict",
+      "reason": "At least one surface denies publication while another declares publish or release capability.",
+      "recommended_next_check": "Keep publication authority in one canonical policy and require explicit review for exceptions.",
+      "severity": "high",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://libs/standard-tests/README.md",
+        "file://libs/text-splitters/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "readme_or_docs": 2
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [
+      "file://AGENTS.md",
+      "file://CLAUDE.md"
+    ],
+    "declared": true,
+    "high_authority_surface_kinds": [
+      "agent_instruction",
+      "claude_instruction",
+      "mcp_config"
+    ],
+    "high_authority_surface_refs": [
+      "file://.mcp.json",
+      "file://AGENTS.md",
+      "file://CLAUDE.md"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "langchain",
+    "pinned_ref": "1e35d8f7a988efd2f10af776739d5123d2c0a8af",
+    "repo_url": "https://github.com/langchain-ai/langchain"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "1bcf1777e8dc21ea72a7b90c1cadc204ee5f4ba8fbef1e45cbfa98bc20cbd260"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "deploy",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 3,
+    "scope_counts": {
+      "project": 28
+    },
+    "sensitivity_counts": {
+      "internal": 7,
+      "public": 21
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 3,
+      "readme_or_docs": 25
+    },
+    "surface_count": 28,
+    "surface_kinds": {
+      "agent_instruction": 1,
+      "claude_instruction": 1,
+      "mcp_config": 1,
+      "readme": 25
+    }
+  },
+  "version": "v0"
+}

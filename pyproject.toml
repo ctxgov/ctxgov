@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ctxgov"
-version = "0.9.0"
-description = "Local-first read-only agent context governance evaluation"
+version = "0.10.0"
+description = "Local-first read-only agent context conflict mapping"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
 authors = [{ name = "CtxGov" }]
-keywords = ["agent", "context-engineering", "llm", "memory", "evaluation"]
+keywords = ["agent", "context-engineering", "llm", "memory", "mcp", "instructions"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",

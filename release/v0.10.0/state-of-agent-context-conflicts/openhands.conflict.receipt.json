@@ -1,0 +1,290 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "mixed_instruction_config_and_readme_docs": 3,
+      "mixed_with_readme_docs": 1
+    },
+    "finding_count": 4,
+    "finding_type_counts": {
+      "network_conflict": 1,
+      "publish_conflict": 1,
+      "sensitivity_boundary_conflict": 1,
+      "target_write_conflict": 1
+    },
+    "severity_counts": {
+      "high": 3,
+      "medium": 1
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.agents/skills/cross-repo-testing/SKILL.md",
+          "file://README.md",
+          "file://containers/dev/README.md",
+          "file://enterprise/README.md",
+          "file://enterprise/doc/architecture/README.md",
+          "file://enterprise/enterprise_local/README.md",
+          "file://enterprise/server/maintenance_task_processor/README.md",
+          "file://enterprise/server/sharing/README.md",
+          "file://enterprise/sync/README.md",
+          "file://frontend/README.md",
+          "file://frontend/src/api/README.md",
+          "file://openhands-ui/README.md",
+          "file://openhands/app_server/README.md",
+          "file://openhands/app_server/app_conversation/README.md",
+          "file://openhands/app_server/event/README.md",
+          "file://openhands/app_server/event_callback/README.md",
+          "file://openhands/app_server/file_store/README.md",
+          "file://openhands/app_server/sandbox/README.md",
+          "file://openhands/app_server/user/README.md",
+          "file://openhands/app_server/utils/README.md",
+          "file://skills/README.md",
+          "file://tests/unit/README.md"
+        ],
+        "denied_refs": [
+          "file://AGENTS.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://.agents/skills/cross-repo-testing/SKILL.md",
+        "file://AGENTS.md",
+        "file://README.md",
+        "file://containers/dev/README.md",
+        "file://enterprise/README.md",
+        "file://enterprise/doc/architecture/README.md",
+        "file://enterprise/enterprise_local/README.md",
+        "file://enterprise/server/maintenance_task_processor/README.md",
+        "file://enterprise/server/sharing/README.md",
+        "file://enterprise/sync/README.md",
+        "file://frontend/README.md",
+        "file://frontend/src/api/README.md",
+        "file://openhands-ui/README.md",
+        "file://openhands/app_server/README.md",
+        "file://openhands/app_server/app_conversation/README.md",
+        "file://openhands/app_server/event/README.md",
+        "file://openhands/app_server/event_callback/README.md",
+        "file://openhands/app_server/file_store/README.md",
+        "file://openhands/app_server/sandbox/README.md",
+        "file://openhands/app_server/user/README.md",
+        "file://openhands/app_server/utils/README.md",
+        "file://skills/README.md",
+        "file://tests/unit/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "other_context": 1,
+        "readme_or_docs": 21
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.agents/skills/cross-repo-testing/SKILL.md",
+          "file://README.md",
+          "file://containers/dev/README.md",
+          "file://enterprise/README.md",
+          "file://enterprise/doc/architecture/README.md",
+          "file://enterprise/enterprise_local/README.md",
+          "file://enterprise/server/maintenance_task_processor/README.md",
+          "file://enterprise/sync/README.md",
+          "file://frontend/README.md",
+          "file://frontend/__tests__/helpers/README.md",
+          "file://frontend/src/api/README.md",
+          "file://openhands-ui/README.md",
+          "file://openhands/app_server/app_lifespan/alembic/README",
+          "file://openhands/app_server/file_store/README.md",
+          "file://openhands/app_server/utils/README.md",
+          "file://skills/README.md"
+        ],
+        "denied_refs": [
+          "file://.agents/skills/update-sdk/SKILL.md",
+          "file://AGENTS.md",
+          "file://enterprise/server/sharing/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_target_write_conflict",
+      "finding_type": "target_write_conflict",
+      "reason": "At least one surface denies repository writes while another declares write-like capability.",
+      "recommended_next_check": "Choose one repository write policy and link lower-priority instruction files to it.",
+      "severity": "high",
+      "source_refs": [
+        "file://.agents/skills/cross-repo-testing/SKILL.md",
+        "file://.agents/skills/update-sdk/SKILL.md",
+        "file://AGENTS.md",
+        "file://README.md",
+        "file://containers/dev/README.md",
+        "file://enterprise/README.md",
+        "file://enterprise/doc/architecture/README.md",
+        "file://enterprise/enterprise_local/README.md",
+        "file://enterprise/server/maintenance_task_processor/README.md",
+        "file://enterprise/server/sharing/README.md",
+        "file://enterprise/sync/README.md",
+        "file://frontend/README.md",
+        "file://frontend/__tests__/helpers/README.md",
+        "file://frontend/src/api/README.md",
+        "file://openhands-ui/README.md",
+        "file://openhands/app_server/app_lifespan/alembic/README",
+        "file://openhands/app_server/file_store/README.md",
+        "file://openhands/app_server/utils/README.md",
+        "file://skills/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "other_context": 2,
+        "readme_or_docs": 16
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://README.md",
+          "file://openhands-ui/README.md"
+        ],
+        "denied_refs": [
+          "file://.agents/skills/update-sdk/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_with_readme_docs",
+      "finding_id": "ccm_0003_publish_conflict",
+      "finding_type": "publish_conflict",
+      "reason": "At least one surface denies publication while another declares publish or release capability.",
+      "recommended_next_check": "Keep publication authority in one canonical policy and require explicit review for exceptions.",
+      "severity": "high",
+      "source_refs": [
+        "file://.agents/skills/update-sdk/SKILL.md",
+        "file://README.md",
+        "file://openhands-ui/README.md"
+      ],
+      "source_tiers": {
+        "other_context": 1,
+        "readme_or_docs": 2
+      }
+    },
+    {
+      "evidence": {
+        "public_refs": [
+          "file://AGENTS.md",
+          "file://README.md",
+          "file://enterprise/README.md",
+          "file://enterprise/enterprise_local/README.md",
+          "file://frontend/README.md",
+          "file://frontend/src/api/README.md",
+          "file://skills/README.md"
+        ],
+        "sensitive_or_restricted_refs": [
+          "file://openhands/app_server/services/README.md",
+          "file://openhands/app_server/utils/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0004_sensitivity_boundary_conflict",
+      "finding_type": "sensitivity_boundary_conflict",
+      "reason": "Public and sensitive/restricted instruction surfaces are both present without a declared boundary in the detected surfaces.",
+      "recommended_next_check": "Declare which sensitive instruction sources may influence public-facing agent behavior.",
+      "severity": "medium",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://README.md",
+        "file://enterprise/README.md",
+        "file://enterprise/enterprise_local/README.md",
+        "file://frontend/README.md",
+        "file://frontend/src/api/README.md",
+        "file://openhands/app_server/services/README.md",
+        "file://openhands/app_server/utils/README.md",
+        "file://skills/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "readme_or_docs": 8
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [],
+    "declared": false,
+    "high_authority_surface_kinds": [
+      "agent_instruction"
+    ],
+    "high_authority_surface_refs": [
+      "file://AGENTS.md"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "openhands",
+    "pinned_ref": "b897ce421df036dec48ca0b72c4928955df6d728",
+    "repo_url": "https://github.com/All-Hands-AI/OpenHands"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "a79f28d34278dee0581291bbd8f33cd1e6a76591f01f3d17a2deef18f8634aca"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 1,
+    "scope_counts": {
+      "project": 19,
+      "system": 6,
+      "user": 7
+    },
+    "sensitivity_counts": {
+      "internal": 23,
+      "public": 7,
+      "sensitive": 2
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 1,
+      "other_context": 3,
+      "readme_or_docs": 28
+    },
+    "surface_count": 32,
+    "surface_kinds": {
+      "agent_instruction": 1,
+      "readme": 28,
+      "skill": 3
+    }
+  },
+  "version": "v0"
+}

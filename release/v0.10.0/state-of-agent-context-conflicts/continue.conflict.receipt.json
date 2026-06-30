@@ -1,0 +1,290 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "mixed_instruction_config_and_readme_docs": 3,
+      "readme_docs_only": 1
+    },
+    "finding_count": 4,
+    "finding_type_counts": {
+      "approval_conflict": 1,
+      "execution_conflict": 1,
+      "network_conflict": 1,
+      "target_write_conflict": 1
+    },
+    "severity_counts": {
+      "high": 4
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://README.md",
+          "file://actions/README.md",
+          "file://core/vendor/modules/@xenova/transformers/README.md",
+          "file://docs/README.md",
+          "file://extensions/cli/AGENTS.md",
+          "file://extensions/cli/README.md",
+          "file://extensions/intellij/README.md",
+          "file://extensions/vscode/README.md",
+          "file://extensions/vscode/models/all-MiniLM-L6-v2/README.md",
+          "file://packages/continue-sdk/README.md",
+          "file://packages/continue-sdk/python/api/README.md",
+          "file://packages/continue-sdk/typescript/api/README.md",
+          "file://packages/llm-info/README.md",
+          "file://packages/openai-adapters/README.md",
+          "file://skills/cn-check/SKILL.md"
+        ],
+        "denied_refs": [
+          "file://extensions/cli/src/test-helpers/README.md",
+          "file://packages/continue-sdk/typescript/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://README.md",
+        "file://actions/README.md",
+        "file://core/vendor/modules/@xenova/transformers/README.md",
+        "file://docs/README.md",
+        "file://extensions/cli/AGENTS.md",
+        "file://extensions/cli/README.md",
+        "file://extensions/cli/src/test-helpers/README.md",
+        "file://extensions/intellij/README.md",
+        "file://extensions/vscode/README.md",
+        "file://extensions/vscode/models/all-MiniLM-L6-v2/README.md",
+        "file://packages/continue-sdk/README.md",
+        "file://packages/continue-sdk/python/api/README.md",
+        "file://packages/continue-sdk/typescript/README.md",
+        "file://packages/continue-sdk/typescript/api/README.md",
+        "file://packages/llm-info/README.md",
+        "file://packages/openai-adapters/README.md",
+        "file://skills/cn-check/SKILL.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "other_context": 1,
+        "readme_or_docs": 15
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.claude/skills/docs-style/SKILL.md",
+          "file://actions/README.md",
+          "file://binary/README.md",
+          "file://core/diff/test-examples/README.md",
+          "file://core/nextEdit/README.md",
+          "file://core/vendor/modules/@xenova/transformers/README.md",
+          "file://docs/README.md",
+          "file://extensions/cli/AGENTS.md",
+          "file://extensions/cli/README.md",
+          "file://extensions/cli/src/test-helpers/README.md",
+          "file://extensions/cli/src/ui/__tests__/README.md",
+          "file://extensions/vscode/models/all-MiniLM-L6-v2/README.md",
+          "file://packages/config-yaml/src/README.md",
+          "file://packages/continue-sdk/README.md",
+          "file://packages/continue-sdk/python/api/README.md",
+          "file://packages/continue-sdk/typescript/README.md",
+          "file://packages/continue-sdk/typescript/api/README.md",
+          "file://packages/llm-info/README.md",
+          "file://packages/openai-adapters/README.md",
+          "file://skills/cn-check/SKILL.md"
+        ],
+        "denied_refs": [
+          "file://README.md",
+          "file://core/indexing/README.md",
+          "file://extensions/cli/src/permissions/README.md",
+          "file://extensions/vscode/README.md",
+          "file://sync/src/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_target_write_conflict",
+      "finding_type": "target_write_conflict",
+      "reason": "At least one surface denies repository writes while another declares write-like capability.",
+      "recommended_next_check": "Choose one repository write policy and link lower-priority instruction files to it.",
+      "severity": "high",
+      "source_refs": [
+        "file://.claude/skills/docs-style/SKILL.md",
+        "file://README.md",
+        "file://actions/README.md",
+        "file://binary/README.md",
+        "file://core/diff/test-examples/README.md",
+        "file://core/indexing/README.md",
+        "file://core/nextEdit/README.md",
+        "file://core/vendor/modules/@xenova/transformers/README.md",
+        "file://docs/README.md",
+        "file://extensions/cli/AGENTS.md",
+        "file://extensions/cli/README.md",
+        "file://extensions/cli/src/permissions/README.md",
+        "file://extensions/cli/src/test-helpers/README.md",
+        "file://extensions/cli/src/ui/__tests__/README.md",
+        "file://extensions/vscode/README.md",
+        "file://extensions/vscode/models/all-MiniLM-L6-v2/README.md",
+        "file://packages/config-yaml/src/README.md",
+        "file://packages/continue-sdk/README.md",
+        "file://packages/continue-sdk/python/api/README.md",
+        "file://packages/continue-sdk/typescript/README.md",
+        "file://packages/continue-sdk/typescript/api/README.md",
+        "file://packages/llm-info/README.md",
+        "file://packages/openai-adapters/README.md",
+        "file://skills/cn-check/SKILL.md",
+        "file://sync/src/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "other_context": 2,
+        "readme_or_docs": 22
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://binary/README.md",
+          "file://core/diff/test-examples/README.md",
+          "file://core/vendor/modules/@xenova/transformers/README.md",
+          "file://extensions/cli/AGENTS.md",
+          "file://extensions/vscode/e2e/README.md",
+          "file://packages/continue-sdk/python/api/README.md",
+          "file://skills/cn-check/SKILL.md"
+        ],
+        "denied_refs": [
+          "file://extensions/cli/README.md",
+          "file://extensions/cli/src/permissions/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0003_execution_conflict",
+      "finding_type": "execution_conflict",
+      "reason": "At least one surface denies command execution while another declares execution capability.",
+      "recommended_next_check": "Resolve shell/tool execution policy before relying on the combined context.",
+      "severity": "high",
+      "source_refs": [
+        "file://binary/README.md",
+        "file://core/diff/test-examples/README.md",
+        "file://core/vendor/modules/@xenova/transformers/README.md",
+        "file://extensions/cli/AGENTS.md",
+        "file://extensions/cli/README.md",
+        "file://extensions/cli/src/permissions/README.md",
+        "file://extensions/vscode/e2e/README.md",
+        "file://packages/continue-sdk/python/api/README.md",
+        "file://skills/cn-check/SKILL.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "other_context": 1,
+        "readme_or_docs": 7
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://actions/README.md"
+        ],
+        "denied_refs": [
+          "file://extensions/cli/src/permissions/README.md"
+        ]
+      },
+      "evidence_tier": "readme_docs_only",
+      "finding_id": "ccm_0004_approval_conflict",
+      "finding_type": "approval_conflict",
+      "reason": "Approval requirements conflict with an autonomous or no-approval instruction.",
+      "recommended_next_check": "State whether approval is required and which file wins when another file bypasses it.",
+      "severity": "high",
+      "source_refs": [
+        "file://actions/README.md",
+        "file://extensions/cli/src/permissions/README.md"
+      ],
+      "source_tiers": {
+        "readme_or_docs": 2
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [
+      "file://extensions/cli/AGENTS.md",
+      "file://skills/cn-check/SKILL.md"
+    ],
+    "declared": true,
+    "high_authority_surface_kinds": [
+      "agent_instruction"
+    ],
+    "high_authority_surface_refs": [
+      "file://extensions/cli/AGENTS.md"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "continue",
+    "pinned_ref": "d0a3c0b626b5bebc3bef4742eec05a0242be0bab",
+    "repo_url": "https://github.com/continuedev/continue"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "330a5dc50f0a44d89e5b9a019973ede330494c697f1f91b01fd82091ee15957a"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 1,
+    "scope_counts": {
+      "project": 19,
+      "system": 3,
+      "user": 9
+    },
+    "sensitivity_counts": {
+      "internal": 27,
+      "public": 4
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 1,
+      "other_context": 2,
+      "readme_or_docs": 28
+    },
+    "surface_count": 31,
+    "surface_kinds": {
+      "agent_instruction": 1,
+      "readme": 28,
+      "skill": 2
+    }
+  },
+  "version": "v0"
+}

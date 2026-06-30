@@ -1,0 +1,339 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "mixed_instruction_config_and_readme_docs": 4
+    },
+    "finding_count": 4,
+    "finding_type_counts": {
+      "execution_conflict": 1,
+      "network_conflict": 1,
+      "publish_conflict": 1,
+      "sensitivity_boundary_conflict": 1
+    },
+    "severity_counts": {
+      "high": 3,
+      "medium": 1
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.github/copilot-instructions.md",
+          "file://README.md",
+          "file://docs/dotnet/README.md",
+          "file://dotnet/README.md",
+          "file://dotnet/samples/Hello/HelloAgent/README.md",
+          "file://dotnet/samples/Hello/HelloAgentState/README.md",
+          "file://dotnet/samples/Hello/README.md",
+          "file://dotnet/samples/dev-team/README.md",
+          "file://dotnet/src/AutoGen.LMStudio/README.md",
+          "file://dotnet/src/AutoGen.SourceGenerator/README.md",
+          "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/HelloAgentTests/README.md",
+          "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/core_xlang_hello_python_agent/README.md",
+          "file://dotnet/website/README.md",
+          "file://python/docs/README.md",
+          "file://python/packages/agbench/README.md",
+          "file://python/packages/agbench/benchmarks/GAIA/README.md",
+          "file://python/packages/agbench/benchmarks/HumanEval/README.md",
+          "file://python/packages/autogen-agentchat/README.md",
+          "file://python/packages/autogen-core/README.md",
+          "file://python/packages/autogen-ext/README.md",
+          "file://python/packages/autogen-magentic-one/README.md",
+          "file://python/packages/autogen-studio/README.md",
+          "file://python/packages/autogen-studio/frontend/README.md",
+          "file://python/packages/pyautogen/README.md",
+          "file://python/samples/agentchat_azure_postgresql/README.md",
+          "file://python/samples/agentchat_chainlit/README.md",
+          "file://python/samples/agentchat_chess_game/README.md",
+          "file://python/samples/agentchat_fastapi/README.md",
+          "file://python/samples/agentchat_graphrag/README.md",
+          "file://python/samples/agentchat_streamlit/README.md",
+          "file://python/samples/core_chainlit/README.md",
+          "file://python/samples/core_distributed-group-chat/README.md",
+          "file://python/samples/core_streaming_handoffs_fastapi/README.md",
+          "file://python/samples/core_streaming_response_fastapi/README.md",
+          "file://python/samples/core_xlang_hello_python_agent/README.md",
+          "file://python/samples/gitty/README.md",
+          "file://python/samples/task_centric_memory/README.md"
+        ],
+        "denied_refs": [
+          "file://python/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://README.md",
+        "file://docs/dotnet/README.md",
+        "file://dotnet/README.md",
+        "file://dotnet/samples/Hello/HelloAgent/README.md",
+        "file://dotnet/samples/Hello/HelloAgentState/README.md",
+        "file://dotnet/samples/Hello/README.md",
+        "file://dotnet/samples/dev-team/README.md",
+        "file://dotnet/src/AutoGen.LMStudio/README.md",
+        "file://dotnet/src/AutoGen.SourceGenerator/README.md",
+        "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/HelloAgentTests/README.md",
+        "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/core_xlang_hello_python_agent/README.md",
+        "file://dotnet/website/README.md",
+        "file://python/README.md",
+        "file://python/docs/README.md",
+        "file://python/packages/agbench/README.md",
+        "file://python/packages/agbench/benchmarks/GAIA/README.md",
+        "file://python/packages/agbench/benchmarks/HumanEval/README.md",
+        "file://python/packages/autogen-agentchat/README.md",
+        "file://python/packages/autogen-core/README.md",
+        "file://python/packages/autogen-ext/README.md",
+        "file://python/packages/autogen-magentic-one/README.md",
+        "file://python/packages/autogen-studio/README.md",
+        "file://python/packages/autogen-studio/frontend/README.md",
+        "file://python/packages/pyautogen/README.md",
+        "file://python/samples/agentchat_azure_postgresql/README.md",
+        "file://python/samples/agentchat_chainlit/README.md",
+        "file://python/samples/agentchat_chess_game/README.md",
+        "file://python/samples/agentchat_fastapi/README.md",
+        "file://python/samples/agentchat_graphrag/README.md",
+        "file://python/samples/agentchat_streamlit/README.md",
+        "file://python/samples/core_chainlit/README.md",
+        "file://python/samples/core_distributed-group-chat/README.md",
+        "file://python/samples/core_streaming_handoffs_fastapi/README.md",
+        "file://python/samples/core_streaming_response_fastapi/README.md",
+        "file://python/samples/core_xlang_hello_python_agent/README.md",
+        "file://python/samples/gitty/README.md",
+        "file://python/samples/task_centric_memory/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "readme_or_docs": 37
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://README.md",
+          "file://docs/dotnet/README.md",
+          "file://dotnet/website/README.md",
+          "file://python/README.md",
+          "file://python/docs/README.md",
+          "file://python/packages/agbench/README.md",
+          "file://python/packages/agbench/benchmarks/HumanEval/README.md",
+          "file://python/packages/autogen-core/README.md",
+          "file://python/packages/autogen-ext/src/autogen_ext/tools/mcp/_host/README.md",
+          "file://python/samples/agentchat_chess_game/README.md",
+          "file://python/samples/agentchat_streamlit/README.md",
+          "file://python/samples/core_chess_game/README.md",
+          "file://python/samples/core_distributed-group-chat/README.md",
+          "file://python/samples/core_streaming_handoffs_fastapi/README.md",
+          "file://python/samples/task_centric_memory/README.md"
+        ],
+        "denied_refs": [
+          "file://.github/copilot-instructions.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_execution_conflict",
+      "finding_type": "execution_conflict",
+      "reason": "At least one surface denies command execution while another declares execution capability.",
+      "recommended_next_check": "Resolve shell/tool execution policy before relying on the combined context.",
+      "severity": "high",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://README.md",
+        "file://docs/dotnet/README.md",
+        "file://dotnet/website/README.md",
+        "file://python/README.md",
+        "file://python/docs/README.md",
+        "file://python/packages/agbench/README.md",
+        "file://python/packages/agbench/benchmarks/HumanEval/README.md",
+        "file://python/packages/autogen-core/README.md",
+        "file://python/packages/autogen-ext/src/autogen_ext/tools/mcp/_host/README.md",
+        "file://python/samples/agentchat_chess_game/README.md",
+        "file://python/samples/agentchat_streamlit/README.md",
+        "file://python/samples/core_chess_game/README.md",
+        "file://python/samples/core_distributed-group-chat/README.md",
+        "file://python/samples/core_streaming_handoffs_fastapi/README.md",
+        "file://python/samples/task_centric_memory/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "readme_or_docs": 15
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://dotnet/README.md",
+          "file://dotnet/samples/Hello/HelloAgent/README.md",
+          "file://dotnet/samples/Hello/HelloAgentState/README.md",
+          "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/HelloAgentTests/README.md",
+          "file://python/packages/autogen-ext/README.md",
+          "file://python/samples/core_distributed-group-chat/README.md",
+          "file://python/samples/core_streaming_response_fastapi/README.md"
+        ],
+        "denied_refs": [
+          "file://.github/copilot-instructions.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0003_publish_conflict",
+      "finding_type": "publish_conflict",
+      "reason": "At least one surface denies publication while another declares publish or release capability.",
+      "recommended_next_check": "Keep publication authority in one canonical policy and require explicit review for exceptions.",
+      "severity": "high",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://dotnet/README.md",
+        "file://dotnet/samples/Hello/HelloAgent/README.md",
+        "file://dotnet/samples/Hello/HelloAgentState/README.md",
+        "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/HelloAgentTests/README.md",
+        "file://python/packages/autogen-ext/README.md",
+        "file://python/samples/core_distributed-group-chat/README.md",
+        "file://python/samples/core_streaming_response_fastapi/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "readme_or_docs": 7
+      }
+    },
+    {
+      "evidence": {
+        "public_refs": [
+          "file://docs/dotnet/README.md",
+          "file://dotnet/samples/Hello/HelloAgent/README.md",
+          "file://dotnet/samples/Hello/HelloAgentState/README.md",
+          "file://dotnet/src/AutoGen.SourceGenerator/README.md",
+          "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/HelloAgentTests/README.md",
+          "file://dotnet/website/README.md",
+          "file://python/README.md",
+          "file://python/packages/agbench/README.md",
+          "file://python/packages/agbench/benchmarks/README.md",
+          "file://python/packages/autogen-magentic-one/README.md",
+          "file://python/packages/autogen-studio/README.md",
+          "file://python/samples/core_distributed-group-chat/README.md",
+          "file://python/samples/gitty/README.md",
+          "file://python/samples/task_centric_memory/README.md"
+        ],
+        "sensitive_or_restricted_refs": [
+          "file://.github/copilot-instructions.md",
+          "file://README.md",
+          "file://python/samples/agentchat_graphrag/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0004_sensitivity_boundary_conflict",
+      "finding_type": "sensitivity_boundary_conflict",
+      "reason": "Public and sensitive/restricted instruction surfaces are both present without a declared boundary in the detected surfaces.",
+      "recommended_next_check": "Declare which sensitive instruction sources may influence public-facing agent behavior.",
+      "severity": "medium",
+      "source_refs": [
+        "file://.github/copilot-instructions.md",
+        "file://README.md",
+        "file://docs/dotnet/README.md",
+        "file://dotnet/samples/Hello/HelloAgent/README.md",
+        "file://dotnet/samples/Hello/HelloAgentState/README.md",
+        "file://dotnet/src/AutoGen.SourceGenerator/README.md",
+        "file://dotnet/test/Microsoft.AutoGen.Integration.Tests.AppHosts/HelloAgentTests/README.md",
+        "file://dotnet/website/README.md",
+        "file://python/README.md",
+        "file://python/packages/agbench/README.md",
+        "file://python/packages/agbench/benchmarks/README.md",
+        "file://python/packages/autogen-magentic-one/README.md",
+        "file://python/packages/autogen-studio/README.md",
+        "file://python/samples/agentchat_graphrag/README.md",
+        "file://python/samples/core_distributed-group-chat/README.md",
+        "file://python/samples/gitty/README.md",
+        "file://python/samples/task_centric_memory/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 1,
+        "readme_or_docs": 16
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [
+      "file://python/packages/autogen-studio/frontend/src/components/shared/README.md"
+    ],
+    "declared": true,
+    "high_authority_surface_kinds": [
+      "github_copilot_instruction"
+    ],
+    "high_authority_surface_refs": [
+      "file://.github/copilot-instructions.md"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "autogen",
+    "pinned_ref": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+    "repo_url": "https://github.com/microsoft/autogen"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "3dcb9cd0d8a28eb965e9e8d9a9dd93a6f3dcb802f69e29bfb9d22d5d283d1a46"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 1,
+    "scope_counts": {
+      "project": 38,
+      "system": 2,
+      "user": 11
+    },
+    "sensitivity_counts": {
+      "internal": 34,
+      "public": 14,
+      "restricted": 1,
+      "sensitive": 2
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 1,
+      "readme_or_docs": 50
+    },
+    "surface_count": 51,
+    "surface_kinds": {
+      "github_copilot_instruction": 1,
+      "readme": 50
+    }
+  },
+  "version": "v0"
+}

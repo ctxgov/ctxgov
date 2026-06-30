@@ -1,0 +1,501 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "instruction_config_only": 1,
+      "mixed_instruction_config_and_readme_docs": 5
+    },
+    "finding_count": 6,
+    "finding_type_counts": {
+      "execution_conflict": 1,
+      "network_conflict": 1,
+      "publish_conflict": 1,
+      "scope_conflict": 1,
+      "sensitivity_boundary_conflict": 1,
+      "target_write_conflict": 1
+    },
+    "severity_counts": {
+      "high": 4,
+      "medium": 2
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.agents/references/README.md",
+          "file://.agents/skills/docs-sync/SKILL.md",
+          "file://.agents/skills/implementation-strategy/SKILL.md",
+          "file://.agents/skills/openai-knowledge/SKILL.md",
+          "file://.agents/skills/pr-draft-summary/SKILL.md",
+          "file://.agents/skills/runtime-behavior-probe/SKILL.md",
+          "file://.agents/skills/test-coverage-improver/SKILL.md",
+          "file://README.md",
+          "file://examples/mcp/filesystem_example/README.md",
+          "file://examples/mcp/get_all_mcp_tools_example/README.md",
+          "file://examples/mcp/git_example/README.md",
+          "file://examples/mcp/manager_example/README.md",
+          "file://examples/mcp/prompt_server/README.md",
+          "file://examples/mcp/sse_example/README.md",
+          "file://examples/mcp/sse_remote_example/README.md",
+          "file://examples/mcp/streamable_http_remote_example/README.md",
+          "file://examples/mcp/streamablehttp_custom_client_example/README.md",
+          "file://examples/mcp/streamablehttp_example/README.md",
+          "file://examples/mcp/tool_filter_example/README.md",
+          "file://examples/model_providers/README.md",
+          "file://examples/realtime/app/README.md",
+          "file://examples/realtime/twilio/README.md",
+          "file://examples/realtime/twilio_sip/README.md",
+          "file://examples/sandbox/README.md",
+          "file://examples/sandbox/extensions/README.md",
+          "file://examples/sandbox/extensions/daytona/usaspending_text2sql/README.md",
+          "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md",
+          "file://examples/sandbox/tutorials/dataroom_qa/README.md",
+          "file://examples/sandbox/tutorials/sandbox_resume/README.md",
+          "file://examples/sandbox/tutorials/vision_website_clone/README.md",
+          "file://tests/README.md"
+        ],
+        "denied_refs": [
+          "file://.agents/skills/final-release-review/SKILL.md",
+          "file://.agents/skills/maintainer-review/SKILL.md",
+          "file://AGENTS.md",
+          "file://CLAUDE.md",
+          "file://examples/sandbox/extensions/temporal/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://.agents/references/README.md",
+        "file://.agents/skills/docs-sync/SKILL.md",
+        "file://.agents/skills/final-release-review/SKILL.md",
+        "file://.agents/skills/implementation-strategy/SKILL.md",
+        "file://.agents/skills/maintainer-review/SKILL.md",
+        "file://.agents/skills/openai-knowledge/SKILL.md",
+        "file://.agents/skills/pr-draft-summary/SKILL.md",
+        "file://.agents/skills/runtime-behavior-probe/SKILL.md",
+        "file://.agents/skills/test-coverage-improver/SKILL.md",
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://README.md",
+        "file://examples/mcp/filesystem_example/README.md",
+        "file://examples/mcp/get_all_mcp_tools_example/README.md",
+        "file://examples/mcp/git_example/README.md",
+        "file://examples/mcp/manager_example/README.md",
+        "file://examples/mcp/prompt_server/README.md",
+        "file://examples/mcp/sse_example/README.md",
+        "file://examples/mcp/sse_remote_example/README.md",
+        "file://examples/mcp/streamable_http_remote_example/README.md",
+        "file://examples/mcp/streamablehttp_custom_client_example/README.md",
+        "file://examples/mcp/streamablehttp_example/README.md",
+        "file://examples/mcp/tool_filter_example/README.md",
+        "file://examples/model_providers/README.md",
+        "file://examples/realtime/app/README.md",
+        "file://examples/realtime/twilio/README.md",
+        "file://examples/realtime/twilio_sip/README.md",
+        "file://examples/sandbox/README.md",
+        "file://examples/sandbox/extensions/README.md",
+        "file://examples/sandbox/extensions/daytona/usaspending_text2sql/README.md",
+        "file://examples/sandbox/extensions/temporal/README.md",
+        "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md",
+        "file://examples/sandbox/tutorials/dataroom_qa/README.md",
+        "file://examples/sandbox/tutorials/sandbox_resume/README.md",
+        "file://examples/sandbox/tutorials/vision_website_clone/README.md",
+        "file://tests/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 8,
+        "readme_or_docs": 26
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.agents/skills/docs-sync/SKILL.md",
+          "file://.agents/skills/examples-auto-run/SKILL.md",
+          "file://.agents/skills/implementation-strategy/SKILL.md",
+          "file://.agents/skills/test-coverage-improver/SKILL.md",
+          "file://README.md",
+          "file://examples/financial_research_agent/README.md",
+          "file://examples/mcp/streamablehttp_custom_client_example/README.md",
+          "file://examples/realtime/twilio_sip/README.md",
+          "file://examples/research_bot/README.md",
+          "file://examples/sandbox/README.md",
+          "file://examples/sandbox/extensions/README.md",
+          "file://examples/sandbox/healthcare_support/README.md",
+          "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md",
+          "file://examples/sandbox/tutorials/repo_code_review/README.md",
+          "file://examples/sandbox/tutorials/vision_website_clone/README.md"
+        ],
+        "denied_refs": [
+          "file://.agents/references/README.md",
+          "file://.agents/skills/final-release-review/SKILL.md",
+          "file://.agents/skills/maintainer-review/SKILL.md",
+          "file://.agents/skills/openai-knowledge/SKILL.md",
+          "file://.agents/skills/pr-draft-summary/SKILL.md",
+          "file://.agents/skills/runtime-behavior-probe/SKILL.md",
+          "file://AGENTS.md",
+          "file://CLAUDE.md",
+          "file://examples/sandbox/extensions/daytona/usaspending_text2sql/README.md",
+          "file://examples/sandbox/extensions/temporal/README.md",
+          "file://examples/sandbox/healthcare_support/skills/prior-auth-packet-builder/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_target_write_conflict",
+      "finding_type": "target_write_conflict",
+      "reason": "At least one surface denies repository writes while another declares write-like capability.",
+      "recommended_next_check": "Choose one repository write policy and link lower-priority instruction files to it.",
+      "severity": "high",
+      "source_refs": [
+        "file://.agents/references/README.md",
+        "file://.agents/skills/docs-sync/SKILL.md",
+        "file://.agents/skills/examples-auto-run/SKILL.md",
+        "file://.agents/skills/final-release-review/SKILL.md",
+        "file://.agents/skills/implementation-strategy/SKILL.md",
+        "file://.agents/skills/maintainer-review/SKILL.md",
+        "file://.agents/skills/openai-knowledge/SKILL.md",
+        "file://.agents/skills/pr-draft-summary/SKILL.md",
+        "file://.agents/skills/runtime-behavior-probe/SKILL.md",
+        "file://.agents/skills/test-coverage-improver/SKILL.md",
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://README.md",
+        "file://examples/financial_research_agent/README.md",
+        "file://examples/mcp/streamablehttp_custom_client_example/README.md",
+        "file://examples/realtime/twilio_sip/README.md",
+        "file://examples/research_bot/README.md",
+        "file://examples/sandbox/README.md",
+        "file://examples/sandbox/extensions/README.md",
+        "file://examples/sandbox/extensions/daytona/usaspending_text2sql/README.md",
+        "file://examples/sandbox/extensions/temporal/README.md",
+        "file://examples/sandbox/healthcare_support/README.md",
+        "file://examples/sandbox/healthcare_support/skills/prior-auth-packet-builder/SKILL.md",
+        "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md",
+        "file://examples/sandbox/tutorials/repo_code_review/README.md",
+        "file://examples/sandbox/tutorials/vision_website_clone/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 10,
+        "readme_or_docs": 14
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.agents/skills/code-change-verification/SKILL.md",
+          "file://.agents/skills/runtime-behavior-probe/SKILL.md",
+          "file://.agents/skills/test-coverage-improver/SKILL.md",
+          "file://AGENTS.md",
+          "file://CLAUDE.md",
+          "file://examples/financial_research_agent/README.md",
+          "file://examples/realtime/app/README.md",
+          "file://examples/sandbox/extensions/daytona/usaspending_text2sql/README.md",
+          "file://examples/sandbox/healthcare_support/README.md",
+          "file://examples/sandbox/tutorials/repo_code_review/README.md"
+        ],
+        "denied_refs": [
+          "file://.agents/skills/examples-auto-run/SKILL.md",
+          "file://.agents/skills/final-release-review/SKILL.md",
+          "file://.agents/skills/maintainer-review/SKILL.md",
+          "file://.agents/skills/pr-draft-summary/SKILL.md",
+          "file://examples/mcp/manager_example/README.md",
+          "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md",
+          "file://examples/sandbox/tutorials/dataroom_qa/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0003_execution_conflict",
+      "finding_type": "execution_conflict",
+      "reason": "At least one surface denies command execution while another declares execution capability.",
+      "recommended_next_check": "Resolve shell/tool execution policy before relying on the combined context.",
+      "severity": "high",
+      "source_refs": [
+        "file://.agents/skills/code-change-verification/SKILL.md",
+        "file://.agents/skills/examples-auto-run/SKILL.md",
+        "file://.agents/skills/final-release-review/SKILL.md",
+        "file://.agents/skills/maintainer-review/SKILL.md",
+        "file://.agents/skills/pr-draft-summary/SKILL.md",
+        "file://.agents/skills/runtime-behavior-probe/SKILL.md",
+        "file://.agents/skills/test-coverage-improver/SKILL.md",
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://examples/financial_research_agent/README.md",
+        "file://examples/mcp/manager_example/README.md",
+        "file://examples/realtime/app/README.md",
+        "file://examples/sandbox/extensions/daytona/usaspending_text2sql/README.md",
+        "file://examples/sandbox/healthcare_support/README.md",
+        "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md",
+        "file://examples/sandbox/tutorials/dataroom_qa/README.md",
+        "file://examples/sandbox/tutorials/repo_code_review/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 7,
+        "readme_or_docs": 8
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.agents/references/README.md",
+          "file://.agents/skills/implementation-strategy/SKILL.md",
+          "file://examples/mcp/manager_example/README.md"
+        ],
+        "denied_refs": [
+          "file://.agents/skills/final-release-review/SKILL.md",
+          "file://AGENTS.md",
+          "file://CLAUDE.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0004_publish_conflict",
+      "finding_type": "publish_conflict",
+      "reason": "At least one surface denies publication while another declares publish or release capability.",
+      "recommended_next_check": "Keep publication authority in one canonical policy and require explicit review for exceptions.",
+      "severity": "high",
+      "source_refs": [
+        "file://.agents/references/README.md",
+        "file://.agents/skills/final-release-review/SKILL.md",
+        "file://.agents/skills/implementation-strategy/SKILL.md",
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://examples/mcp/manager_example/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 2,
+        "readme_or_docs": 2
+      }
+    },
+    {
+      "evidence": {
+        "scope_by_ref": {
+          "file://.agents/references/README.md": "project",
+          "file://.agents/skills/code-change-verification/SKILL.md": "project",
+          "file://.agents/skills/docs-sync/SKILL.md": "project",
+          "file://.agents/skills/examples-auto-run/SKILL.md": "project",
+          "file://.agents/skills/final-release-review/SKILL.md": "project",
+          "file://.agents/skills/implementation-strategy/SKILL.md": "project",
+          "file://.agents/skills/maintainer-review/SKILL.md": "project",
+          "file://.agents/skills/openai-knowledge/SKILL.md": "user",
+          "file://.agents/skills/pr-draft-summary/SKILL.md": "project",
+          "file://.agents/skills/runtime-behavior-probe/SKILL.md": "system",
+          "file://.agents/skills/test-coverage-improver/SKILL.md": "project",
+          "file://AGENTS.md": "project",
+          "file://CLAUDE.md": "project",
+          "file://README.md": "project",
+          "file://examples/agent_patterns/README.md": "user",
+          "file://examples/financial_research_agent/README.md": "project",
+          "file://examples/mcp/filesystem_example/README.md": "system",
+          "file://examples/mcp/get_all_mcp_tools_example/README.md": "system",
+          "file://examples/mcp/git_example/README.md": "project",
+          "file://examples/mcp/manager_example/README.md": "project",
+          "file://examples/mcp/prompt_server/README.md": "user",
+          "file://examples/mcp/sse_example/README.md": "project",
+          "file://examples/mcp/sse_remote_example/README.md": "project",
+          "file://examples/mcp/streamable_http_remote_example/README.md": "project",
+          "file://examples/mcp/streamablehttp_custom_client_example/README.md": "project",
+          "file://examples/mcp/streamablehttp_example/README.md": "project",
+          "file://examples/mcp/tool_filter_example/README.md": "system",
+          "file://examples/model_providers/README.md": "project",
+          "file://examples/realtime/app/README.md": "session",
+          "file://examples/realtime/twilio/README.md": "project",
+          "file://examples/realtime/twilio_sip/README.md": "project",
+          "file://examples/research_bot/README.md": "project",
+          "file://examples/sandbox/README.md": "project",
+          "file://examples/sandbox/docs/repo/README.md": "project",
+          "file://examples/sandbox/docs/skills/credit-note-fixer/SKILL.md": "project",
+          "file://examples/sandbox/extensions/README.md": "project",
+          "file://examples/sandbox/extensions/daytona/usaspending_text2sql/README.md": "project",
+          "file://examples/sandbox/extensions/temporal/README.md": "system",
+          "file://examples/sandbox/healthcare_support/README.md": "project",
+          "file://examples/sandbox/healthcare_support/skills/prior-auth-packet-builder/SKILL.md": "project",
+          "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md": "project",
+          "file://examples/sandbox/tutorials/dataroom_qa/README.md": "project",
+          "file://examples/sandbox/tutorials/repo_code_review/README.md": "project",
+          "file://examples/sandbox/tutorials/sandbox_resume/README.md": "project",
+          "file://examples/sandbox/tutorials/vision_website_clone/README.md": "project",
+          "file://examples/sandbox/tutorials/vision_website_clone/skills/playwright/SKILL.md": "project",
+          "file://examples/tools/skills/csv-workbench/SKILL.md": "user",
+          "file://examples/voice/static/README.md": "project",
+          "file://examples/voice/streamed/README.md": "project",
+          "file://src/agents/realtime/README.md": "project",
+          "file://tests/README.md": "project"
+        }
+      },
+      "evidence_tier": "instruction_config_only",
+      "finding_id": "ccm_0005_scope_conflict",
+      "finding_type": "scope_conflict",
+      "reason": "High-authority surfaces declare multiple scope levels: project, session, system, user.",
+      "recommended_next_check": "State whether project, workspace, user, or system scope takes precedence for agent instructions.",
+      "severity": "medium",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2
+      }
+    },
+    {
+      "evidence": {
+        "public_refs": [
+          "file://.agents/skills/docs-sync/SKILL.md",
+          "file://.agents/skills/examples-auto-run/SKILL.md",
+          "file://.agents/skills/final-release-review/SKILL.md",
+          "file://.agents/skills/pr-draft-summary/SKILL.md",
+          "file://.agents/skills/test-coverage-improver/SKILL.md",
+          "file://README.md",
+          "file://examples/mcp/prompt_server/README.md",
+          "file://examples/mcp/streamablehttp_example/README.md",
+          "file://examples/realtime/app/README.md",
+          "file://examples/realtime/twilio/README.md",
+          "file://examples/realtime/twilio_sip/README.md",
+          "file://examples/sandbox/extensions/temporal/README.md",
+          "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md",
+          "file://examples/sandbox/tutorials/dataroom_qa/README.md",
+          "file://examples/sandbox/tutorials/repo_code_review/README.md",
+          "file://examples/sandbox/tutorials/vision_website_clone/README.md"
+        ],
+        "sensitive_or_restricted_refs": [
+          "file://.agents/references/README.md",
+          "file://.agents/skills/implementation-strategy/SKILL.md",
+          "file://.agents/skills/maintainer-review/SKILL.md",
+          "file://.agents/skills/runtime-behavior-probe/SKILL.md",
+          "file://AGENTS.md",
+          "file://CLAUDE.md",
+          "file://examples/agent_patterns/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0006_sensitivity_boundary_conflict",
+      "finding_type": "sensitivity_boundary_conflict",
+      "reason": "Public and sensitive/restricted instruction surfaces are both present without a declared boundary in the detected surfaces.",
+      "recommended_next_check": "Declare which sensitive instruction sources may influence public-facing agent behavior.",
+      "severity": "medium",
+      "source_refs": [
+        "file://.agents/references/README.md",
+        "file://.agents/skills/docs-sync/SKILL.md",
+        "file://.agents/skills/examples-auto-run/SKILL.md",
+        "file://.agents/skills/final-release-review/SKILL.md",
+        "file://.agents/skills/implementation-strategy/SKILL.md",
+        "file://.agents/skills/maintainer-review/SKILL.md",
+        "file://.agents/skills/pr-draft-summary/SKILL.md",
+        "file://.agents/skills/runtime-behavior-probe/SKILL.md",
+        "file://.agents/skills/test-coverage-improver/SKILL.md",
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://README.md",
+        "file://examples/agent_patterns/README.md",
+        "file://examples/mcp/prompt_server/README.md",
+        "file://examples/mcp/streamablehttp_example/README.md",
+        "file://examples/realtime/app/README.md",
+        "file://examples/realtime/twilio/README.md",
+        "file://examples/realtime/twilio_sip/README.md",
+        "file://examples/sandbox/extensions/temporal/README.md",
+        "file://examples/sandbox/tutorials/dataroom_metric_extract/README.md",
+        "file://examples/sandbox/tutorials/dataroom_qa/README.md",
+        "file://examples/sandbox/tutorials/repo_code_review/README.md",
+        "file://examples/sandbox/tutorials/vision_website_clone/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "other_context": 8,
+        "readme_or_docs": 13
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [
+      "file://.agents/skills/docs-sync/SKILL.md",
+      "file://.agents/skills/maintainer-review/SKILL.md"
+    ],
+    "declared": true,
+    "high_authority_surface_kinds": [
+      "agent_instruction",
+      "claude_instruction"
+    ],
+    "high_authority_surface_refs": [
+      "file://AGENTS.md",
+      "file://CLAUDE.md"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "openai-agents-python",
+    "pinned_ref": "fea17ef5423f2d0fce0aa92ddfc842d3353c86e4",
+    "repo_url": "https://github.com/openai/openai-agents-python"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "91946677028bbdf666b2680ff2164714a92fd60f093a3c3368cf3a0d79c6decd"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 2,
+    "scope_counts": {
+      "project": 41,
+      "session": 1,
+      "system": 5,
+      "user": 4
+    },
+    "sensitivity_counts": {
+      "internal": 28,
+      "public": 16,
+      "sensitive": 7
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 2,
+      "other_context": 13,
+      "readme_or_docs": 36
+    },
+    "surface_count": 51,
+    "surface_kinds": {
+      "agent_instruction": 1,
+      "claude_instruction": 1,
+      "readme": 35,
+      "skill": 14
+    }
+  },
+  "version": "v0"
+}

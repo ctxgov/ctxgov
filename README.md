@@ -1,27 +1,42 @@
 # CtxGov
 
-CtxGov is a local-first research and developer tool for diagnosing and
-governing agent context and memory-state influence before an agent acts.
+Your coding agent is reading more instructions than you think.
+
+CtxGov is a local-first tool for mapping agent-context collisions before an
+agent acts. It reads local instruction/config surfaces, docs, saved traces, and
+fixtures, then prints review artifacts without provider calls, network calls, or
+target writes.
+
+MCP gave agents tools. AGENTS.md gave them rules. CtxGov maps the collisions.
 
 ## Current Public Surface
 
-- Public product/package version: `0.9.0`.
-- Public evidence artifact: `release/v0.9.0/`.
-- Real OSS semantic inventory: `release/v0.9.0/state-of-agent-context/`.
+- Public product/package version: `0.10.0`.
+- Primary product point: `CtxGov Conflict Map`.
+- Public evidence artifact: `release/v0.10.0/`.
+- Conflict Edition report: `release/v0.10.0/state-of-agent-context-conflicts/`.
 - Historical release packs are archive material, not the current product
   narrative.
 
 ## What You Can Run
 
-The v0.9.0 public package supports local governance evaluation CLI surfaces:
+The v0.10.0 public package supports local conflict and governance evaluation
+CLI surfaces:
 
 ```bash
+# Map declared instruction conflicts across local agent-context surfaces.
+ctxgov context-conflicts --root . --format summary
+
 # Run on your own repository. This is read-only and writes no .ctxvault state.
 ctxgov change-gate-check --root . --format summary
 
 # Diff two explicit local trees and print a semantic Change Gate report.
 ctxgov change-gate-check --baseline-root examples/change-gate-public-preview/baseline --head-root examples/change-gate-public-preview/head --format summary
 ```
+
+The headline question:
+
+> Which instruction wins when AGENTS.md, CLAUDE.md, Copilot instructions, README docs, and MCP boundaries disagree?
 
 Additional local checks:
 
@@ -61,6 +76,7 @@ Output:
 - a human-readable next-session continuity packet;
 - a dry-run or sandbox-only apply result;
 - a Memory X-Ray validation receipt.
+- a read-only declared instruction-collision map with source/evidence tiers;
 - a read-only semantic Change Gate report;
 - a read-only Federation report;
 - an OSS case-study decision preview;
@@ -77,6 +93,13 @@ ambiguous handoff with unclear source support.
 After: CtxGov turns the explicit saved trace into source-backed continuity
 evidence with blocked effects, side-effect boundaries, and rollback-by-discard
 semantics before the next session uses it.
+
+For Conflict Map, after means the maintainer can separate high-authority
+instruction/config collisions from lower-authority README/docs signals before
+using those findings in a release note, issue, or local agent run.
+
+Conflict Map findings are declared instruction-collision signals for review,
+not runtime precedence truth.
 
 ## Integration Gate
 
@@ -102,6 +125,7 @@ Supported public commands:
 - `ctxgov continuity render`
 - `ctxgov continuity apply --mode dry-run|sandbox`
 - `ctxgov memory-xray validate`
+- `ctxgov context-conflicts`
 - `ctxgov change-gate-check`
 - `ctxgov change-gate-federate`
 - `ctxgov oss-case-study-preview`
@@ -123,6 +147,7 @@ Not claimed:
 - comparative runtime or workflow outcome;
 - external uptake or community traction;
 - certification or risk assurance;
+- runtime precedence truth;
 - model/vendor coverage;
 - hosted runtime;
 - automated publication pipeline;

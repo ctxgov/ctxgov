@@ -1,0 +1,442 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "instruction_config_only": 1,
+      "mixed_instruction_config_and_readme_docs": 3,
+      "mixed_with_readme_docs": 1,
+      "other_context_only": 1
+    },
+    "finding_count": 6,
+    "finding_type_counts": {
+      "approval_conflict": 1,
+      "execution_conflict": 1,
+      "network_conflict": 1,
+      "scope_conflict": 1,
+      "sensitivity_boundary_conflict": 1,
+      "target_write_conflict": 1
+    },
+    "severity_counts": {
+      "high": 4,
+      "medium": 2
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.gemini/skills/agent-tui/SKILL.md",
+          "file://.gemini/skills/docs-changelog/SKILL.md",
+          "file://.gemini/skills/docs-writer/SKILL.md",
+          "file://.gemini/skills/github-issue-creator/SKILL.md",
+          "file://.gemini/skills/pr-creator/SKILL.md",
+          "file://.gemini/skills/review-duplication/SKILL.md",
+          "file://GEMINI.md",
+          "file://evals/README.md",
+          "file://packages/a2a-server/GEMINI.md",
+          "file://packages/core/GEMINI.md",
+          "file://packages/core/src/skills/builtin/antigravity-support/SKILL.md",
+          "file://packages/core/src/skills/builtin/skill-creator/SKILL.md",
+          "file://packages/devtools/GEMINI.md",
+          "file://packages/test-utils/GEMINI.md",
+          "file://packages/vscode-ide-companion/GEMINI.md",
+          "file://packages/vscode-ide-companion/README.md",
+          "file://perf-tests/README.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/memory/SKILL.md"
+        ],
+        "denied_refs": [
+          "file://README.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/critique/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://.gemini/skills/agent-tui/SKILL.md",
+        "file://.gemini/skills/docs-changelog/SKILL.md",
+        "file://.gemini/skills/docs-writer/SKILL.md",
+        "file://.gemini/skills/github-issue-creator/SKILL.md",
+        "file://.gemini/skills/pr-creator/SKILL.md",
+        "file://.gemini/skills/review-duplication/SKILL.md",
+        "file://GEMINI.md",
+        "file://README.md",
+        "file://evals/README.md",
+        "file://packages/a2a-server/GEMINI.md",
+        "file://packages/core/GEMINI.md",
+        "file://packages/core/src/skills/builtin/antigravity-support/SKILL.md",
+        "file://packages/core/src/skills/builtin/skill-creator/SKILL.md",
+        "file://packages/devtools/GEMINI.md",
+        "file://packages/test-utils/GEMINI.md",
+        "file://packages/vscode-ide-companion/GEMINI.md",
+        "file://packages/vscode-ide-companion/README.md",
+        "file://perf-tests/README.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/critique/SKILL.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/memory/SKILL.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 6,
+        "other_context": 10,
+        "readme_or_docs": 4
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.gemini/skills/agent-tui/SKILL.md",
+          "file://.gemini/skills/async-pr-review/SKILL.md",
+          "file://.gemini/skills/behavioral-evals/SKILL.md",
+          "file://.gemini/skills/code-reviewer/SKILL.md",
+          "file://.gemini/skills/github-issue-creator/SKILL.md",
+          "file://.gemini/skills/review-duplication/SKILL.md",
+          "file://GEMINI.md",
+          "file://README.md",
+          "file://evals/README.md",
+          "file://packages/cli/GEMINI.md",
+          "file://packages/cli/src/acp/README.md",
+          "file://packages/cli/src/commands/extensions/examples/mcp-server/README.md",
+          "file://packages/cli/src/commands/extensions/examples/policies/README.md",
+          "file://packages/core/src/skills/builtin/antigravity-support/SKILL.md",
+          "file://packages/devtools/GEMINI.md",
+          "file://packages/sdk/README.md",
+          "file://packages/test-utils/GEMINI.md",
+          "file://packages/vscode-ide-companion/README.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/critique/SKILL.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/prs/SKILL.md",
+          "file://tools/gemini-cli-bot/README.md"
+        ],
+        "denied_refs": [
+          "file://.gemini/skills/docs-changelog/SKILL.md",
+          "file://.gemini/skills/docs-writer/SKILL.md",
+          "file://.gemini/skills/pr-creator/SKILL.md",
+          "file://.gemini/skills/string-reviewer/SKILL.md",
+          "file://packages/core/src/skills/builtin/skill-creator/SKILL.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/memory/SKILL.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/metrics/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_target_write_conflict",
+      "finding_type": "target_write_conflict",
+      "reason": "At least one surface denies repository writes while another declares write-like capability.",
+      "recommended_next_check": "Choose one repository write policy and link lower-priority instruction files to it.",
+      "severity": "high",
+      "source_refs": [
+        "file://.gemini/skills/agent-tui/SKILL.md",
+        "file://.gemini/skills/async-pr-review/SKILL.md",
+        "file://.gemini/skills/behavioral-evals/SKILL.md",
+        "file://.gemini/skills/code-reviewer/SKILL.md",
+        "file://.gemini/skills/docs-changelog/SKILL.md",
+        "file://.gemini/skills/docs-writer/SKILL.md",
+        "file://.gemini/skills/github-issue-creator/SKILL.md",
+        "file://.gemini/skills/pr-creator/SKILL.md",
+        "file://.gemini/skills/review-duplication/SKILL.md",
+        "file://.gemini/skills/string-reviewer/SKILL.md",
+        "file://GEMINI.md",
+        "file://README.md",
+        "file://evals/README.md",
+        "file://packages/cli/GEMINI.md",
+        "file://packages/cli/src/acp/README.md",
+        "file://packages/cli/src/commands/extensions/examples/mcp-server/README.md",
+        "file://packages/cli/src/commands/extensions/examples/policies/README.md",
+        "file://packages/core/src/skills/builtin/antigravity-support/SKILL.md",
+        "file://packages/core/src/skills/builtin/skill-creator/SKILL.md",
+        "file://packages/devtools/GEMINI.md",
+        "file://packages/sdk/README.md",
+        "file://packages/test-utils/GEMINI.md",
+        "file://packages/vscode-ide-companion/README.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/critique/SKILL.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/memory/SKILL.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/metrics/SKILL.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/prs/SKILL.md",
+        "file://tools/gemini-cli-bot/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 4,
+        "other_context": 16,
+        "readme_or_docs": 8
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.gemini/skills/async-pr-review/SKILL.md",
+          "file://.gemini/skills/code-reviewer/SKILL.md",
+          "file://.gemini/skills/docs-changelog/SKILL.md",
+          "file://.gemini/skills/docs-writer/SKILL.md",
+          "file://.gemini/skills/tui-tester/SKILL.md",
+          "file://evals/README.md",
+          "file://packages/core/src/skills/builtin/antigravity-support/SKILL.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/metrics/SKILL.md",
+          "file://tools/gemini-cli-bot/README.md"
+        ],
+        "denied_refs": [
+          "file://.gemini/skills/agent-tui/SKILL.md",
+          "file://.gemini/skills/ci/SKILL.md",
+          "file://packages/core/src/skills/builtin/skill-creator/SKILL.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/critique/SKILL.md"
+        ]
+      },
+      "evidence_tier": "mixed_with_readme_docs",
+      "finding_id": "ccm_0003_execution_conflict",
+      "finding_type": "execution_conflict",
+      "reason": "At least one surface denies command execution while another declares execution capability.",
+      "recommended_next_check": "Resolve shell/tool execution policy before relying on the combined context.",
+      "severity": "high",
+      "source_refs": [
+        "file://.gemini/skills/agent-tui/SKILL.md",
+        "file://.gemini/skills/async-pr-review/SKILL.md",
+        "file://.gemini/skills/ci/SKILL.md",
+        "file://.gemini/skills/code-reviewer/SKILL.md",
+        "file://.gemini/skills/docs-changelog/SKILL.md",
+        "file://.gemini/skills/docs-writer/SKILL.md",
+        "file://.gemini/skills/tui-tester/SKILL.md",
+        "file://evals/README.md",
+        "file://packages/core/src/skills/builtin/antigravity-support/SKILL.md",
+        "file://packages/core/src/skills/builtin/skill-creator/SKILL.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/critique/SKILL.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/metrics/SKILL.md",
+        "file://tools/gemini-cli-bot/README.md"
+      ],
+      "source_tiers": {
+        "other_context": 11,
+        "readme_or_docs": 2
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://.gemini/skills/string-reviewer/SKILL.md"
+        ],
+        "denied_refs": [
+          "file://.gemini/skills/string-reviewer/SKILL.md"
+        ]
+      },
+      "evidence_tier": "other_context_only",
+      "finding_id": "ccm_0004_approval_conflict",
+      "finding_type": "approval_conflict",
+      "reason": "Approval requirements conflict with an autonomous or no-approval instruction.",
+      "recommended_next_check": "State whether approval is required and which file wins when another file bypasses it.",
+      "severity": "high",
+      "source_refs": [
+        "file://.gemini/skills/string-reviewer/SKILL.md"
+      ],
+      "source_tiers": {
+        "other_context": 1
+      }
+    },
+    {
+      "evidence": {
+        "scope_by_ref": {
+          "file://.gemini/skills/agent-tui/SKILL.md": "project",
+          "file://.gemini/skills/async-pr-review/SKILL.md": "project",
+          "file://.gemini/skills/behavioral-evals/SKILL.md": "project",
+          "file://.gemini/skills/ci/SKILL.md": "project",
+          "file://.gemini/skills/code-reviewer/SKILL.md": "project",
+          "file://.gemini/skills/docs-changelog/SKILL.md": "project",
+          "file://.gemini/skills/docs-writer/SKILL.md": "project",
+          "file://.gemini/skills/github-issue-creator/SKILL.md": "project",
+          "file://.gemini/skills/pr-address-comments/SKILL.md": "user",
+          "file://.gemini/skills/pr-creator/SKILL.md": "project",
+          "file://.gemini/skills/review-duplication/SKILL.md": "project",
+          "file://.gemini/skills/string-reviewer/SKILL.md": "project",
+          "file://.gemini/skills/tui-tester/SKILL.md": "system",
+          "file://GEMINI.md": "project",
+          "file://README.md": "project",
+          "file://evals/README.md": "project",
+          "file://packages/a2a-server/GEMINI.md": "session",
+          "file://packages/a2a-server/README.md": "project",
+          "file://packages/cli/GEMINI.md": "project",
+          "file://packages/cli/src/acp/README.md": "system",
+          "file://packages/cli/src/commands/extensions/examples/mcp-server/README.md": "project",
+          "file://packages/cli/src/commands/extensions/examples/policies/README.md": "user",
+          "file://packages/cli/src/commands/extensions/examples/skills/skills/greeter/SKILL.md": "user",
+          "file://packages/cli/src/commands/extensions/examples/themes-example/README.md": "project",
+          "file://packages/core/GEMINI.md": "user",
+          "file://packages/core/src/skills/builtin/antigravity-support/SKILL.md": "system",
+          "file://packages/core/src/skills/builtin/skill-creator/SKILL.md": "project",
+          "file://packages/devtools/GEMINI.md": "project",
+          "file://packages/sdk/GEMINI.md": "system",
+          "file://packages/sdk/README.md": "project",
+          "file://packages/sdk/test-data/skills/pirate-skill/SKILL.md": "project",
+          "file://packages/test-utils/GEMINI.md": "project",
+          "file://packages/vscode-ide-companion/GEMINI.md": "workspace",
+          "file://packages/vscode-ide-companion/README.md": "project",
+          "file://perf-tests/README.md": "project",
+          "file://tools/gemini-cli-bot/.gemini/skills/critique/SKILL.md": "project",
+          "file://tools/gemini-cli-bot/.gemini/skills/memory/SKILL.md": "user",
+          "file://tools/gemini-cli-bot/.gemini/skills/metrics/SKILL.md": "project",
+          "file://tools/gemini-cli-bot/.gemini/skills/prs/SKILL.md": "system",
+          "file://tools/gemini-cli-bot/README.md": "project"
+        }
+      },
+      "evidence_tier": "instruction_config_only",
+      "finding_id": "ccm_0005_scope_conflict",
+      "finding_type": "scope_conflict",
+      "reason": "High-authority surfaces declare multiple scope levels: project, session, system, user, workspace.",
+      "recommended_next_check": "State whether project, workspace, user, or system scope takes precedence for agent instructions.",
+      "severity": "medium",
+      "source_refs": [
+        "file://GEMINI.md",
+        "file://packages/a2a-server/GEMINI.md",
+        "file://packages/cli/GEMINI.md",
+        "file://packages/core/GEMINI.md",
+        "file://packages/devtools/GEMINI.md",
+        "file://packages/sdk/GEMINI.md",
+        "file://packages/test-utils/GEMINI.md",
+        "file://packages/vscode-ide-companion/GEMINI.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 8
+      }
+    },
+    {
+      "evidence": {
+        "public_refs": [
+          "file://.gemini/skills/agent-tui/SKILL.md",
+          "file://.gemini/skills/pr-address-comments/SKILL.md",
+          "file://.gemini/skills/review-duplication/SKILL.md",
+          "file://.gemini/skills/tui-tester/SKILL.md",
+          "file://packages/core/src/skills/builtin/skill-creator/SKILL.md",
+          "file://packages/sdk/GEMINI.md",
+          "file://packages/vscode-ide-companion/GEMINI.md",
+          "file://packages/vscode-ide-companion/README.md",
+          "file://tools/gemini-cli-bot/.gemini/skills/metrics/SKILL.md",
+          "file://tools/gemini-cli-bot/README.md"
+        ],
+        "sensitive_or_restricted_refs": [
+          "file://GEMINI.md",
+          "file://README.md",
+          "file://packages/cli/src/acp/README.md",
+          "file://packages/cli/src/commands/extensions/examples/policies/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0006_sensitivity_boundary_conflict",
+      "finding_type": "sensitivity_boundary_conflict",
+      "reason": "Public and sensitive/restricted instruction surfaces are both present without a declared boundary in the detected surfaces.",
+      "recommended_next_check": "Declare which sensitive instruction sources may influence public-facing agent behavior.",
+      "severity": "medium",
+      "source_refs": [
+        "file://.gemini/skills/agent-tui/SKILL.md",
+        "file://.gemini/skills/pr-address-comments/SKILL.md",
+        "file://.gemini/skills/review-duplication/SKILL.md",
+        "file://.gemini/skills/tui-tester/SKILL.md",
+        "file://GEMINI.md",
+        "file://README.md",
+        "file://packages/cli/src/acp/README.md",
+        "file://packages/cli/src/commands/extensions/examples/policies/README.md",
+        "file://packages/core/src/skills/builtin/skill-creator/SKILL.md",
+        "file://packages/sdk/GEMINI.md",
+        "file://packages/vscode-ide-companion/GEMINI.md",
+        "file://packages/vscode-ide-companion/README.md",
+        "file://tools/gemini-cli-bot/.gemini/skills/metrics/SKILL.md",
+        "file://tools/gemini-cli-bot/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 3,
+        "other_context": 6,
+        "readme_or_docs": 5
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [
+      "file://.gemini/skills/behavioral-evals/SKILL.md",
+      "file://.gemini/skills/github-issue-creator/SKILL.md",
+      "file://.gemini/skills/pr-creator/SKILL.md",
+      "file://evals/README.md",
+      "file://tools/gemini-cli-bot/.gemini/skills/metrics/SKILL.md",
+      "file://tools/gemini-cli-bot/.gemini/skills/prs/SKILL.md"
+    ],
+    "declared": true,
+    "high_authority_surface_kinds": [
+      "gemini_instruction"
+    ],
+    "high_authority_surface_refs": [
+      "file://GEMINI.md",
+      "file://packages/a2a-server/GEMINI.md",
+      "file://packages/cli/GEMINI.md",
+      "file://packages/core/GEMINI.md",
+      "file://packages/devtools/GEMINI.md",
+      "file://packages/sdk/GEMINI.md",
+      "file://packages/test-utils/GEMINI.md",
+      "file://packages/vscode-ide-companion/GEMINI.md"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "gemini-cli",
+    "pinned_ref": "ae0a3aa7b928cc73bb09604bb9c2c020e6b647db",
+    "repo_url": "https://github.com/google-gemini/gemini-cli"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "2400441416fcc1d3726ffb56e3fafb1b0f15a1289605c0cbbf33076266f67c0b"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 8,
+    "scope_counts": {
+      "project": 28,
+      "session": 1,
+      "system": 5,
+      "user": 5,
+      "workspace": 1
+    },
+    "sensitivity_counts": {
+      "internal": 26,
+      "public": 10,
+      "restricted": 3,
+      "sensitive": 1
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 8,
+      "other_context": 21,
+      "readme_or_docs": 11
+    },
+    "surface_count": 40,
+    "surface_kinds": {
+      "gemini_instruction": 8,
+      "readme": 11,
+      "skill": 21
+    }
+  },
+  "version": "v0"
+}

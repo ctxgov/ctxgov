@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.10.0
+
+- Adds CtxGov Conflict Map as the primary public product point.
+- Adds `ctxgov context-conflicts --root . --format summary` for read-only
+  declared instruction-collision maps across local agent-context surfaces.
+- Publishes the Conflict Edition report under
+  `release/v0.10.0/state-of-agent-context-conflicts/` with source/evidence
+  tiers and deterministic adjudication artifacts.
+- Keeps findings framed as review-needed signals, not runtime precedence,
+  security, quality, compatibility, or production-readiness conclusions.
+
 ## v0.8.0
 
 - Adds read-only Change Gate, Federation, OSS Case Study Preview, OSS raw

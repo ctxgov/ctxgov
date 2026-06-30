@@ -1,0 +1,593 @@
+{
+  "adjudication_summary": {
+    "adjudication_counts": {
+      "accepted": 2,
+      "needs_refinement": 10
+    },
+    "evidence_tier_counts": {
+      "instruction_config_only": 2,
+      "mixed_instruction_config_and_readme_docs": 7,
+      "other_context_only": 1,
+      "readme_docs_only": 2
+    },
+    "sample_size": 12
+  },
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "methodology": {
+    "limitations": [
+      "Findings are review-needed declared instruction-collision signals, not runtime precedence truth.",
+      "The scan uses local text heuristics and does not execute adapters, tools, models, providers, or target repos.",
+      "README/docs findings are caveated because documentation may contain examples, history, or user-facing usage notes rather than active agent policy.",
+      "Receipts omit local filesystem paths and raw source content.",
+      "The report does not claim security impact, project quality, compatibility, adoption, or production readiness."
+    ],
+    "mode": "read_only_declared_text_heuristic",
+    "source_tiers": {
+      "instruction_or_config": "Agent instruction files and local tool/config surfaces such as AGENTS.md, CLAUDE.md, GEMINI.md, cursor/cline rules, Copilot instructions, and MCP config.",
+      "other_context": "Other detected context surfaces that may inform review but should not drive headline claims alone.",
+      "readme_or_docs": "README and documentation surfaces; useful as context but lower-evidence for active agent policy."
+    }
+  },
+  "object_type": "StateOfAgentContextConflictReport",
+  "project_count": 20,
+  "projects": [
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 6
+      },
+      "finding_count": 7,
+      "finding_type_counts": {
+        "approval_conflict": 1,
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 6,
+      "name": "mem0",
+      "pinned_ref": "31cec11a790868f88c9acafb8b70eb25071f2150",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/mem0ai/mem0",
+      "source_tier_counts": {
+        "instruction_or_config": 6,
+        "other_context": 41,
+        "readme_or_docs": 25
+      },
+      "surface_count": 72,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 6
+      },
+      "finding_count": 7,
+      "finding_type_counts": {
+        "approval_conflict": 1,
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 22,
+      "name": "cline",
+      "pinned_ref": "4175677e712e429e1847964f4cd4884077c4ef66",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/cline/cline",
+      "source_tier_counts": {
+        "instruction_or_config": 22,
+        "other_context": 4,
+        "readme_or_docs": 46
+      },
+      "surface_count": 72,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 2,
+        "mixed_instruction_config_and_readme_docs": 2
+      },
+      "finding_count": 4,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "precedence_missing": 1,
+        "scope_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 2,
+      "name": "langgraph",
+      "pinned_ref": "d2f97191abc457954dff23ee1d9342516128ec01",
+      "precedence_declared": false,
+      "repo_url": "https://github.com/langchain-ai/langgraph",
+      "source_tier_counts": {
+        "instruction_or_config": 2,
+        "readme_or_docs": 13
+      },
+      "surface_count": 15,
+      "unresolved_precedence_decision_count": 1
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 2
+      },
+      "finding_count": 3,
+      "finding_type_counts": {
+        "network_conflict": 1,
+        "scope_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 3,
+      "name": "graphiti",
+      "pinned_ref": "b59d4ba01118a91708fd6a6892200016168eeb5d",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/getzep/graphiti",
+      "source_tier_counts": {
+        "instruction_or_config": 3,
+        "readme_or_docs": 10
+      },
+      "surface_count": 13,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "mixed_instruction_config_and_readme_docs": 1,
+        "readme_docs_only": 2
+      },
+      "finding_count": 3,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 1,
+      "name": "smolagents",
+      "pinned_ref": "526069c1ead958b36d9fd09a6b1ef37f68ed6ade",
+      "precedence_declared": false,
+      "repo_url": "https://github.com/huggingface/smolagents",
+      "source_tier_counts": {
+        "instruction_or_config": 1,
+        "readme_or_docs": 6
+      },
+      "surface_count": 7,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "mixed_instruction_config_and_readme_docs": 3,
+        "readme_docs_only": 1
+      },
+      "finding_count": 4,
+      "finding_type_counts": {
+        "approval_conflict": 1,
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 1,
+      "name": "continue",
+      "pinned_ref": "d0a3c0b626b5bebc3bef4742eec05a0242be0bab",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/continuedev/continue",
+      "source_tier_counts": {
+        "instruction_or_config": 1,
+        "other_context": 2,
+        "readme_or_docs": 28
+      },
+      "surface_count": 31,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "readme_docs_only": 1
+      },
+      "finding_count": 1,
+      "finding_type_counts": {
+        "approval_conflict": 1
+      },
+      "high_authority_surface_count": 0,
+      "name": "aider",
+      "pinned_ref": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "precedence_declared": false,
+      "repo_url": "https://github.com/Aider-AI/aider",
+      "source_tier_counts": {
+        "readme_or_docs": 5
+      },
+      "surface_count": 5,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "mixed_instruction_config_and_readme_docs": 4
+      },
+      "finding_count": 4,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "sensitivity_boundary_conflict": 1
+      },
+      "high_authority_surface_count": 1,
+      "name": "autogen",
+      "pinned_ref": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/microsoft/autogen",
+      "source_tier_counts": {
+        "instruction_or_config": 1,
+        "readme_or_docs": 50
+      },
+      "surface_count": 51,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 4,
+        "readme_docs_only": 1
+      },
+      "finding_count": 6,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 2,
+      "name": "crewai",
+      "pinned_ref": "4379c458047986d239b184da4e1b29f27b979c3d",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/crewAIInc/crewAI",
+      "source_tier_counts": {
+        "instruction_or_config": 2,
+        "other_context": 3,
+        "readme_or_docs": 90
+      },
+      "surface_count": 95,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "mixed_instruction_config_and_readme_docs": 3,
+        "mixed_with_readme_docs": 1
+      },
+      "finding_count": 4,
+      "finding_type_counts": {
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 1,
+      "name": "openhands",
+      "pinned_ref": "b897ce421df036dec48ca0b72c4928955df6d728",
+      "precedence_declared": false,
+      "repo_url": "https://github.com/All-Hands-AI/OpenHands",
+      "source_tier_counts": {
+        "instruction_or_config": 1,
+        "other_context": 3,
+        "readme_or_docs": 28
+      },
+      "surface_count": 32,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 4
+      },
+      "finding_count": 5,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 2,
+      "name": "browser-use",
+      "pinned_ref": "2454d3e2551705232333c906ded8fc31ab0fc9f2",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/browser-use/browser-use",
+      "source_tier_counts": {
+        "instruction_or_config": 2,
+        "other_context": 6,
+        "readme_or_docs": 17
+      },
+      "surface_count": 25,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "readme_docs_only": 5
+      },
+      "finding_count": 5,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 0,
+      "name": "llama-index",
+      "pinned_ref": "5891d5f4f3e934973c18334902ca8ea4eb6a2e12",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/run-llama/llama_index",
+      "source_tier_counts": {
+        "readme_or_docs": 685
+      },
+      "surface_count": 685,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "mixed_instruction_config_and_readme_docs": 2
+      },
+      "finding_count": 2,
+      "finding_type_counts": {
+        "network_conflict": 1,
+        "publish_conflict": 1
+      },
+      "high_authority_surface_count": 3,
+      "name": "langchain",
+      "pinned_ref": "1e35d8f7a988efd2f10af776739d5123d2c0a8af",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/langchain-ai/langchain",
+      "source_tier_counts": {
+        "instruction_or_config": 3,
+        "readme_or_docs": 25
+      },
+      "surface_count": 28,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 1,
+        "readme_docs_only": 2
+      },
+      "finding_count": 4,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "precedence_missing": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 3,
+      "name": "mcp-servers",
+      "pinned_ref": "b2a94a21a53f99bee21cef9485ed50b0991c350c",
+      "precedence_declared": false,
+      "repo_url": "https://github.com/modelcontextprotocol/servers",
+      "source_tier_counts": {
+        "instruction_or_config": 3,
+        "readme_or_docs": 8
+      },
+      "surface_count": 11,
+      "unresolved_precedence_decision_count": 1
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 5
+      },
+      "finding_count": 6,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 2,
+      "name": "openai-agents-python",
+      "pinned_ref": "fea17ef5423f2d0fce0aa92ddfc842d3353c86e4",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/openai/openai-agents-python",
+      "source_tier_counts": {
+        "instruction_or_config": 2,
+        "other_context": 13,
+        "readme_or_docs": 36
+      },
+      "surface_count": 51,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 3,
+        "mixed_with_readme_docs": 1,
+        "other_context_only": 1
+      },
+      "finding_count": 6,
+      "finding_type_counts": {
+        "approval_conflict": 1,
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 8,
+      "name": "gemini-cli",
+      "pinned_ref": "ae0a3aa7b928cc73bb09604bb9c2c020e6b647db",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/google-gemini/gemini-cli",
+      "source_tier_counts": {
+        "instruction_or_config": 8,
+        "other_context": 21,
+        "readme_or_docs": 11
+      },
+      "surface_count": 40,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 4,
+        "readme_docs_only": 1
+      },
+      "finding_count": 6,
+      "finding_type_counts": {
+        "approval_conflict": 1,
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 37,
+      "name": "roo-code",
+      "pinned_ref": "b867ec9145750d0ae1ff7f02d35406e9bf2a0b16",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/RooCodeInc/Roo-Code",
+      "source_tier_counts": {
+        "instruction_or_config": 37,
+        "other_context": 3,
+        "readme_or_docs": 24
+      },
+      "surface_count": 64,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 4
+      },
+      "finding_count": 5,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 10,
+      "name": "goose",
+      "pinned_ref": "2cc1140dc1e8d8dc8576bb41bdd5f9c5631a36d6",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/block/goose",
+      "source_tier_counts": {
+        "instruction_or_config": 10,
+        "other_context": 1,
+        "readme_or_docs": 25
+      },
+      "surface_count": 36,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "instruction_config_only": 1,
+        "mixed_instruction_config_and_readme_docs": 5
+      },
+      "finding_count": 6,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "scope_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 14,
+      "name": "opencode",
+      "pinned_ref": "7077c70d6044de8eb49d0036412990effe31ef45",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/sst/opencode",
+      "source_tier_counts": {
+        "instruction_or_config": 14,
+        "other_context": 3,
+        "readme_or_docs": 27
+      },
+      "surface_count": 44,
+      "unresolved_precedence_decision_count": 0
+    },
+    {
+      "evidence_tier_counts": {
+        "readme_docs_only": 5
+      },
+      "finding_count": 5,
+      "finding_type_counts": {
+        "execution_conflict": 1,
+        "network_conflict": 1,
+        "publish_conflict": 1,
+        "sensitivity_boundary_conflict": 1,
+        "target_write_conflict": 1
+      },
+      "high_authority_surface_count": 0,
+      "name": "semantic-kernel",
+      "pinned_ref": "dfc5227227352e7cf4b11de1d9b8e49ebc7b43ff",
+      "precedence_declared": true,
+      "repo_url": "https://github.com/microsoft/semantic-kernel",
+      "source_tier_counts": {
+        "readme_or_docs": 119
+      },
+      "surface_count": 119,
+      "unresolved_precedence_decision_count": 0
+    }
+  ],
+  "report_id": "soc_conflict_6098a3b8c7176f99",
+  "schema_id": "ctxgov.state-of-agent-context-conflict-report/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "subtitle": "Which instruction wins when AGENTS.md, CLAUDE.md, README, and MCP disagree?",
+  "summary": {
+    "evidence_tier_counts": {
+      "instruction_config_only": 13,
+      "mixed_instruction_config_and_readme_docs": 59,
+      "mixed_with_readme_docs": 2,
+      "other_context_only": 1,
+      "readme_docs_only": 18
+    },
+    "finding_count": 93,
+    "finding_type_counts": {
+      "approval_conflict": 6,
+      "execution_conflict": 16,
+      "network_conflict": 16,
+      "precedence_missing": 2,
+      "publish_conflict": 10,
+      "scope_conflict": 11,
+      "sensitivity_boundary_conflict": 15,
+      "target_write_conflict": 17
+    },
+    "project_with_conflict_count": 20,
+    "project_without_detected_precedence_count": 5,
+    "severity_counts": {
+      "high": 65,
+      "medium": 28
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 118,
+      "other_context": 100,
+      "readme_or_docs": 1278
+    },
+    "surface_count": 1496
+  },
+  "title": "State Of Agent Context: Conflict Edition",
+  "version": "v0"
+}

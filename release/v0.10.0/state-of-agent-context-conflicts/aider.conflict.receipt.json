@@ -1,0 +1,103 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "readme_docs_only": 1
+    },
+    "finding_count": 1,
+    "finding_type_counts": {
+      "approval_conflict": 1
+    },
+    "severity_counts": {
+      "high": 1
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://benchmark/README.md"
+        ],
+        "denied_refs": [
+          "file://benchmark/README.md"
+        ]
+      },
+      "evidence_tier": "readme_docs_only",
+      "finding_id": "ccm_0001_approval_conflict",
+      "finding_type": "approval_conflict",
+      "reason": "Approval requirements conflict with an autonomous or no-approval instruction.",
+      "recommended_next_check": "State whether approval is required and which file wins when another file bypasses it.",
+      "severity": "high",
+      "source_refs": [
+        "file://benchmark/README.md"
+      ],
+      "source_tiers": {
+        "readme_or_docs": 1
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [],
+    "declared": false,
+    "high_authority_surface_kinds": [],
+    "high_authority_surface_refs": [],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "aider",
+    "pinned_ref": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+    "repo_url": "https://github.com/Aider-AI/aider"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "2340e75169ec687fe6d8b680501cd962c0750434c7a57060b781df0033b78c95"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "inform",
+      "network",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 0,
+    "scope_counts": {
+      "project": 5
+    },
+    "sensitivity_counts": {
+      "internal": 2,
+      "public": 3
+    },
+    "source_tier_counts": {
+      "readme_or_docs": 5
+    },
+    "surface_count": 5,
+    "surface_kinds": {
+      "readme": 5
+    }
+  },
+  "version": "v0"
+}

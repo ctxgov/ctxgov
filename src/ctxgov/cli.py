@@ -7,6 +7,7 @@ import sys
 
 from . import __version__
 from .change_analysis import build_change_gate_report_for_roots, render_change_gate_report_summary
+from .context_conflicts import build_context_conflict_map, render_context_conflict_summary
 from .federation import federate, federate_auto_discover
 from .forensics import build_forensic_timeline, identify_evidence_gaps, trace_evidence_path
 from .governance_eval import build_governance_replay_receipts
@@ -28,7 +29,7 @@ def _json(payload: dict) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="ctxgov",
-        description="CtxGov v0.9.0 public CLI: local governance evaluation and session-continuity commands.",
+        description="CtxGov v0.10.0 public CLI: local agent-context conflict maps and governance evaluation commands.",
     )
     parser.add_argument("--version", action="version", version=f"ctxgov {__version__}")
     subcommands = parser.add_subparsers(dest="command", required=True)
@@ -70,6 +71,12 @@ def build_parser() -> argparse.ArgumentParser:
     change_gate.add_argument("--max-files", type=int, default=64)
     change_gate.add_argument("--max-bytes-per-file", type=int, default=262144)
     change_gate.add_argument("--format", choices=("json", "summary"), default="json")
+
+    context_conflicts = subcommands.add_parser("context-conflicts", help="Print a read-only declared agent-context conflict map")
+    context_conflicts.add_argument("--root", type=Path, default=Path("."))
+    context_conflicts.add_argument("--max-file-bytes", type=int, default=262144)
+    context_conflicts.add_argument("--checked-at")
+    context_conflicts.add_argument("--format", choices=("json", "summary"), default="json")
 
     federation = subcommands.add_parser("change-gate-federate", help="Run read-only Change Gate inventory over explicit local repositories")
     federation.add_argument("--base-path", type=Path)
@@ -171,6 +178,18 @@ def main(argv: list[str] | None = None) -> int:
         )
         if args.format == "summary":
             print(render_change_gate_report_summary(report))
+        else:
+            _json(report)
+        return 0
+
+    if args.command == "context-conflicts":
+        report = build_context_conflict_map(
+            args.root,
+            max_file_bytes=args.max_file_bytes,
+            checked_at=args.checked_at,
+        )
+        if args.format == "summary":
+            print(render_context_conflict_summary(report))
         else:
             _json(report)
         return 0

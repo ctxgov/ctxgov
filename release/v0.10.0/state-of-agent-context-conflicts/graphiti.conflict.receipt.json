@@ -1,0 +1,226 @@
+{
+  "claim_boundary": {
+    "production_readiness_claim_created": false,
+    "provider_compatibility_claim_created": false,
+    "public_adoption_claim_created": false,
+    "public_benchmark_claim_created": false,
+    "public_efficiency_claim_created": false,
+    "runtime_precedence_truth_claim_created": false,
+    "security_or_safety_claim_created": false,
+    "stable_api_or_protocol_claim_created": false
+  },
+  "conflict_summary": {
+    "evidence_tier_counts": {
+      "instruction_config_only": 1,
+      "mixed_instruction_config_and_readme_docs": 2
+    },
+    "finding_count": 3,
+    "finding_type_counts": {
+      "network_conflict": 1,
+      "scope_conflict": 1,
+      "target_write_conflict": 1
+    },
+    "severity_counts": {
+      "high": 2,
+      "medium": 1
+    },
+    "unresolved_precedence_decision_count": 0
+  },
+  "created_at": "2026-06-29T00:00:00Z",
+  "findings": [
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://AGENTS.md",
+          "file://CLAUDE.md",
+          "file://README.md",
+          "file://examples/azure-openai/README.md",
+          "file://examples/gliner2/README.md",
+          "file://examples/opentelemetry/README.md",
+          "file://examples/quickstart/README.md",
+          "file://mcp_server/config/mcp_config_stdio_example.json",
+          "file://mcp_server/docker/README.md",
+          "file://server/README.md",
+          "file://tests/evals/data/longmemeval_data/README.md"
+        ],
+        "denied_refs": [
+          "file://mcp_server/README.md",
+          "file://mcp_server/tests/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0001_network_conflict",
+      "finding_type": "network_conflict",
+      "reason": "At least one surface denies network access while another declares or exposes network capability.",
+      "recommended_next_check": "Declare one network boundary and state which instruction source has precedence.",
+      "severity": "high",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://README.md",
+        "file://examples/azure-openai/README.md",
+        "file://examples/gliner2/README.md",
+        "file://examples/opentelemetry/README.md",
+        "file://examples/quickstart/README.md",
+        "file://mcp_server/README.md",
+        "file://mcp_server/config/mcp_config_stdio_example.json",
+        "file://mcp_server/docker/README.md",
+        "file://mcp_server/tests/README.md",
+        "file://server/README.md",
+        "file://tests/evals/data/longmemeval_data/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 3,
+        "readme_or_docs": 10
+      }
+    },
+    {
+      "evidence": {
+        "allowed_refs": [
+          "file://AGENTS.md",
+          "file://CLAUDE.md",
+          "file://README.md",
+          "file://examples/azure-openai/README.md",
+          "file://examples/gliner2/README.md",
+          "file://examples/opentelemetry/README.md",
+          "file://examples/quickstart/README.md",
+          "file://mcp_server/README.md",
+          "file://mcp_server/tests/README.md",
+          "file://server/README.md"
+        ],
+        "denied_refs": [
+          "file://mcp_server/docker/README.md"
+        ]
+      },
+      "evidence_tier": "mixed_instruction_config_and_readme_docs",
+      "finding_id": "ccm_0002_target_write_conflict",
+      "finding_type": "target_write_conflict",
+      "reason": "At least one surface denies repository writes while another declares write-like capability.",
+      "recommended_next_check": "Choose one repository write policy and link lower-priority instruction files to it.",
+      "severity": "high",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://README.md",
+        "file://examples/azure-openai/README.md",
+        "file://examples/gliner2/README.md",
+        "file://examples/opentelemetry/README.md",
+        "file://examples/quickstart/README.md",
+        "file://mcp_server/README.md",
+        "file://mcp_server/docker/README.md",
+        "file://mcp_server/tests/README.md",
+        "file://server/README.md"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 2,
+        "readme_or_docs": 9
+      }
+    },
+    {
+      "evidence": {
+        "scope_by_ref": {
+          "file://AGENTS.md": "project",
+          "file://CLAUDE.md": "project",
+          "file://README.md": "project",
+          "file://examples/azure-openai/README.md": "user",
+          "file://examples/gliner2/README.md": "system",
+          "file://examples/opentelemetry/README.md": "project",
+          "file://examples/quickstart/README.md": "user",
+          "file://mcp_server/README.md": "project",
+          "file://mcp_server/config/mcp_config_stdio_example.json": "user",
+          "file://mcp_server/docker/README.md": "user",
+          "file://mcp_server/tests/README.md": "project",
+          "file://server/README.md": "user",
+          "file://tests/evals/data/longmemeval_data/README.md": "project"
+        }
+      },
+      "evidence_tier": "instruction_config_only",
+      "finding_id": "ccm_0003_scope_conflict",
+      "finding_type": "scope_conflict",
+      "reason": "High-authority surfaces declare multiple scope levels: project, system, user.",
+      "recommended_next_check": "State whether project, workspace, user, or system scope takes precedence for agent instructions.",
+      "severity": "medium",
+      "source_refs": [
+        "file://AGENTS.md",
+        "file://CLAUDE.md",
+        "file://mcp_server/config/mcp_config_stdio_example.json"
+      ],
+      "source_tiers": {
+        "instruction_or_config": 3
+      }
+    }
+  ],
+  "object_type": "StateOfAgentContextConflictProjectReceipt",
+  "precedence": {
+    "declaration_refs": [
+      "file://mcp_server/README.md"
+    ],
+    "declared": true,
+    "high_authority_surface_kinds": [
+      "agent_instruction",
+      "claude_instruction",
+      "mcp_config"
+    ],
+    "high_authority_surface_refs": [
+      "file://AGENTS.md",
+      "file://CLAUDE.md",
+      "file://mcp_server/config/mcp_config_stdio_example.json"
+    ],
+    "unresolved_decision_count": 0
+  },
+  "project": {
+    "name": "graphiti",
+    "pinned_ref": "b59d4ba01118a91708fd6a6892200016168eeb5d",
+    "repo_url": "https://github.com/getzep/graphiti"
+  },
+  "schema_id": "ctxgov.state-of-agent-context-conflict-project-receipt/v0",
+  "side_effect_boundary": {
+    "api_call_performed": false,
+    "network_call_performed_by_report_builder": false,
+    "package_published": false,
+    "provider_model_call_performed": false,
+    "public_write_performed": false,
+    "scheduler_or_daemon_started": false,
+    "target_file_written": false,
+    "target_repo_modified": false
+  },
+  "source_capture": {
+    "local_path_recorded": false,
+    "raw_source_copied": false,
+    "surface_manifest_digest": "14029c3e3843bff0250da60d5fb4ac1f68f2f973f2e11fcacdd89e5a010a7b07"
+  },
+  "surface_summary": {
+    "capabilities": [
+      "delete",
+      "deploy",
+      "execute",
+      "inform",
+      "network",
+      "publish",
+      "read",
+      "write"
+    ],
+    "high_authority_surface_count": 3,
+    "scope_counts": {
+      "project": 7,
+      "system": 1,
+      "user": 5
+    },
+    "sensitivity_counts": {
+      "internal": 9,
+      "public": 4
+    },
+    "source_tier_counts": {
+      "instruction_or_config": 3,
+      "readme_or_docs": 10
+    },
+    "surface_count": 13,
+    "surface_kinds": {
+      "agent_instruction": 1,
+      "claude_instruction": 1,
+      "mcp_config": 1,
+      "readme": 10
+    }
+  },
+  "version": "v0"
+}

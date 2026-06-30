@@ -21,6 +21,10 @@ OSS_TELEMETRY_MANIFEST = ROOT / "release" / "v0.8.0" / "oss-efficiency-raw-telem
 OSS_TELEMETRY_RECEIPT = ROOT / "release" / "v0.8.0" / "oss-efficiency-raw-telemetry-receipt.example.json"
 GOVERNANCE_TRACE = ROOT / "examples" / "governance-replay-public-preview" / "governance-replay-trace.synthetic.json"
 FORENSICS_FIXTURE = ROOT / "release" / "v0.8.0" / "forensics-public-preview-fixture.json"
+CONFLICT_REPORT_DIR = ROOT / "release" / "v0.10.0" / "state-of-agent-context-conflicts"
+CONFLICT_REPORT = CONFLICT_REPORT_DIR / "REPORT.md"
+CONFLICT_MANIFEST = CONFLICT_REPORT_DIR / "manifest.json"
+CONFLICT_ADJUDICATION = CONFLICT_REPORT_DIR / "adjudication-sample.json"
 
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
@@ -144,6 +148,75 @@ Restricted guidance.
             raise AssertionError(summary.stderr or summary.stdout)
 
 
+def _context_conflicts_smoke() -> None:
+    with TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        (root / "AGENTS.md").write_text(
+            "Agents must not use network access without owner approval.\n",
+            encoding="utf-8",
+        )
+        (root / "README.md").write_text(
+            "Example assistant can use network access in demos.\n",
+            encoding="utf-8",
+        )
+        before = sorted(path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_file())
+        completed = _run([
+            sys.executable,
+            "-m",
+            "ctxgov.cli",
+            "context-conflicts",
+            "--root",
+            str(root),
+            "--format",
+            "json",
+            "--checked-at",
+            "2026-06-29T00:00:00Z",
+        ])
+        after = sorted(path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_file())
+        if completed.returncode != 0:
+            raise AssertionError(completed.stderr or completed.stdout)
+        if after != before:
+            raise AssertionError("context-conflicts created or removed files")
+        payload = json.loads(completed.stdout)
+        if payload.get("surface_summary", {}).get("source_tier_counts", {}).get("instruction_or_config") != 1:
+            raise AssertionError("context-conflicts did not classify instruction/config source tier")
+        if payload.get("summary", {}).get("evidence_tier_counts", {}).get("mixed_instruction_config_and_readme_docs", 0) <= 0:
+            raise AssertionError("context-conflicts did not classify mixed evidence tier")
+        if any(payload.get("side_effect_boundary", {}).values()):
+            raise AssertionError("context-conflicts reported a side effect")
+
+        summary = _run([
+            sys.executable,
+            "-m",
+            "ctxgov.cli",
+            "context-conflicts",
+            "--root",
+            str(root),
+            "--format",
+            "summary",
+        ])
+        if summary.returncode != 0 or "Evidence tier" not in summary.stdout or "README/docs" not in summary.stdout:
+            raise AssertionError(summary.stderr or summary.stdout)
+
+
+def _conflict_release_artifact_smoke() -> None:
+    for path in (CONFLICT_REPORT, CONFLICT_MANIFEST, CONFLICT_ADJUDICATION):
+        if not path.exists():
+            raise AssertionError(f"missing v0.10 conflict artifact: {path.relative_to(ROOT)}")
+    manifest = json.loads(CONFLICT_MANIFEST.read_text(encoding="utf-8"))
+    adjudication = json.loads(CONFLICT_ADJUDICATION.read_text(encoding="utf-8"))
+    if manifest.get("summary", {}).get("evidence_tier_counts", {}).get("instruction_config_only", 0) <= 0:
+        raise AssertionError("conflict manifest lacks instruction_config_only evidence tier")
+    if adjudication.get("summary", {}).get("sample_size", 0) <= 0:
+        raise AssertionError("adjudication sample is empty")
+    if any(manifest.get("claim_boundary", {}).values()):
+        raise AssertionError("conflict manifest claim boundary must remain false")
+    report_text = CONFLICT_REPORT.read_text(encoding="utf-8")
+    for expected in ("Methodology And Limitations", "README/docs evidence is lower-authority", "not a benchmark"):
+        if expected not in report_text:
+            raise AssertionError(f"conflict report missing: {expected}")
+
+
 def main() -> int:
     checks: list[dict[str, object]] = []
     for path in sorted(SRC.rglob("*.py")):
@@ -156,6 +229,12 @@ def main() -> int:
     _semantic_change_gate_smoke()
     checks.append({"name": "semantic-change-gate-smoke", "status": "pass"})
 
+    _context_conflicts_smoke()
+    checks.append({"name": "context-conflicts-smoke", "status": "pass"})
+
+    _conflict_release_artifact_smoke()
+    checks.append({"name": "conflict-release-artifacts", "status": "pass"})
+
     commands = [
         [sys.executable, "-m", "ctxgov.cli", "--help"],
         [sys.executable, "-m", "ctxgov.cli", "continuity", "compile", str(TRACE)],
@@ -163,6 +242,7 @@ def main() -> int:
         [sys.executable, "-m", "ctxgov.cli", "continuity", "apply", "--mode", "dry-run", str(TRACE)],
         [sys.executable, "-m", "ctxgov.cli", "memory-xray", "validate", str(MEMORY_XRAY_PACK)],
         [sys.executable, "-m", "ctxgov.cli", "change-gate-check", "--baseline-root", str(CHANGE_GATE_BASELINE), "--head-root", str(CHANGE_GATE_HEAD)],
+        [sys.executable, "-m", "ctxgov.cli", "context-conflicts", "--root", str(CHANGE_GATE_HEAD), "--format", "summary"],
         [sys.executable, "-m", "ctxgov.cli", "change-gate-federate", "--base-path", str(FEDERATION_BASE), "--no-git-required"],
         [sys.executable, "-m", "ctxgov.cli", "oss-case-study-preview", "--target-name", "mem0", "--repo-url", "https://github.com/mem0ai/mem0", "--pinned-ref", "366945965df43aa7084be98d1b5073b62a20b431", "--source-path", str(OSS_CASE_SOURCE)],
         [sys.executable, "-m", "ctxgov.cli", "oss-efficiency", "evaluate", "--manifest", str(OSS_TELEMETRY_MANIFEST), "--checked-at", "2026-06-23T00:00:00Z"],

@@ -1,0 +1,10 @@
+include LICENSE
+include README.md
+include CHANGELOG.md
+include TRADEMARK.md
+recursive-include docs *.md *.html
+recursive-include examples *.md *.json
+recursive-include release *.md *.json
+recursive-include schemas *.json
+recursive-include scripts *.py
+recursive-include src *.py
